@@ -182,9 +182,175 @@ export function formatDuration(minutes: number): string {
   return hours ? `${hours} hr${remaining ? ` ${remaining} min` : ""}` : `${remaining} min`;
 }
 
+/** Extra names people actually type or say for a stop (English short forms and Bengali). */
+const STOP_ALIASES: Record<string, string[]> = {
+  "Howrah Station": ["howrah", "howrah stn", "howrah railway station", "হাওড়া"],
+  "Salt Lake Sector V": ["salt lake", "saltlake", "sector 5", "sector v", "sector five", "সল্টলেক", "সেক্টর ফাইভ"],
+  "B.B.D. Bagh": ["bbd bagh", "bbd", "dalhousie", "বিবাদী বাগ"],
+  "New Town": ["newtown", "নিউ টাউন", "নিউটাউন"],
+  Airport: ["dum dum airport", "netaji subhas airport", "ccu", "বিমানবন্দর", "এয়ারপোর্ট"],
+  Esplanade: ["dharmatala", "এসপ্ল্যানেড", "ধর্মতলা"],
+  Garia: ["গড়িয়া"],
+  "Garia Station": ["garia stn", "গড়িয়া স্টেশন"],
+  Gariahat: ["গড়িয়াহাট"],
+  Jadavpur: ["যাদবপুর", "jadavpur university", "ju"],
+  "Park Street": ["mullick bazar", "পার্ক স্ট্রিট"],
+  Sealdah: ["sealdah station", "শিয়ালদহ", "শিয়ালদা"],
+  Dhakuria: ["ঢাকুরিয়া"],
+  Rashbehari: ["rash behari", "রাসবিহারী"],
+  Tollygunge: ["tollygunj", "টালিগঞ্জ"],
+  "Behala Chowrasta": ["behala", "বেহালা"],
+  Bagbazar: ["bagbazaar", "বাগবাজার"],
+  Shyambazar: ["shyam bazar", "syambazar", "শ্যামবাজার"],
+  "College Street": ["college st", "কলেজ স্ট্রিট"],
+  Baguiati: ["baguihati", "বাগুইআটি"],
+  "Lake Town": ["laketown", "লেক টাউন"],
+  Ultadanga: ["ultadanga", "উল্টোডাঙা"],
+  Thakurpukur: ["ঠাকুরপুকুর"],
+  Patuli: ["পাটুলি"],
+  Mukundapur: ["মুকুন্দপুর"],
+  "Science City": ["সায়েন্স সিটি"],
+  "Park Circus": ["পার্ক সার্কাস"],
+  Moulali: ["মৌলালি"],
+  Karunamoyee: ["করুণাময়ী"],
+  Chingrighata: ["চিংড়িঘাটা"],
+  Hazra: ["হাজরা"],
+  Baghajatin: ["bagha jatin", "বাঘাযতীন"],
+  Naktala: ["নাকতলা"],
+  "Eco Park": ["ecopark", "ইকো পার্ক"],
+  Ruby: ["ruby hospital", "রুবি"],
+  Exide: ["exide crossing"],
+  Mominpur: ["momin pur"],
+  Taratala: ["tara tala"],
+  Parnashree: ["parnasree", "parnashree"],
+};
+
+function normalize(value: string): string {
+  return value
+    .toLocaleLowerCase()
+    .replace(/[^a-z0-9\u0980-\u09ff ]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function editDistance(a: string, b: string, max: number): number {
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let previous = Array.from({ length: b.length + 1 }, (_, index) => index);
+  for (let i = 1; i <= a.length; i += 1) {
+    const current = [i];
+    let rowMin = i;
+    for (let j = 1; j <= b.length; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      current[j] = Math.min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + cost);
+      rowMin = Math.min(rowMin, current[j]);
+    }
+    if (rowMin > max) return max + 1;
+    previous = current;
+  }
+  return previous[b.length];
+}
+
+const FUZZY_SCORE = 52;
+
+function scoreName(query: string, candidate: string): number {
+  if (candidate === query) return 100;
+  if (candidate.startsWith(query)) return 80;
+  const words = candidate.split(" ");
+  if (words.some((word) => word.startsWith(query))) return 70;
+  if (candidate.includes(query)) return 60;
+  if (query.length >= 4) {
+    const allowed = query.length >= 6 ? 2 : 1;
+    if (editDistance(query, candidate, allowed) <= allowed) return FUZZY_SCORE;
+    if (words.some((word) => editDistance(query, word, 1) <= 1)) return FUZZY_SCORE;
+    if (editDistance(query, candidate.slice(0, query.length), 1) <= 1) return FUZZY_SCORE - 2;
+  }
+  return 0;
+}
+
+const SEARCH_INDEX = STOPS.map((name) => ({
+  name,
+  names: [name, ...(STOP_ALIASES[name] ?? [])].map(normalize),
+}));
+
+/** Typo-tolerant stop search that also understands short names and Bengali spellings. */
+export function searchStops(input: string, limit = 7): { name: string; score: number }[] {
+  const query = normalize(input);
+  if (!query) return STOPS.slice(0, limit).map((name) => ({ name, score: 0 }));
+  return SEARCH_INDEX.map((entry) => ({
+    name: entry.name,
+    score: Math.max(...entry.names.map((candidate) => scoreName(query, candidate))),
+  }))
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score || a.name.length - b.name.length || a.name.localeCompare(b.name))
+    .slice(0, limit);
+}
+
+/** Exact names and aliases always resolve; a single clear one-typo match resolves too. */
 export function resolveStop(input: string): string | undefined {
-  const normalized = input.trim().toLocaleLowerCase();
-  return STOPS.find((stop) => stop.toLocaleLowerCase() === normalized);
+  const results = searchStops(input, 2);
+  if (!results.length || normalize(input) === "") return undefined;
+  const [best, next] = results;
+  if (best.score === 100) return best.name;
+  if (best.score === FUZZY_SCORE && (!next || next.score < FUZZY_SCORE)) return best.name;
+  return undefined;
+}
+
+export interface TransferPlan {
+  id: string;
+  from: string;
+  to: string;
+  transferStop: string;
+  first: BusTrip;
+  second: BusTrip;
+  /** minutes spent waiting at the change stop */
+  wait: number;
+  departure: number;
+  arrival: number;
+  duration: number;
+}
+
+const MIN_CHANGE_MINUTES = 4;
+
+/** One-change journeys for pairs with no direct bus. Works on whatever routes are loaded. */
+export function findTransferPlans(from: string, to: string, afterMinute: number, limit = 5): TransferPlan[] {
+  if (from === to) return [];
+  const plans: TransferPlan[] = [];
+  for (const stop of STOPS) {
+    if (stop === from || stop === to) continue;
+    const legOne = findTrips(from, stop).filter((trip) => trip.departure >= afterMinute);
+    if (!legOne.length) continue;
+    const legTwo = findTrips(stop, to);
+    if (!legTwo.length) continue;
+    for (const first of legOne.slice(0, 12)) {
+      const second = legTwo.find(
+        (trip) => trip.departure >= first.arrival + MIN_CHANGE_MINUTES && trip.number !== first.number,
+      );
+      if (!second) continue;
+      plans.push({
+        id: `${first.id}>${second.id}`,
+        from,
+        to,
+        transferStop: stop,
+        first,
+        second,
+        wait: second.departure - first.arrival,
+        departure: first.departure,
+        arrival: second.arrival,
+        duration: second.arrival - first.departure,
+      });
+      break;
+    }
+  }
+  const seen = new Set<string>();
+  return plans
+    .sort((a, b) => a.arrival - b.arrival || a.duration - b.duration)
+    .filter((plan) => {
+      const key = `${plan.first.number}>${plan.second.number}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, limit);
 }
 
 export function findTrips(from: string, to: string): BusTrip[] {

@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import {
   Accessibility,
-  Armchair,
   ArrowLeftRight,
   ArrowRight,
   ArrowUp,
@@ -11,31 +10,27 @@ import {
   BusFront,
   CalendarDays,
   Check,
-  ChevronDown,
   Clock3,
-  CornerDownRight,
-  Flag,
-  Footprints,
-  Timer,
+  Repeat,
+  Share2,
   History as HistoryIcon,
   Info,
   Lightbulb,
-  MapPin,
   Moon,
   Navigation,
   PersonStanding,
   Route,
   Search,
-  Snowflake,
-  Sparkles,
   Sun,
   Sunrise,
-  Sunset,
   Users,
-  Wind,
-  X,
 } from "lucide-react";
+import { BusDetailModal } from "@/components/BusDetailModal";
+import { HeroMap } from "@/components/HeroMap";
+import { StopField } from "@/components/StopField";
+import { TripCard } from "@/components/TripCard";
 import {
+  findTransferPlans,
   findTrip,
   findTrips,
   formatClock,
@@ -43,7 +38,6 @@ import {
   parseClock,
   POPULAR_JOURNEYS,
   resolveStop,
-  STOPS,
   type BusTrip,
   type ServiceType,
 } from "@/lib/timetables";
@@ -51,6 +45,40 @@ import {
 type View = "upcoming" | "all";
 type TypeFilter = "all" | ServiceType;
 type Journey = { from: string; to: string; time: string };
+
+function storageGet(key: string): string | null {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function storageSet(key: string, value: string) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // storage can be blocked (private mode, full quota); the app still works without it
+  }
+}
+
+/** Reads ?from=&to=&time=HHMM so a search can be shared as a link. */
+function readSharedJourney(): Journey | null {
+  const params = new URLSearchParams(window.location.search);
+  const from = resolveStop(params.get("from") ?? "");
+  const to = resolveStop(params.get("to") ?? "");
+  if (!from || !to || from === to) return null;
+  const raw = (params.get("time") ?? "").replace(":", "");
+  const time = /^\d{4}$/.test(raw) && Number(raw.slice(0, 2)) < 24 && Number(raw.slice(2)) < 60
+    ? `${raw.slice(0, 2)}:${raw.slice(2)}`
+    : kolkataTime();
+  return { from, to, time };
+}
+
+function writeSharedJourney(journey: Journey) {
+  const params = new URLSearchParams({ from: journey.from, to: journey.to, time: journey.time.replace(":", "") });
+  window.history.replaceState(null, "", `?${params.toString()}`);
+}
 
 function kolkataTime(): string {
   const parts = new Intl.DateTimeFormat("en-GB", {
@@ -78,224 +106,6 @@ function kolkataDate(): string {
   }).format(new Date());
 }
 
-function StopField({
-  id,
-  label,
-  value,
-  onChange,
-  error,
-  destination = false,
-}: {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  error?: string;
-  destination?: boolean;
-}) {
-  const [open, setOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const matches = useMemo(() => {
-    const query = value.trim().toLowerCase();
-    return STOPS.filter((stop) => stop.toLowerCase().includes(query)).slice(0, 7);
-  }, [value]);
-
-  function select(stop: string) {
-    onChange(stop);
-    setOpen(false);
-    setActiveIndex(0);
-  }
-
-  return (
-    <div
-      className={`stop-field ${error ? "has-error" : ""}`}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
-      }}
-    >
-      <div className="field-shell">
-        <span className={`field-marker ${destination ? "destination" : "origin"}`} aria-hidden="true">
-          <MapPin size={19} strokeWidth={2.3} />
-        </span>
-        <div className="field-content">
-          <label htmlFor={id}>{label}</label>
-          <input
-            id={id}
-            type="text"
-            value={value}
-            onChange={(event) => {
-              onChange(event.target.value);
-              setOpen(true);
-              setActiveIndex(0);
-            }}
-            onFocus={(event) => {
-              setOpen(true);
-              event.currentTarget.select();
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "Escape") setOpen(false);
-              if (event.key === "ArrowDown" && open) {
-                event.preventDefault();
-                setActiveIndex((index) => Math.min(index + 1, matches.length - 1));
-              }
-              if (event.key === "ArrowUp" && open) {
-                event.preventDefault();
-                setActiveIndex((index) => Math.max(index - 1, 0));
-              }
-              if (event.key === "Enter" && open && matches.length > 0) {
-                event.preventDefault();
-                select(matches[activeIndex] ?? matches[0]);
-              }
-            }}
-            placeholder="Choose a bus stop"
-            autoComplete="off"
-            role="combobox"
-            aria-autocomplete="list"
-            aria-expanded={open}
-            aria-controls={`${id}-suggestions`}
-            aria-invalid={Boolean(error)}
-            aria-describedby={error ? `${id}-error` : undefined}
-          />
-        </div>
-        <ChevronDown size={16} className={`field-chevron ${open ? "rotated" : ""}`} aria-hidden="true" />
-      </div>
-      {error && <p className="field-error" id={`${id}-error`}>{error}</p>}
-      {open && (
-        <div className="suggestions" id={`${id}-suggestions`} role="listbox" aria-label={`${label} suggestions`}>
-          {matches.length ? (
-            matches.map((stop, index) => (
-              <button
-                type="button"
-                role="option"
-                aria-selected={index === activeIndex}
-                className={`suggestion ${index === activeIndex ? "active" : ""}`}
-                key={stop}
-                onPointerDown={(event) => event.preventDefault()}
-                onClick={() => select(stop)}
-              >
-                <MapPin size={15} aria-hidden="true" />
-                <span>{stop}</span>
-                {stop.toLowerCase() === value.trim().toLowerCase() && <Check size={15} aria-hidden="true" />}
-              </button>
-            ))
-          ) : (
-            <p className="suggestion-empty">No stops found. Try another Kolkata stop.</p>
-          )}
-          {matches.length > 0 && (
-            <p className="suggestion-hint"><Footprints size={12} aria-hidden="true" /> Tap a stop, or use ↑ ↓ then Enter</p>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function HeroMap() {
-  return (
-    <div className="hero-map" aria-label="Illustration of a Kolkata bus route connecting city stops" role="img">
-      <div className="map-topline">
-        <span className="map-topline-dot" />
-        <span>THE CITY, CONNECTED</span>
-        <span className="map-topline-icon">✳</span>
-      </div>
-      <svg className="map-illustration" viewBox="0 0 560 350" fill="none" aria-hidden="true">
-        <path d="M-30 145C57 132 91 153 148 204C196 246 257 266 325 234C380 207 440 165 594 177" stroke="#c2dcc9" strokeWidth="18" strokeLinecap="round" />
-        <path d="M125 -30C119 56 143 109 201 143C264 180 298 219 282 385" stroke="#c2dcc9" strokeWidth="14" strokeLinecap="round" />
-        <path d="M412 -20C386 70 380 123 412 178C445 235 442 278 422 383" stroke="#c2dcc9" strokeWidth="13" strokeLinecap="round" />
-        <path d="M-20 283C92 289 147 264 211 227C284 184 348 183 588 263" stroke="#cfe3d1" strokeWidth="9" strokeLinecap="round" />
-        <path d="M-20 58C65 86 132 91 181 73C244 48 305 56 363 92C417 126 492 130 585 89" stroke="#cfe3d1" strokeWidth="9" strokeLinecap="round" />
-        <path d="M78 76H168C204 76 217 91 229 124L250 173C263 202 290 207 324 207H348C381 207 395 220 395 254V279H484" stroke="#f7faf1" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M78 76H168C204 76 217 91 229 124L250 173C263 202 290 207 324 207H348C381 207 395 220 395 254V279H484" stroke="#17604a" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="78" cy="76" r="15" fill="#f7faf1" />
-        <circle cx="78" cy="76" r="8" fill="#f39769" />
-        <circle cx="178" cy="78" r="10" fill="#f7faf1" />
-        <circle cx="178" cy="78" r="5" fill="#17604a" />
-        <circle cx="348" cy="207" r="10" fill="#f7faf1" />
-        <circle cx="348" cy="207" r="5" fill="#17604a" />
-        <circle cx="484" cy="279" r="15" fill="#f7faf1" />
-        <circle cx="484" cy="279" r="8" fill="#f39769" />
-        <g transform="translate(212 127)">
-          <rect x="-5" y="4" width="112" height="93" rx="24" fill="#ffffff" fillOpacity="0.4" />
-          <rect x="2" y="0" width="98" height="84" rx="21" fill="#164d3d" />
-          <rect x="13" y="12" width="76" height="35" rx="8" fill="#d6eee0" />
-          <path d="M51 12V47" stroke="#164d3d" strokeWidth="5" />
-          <rect x="14" y="56" width="24" height="9" rx="4.5" fill="#f5a772" />
-          <rect x="64" y="56" width="24" height="9" rx="4.5" fill="#f5a772" />
-          <rect x="15" y="78" width="19" height="12" rx="4" fill="#263f37" />
-          <rect x="68" y="78" width="19" height="12" rx="4" fill="#263f37" />
-          <path d="M34 73H68" stroke="#cce4d3" strokeWidth="3" strokeLinecap="round" />
-        </g>
-        <g>
-          <rect x="39" y="25" width="109" height="30" rx="15" fill="#ffffff" />
-          <text x="93.5" y="44" textAnchor="middle" fill="#27483b" fontSize="12" fontWeight="700" fontFamily="Arial, sans-serif">Esplanade</text>
-          <rect x="391" y="295" width="86" height="30" rx="15" fill="#ffffff" />
-          <text x="434" y="314" textAnchor="middle" fill="#27483b" fontSize="12" fontWeight="700" fontFamily="Arial, sans-serif">Garia</text>
-          <rect x="331" y="144" width="104" height="29" rx="14.5" fill="#ffffff" fillOpacity="0.88" />
-          <text x="383" y="163" textAnchor="middle" fill="#426653" fontSize="11" fontWeight="700" fontFamily="Arial, sans-serif">Park Street</text>
-        </g>
-      </svg>
-      <div className="map-caption">
-        <span className="map-caption-icon"><Route size={19} strokeWidth={2.2} /></span>
-        <span><strong>Good routes. Better days.</strong><small>Wherever your day takes you.</small></span>
-        <ArrowUpRight size={18} className="map-caption-arrow" />
-      </div>
-    </div>
-  );
-}
-
-function TripCard({ trip, onOpen, firstUpcoming }: {
-  trip: BusTrip;
-  onOpen: () => void;
-  firstUpcoming: boolean;
-}) {
-  const departure = formatClock(trip.departure);
-  const arrival = formatClock(trip.arrival);
-  const via = trip.via.length
-    ? `${trip.via.slice(0, 3).join(" · ")}${trip.via.length > 3 ? ` · +${trip.via.length - 3} more` : ""}`
-    : "Direct journey";
-
-  return (
-    <article className="trip-card">
-      <button
-        type="button"
-        className="trip-main"
-        onClick={onOpen}
-        aria-label={`Bus ${trip.number}, ${trip.type}, ${departure.time} ${departure.period} from ${trip.boarding} to ${trip.alighting}. Open all details and stops.`}
-      >
-        <span className="trip-identity">
-          <span className={`route-square ${trip.type === "AC" ? "ac" : ""}`}><BusFront size={22} strokeWidth={2} /></span>
-          <span className="trip-identity-text">
-            <span className="route-heading"><strong>{trip.number}</strong><span className={`type-badge ${trip.type === "AC" ? "ac" : ""}`}>{trip.type}</span></span>
-            <span className="route-subtitle">{trip.operator} <span className="dot-separator">·</span> to {trip.terminusTo}</span>
-          </span>
-        </span>
-
-        <span className="trip-times">
-          <span className="trip-time-place">
-            <span className="trip-clock"><time>{departure.time}</time><span>{departure.period}</span></span>
-            <span className="trip-stop-name">{trip.boarding}</span>
-          </span>
-          <span className="journey-connector" aria-label={`${formatDuration(trip.duration)} journey`}>
-            <span className="connector-line"><i /><i /></span>
-            <span>{formatDuration(trip.duration)}</span>
-          </span>
-          <span className="trip-time-place arrival">
-            <span className="trip-clock"><time>{arrival.time}</time><span>{arrival.period}</span></span>
-            <span className="trip-stop-name">{trip.alighting}</span>
-          </span>
-        </span>
-
-        <span className="details-hint"><span>All stops</span><ArrowUpRight size={15} aria-hidden="true" /></span>
-      </button>
-      <div className="trip-bottom">
-        <span className="via-label"><CornerDownRight size={15} aria-hidden="true" /> Via {via}</span>
-        {firstUpcoming ? <span className="next-label"><span /> Next departure</span> : <span className="scheduled-label"><Clock3 size={13} /> Scheduled</span>}
-        <span className="click-hint">Click for full details</span>
-      </div>
-    </article>
-  );
-}
-
 interface HistoryEntry {
   key: string;
   tripId: string;
@@ -321,104 +131,6 @@ function timeAgo(timestamp: number): string {
   return `${Math.floor(hours / 24)} d ago`;
 }
 
-function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClose: () => void }) {
-  useEffect(() => {
-    if (!trip) return;
-    const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handleKey);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", handleKey);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [trip, onClose]);
-
-  if (!trip) return null;
-
-  const departure = formatClock(trip.departure);
-  const arrival = formatClock(trip.arrival);
-  const first = formatClock(trip.serviceStart);
-  const last = formatClock(trip.serviceEnd);
-
-  return (
-    <div className="modal-backdrop" role="presentation" onClick={onClose}>
-      <div
-        className="detail-modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="detail-title"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="modal-header">
-          <div className="modal-route">
-            <span className={`route-square large ${trip.type === "AC" ? "ac" : ""}`}><BusFront size={26} strokeWidth={2} /></span>
-            <span className="modal-route-text">
-              <span className="modal-title-row">
-                <strong id="detail-title">{trip.number}</strong>
-                <span className={`type-badge ${trip.type === "AC" ? "ac" : ""}`}>{trip.type}</span>
-                <span className="operator-chip">{trip.operator}</span>
-              </span>
-              <span className="modal-terminus">{trip.terminusFrom}<ArrowRight size={13} />{trip.terminusTo}</span>
-            </span>
-          </div>
-          <button type="button" className="modal-close" onClick={onClose} aria-label="Close bus details" autoFocus>
-            <X size={18} strokeWidth={2.4} />
-          </button>
-        </div>
-
-        <div className="modal-stats">
-          <div><span><PersonStanding size={13} aria-hidden="true" /> Departs {trip.boarding}</span><strong>{departure.time} <em>{departure.period}</em></strong></div>
-          <div><span><Flag size={13} aria-hidden="true" /> Arrives {trip.alighting}</span><strong>{arrival.time} <em>{arrival.period}</em></strong></div>
-          <div><span><Timer size={13} aria-hidden="true" /> Journey time</span><strong>{formatDuration(trip.duration)}</strong></div>
-          <div><span><BusFront size={13} aria-hidden="true" /> Runs every</span><strong>{trip.headway} min</strong></div>
-          <div><span><Sunrise size={13} aria-hidden="true" /> First bus</span><strong>{first.time} <em>{first.period}</em></strong></div>
-          <div><span><Sunset size={13} aria-hidden="true" /> Last bus</span><strong>{last.time} <em>{last.period}</em></strong></div>
-        </div>
-
-        <div className="modal-amenities">
-          {trip.type === "AC" ? <span><Snowflake size={13} aria-hidden="true" /> Air conditioned</span> : <span><Wind size={13} aria-hidden="true" /> Open windows</span>}
-          <span><Users size={13} aria-hidden="true" /> {trip.operator} service</span>
-          <span><Armchair size={13} aria-hidden="true" /> {trip.fullStops.length} stops</span>
-          <span><Accessibility size={13} aria-hidden="true" /> Front seats kept free for seniors &amp; wheelchair users</span>
-        </div>
-
-        <div className="modal-body">
-          <div className="modal-section-heading"><Route size={16} /> All stops on this trip <span>{trip.fullStops.length} stops</span></div>
-          <div className="stop-timeline modal-timeline">
-            {trip.fullStops.map((stop) => {
-              const clock = formatClock(stop.minutes);
-              const role = !stop.journey
-                ? "other"
-                : stop.name === trip.boarding
-                  ? "boarding"
-                  : stop.name === trip.alighting
-                    ? "alighting"
-                    : "journey";
-              return (
-                <div className={`timeline-stop ${role}`} key={`${trip.id}-full-${stop.name}`}>
-                  <span className="timeline-dot" />
-                  <span className="timeline-name">
-                    {stop.name}
-                    {role === "boarding" && <em>Board here</em>}
-                    {role === "alighting" && <em>Get off here</em>}
-                    {role === "journey" && <em className="on-route">On your route</em>}
-                  </span>
-                  <span className="timeline-time">{clock.time} {clock.period}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="modal-note"><Info size={14} /> Sample schedule for this preview · not a live or official timetable.</div>
-      </div>
-    </div>
-  );
-}
-
 export default function HomePage() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [themeReady, setThemeReady] = useState(false);
@@ -439,10 +151,11 @@ export default function HomePage() {
     { label: "Evening 6 PM", value: "18:00" },
   ]);
   const [showTopButton, setShowTopButton] = useState(false);
+  const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "failed">("idle");
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
-      const saved = window.localStorage.getItem("cholo-theme");
+      const saved = storageGet("cholo-theme");
       if (saved === "dark" || saved === "light") setTheme(saved);
       else if (window.matchMedia("(prefers-color-scheme: dark)").matches) setTheme("dark");
       setThemeReady(true);
@@ -453,14 +166,23 @@ export default function HomePage() {
   useEffect(() => {
     if (!themeReady) return;
     document.documentElement.dataset.theme = theme;
-    window.localStorage.setItem("cholo-theme", theme);
+    storageSet("cholo-theme", theme);
   }, [theme, themeReady]);
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
-      const current = kolkataTime();
-      setTime(current);
-      setSubmitted((journey) => ({ ...journey, time: current }));
+      const shared = readSharedJourney();
+      if (shared) {
+        setFrom(shared.from);
+        setTo(shared.to);
+        setTime(shared.time);
+        setSubmitted(shared);
+        setView("upcoming");
+      } else {
+        const current = kolkataTime();
+        setTime(current);
+        setSubmitted((journey) => ({ ...journey, time: current }));
+      }
       setToday(kolkataDate());
     }, 0);
     const timer = window.setInterval(() => setToday(kolkataDate()), 60_000);
@@ -482,11 +204,16 @@ export default function HomePage() {
   const displayedTrips = view === "upcoming" ? upcomingTrips : filteredTrips;
   const visibleTrips = displayedTrips.slice(0, visibleCount);
   const selectedClock = formatClock(parseClock(submitted.time));
+  const transferPlans = useMemo(
+    () => (allTrips.length === 0 ? findTransferPlans(submitted.from, submitted.to, parseClock(submitted.time)) : []),
+    [allTrips.length, submitted.from, submitted.to, submitted.time],
+  );
+  const firstBusOfDay = allTrips[0];
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
       try {
-        const raw = window.localStorage.getItem(HISTORY_KEY);
+        const raw = storageGet(HISTORY_KEY);
         if (raw) {
           const parsed: unknown = JSON.parse(raw);
           if (Array.isArray(parsed)) {
@@ -507,7 +234,7 @@ export default function HomePage() {
 
   useEffect(() => {
     if (!historyReady) return;
-    window.localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    storageSet(HISTORY_KEY, JSON.stringify(history));
   }, [history, historyReady]);
 
   useEffect(() => {
@@ -541,6 +268,40 @@ export default function HomePage() {
     if (trip) setDetailTrip(trip);
   }
 
+  function scrollToResults() {
+    window.setTimeout(() => {
+      const top = document.getElementById("results")?.getBoundingClientRect().top;
+      if (top !== undefined && (top > window.innerHeight * 0.55 || top < 0)) {
+        document.getElementById("results")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 80);
+  }
+
+  function commitJourney(journey: Journey) {
+    setSubmitted(journey);
+    writeSharedJourney(journey);
+    setShareStatus("idle");
+    setView("upcoming");
+    resetResultControls();
+    scrollToResults();
+  }
+
+  async function shareJourney() {
+    const url = window.location.href;
+    const title = `${submitted.from} to ${submitted.to} · Cholo`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+      setShareStatus("copied");
+    } catch {
+      setShareStatus("failed");
+    }
+    window.setTimeout(() => setShareStatus("idle"), 2500);
+  }
+
   function resetResultControls() {
     setTypeFilter("all");
     setVisibleCount(6);
@@ -558,11 +319,10 @@ export default function HomePage() {
     if (!validFrom || !validTo || validFrom === validTo) return;
 
     const chosenTime = /^\d{2}:\d{2}$/.test(time) ? time : kolkataTime();
+    setFrom(validFrom);
+    setTo(validTo);
     setTime(chosenTime);
-    setSubmitted({ from: validFrom, to: validTo, time: chosenTime });
-    setView("upcoming");
-    resetResultControls();
-    window.setTimeout(() => document.getElementById("results")?.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
+    commitJourney({ from: validFrom, to: validTo, time: chosenTime });
   }
 
   function choosePopular(journey: { from: string; to: string }) {
@@ -570,11 +330,8 @@ export default function HomePage() {
     setFrom(journey.from);
     setTo(journey.to);
     setTime(chosenTime);
-    setSubmitted({ ...journey, time: chosenTime });
     setErrors({});
-    setView("upcoming");
-    resetResultControls();
-    window.setTimeout(() => document.getElementById("results")?.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
+    commitJourney({ ...journey, time: chosenTime });
   }
 
   function changeView(nextView: View) {
@@ -712,7 +469,9 @@ export default function HomePage() {
             <div className="schedule-indicator"><span className="schedule-indicator-icon"><CalendarDays size={17} /></span><span><strong>{today}</strong><small>Kolkata local time (IST)</small></span></div>
           </div>
 
-          <div className="journey-banner"><div className="journey-banner-stops"><span className="banner-dot origin" /><strong>{submitted.from}</strong><span className="banner-line"><ArrowRight size={17} /></span><span className="banner-dot destination" /><strong>{submitted.to}</strong></div><span className="journey-banner-count"><BusFront size={16} /> {displayedTrips.length} {displayedTrips.length === 1 ? "bus" : "buses"} {view === "upcoming" ? "after your time" : "today"}</span></div>
+          <div className="journey-banner"><div className="journey-banner-stops"><span className="banner-dot origin" /><strong>{submitted.from}</strong><span className="banner-line"><ArrowRight size={17} /></span><span className="banner-dot destination" /><strong>{submitted.to}</strong></div><span className="journey-banner-count"><BusFront size={16} /> {allTrips.length === 0 && transferPlans.length > 0
+            ? `${transferPlans.length} ${transferPlans.length === 1 ? "route" : "routes"} with 1 change`
+            : `${displayedTrips.length} ${displayedTrips.length === 1 ? "bus" : "buses"} ${view === "upcoming" ? "after your time" : "today"}`}</span><button type="button" className="share-button" onClick={shareJourney}><Share2 size={14} aria-hidden="true" /> {shareStatus === "copied" ? "Link copied" : shareStatus === "failed" ? "Copy failed" : "Share"}</button></div>
 
           <div className="results-controls">
             <div className="view-tabs" role="tablist" aria-label="Timetable view">
@@ -733,19 +492,43 @@ export default function HomePage() {
               ) : (
                 <div className="empty-state">
                   <span className="empty-art"><PersonStanding size={26} aria-hidden="true" /></span>
-                  <h3>{allTrips.length === 0 ? "No direct buses for that pair yet" : view === "upcoming" ? "That's the last bus after this time" : "No buses match this filter"}</h3>
+                  <h3>{allTrips.length === 0 ? (transferPlans.length ? "No direct bus — but you can get there with one change" : "No bus connects those stops yet") : view === "upcoming" ? "That's the last bus after this time" : "No buses match this filter"}</h3>
                   <p>{allTrips.length === 0
-                    ? "Buses in this preview run between major hubs. Try one of these busy routes instead:"
+                    ? (transferPlans.length ? "Here are the quickest ways with a single change. Tap a bus number for its stops." : "Buses in this preview run between major hubs. Try one of these busy routes instead:")
                     : view === "upcoming"
                       ? "You can still see the full day's timetable, or pick an earlier time below."
                       : "Try selecting All buses to see every service on this route."}</p>
+                  {allTrips.length === 0 && transferPlans.length > 0 && (
+                    <div className="transfer-list" aria-label="Journeys with one change">
+                      {transferPlans.map((plan) => {
+                        const start = formatClock(plan.departure);
+                        const end = formatClock(plan.arrival);
+                        return (
+                          <div className="transfer-card" key={plan.id}>
+                            <div className="transfer-top">
+                              <strong>{start.time} {start.period} <ArrowRight size={13} aria-hidden="true" /> {end.time} {end.period}</strong>
+                              <span>{formatDuration(plan.duration)} · 1 change</span>
+                            </div>
+                            <ol className="transfer-legs">
+                              <li><button type="button" onClick={() => openTrip(plan.first)}><BusFront size={14} aria-hidden="true" /> Bus {plan.first.number}</button> {plan.first.boarding} <ArrowRight size={12} aria-hidden="true" /> {plan.transferStop}</li>
+                              <li className="transfer-wait"><Repeat size={13} aria-hidden="true" /> Change at <strong>{plan.transferStop}</strong> · wait {formatDuration(plan.wait)}</li>
+                              <li><button type="button" onClick={() => openTrip(plan.second)}><BusFront size={14} aria-hidden="true" /> Bus {plan.second.number}</button> {plan.transferStop} <ArrowRight size={12} aria-hidden="true" /> {plan.to}</li>
+                            </ol>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                   {allTrips.length === 0
                     ? <div className="empty-choices">{POPULAR_JOURNEYS.map((journey) => (
                         <button key={`empty-${journey.from}-${journey.to}`} type="button" onClick={() => choosePopular(journey)}>{journey.from}<ArrowRight size={12} aria-hidden="true" />{journey.to}</button>
                       ))}</div>
                     : view === "upcoming" && <div className="empty-choices">
+                        {firstBusOfDay && view === "upcoming" && typeFilter === "all" && (
+                          <button type="button" onClick={() => { setTime("00:00"); commitJourney({ ...submitted, time: "00:00" }); }}><Sunrise size={12} aria-hidden="true" /> Show tomorrow&apos;s first buses</button>
+                        )}
                         <button type="button" onClick={() => changeView("all")}>See all-day timetable <ArrowRight size={12} aria-hidden="true" /></button>
-                        <button type="button" onClick={() => setTime(toClock24(Math.max(0, parseClock(submitted.time) - 60)))}><Clock3 size={12} aria-hidden="true" /> Try 1 hour earlier</button>
+                        <button type="button" onClick={() => { const earlier = toClock24(Math.max(0, parseClock(submitted.time) - 60)); setTime(earlier); commitJourney({ ...submitted, time: earlier }); }}><Clock3 size={12} aria-hidden="true" /> Try 1 hour earlier</button>
                       </div>}
                 </div>
               )}
@@ -785,3 +568,4 @@ export default function HomePage() {
     </div>
   );
 }
+

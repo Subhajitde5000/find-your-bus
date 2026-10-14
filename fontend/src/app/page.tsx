@@ -17,6 +17,7 @@ import {
   Info,
   Lightbulb,
   Moon,
+  MapPin,
   Navigation,
   PersonStanding,
   Route,
@@ -29,6 +30,7 @@ import { BusDetailModal } from "@/components/BusDetailModal";
 import { HeroMap } from "@/components/HeroMap";
 import { StopField } from "@/components/StopField";
 import { TripCard } from "@/components/TripCard";
+import { RouteExplorer } from "@/components/RouteExplorer";
 import { checkBackendHealth, fetchAllStops, searchBackendJourneys } from "@/lib/api";
 import {
   findTransferPlans,
@@ -159,6 +161,7 @@ export default function HomePage() {
   const [stopCount, setStopCount] = useState<number>(0);
   const [backendTrips, setBackendTrips] = useState<BusTrip[] | null>(null);
   const [isLoadingLive, setIsLoadingLive] = useState(false);
+  const [searchMode, setSearchMode] = useState<"journey" | "route">("journey");
 
   useEffect(() => {
     let mounted = true;
@@ -394,6 +397,16 @@ export default function HomePage() {
     commitJourney({ ...journey, time: chosenTime });
   }
 
+  function handleRouteSelectJourney(fromStop: string, toStop: string) {
+    const validFrom = resolveStop(fromStop) || fromStop;
+    const validTo = resolveStop(toStop) || toStop;
+    setFrom(validFrom);
+    setTo(validTo);
+    setSearchMode("journey");
+    const chosenTime = /^\d{2}:\d{2}$/.test(time) ? time : kolkataTime();
+    commitJourney({ from: validFrom, to: validTo, time: chosenTime });
+  }
+
   function changeView(nextView: View) {
     setView(nextView);
     setVisibleCount(6);
@@ -408,7 +421,20 @@ export default function HomePage() {
             <span className="brand-words"><strong>cholo<span>.</span></strong><small>KOLKATA BUS GUIDE</small></span>
           </a>
           <nav className="header-nav" aria-label="Main navigation">
-            <a className="nav-active" href="#search">Find a bus</a>
+            <a
+              className={searchMode === "journey" ? "nav-active" : ""}
+              href="#search"
+              onClick={() => setSearchMode("journey")}
+            >
+              Find a bus
+            </a>
+            <a
+              className={searchMode === "route" ? "nav-active" : ""}
+              href="#search"
+              onClick={() => setSearchMode("route")}
+            >
+              Bus Route Number
+            </a>
             <a href="#how-it-works">How it works</a>
             <a href="#about">About</a>
           </nav>
@@ -438,7 +464,7 @@ export default function HomePage() {
                     backgroundColor: dbConnected ? "#22c55e" : "#9ca3af",
                   }}
                 />
-                <span>{dbConnected ? `PostgreSQL Live (${stopCount || 173} stops)` : "Offline Preview"}</span>
+                <span>{dbConnected ? `Live (${stopCount || 173} stops)` : "Offline Preview"}</span>
               </span>
             )}
             <span className="city-chip"><span className="city-pulse" /><span>Kolkata, WB</span></span>
@@ -474,50 +500,83 @@ export default function HomePage() {
             <div className="search-card-heading">
               <div>
                 <div className="section-kicker"><span className="kicker-dash" /> PLAN YOUR RIDE</div>
-                <h2 id="search-title">Where are you headed?</h2>
+                <h2 id="search-title">
+                  {searchMode === "journey" ? "Where are you headed?" : "Find bus by route number"}
+                </h2>
               </div>
               <div className="today-tag"><CalendarDays size={16} /><span>{today}</span><span className="today-dot">·</span><strong>Today only</strong></div>
             </div>
-            <form className="journey-form" onSubmit={handleSearch} noValidate>
-              <div className="stops-group">
-                <StopField id="from-stop" label="FROM" value={from} onChange={(value) => { setFrom(value); setErrors((current) => ({ ...current, from: undefined })); }} error={errors.from} />
-                <button
-                  className="swap-button"
-                  type="button"
-                  onClick={() => { setFrom(to); setTo(from); setErrors({}); }}
-                  aria-label="Swap origin and destination"
-                  title="Swap stops"
-                ><ArrowLeftRight size={18} strokeWidth={2.2} /></button>
-                <StopField id="to-stop" label="TO" value={to} onChange={(value) => { setTo(value); setErrors((current) => ({ ...current, to: undefined })); }} error={errors.to} destination />
-              </div>
-              <div className="time-field">
-                <span className="field-marker time-marker" aria-hidden="true"><Clock3 size={19} strokeWidth={2.2} /></span>
-                <div className="field-content"><label htmlFor="departure-time">LEAVING AFTER</label><input id="departure-time" type="time" value={time} onChange={(event) => setTime(event.target.value)} required /></div>
-                <button className="now-button" type="button" onClick={() => setTime(kolkataTime())}>Now</button>
-              </div>
-              <button className="search-button" type="submit"><Search size={19} strokeWidth={2.3} /><span>Find buses</span><ArrowRight size={18} className="search-arrow" /></button>
-            </form>
-            <div className="quick-time-row">
-              <span className="quick-time-label"><Clock3 size={13} aria-hidden="true" /> Quick times</span>
-              <div className="quick-time-chips">
-                {quickTimes.map((option) => (
-                  <button
-                    key={option.label}
-                    type="button"
-                    className={time === option.value ? "selected" : ""}
-                    onClick={() => setTime(option.value)}
-                    aria-pressed={time === option.value}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
+
+            {/* Mode switcher tabs */}
+            <div className="search-mode-tabs" role="tablist" aria-label="Search Mode">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={searchMode === "journey"}
+                className={`mode-tab-btn ${searchMode === "journey" ? "active" : ""}`}
+                onClick={() => setSearchMode("journey")}
+              >
+                <MapPin size={15} />
+                <span>Find by Stops (From → To)</span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={searchMode === "route"}
+                className={`mode-tab-btn ${searchMode === "route" ? "active" : ""}`}
+                onClick={() => setSearchMode("route")}
+              >
+                <BusFront size={15} />
+                <span>Find by Bus Route No.</span>
+              </button>
             </div>
-            <div className="popular-row">
-              <span>Popular routes</span>
-              <div className="popular-chips">{POPULAR_JOURNEYS.map((journey) => <button key={`${journey.from}-${journey.to}`} type="button" onClick={() => choosePopular(journey)}>{journey.from}<ArrowRight size={13} />{journey.to}</button>)}</div>
-              <span className="data-hint"><Info size={13} /> Sample schedules · not live</span>
-            </div>
+
+            {searchMode === "journey" ? (
+              <>
+                <form className="journey-form" onSubmit={handleSearch} noValidate>
+                  <div className="stops-group">
+                    <StopField id="from-stop" label="FROM" value={from} onChange={(value) => { setFrom(value); setErrors((current) => ({ ...current, from: undefined })); }} error={errors.from} />
+                    <button
+                      className="swap-button"
+                      type="button"
+                      onClick={() => { setFrom(to); setTo(from); setErrors({}); }}
+                      aria-label="Swap origin and destination"
+                      title="Swap stops"
+                    ><ArrowLeftRight size={18} strokeWidth={2.2} /></button>
+                    <StopField id="to-stop" label="TO" value={to} onChange={(value) => { setTo(value); setErrors((current) => ({ ...current, to: undefined })); }} error={errors.to} destination />
+                  </div>
+                  <div className="time-field">
+                    <span className="field-marker time-marker" aria-hidden="true"><Clock3 size={19} strokeWidth={2.2} /></span>
+                    <div className="field-content"><label htmlFor="departure-time">LEAVING AFTER</label><input id="departure-time" type="time" value={time} onChange={(event) => setTime(event.target.value)} required /></div>
+                    <button className="now-button" type="button" onClick={() => setTime(kolkataTime())}>Now</button>
+                  </div>
+                  <button className="search-button" type="submit"><Search size={19} strokeWidth={2.3} /><span>Find buses</span><ArrowRight size={18} className="search-arrow" /></button>
+                </form>
+                <div className="quick-time-row">
+                  <span className="quick-time-label"><Clock3 size={13} aria-hidden="true" /> Quick times</span>
+                  <div className="quick-time-chips">
+                    {quickTimes.map((option) => (
+                      <button
+                        key={option.label}
+                        type="button"
+                        className={time === option.value ? "selected" : ""}
+                        onClick={() => setTime(option.value)}
+                        aria-pressed={time === option.value}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="popular-row">
+                  <span>Popular routes</span>
+                  <div className="popular-chips">{POPULAR_JOURNEYS.map((journey) => <button key={`${journey.from}-${journey.to}`} type="button" onClick={() => choosePopular(journey)}>{journey.from}<ArrowRight size={13} />{journey.to}</button>)}</div>
+                  <span className="data-hint"><Info size={13} /> Sample schedules · not live</span>
+                </div>
+              </>
+            ) : (
+              <RouteExplorer onSelectJourney={handleRouteSelectJourney} />
+            )}
           </div>
         </section>
 
@@ -652,7 +711,7 @@ export default function HomePage() {
         </button>
       )}
 
-      <footer className="site-footer"><div className="footer-inner page-container"><div className="footer-brand"><span className="brand-mark"><BusFront size={20} /></span><span><strong>cholo<span>.</span></strong><small>Made for the way Kolkata moves.</small></span></div><p>Sample timetables only. Not live tracking or official travel advice.</p><a href="#top">Back to top <ArrowUpRight size={16} /></a></div></footer>
+      {/* <footer className="site-footer"><div className="footer-inner page-container"><div className="footer-brand"><span className="brand-mark"><BusFront size={20} /></span><span><strong>cholo<span>.</span></strong><small>Made for the way Kolkata moves.</small></span></div><p>Sample timetables only. Not live tracking or official travel advice.</p><a href="#top">Back to top <ArrowUpRight size={16} /></a></div></footer> */}
     </div>
   );
 }

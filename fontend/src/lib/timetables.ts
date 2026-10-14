@@ -430,3 +430,55 @@ export function findTrips(from: string, to: string): BusTrip[] {
 export function findTrip(from: string, to: string, tripId: string): BusTrip | undefined {
   return findTrips(from, to).find((trip) => trip.id === tripId);
 }
+
+export interface LocalRouteSummary {
+  route_number: string;
+  operator: Operator;
+  type: ServiceType;
+  origin: string;
+  destination: string;
+  stops: string[];
+  first: string;
+  last: string;
+  every: number;
+}
+
+export function searchLocalRoutes(query: string): LocalRouteSummary[] {
+  const q = query.trim().toLowerCase();
+  return routes
+    .filter(
+      (r) =>
+        !q ||
+        r.number.toLowerCase().includes(q) ||
+        r.stops[0].toLowerCase().includes(q) ||
+        r.stops[r.stops.length - 1].toLowerCase().includes(q) ||
+        r.stops.some((s) => s.toLowerCase().includes(q)),
+    )
+    .map((r) => ({
+      route_number: r.number,
+      operator: r.operator,
+      type: r.type,
+      origin: r.stops[0],
+      destination: r.stops[r.stops.length - 1],
+      stops: r.stops,
+      first: r.first,
+      last: r.last,
+      every: r.every,
+    }));
+}
+
+export function getLocalRouteDetail(routeNumber: string): LocalRouteSummary | undefined {
+  const r = routes.find((item) => item.number.toLowerCase() === routeNumber.trim().toLowerCase());
+  if (!r) return undefined;
+  return {
+    route_number: r.number,
+    operator: r.operator,
+    type: r.type,
+    origin: r.stops[0],
+    destination: r.stops[r.stops.length - 1],
+    stops: r.stops,
+    first: r.first,
+    last: r.last,
+    every: r.every,
+  };
+}

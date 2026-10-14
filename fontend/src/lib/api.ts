@@ -170,3 +170,80 @@ export async function searchBackendJourneys(
     return [];
   }
 }
+
+export interface BackendRouteSummary {
+  id: number;
+  route_number: string;
+  operator: { id: number; name: string };
+  service_category: { id: number; name: string };
+  origin: BackendStop;
+  destination: BackendStop;
+  origin_label: string;
+  destination_label: string;
+  fleet_allocation_text: string | null;
+  documented_fleet_count: number | null;
+}
+
+export interface BackendRouteStop {
+  sequence: number;
+  stop: BackendStop;
+}
+
+export interface BackendRouteDetail extends BackendRouteSummary {
+  via_text: string | null;
+  trip_count: number;
+  stops: BackendRouteStop[];
+}
+
+export interface BackendTripSchedule {
+  direction: "outbound" | "return";
+  departure_time: string;
+  arrival_time: string;
+}
+
+export interface BackendRouteTrip {
+  id: number;
+  run_code: string;
+  bus: { id: number; registration_no: string } | null;
+  notes: string | null;
+  schedules: BackendTripSchedule[];
+}
+
+/** Search or list routes from the backend */
+export async function fetchRoutes(query?: string, limit = 50): Promise<BackendRouteSummary[]> {
+  try {
+    let url = `/api/v1/routes?limit=${limit}`;
+    if (query && query.trim()) {
+      url += `&q=${encodeURIComponent(query.trim())}`;
+    }
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.items as BackendRouteSummary[]) || [];
+  } catch {
+    return [];
+  }
+}
+
+/** Fetch detailed route with its ordered stops */
+export async function fetchRouteDetail(routeNumber: string): Promise<BackendRouteDetail | null> {
+  try {
+    const res = await fetch(`/api/v1/routes/${encodeURIComponent(routeNumber)}`, { cache: "no-store" });
+    if (!res.ok) return null;
+    return (await res.json()) as BackendRouteDetail;
+  } catch {
+    return null;
+  }
+}
+
+/** Fetch scheduled runs / trips for a route */
+export async function fetchRouteTrips(routeNumber: string): Promise<BackendRouteTrip[]> {
+  try {
+    const res = await fetch(`/api/v1/routes/${encodeURIComponent(routeNumber)}/trips`, { cache: "no-store" });
+    if (!res.ok) return [];
+    return (await res.json()) as BackendRouteTrip[];
+  } catch {
+    return [];
+  }
+}
+

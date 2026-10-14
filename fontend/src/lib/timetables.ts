@@ -1,27 +1,27 @@
+import dataset from "@/data/kolkata-bus-data.json";
+
+/*
+ * Static timetable data layer.
+ *
+ * Everything the site knows about routes and stops comes from `src/data/kolkata-bus-data.json`,
+ * which is generated from the Excel directories by `python manage.py export-static-data`.
+ * There are no network calls: all lookups run in the browser on that bundled data.
+ *
+ * Three kinds of trip are produced:
+ * - "scheduled": a run from the directory with published times at the two terminals.
+ * - "sample":    a route from the preview list, with illustrative first/last/every frequencies.
+ * - "estimated": a directory route between two stops that are not both terminals. The
+ *                directory has no times for those stops, so departures are estimated.
+ */
+
 export type ServiceType = "AC" | "Non-AC";
-export type Operator = "WBTC" | "Private";
-
-interface RouteTemplate {
-  number: string;
-  operator: Operator;
-  type: ServiceType;
-  stops: string[];
-  legs: number[];
-  first: string;
-  last: string;
-  every: number;
-  reverseOffset?: number;
-}
-
-export interface JourneyStop {
-  name: string;
-  minutes: number;
-  role: "boarding" | "intermediate" | "alighting";
-}
+export type Direction = "outbound" | "return";
+export type TripKind = "scheduled" | "sample" | "estimated";
 
 export interface RouteStop {
   name: string;
-  minutes: number;
+  /** clock time in minutes after midnight, or null when the source publishes no time for this stop */
+  minutes: number | null;
   /** true when the stop sits between the searched boarding and alighting stops */
   journey: boolean;
 }
@@ -29,8 +29,9 @@ export interface RouteStop {
 export interface BusTrip {
   id: string;
   number: string;
-  operator: Operator;
+  operator: string;
   type: ServiceType;
+  kind: TripKind;
   terminusFrom: string;
   terminusTo: string;
   boarding: string;
@@ -39,145 +40,104 @@ export interface BusTrip {
   arrival: number;
   duration: number;
   via: string[];
-  journeyStops: JourneyStop[];
-  /** every stop on the route with its scheduled clock time for this trip */
+  /** every stop on the route in this direction, in order */
   fullStops: RouteStop[];
-  /** minutes between departures */
-  headway: number;
+  /** typical minutes between departures; null when the source has too few runs to say */
+  headway: number | null;
   serviceStart: number;
   serviceEnd: number;
+  runCode: string | null;
+  bus: string | null;
+  notes: string | null;
 }
 
-// Illustrative, locally preloaded departure times for a frontend preview.
-// Route corridors reflect familiar Kolkata bus connections; these are not official schedules.
-const routes: RouteTemplate[] = [
-  {
-    number: "S5", operator: "WBTC", type: "Non-AC",
-    stops: ["Garia", "Baghajatin", "Jadavpur", "Dhakuria", "Gariahat", "Rashbehari", "Hazra", "Park Street", "Esplanade", "B.B.D. Bagh", "Howrah Station"],
-    legs: [8, 9, 7, 7, 6, 7, 11, 7, 6, 13], first: "05:35", last: "21:15", every: 20, reverseOffset: 10,
-  },
-  {
-    number: "AC5", operator: "WBTC", type: "AC",
-    stops: ["Garia", "Baghajatin", "Jadavpur", "Gariahat", "Rashbehari", "Hazra", "Park Street", "Esplanade", "B.B.D. Bagh", "Howrah Station"],
-    legs: [10, 10, 11, 8, 9, 11, 7, 6, 13], first: "06:05", last: "20:45", every: 35, reverseOffset: 15,
-  },
-  {
-    number: "AC6", operator: "WBTC", type: "AC",
-    stops: ["Garia", "Naktala", "Tollygunge", "Rashbehari", "Hazra", "Park Street", "Esplanade", "B.B.D. Bagh", "Howrah Station"],
-    legs: [11, 10, 12, 8, 11, 7, 6, 13], first: "06:15", last: "20:35", every: 40, reverseOffset: 20,
-  },
-  {
-    number: "5", operator: "Private", type: "Non-AC",
-    stops: ["Garia", "Jadavpur", "Dhakuria", "Gariahat", "Rashbehari", "Hazra", "Park Street", "Esplanade", "Howrah Station"],
-    legs: [18, 8, 8, 8, 8, 10, 7, 19], first: "05:25", last: "21:25", every: 25, reverseOffset: 8,
-  },
-  {
-    number: "S12", operator: "WBTC", type: "Non-AC",
-    stops: ["New Town", "Salt Lake Sector V", "Karunamoyee", "Chingrighata", "Sealdah", "Moulali", "Esplanade", "B.B.D. Bagh", "Howrah Station"],
-    legs: [15, 7, 13, 17, 7, 10, 7, 15], first: "05:45", last: "21:05", every: 25, reverseOffset: 12,
-  },
-  {
-    number: "AC12", operator: "WBTC", type: "AC",
-    stops: ["New Town", "Salt Lake Sector V", "Chingrighata", "Science City", "Park Circus", "Park Street", "Esplanade", "B.B.D. Bagh", "Howrah Station"],
-    legs: [14, 13, 13, 11, 11, 7, 7, 15], first: "06:00", last: "20:30", every: 30, reverseOffset: 15,
-  },
-  {
-    number: "S24", operator: "WBTC", type: "Non-AC",
-    stops: ["Patuli", "Mukundapur", "Ruby", "Science City", "Park Circus", "Moulali", "Esplanade", "B.B.D. Bagh", "Howrah Station"],
-    legs: [11, 8, 10, 11, 10, 9, 7, 15], first: "05:50", last: "21:10", every: 30, reverseOffset: 14,
-  },
-  {
-    number: "45B", operator: "Private", type: "Non-AC",
-    stops: ["Sealdah", "Moulali", "Park Circus", "Gariahat", "Jadavpur", "Baghajatin", "Garia", "Garia Station"],
-    legs: [7, 12, 13, 14, 10, 9, 9], first: "05:40", last: "21:20", every: 25, reverseOffset: 9,
-  },
-  {
-    number: "46", operator: "Private", type: "Non-AC",
-    stops: ["Airport", "Baguiati", "Lake Town", "Ultadanga", "Sealdah", "Moulali", "Esplanade"],
-    legs: [15, 12, 9, 15, 7, 11], first: "05:30", last: "21:30", every: 30, reverseOffset: 12,
-  },
-  {
-    number: "S14", operator: "WBTC", type: "Non-AC",
-    stops: ["Karunamoyee", "Salt Lake Sector V", "Chingrighata", "Science City", "Ruby", "Gariahat", "Jadavpur", "Baghajatin", "Garia"],
-    legs: [10, 13, 12, 14, 15, 13, 10, 9], first: "06:00", last: "21:00", every: 30, reverseOffset: 11,
-  },
-  {
-    number: "AC9", operator: "WBTC", type: "AC",
-    stops: ["Jadavpur", "Gariahat", "Park Circus", "Science City", "Chingrighata", "Salt Lake Sector V", "Karunamoyee"],
-    legs: [13, 14, 10, 11, 14, 7], first: "06:20", last: "20:20", every: 40, reverseOffset: 20,
-  },
-  {
-    number: "S12D", operator: "WBTC", type: "Non-AC",
-    stops: ["Thakurpukur", "Behala Chowrasta", "Taratala", "Mominpur", "Exide", "Park Street", "Esplanade", "B.B.D. Bagh", "Howrah Station"],
-    legs: [13, 13, 12, 13, 6, 8, 7, 15], first: "05:45", last: "21:05", every: 30, reverseOffset: 14,
-  },
-  {
-    number: "AC4", operator: "WBTC", type: "AC",
-    stops: ["Parnashree", "Behala Chowrasta", "Taratala", "Mominpur", "Exide", "Park Street", "Esplanade", "B.B.D. Bagh", "Howrah Station"],
-    legs: [12, 12, 13, 12, 7, 8, 7, 15], first: "06:10", last: "20:30", every: 40, reverseOffset: 18,
-  },
-  {
-    number: "S21", operator: "WBTC", type: "Non-AC",
-    stops: ["Bagbazar", "Shyambazar", "College Street", "Sealdah", "Esplanade", "Park Street", "Gariahat", "Jadavpur", "Garia"],
-    legs: [9, 13, 9, 13, 8, 18, 14, 18], first: "05:40", last: "21:00", every: 35, reverseOffset: 15,
-  },
-  {
-    number: "S30", operator: "WBTC", type: "Non-AC",
-    stops: ["Ultadanga", "Salt Lake Sector V", "Karunamoyee", "New Town", "Eco Park"],
-    legs: [20, 9, 14, 12], first: "06:00", last: "21:00", every: 30, reverseOffset: 15,
-  },
-  {
-    number: "S6A", operator: "WBTC", type: "Non-AC",
-    stops: ["Garia Station", "Garia", "Naktala", "Tollygunge", "Rashbehari", "Hazra", "Park Street", "Esplanade", "Howrah Station"],
-    legs: [9, 11, 10, 12, 8, 11, 8, 20], first: "05:50", last: "21:10", every: 30, reverseOffset: 10,
-  },
-  {
-    number: "S4", operator: "WBTC", type: "Non-AC",
-    stops: ["Parnashree", "Behala Chowrasta", "Taratala", "Mominpur", "Exide", "Park Street", "Esplanade", "Sealdah", "Ultadanga", "Karunamoyee", "Salt Lake Sector V"],
-    legs: [12, 11, 12, 13, 7, 8, 17, 15, 15, 9], first: "05:55", last: "20:55", every: 35, reverseOffset: 17,
-  },
-  {
-    number: "AC1", operator: "WBTC", type: "AC",
-    stops: ["Jadavpur", "Dhakuria", "Gariahat", "Rashbehari", "Hazra", "Park Street", "Esplanade", "B.B.D. Bagh", "Howrah Station"],
-    legs: [8, 8, 8, 8, 10, 7, 7, 15], first: "06:10", last: "20:50", every: 40, reverseOffset: 18,
-  },
-  {
-    number: "S12E", operator: "WBTC", type: "Non-AC",
-    stops: ["Eco Park", "New Town", "Salt Lake Sector V", "Chingrighata", "Sealdah", "Moulali", "Esplanade", "B.B.D. Bagh", "Howrah Station"],
-    legs: [12, 15, 12, 17, 7, 10, 7, 15], first: "06:05", last: "20:45", every: 40, reverseOffset: 20,
-  },
-  {
-    number: "AC9B", operator: "WBTC", type: "AC",
-    stops: ["Jadavpur", "Gariahat", "Park Circus", "Science City", "Chingrighata", "Salt Lake Sector V", "New Town", "Eco Park"],
-    legs: [13, 14, 10, 11, 14, 16, 12], first: "06:30", last: "20:30", every: 45, reverseOffset: 20,
-  },
-];
-
-export let STOPS = Array.from(new Set(routes.flatMap((route) => route.stops))).sort((a, b) => a.localeCompare(b));
-export const STOP_ID_MAP = new Map<string, number>();
-
-export function registerDatabaseStops(dbStops: { id: number; name: string }[]) {
-  const set = new Set(STOPS);
-  for (const s of dbStops) {
-    set.add(s.name);
-    STOP_ID_MAP.set(s.name.toLowerCase(), s.id);
-  }
-  STOPS = Array.from(set).sort((a, b) => a.localeCompare(b));
-  SEARCH_INDEX = STOPS.map((name) => ({
-    name,
-    names: [name, ...(STOP_ALIASES[name] ?? [])].map(normalize),
-  }));
+export interface TransferPlan {
+  id: string;
+  from: string;
+  to: string;
+  transferStop: string;
+  first: BusTrip;
+  second: BusTrip;
+  /** minutes spent waiting at the change stop */
+  wait: number;
+  departure: number;
+  arrival: number;
+  duration: number;
 }
 
-export function getStopId(name: string): number | undefined {
-  return STOP_ID_MAP.get(name.trim().toLowerCase());
+export interface RouteSummary {
+  number: string;
+  operator: string;
+  type: ServiceType;
+  category: string | null;
+  origin: string;
+  destination: string;
+  source: "directory" | "preview";
 }
 
-export const POPULAR_JOURNEYS = [
-  { from: "Esplanade", to: "Garia" },
-  { from: "Howrah Station", to: "Salt Lake Sector V" },
-  { from: "Garia", to: "Park Street" },
-];
+export interface RouteDetail extends RouteSummary {
+  stops: string[];
+  via: string[];
+  fleetText: string | null;
+  fleetCount: number | null;
+}
+
+export interface RouteDeparture {
+  id: string;
+  runCode: string | null;
+  bus: string | null;
+  departure: number;
+  arrival: number;
+  notes: string | null;
+}
+
+// ---------------------------------------------------------------- data file types
+
+interface RawTrip {
+  run: string;
+  bus: number | null;
+  out: [string, string];
+  ret: [string, string];
+  notes: string | null;
+}
+
+interface RawFrequency {
+  first: string;
+  last: string;
+  every: number;
+  reverseOffset: number;
+  legs: number[];
+}
+
+interface RawRoute {
+  number: string;
+  source: "directory" | "preview";
+  operator: string;
+  category: string | null;
+  type: ServiceType;
+  origin: string;
+  destination: string;
+  stops: string[];
+  fleet: { text: string | null; count: number | null } | null;
+  trips: RawTrip[];
+  frequency?: RawFrequency;
+}
+
+interface RawDataset {
+  meta: {
+    counts: Record<string, number>;
+    dedupe?: { mergedStops?: Record<string, string[]> };
+  };
+  stops: { name: string; stand: string | null }[];
+  operators: string[];
+  buses: string[];
+  routes: RawRoute[];
+}
+
+// The file is generated by the backend exporter, so its shape is trusted here.
+const DATA = dataset as unknown as RawDataset;
+
+// ---------------------------------------------------------------- time helpers
 
 export function parseClock(value: string): number {
   const [hours, minutes] = value.split(":").map(Number);
@@ -194,11 +154,95 @@ export function formatClock(totalMinutes: number): { time: string; period: strin
   };
 }
 
+/** 24-hour "HH:MM" for inputs and sample data. */
+export function toClock24(totalMinutes: number): string {
+  const minutesInDay = ((totalMinutes % 1440) + 1440) % 1440;
+  return `${String(Math.floor(minutesInDay / 60)).padStart(2, "0")}:${String(minutesInDay % 60).padStart(2, "0")}`;
+}
+
 export function formatDuration(minutes: number): string {
   const hours = Math.floor(minutes / 60);
   const remaining = minutes % 60;
   return hours ? `${hours} hr${remaining ? ` ${remaining} min` : ""}` : `${remaining} min`;
 }
+
+// ---------------------------------------------------------------- normalised route model
+
+interface ScheduledRun {
+  run: string;
+  bus: string | null;
+  notes: string | null;
+  out: [number, number];
+  ret: [number, number];
+}
+
+interface Route {
+  number: string;
+  source: "directory" | "preview";
+  operator: string;
+  category: string | null;
+  type: ServiceType;
+  origin: string;
+  destination: string;
+  stops: string[];
+  fleetText: string | null;
+  fleetCount: number | null;
+  scheduled: ScheduledRun[];
+  headway: Record<Direction, number | null>;
+  frequency: { first: number; last: number; every: number; reverseOffset: number; legs: number[] } | null;
+}
+
+/** Average minutes between the first and last run; null with fewer than two runs. */
+function typicalHeadway(departures: number[]): number | null {
+  if (departures.length < 2) return null;
+  const sorted = [...departures].sort((a, b) => a - b);
+  return Math.round((sorted[sorted.length - 1] - sorted[0]) / (sorted.length - 1));
+}
+
+function normaliseRoute(raw: RawRoute): Route {
+  const bus = (index: number | null) => (index === null ? null : DATA.buses[index] ?? null);
+  const scheduled: ScheduledRun[] = raw.trips.map((trip) => ({
+    run: trip.run,
+    bus: bus(trip.bus),
+    notes: trip.notes,
+    out: [parseClock(trip.out[0]), parseClock(trip.out[1])],
+    ret: [parseClock(trip.ret[0]), parseClock(trip.ret[1])],
+  }));
+  return {
+    number: raw.number,
+    source: raw.source,
+    operator: raw.operator,
+    category: raw.category,
+    type: raw.type,
+    origin: raw.origin,
+    destination: raw.destination,
+    stops: raw.stops,
+    fleetText: raw.fleet?.text ?? null,
+    fleetCount: raw.fleet?.count ?? null,
+    scheduled,
+    headway: {
+      outbound: typicalHeadway(scheduled.map((run) => run.out[0])),
+      return: typicalHeadway(scheduled.map((run) => run.ret[0])),
+    },
+    frequency: raw.frequency
+      ? {
+          first: parseClock(raw.frequency.first),
+          last: parseClock(raw.frequency.last),
+          every: raw.frequency.every,
+          reverseOffset: raw.frequency.reverseOffset,
+          legs: raw.frequency.legs,
+        }
+      : null,
+  };
+}
+
+const ROUTES: Route[] = DATA.routes.map(normaliseRoute);
+const ROUTE_BY_NUMBER = new Map(ROUTES.map((route) => [route.number.toLowerCase(), route]));
+
+// ---------------------------------------------------------------- stops and search
+
+/** Stop names are unique in the dataset (case, spaces and punctuation already merged). */
+export const STOPS: string[] = DATA.stops.map((stop) => stop.name).sort((a, b) => a.localeCompare(b));
 
 /** Extra names people actually type or say for a stop (English short forms and Bengali). */
 const STOP_ALIASES: Record<string, string[]> = {
@@ -218,7 +262,6 @@ const STOP_ALIASES: Record<string, string[]> = {
   Rashbehari: ["rash behari", "রাসবিহারী"],
   Tollygunge: ["tollygunj", "টালিগঞ্জ"],
   "Behala Chowrasta": ["behala", "বেহালা"],
-  Bagbazar: ["bagbazaar", "বাগবাজার"],
   Shyambazar: ["shyam bazar", "syambazar", "শ্যামবাজার"],
   "College Street": ["college st", "কলেজ স্ট্রিট"],
   Baguiati: ["baguihati", "বাগুইআটি"],
@@ -242,6 +285,27 @@ const STOP_ALIASES: Record<string, string[]> = {
   Taratala: ["tara tala"],
   Parnashree: ["parnasree", "parnashree"],
 };
+
+/**
+ * The generator merges stop names that are the same place ("Esplanade" into
+ * "Esplanade Curzon Park"). Older or shorter names still resolve to the kept one.
+ */
+const MERGED_STOPS = new Map<string, string>();
+for (const [canonical, variants] of Object.entries(DATA.meta.dedupe?.mergedStops ?? {})) {
+  for (const variant of variants) MERGED_STOPS.set(variant.toLowerCase(), canonical);
+}
+
+export function canonicalStop(name: string): string {
+  const value = name.trim();
+  return MERGED_STOPS.get(value.toLowerCase()) ?? value;
+}
+
+/** Aliases re-keyed onto the kept stop name, plus the retired names themselves. */
+const ALIASES_BY_STOP: Record<string, string[]> = {};
+for (const [key, list] of Object.entries(STOP_ALIASES)) {
+  const target = canonicalStop(key);
+  ALIASES_BY_STOP[target] = [...(ALIASES_BY_STOP[target] ?? []), ...list, key.toLowerCase()];
+}
 
 function normalize(value: string): string {
   return value
@@ -285,9 +349,9 @@ function scoreName(query: string, candidate: string): number {
   return 0;
 }
 
-let SEARCH_INDEX = STOPS.map((name) => ({
+const SEARCH_INDEX = STOPS.map((name) => ({
   name,
-  names: [name, ...(STOP_ALIASES[name] ?? [])].map(normalize),
+  names: [name, ...(ALIASES_BY_STOP[name] ?? [])].map(normalize),
 }));
 
 /** Typo-tolerant stop search that also understands short names and Bengali spellings. */
@@ -313,25 +377,177 @@ export function resolveStop(input: string): string | undefined {
   return undefined;
 }
 
-export interface TransferPlan {
-  id: string;
-  from: string;
-  to: string;
-  transferStop: string;
-  first: BusTrip;
-  second: BusTrip;
-  /** minutes spent waiting at the change stop */
-  wait: number;
-  departure: number;
-  arrival: number;
-  duration: number;
+// ---------------------------------------------------------------- journeys
+
+const DIRECTIONS: Direction[] = ["outbound", "return"];
+const MIN_CHANGE_MINUTES = 4;
+const ESTIMATE_START = 6 * 60;
+const ESTIMATE_END = 21 * 60;
+const ESTIMATE_EVERY = 25;
+const ESTIMATE_DURATION = 45;
+
+function stopsInDirection(route: Route, direction: Direction): string[] {
+  return direction === "outbound" ? route.stops : [...route.stops].reverse();
 }
 
-const MIN_CHANGE_MINUTES = 4;
+/** Keeps journeys that cross midnight in order. */
+function arrivalAfter(departure: number, arrival: number): number {
+  return arrival < departure ? arrival + 1440 : arrival;
+}
 
-/** One-change journeys for pairs with no direct bus. Works on whatever routes are loaded. */
+function scheduledTrips(route: Route, direction: Direction, stops: string[], out: BusTrip[]) {
+  const last = stops.length - 1;
+  const headway = route.headway[direction];
+  const departures = route.scheduled.map((run) => (direction === "outbound" ? run.out : run.ret)[0]);
+  const serviceStart = Math.min(...departures);
+  const serviceEnd = Math.max(...departures);
+
+  for (const run of route.scheduled) {
+    const [departure, rawArrival] = direction === "outbound" ? run.out : run.ret;
+    const arrival = arrivalAfter(departure, rawArrival);
+    out.push({
+      id: `${run.run}-${direction}`,
+      number: route.number,
+      operator: route.operator,
+      type: route.type,
+      kind: "scheduled",
+      terminusFrom: stops[0],
+      terminusTo: stops[last],
+      boarding: stops[0],
+      alighting: stops[last],
+      departure,
+      arrival,
+      duration: Math.max(1, arrival - departure),
+      via: stops.slice(1, last),
+      fullStops: stops.map((name, index) => ({
+        name,
+        minutes: index === 0 ? departure : index === last ? arrival : null,
+        journey: true,
+      })),
+      headway,
+      serviceStart,
+      serviceEnd,
+      runCode: run.run,
+      bus: run.bus,
+      notes: run.notes,
+    });
+  }
+}
+
+function sampleTrips(route: Route, direction: Direction, stops: string[], from: number, to: number, out: BusTrip[]) {
+  const frequency = route.frequency;
+  if (!frequency) return;
+  const offset = direction === "return" ? frequency.reverseOffset : 0;
+  const legs = direction === "return" ? [...frequency.legs].reverse() : frequency.legs;
+  const cumulative = [0];
+  for (const leg of legs) cumulative.push(cumulative[cumulative.length - 1] + leg);
+
+  const first = frequency.first + offset;
+  const last = frequency.last + offset;
+  for (let start = first; start <= last; start += frequency.every) {
+    const departure = start + cumulative[from];
+    const arrival = start + cumulative[to];
+    if (departure >= 1440) continue;
+    out.push({
+      id: `${route.number}-${direction}-${start}`,
+      number: route.number,
+      operator: route.operator,
+      type: route.type,
+      kind: "sample",
+      terminusFrom: stops[0],
+      terminusTo: stops[stops.length - 1],
+      boarding: stops[from],
+      alighting: stops[to],
+      departure,
+      arrival,
+      duration: arrival - departure,
+      via: stops.slice(from + 1, to),
+      fullStops: stops.map((name, index) => ({
+        name,
+        minutes: start + cumulative[index],
+        journey: index >= from && index <= to,
+      })),
+      headway: frequency.every,
+      serviceStart: first,
+      serviceEnd: last,
+      runCode: null,
+      bus: null,
+      notes: null,
+    });
+  }
+}
+
+function estimatedTrips(route: Route, direction: Direction, stops: string[], from: number, to: number, out: BusTrip[]) {
+  const last = stops.length - 1;
+  for (let start = ESTIMATE_START; start <= ESTIMATE_END; start += ESTIMATE_EVERY) {
+    const departure = start;
+    const arrival = start + ESTIMATE_DURATION;
+    out.push({
+      id: `est-${route.number}-${direction}-${start}-${from}-${to}`,
+      number: route.number,
+      operator: route.operator,
+      type: route.type,
+      kind: "estimated",
+      terminusFrom: stops[0],
+      terminusTo: stops[last],
+      boarding: stops[from],
+      alighting: stops[to],
+      departure,
+      arrival,
+      duration: ESTIMATE_DURATION,
+      via: stops.slice(from + 1, to),
+      fullStops: stops.map((name, index) => ({
+        name,
+        minutes: index === from ? departure : index === to ? arrival : null,
+        journey: index >= from && index <= to,
+      })),
+      headway: ESTIMATE_EVERY,
+      serviceStart: ESTIMATE_START,
+      serviceEnd: ESTIMATE_END,
+      runCode: null,
+      bus: null,
+      notes: null,
+    });
+  }
+}
+
+function tripsOnRoute(route: Route, from: string, to: string): BusTrip[] {
+  const found: BusTrip[] = [];
+  for (const direction of DIRECTIONS) {
+    const stops = stopsInDirection(route, direction);
+    const boarding = stops.indexOf(from);
+    const alighting = stops.indexOf(to);
+    if (boarding < 0 || alighting <= boarding) continue;
+
+    const isTerminalPair = boarding === 0 && alighting === stops.length - 1;
+    if (route.source === "directory") {
+      if (isTerminalPair && route.scheduled.length > 0) scheduledTrips(route, direction, stops, found);
+      else estimatedTrips(route, direction, stops, boarding, alighting, found);
+    } else {
+      sampleTrips(route, direction, stops, boarding, alighting, found);
+    }
+  }
+  return found;
+}
+
+/** Every bus that passes both stops, in travel order, sorted by departure. */
+export function findTrips(from: string, to: string): BusTrip[] {
+  const start = canonicalStop(from);
+  const end = canonicalStop(to);
+  if (!start || !end || start === end) return [];
+  const results: BusTrip[] = [];
+  for (const route of ROUTES) results.push(...tripsOnRoute(route, start, end));
+  return results.sort((a, b) => a.departure - b.departure || a.number.localeCompare(b.number));
+}
+
+/** Looks a saved bus back up from a previously viewed journey. */
+export function findTrip(from: string, to: string, tripId: string): BusTrip | undefined {
+  return findTrips(from, to).find((trip) => trip.id === tripId);
+}
+
+/** One-change journeys for pairs with no direct bus. */
 export function findTransferPlans(from: string, to: string, afterMinute: number, limit = 5): TransferPlan[] {
-  if (from === to) return [];
+  if (!from || !to || from === to) return [];
   const plans: TransferPlan[] = [];
   for (const stop of STOPS) {
     if (stop === from || stop === to) continue;
@@ -371,114 +587,105 @@ export function findTransferPlans(from: string, to: string, afterMinute: number,
     .slice(0, limit);
 }
 
-export function findTrips(from: string, to: string): BusTrip[] {
-  if (from === to) return [];
-  const results: BusTrip[] = [];
+// ---------------------------------------------------------------- routes
 
-  for (const route of routes) {
-    for (const reversed of [false, true]) {
-      const stops = reversed ? [...route.stops].reverse() : route.stops;
-      const legs = reversed ? [...route.legs].reverse() : route.legs;
-      const boardingIndex = stops.indexOf(from);
-      const alightingIndex = stops.indexOf(to);
-      if (boardingIndex < 0 || alightingIndex <= boardingIndex) continue;
-
-      const cumulative = [0];
-      for (const leg of legs) cumulative.push(cumulative[cumulative.length - 1] + leg);
-
-      const first = parseClock(route.first) + (reversed ? route.reverseOffset ?? 10 : 0);
-      const last = parseClock(route.last) + (reversed ? route.reverseOffset ?? 10 : 0);
-      for (let start = first; start <= last; start += route.every) {
-        const departure = start + cumulative[boardingIndex];
-        const arrival = start + cumulative[alightingIndex];
-        if (departure >= 1440) continue;
-        results.push({
-          id: `${route.number}-${reversed ? "return" : "outbound"}-${start}`,
-          number: route.number,
-          operator: route.operator,
-          type: route.type,
-          terminusFrom: stops[0],
-          terminusTo: stops[stops.length - 1],
-          boarding: from,
-          alighting: to,
-          departure,
-          arrival,
-          duration: arrival - departure,
-          via: stops.slice(boardingIndex + 1, alightingIndex),
-          journeyStops: stops.slice(boardingIndex, alightingIndex + 1).map((name, index) => ({
-            name,
-            minutes: start + cumulative[boardingIndex + index],
-            role: index === 0 ? "boarding" : index === alightingIndex - boardingIndex ? "alighting" : "intermediate",
-          })),
-          fullStops: stops.map((name, index) => ({
-            name,
-            minutes: start + cumulative[index],
-            journey: index >= boardingIndex && index <= alightingIndex,
-          })),
-          headway: route.every,
-          serviceStart: first,
-          serviceEnd: last,
-        });
-      }
-    }
-  }
-
-  return results.sort((a, b) => a.departure - b.departure || a.number.localeCompare(b.number));
-}
-
-/** Look a saved bus back up from a previously viewed journey. */
-export function findTrip(from: string, to: string, tripId: string): BusTrip | undefined {
-  return findTrips(from, to).find((trip) => trip.id === tripId);
-}
-
-export interface LocalRouteSummary {
-  route_number: string;
-  operator: Operator;
-  type: ServiceType;
-  origin: string;
-  destination: string;
-  stops: string[];
-  first: string;
-  last: string;
-  every: number;
-}
-
-export function searchLocalRoutes(query: string): LocalRouteSummary[] {
-  const q = query.trim().toLowerCase();
-  return routes
-    .filter(
-      (r) =>
-        !q ||
-        r.number.toLowerCase().includes(q) ||
-        r.stops[0].toLowerCase().includes(q) ||
-        r.stops[r.stops.length - 1].toLowerCase().includes(q) ||
-        r.stops.some((s) => s.toLowerCase().includes(q)),
-    )
-    .map((r) => ({
-      route_number: r.number,
-      operator: r.operator,
-      type: r.type,
-      origin: r.stops[0],
-      destination: r.stops[r.stops.length - 1],
-      stops: r.stops,
-      first: r.first,
-      last: r.last,
-      every: r.every,
-    }));
-}
-
-export function getLocalRouteDetail(routeNumber: string): LocalRouteSummary | undefined {
-  const r = routes.find((item) => item.number.toLowerCase() === routeNumber.trim().toLowerCase());
-  if (!r) return undefined;
+function toSummary(route: Route): RouteSummary {
   return {
-    route_number: r.number,
-    operator: r.operator,
-    type: r.type,
-    origin: r.stops[0],
-    destination: r.stops[r.stops.length - 1],
-    stops: r.stops,
-    first: r.first,
-    last: r.last,
-    every: r.every,
+    number: route.number,
+    operator: route.operator,
+    type: route.type,
+    category: route.category,
+    origin: route.origin,
+    destination: route.destination,
+    source: route.source,
   };
 }
+
+/**
+ * Route number, origin or destination matches. Exact route numbers come first, then prefixes.
+ * An empty query returns the first routes of the directory.
+ */
+export function searchRoutes(query: string, limit = 10): RouteSummary[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return ROUTES.slice(0, limit).map(toSummary);
+  const rank = (route: Route) => {
+    const number = route.number.toLowerCase();
+    if (number === q) return 0;
+    if (number.startsWith(q)) return 1;
+    return 2;
+  };
+  return ROUTES.filter(
+    (route) =>
+      route.number.toLowerCase().includes(q) ||
+      route.origin.toLowerCase().includes(q) ||
+      route.destination.toLowerCase().includes(q),
+  )
+    .sort((a, b) => rank(a) - rank(b))
+    .slice(0, limit)
+    .map(toSummary);
+}
+
+export function getRoute(routeNumber: string): RouteDetail | undefined {
+  const route = ROUTE_BY_NUMBER.get(routeNumber.trim().toLowerCase());
+  if (!route) return undefined;
+  return {
+    ...toSummary(route),
+    stops: route.stops,
+    via: route.stops.slice(1, -1),
+    fleetText: route.fleetText,
+    fleetCount: route.fleetCount,
+  };
+}
+
+/** Departures from the first stop of a direction, for the route timetable table. */
+export function getRouteDepartures(routeNumber: string, direction: Direction): RouteDeparture[] {
+  const route = ROUTE_BY_NUMBER.get(routeNumber.trim().toLowerCase());
+  if (!route) return [];
+
+  if (route.source === "directory") {
+    return route.scheduled
+      .map((run) => {
+        const [departure, rawArrival] = direction === "outbound" ? run.out : run.ret;
+        return {
+          id: `${run.run}-${direction}`,
+          runCode: run.run,
+          bus: run.bus,
+          departure,
+          arrival: arrivalAfter(departure, rawArrival),
+          notes: run.notes,
+        };
+      })
+      .sort((a, b) => a.departure - b.departure);
+  }
+
+  const frequency = route.frequency;
+  if (!frequency) return [];
+  const offset = direction === "return" ? frequency.reverseOffset : 0;
+  const travel = frequency.legs.reduce((sum, leg) => sum + leg, 0);
+  const departures: RouteDeparture[] = [];
+  for (let start = frequency.first + offset; start <= frequency.last + offset; start += frequency.every) {
+    departures.push({
+      id: `${route.number}-${direction}-${start}`,
+      runCode: null,
+      bus: null,
+      departure: start,
+      arrival: start + travel,
+      notes: null,
+    });
+  }
+  return departures;
+}
+
+// ---------------------------------------------------------------- presentation helpers
+
+export const POPULAR_JOURNEYS: { from: string; to: string }[] = [
+  { from: "Esplanade", to: "Garia" },
+  { from: "Howrah Station", to: "Salt Lake Sector V" },
+  { from: "Garia", to: "Park Street" },
+];
+
+export const DATA_COUNTS = {
+  stops: DATA.meta.counts.stops,
+  routes: DATA.meta.counts.routes,
+  trips: DATA.meta.counts.trips,
+};

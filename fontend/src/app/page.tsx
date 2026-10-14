@@ -29,14 +29,17 @@ import { BusDetailModal } from "@/components/BusDetailModal";
 import { HeroMap } from "@/components/HeroMap";
 import { StopField } from "@/components/StopField";
 import { TripCard } from "@/components/TripCard";
+import { checkBackendHealth, fetchAllStops, searchBackendJourneys } from "@/lib/api";
 import {
   findTransferPlans,
   findTrip,
   findTrips,
   formatClock,
   formatDuration,
+  getStopId,
   parseClock,
   POPULAR_JOURNEYS,
+  registerDatabaseStops,
   resolveStop,
   type BusTrip,
   type ServiceType,
@@ -152,6 +155,59 @@ export default function HomePage() {
   ]);
   const [showTopButton, setShowTopButton] = useState(false);
   const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "failed">("idle");
+  const [dbConnected, setDbConnected] = useState<boolean | null>(null);
+  const [stopCount, setStopCount] = useState<number>(0);
+  const [backendTrips, setBackendTrips] = useState<BusTrip[] | null>(null);
+  const [isLoadingLive, setIsLoadingLive] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    async function initBackend() {
+      const isHealthy = await checkBackendHealth();
+      if (!mounted) return;
+      setDbConnected(isHealthy);
+      if (isHealthy) {
+        const stops = await fetchAllStops();
+        if (mounted && stops.length > 0) {
+          registerDatabaseStops(stops);
+          setStopCount(stops.length);
+        }
+      }
+    }
+    initBackend();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadBackendJourneys() {
+      const fromId = getStopId(submitted.from);
+      const toId = getStopId(submitted.to);
+      if (fromId && toId) {
+        setIsLoadingLive(true);
+        const live = await searchBackendJourneys(fromId, toId, submitted.time);
+        if (mounted) {
+          if (live && live.length > 0) {
+            setBackendTrips(live);
+          } else {
+            setBackendTrips(null);
+          }
+          setIsLoadingLive(false);
+        }
+      } else {
+        if (mounted) {
+          setBackendTrips(null);
+          setIsLoadingLive(false);
+        }
+      }
+    }
+    loadBackendJourneys();
+    return () => {
+      mounted = false;
+    };
+  }, [submitted.from, submitted.to, submitted.time]);
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
@@ -192,7 +248,11 @@ export default function HomePage() {
     };
   }, []);
 
-  const allTrips = useMemo(() => findTrips(submitted.from, submitted.to), [submitted.from, submitted.to]);
+  const fallbackTrips = useMemo(() => findTrips(submitted.from, submitted.to), [submitted.from, submitted.to]);
+  const allTrips = useMemo(
+    () => (backendTrips && backendTrips.length > 0 ? backendTrips : fallbackTrips),
+    [backendTrips, fallbackTrips],
+  );
   const filteredTrips = useMemo(
     () => allTrips.filter((trip) => typeFilter === "all" || trip.type === typeFilter),
     [allTrips, typeFilter],
@@ -264,7 +324,7 @@ export default function HomePage() {
   }
 
   function openHistoryEntry(entry: HistoryEntry) {
-    const trip = findTrip(entry.from, entry.to, entry.tripId);
+    const trip = allTrips.find((t) => t.id === entry.tripId) || findTrip(entry.from, entry.to, entry.tripId);
     if (trip) setDetailTrip(trip);
   }
 
@@ -353,6 +413,34 @@ export default function HomePage() {
             <a href="#about">About</a>
           </nav>
           <div className="header-actions">
+            {dbConnected !== null && (
+              <span
+                className="city-chip"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.4rem",
+                  fontSize: "0.78rem",
+                  padding: "0.3rem 0.65rem",
+                  borderRadius: "9999px",
+                  background: dbConnected ? "rgba(34, 197, 94, 0.12)" : "rgba(156, 163, 175, 0.12)",
+                  color: dbConnected ? "#16a34a" : "#6b7280",
+                  fontWeight: 600,
+                  border: dbConnected ? "1px solid rgba(34, 197, 94, 0.3)" : "1px solid rgba(156, 163, 175, 0.3)",
+                }}
+                title={dbConnected ? `Connected to PostgreSQL (${stopCount || 173} stops loaded)` : "Backend API offline - using fallback data"}
+              >
+                <span
+                  style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: "50%",
+                    backgroundColor: dbConnected ? "#22c55e" : "#9ca3af",
+                  }}
+                />
+                <span>{dbConnected ? `PostgreSQL Live (${stopCount || 173} stops)` : "Offline Preview"}</span>
+              </span>
+            )}
             <span className="city-chip"><span className="city-pulse" /><span>Kolkata, WB</span></span>
             <button
               type="button"

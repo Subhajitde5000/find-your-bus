@@ -153,7 +153,25 @@ const routes: RouteTemplate[] = [
   },
 ];
 
-export const STOPS = Array.from(new Set(routes.flatMap((route) => route.stops))).sort((a, b) => a.localeCompare(b));
+export let STOPS = Array.from(new Set(routes.flatMap((route) => route.stops))).sort((a, b) => a.localeCompare(b));
+export const STOP_ID_MAP = new Map<string, number>();
+
+export function registerDatabaseStops(dbStops: { id: number; name: string }[]) {
+  const set = new Set(STOPS);
+  for (const s of dbStops) {
+    set.add(s.name);
+    STOP_ID_MAP.set(s.name.toLowerCase(), s.id);
+  }
+  STOPS = Array.from(set).sort((a, b) => a.localeCompare(b));
+  SEARCH_INDEX = STOPS.map((name) => ({
+    name,
+    names: [name, ...(STOP_ALIASES[name] ?? [])].map(normalize),
+  }));
+}
+
+export function getStopId(name: string): number | undefined {
+  return STOP_ID_MAP.get(name.trim().toLowerCase());
+}
 
 export const POPULAR_JOURNEYS = [
   { from: "Esplanade", to: "Garia" },
@@ -267,7 +285,7 @@ function scoreName(query: string, candidate: string): number {
   return 0;
 }
 
-const SEARCH_INDEX = STOPS.map((name) => ({
+let SEARCH_INDEX = STOPS.map((name) => ({
   name,
   names: [name, ...(STOP_ALIASES[name] ?? [])].map(normalize),
 }));

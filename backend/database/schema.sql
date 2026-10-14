@@ -1,3 +1,4 @@
+-- Active: 1785483683689@@127.0.0.1@5432@find_your_bus
 -- PostgreSQL schema for Find Your Bus.
 -- Generated from the SQLAlchemy models in backend/app/models.py (pg_dump --schema-only).
 -- Regenerate after model changes:  pg_dump --schema-only --no-owner --no-privileges -U postgres -h 127.0.0.1 find_your_bus

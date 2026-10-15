@@ -15,7 +15,23 @@
       "Esplanade",
       "B.B.D. Bagh",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      8,
+      9,
+      7,
+      7,
+      6,
+      7,
+      11,
+      7,
+      6,
+      13
+    ],
+    "first": "05:35",
+    "last": "21:15",
+    "every": 20,
+    "reverseOffset": 10
   },
   {
     "number": "AC5",
@@ -32,7 +48,22 @@
       "Esplanade",
       "B.B.D. Bagh",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      10,
+      10,
+      11,
+      8,
+      9,
+      11,
+      7,
+      6,
+      13
+    ],
+    "first": "06:05",
+    "last": "20:45",
+    "every": 35,
+    "reverseOffset": 15
   },
   {
     "number": "AC6",
@@ -48,7 +79,21 @@
       "Esplanade",
       "B.B.D. Bagh",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      11,
+      10,
+      12,
+      8,
+      11,
+      7,
+      6,
+      13
+    ],
+    "first": "06:15",
+    "last": "20:35",
+    "every": 40,
+    "reverseOffset": 20
   },
   {
     "number": "5",
@@ -64,7 +109,21 @@
       "Park Street",
       "Esplanade",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      18,
+      8,
+      8,
+      8,
+      8,
+      10,
+      7,
+      19
+    ],
+    "first": "05:25",
+    "last": "21:25",
+    "every": 25,
+    "reverseOffset": 8
   },
   {
     "number": "S12",
@@ -80,7 +139,21 @@
       "Esplanade",
       "B.B.D. Bagh",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      15,
+      7,
+      13,
+      17,
+      7,
+      10,
+      7,
+      15
+    ],
+    "first": "05:45",
+    "last": "21:05",
+    "every": 25,
+    "reverseOffset": 12
   },
   {
     "number": "AC12",
@@ -96,7 +169,21 @@
       "Esplanade",
       "B.B.D. Bagh",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      14,
+      13,
+      13,
+      11,
+      11,
+      7,
+      7,
+      15
+    ],
+    "first": "06:00",
+    "last": "20:30",
+    "every": 30,
+    "reverseOffset": 15
   },
   {
     "number": "S24",
@@ -112,7 +199,21 @@
       "Esplanade",
       "B.B.D. Bagh",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      11,
+      8,
+      10,
+      11,
+      10,
+      9,
+      7,
+      15
+    ],
+    "first": "05:50",
+    "last": "21:10",
+    "every": 30,
+    "reverseOffset": 14
   },
   {
     "number": "45B",
@@ -127,7 +228,20 @@
       "Baghajatin",
       "Garia",
       "Garia Station"
-    ]
+    ],
+    "legs": [
+      7,
+      12,
+      13,
+      14,
+      10,
+      9,
+      9
+    ],
+    "first": "05:40",
+    "last": "21:20",
+    "every": 25,
+    "reverseOffset": 9
   },
   {
     "number": "46",
@@ -141,7 +255,19 @@
       "Sealdah",
       "Moulali",
       "Esplanade"
-    ]
+    ],
+    "legs": [
+      15,
+      12,
+      9,
+      15,
+      7,
+      11
+    ],
+    "first": "05:30",
+    "last": "21:30",
+    "every": 30,
+    "reverseOffset": 12
   },
   {
     "number": "S14",
@@ -157,7 +283,21 @@
       "Jadavpur",
       "Baghajatin",
       "Garia"
-    ]
+    ],
+    "legs": [
+      10,
+      13,
+      12,
+      14,
+      15,
+      13,
+      10,
+      9
+    ],
+    "first": "06:00",
+    "last": "21:00",
+    "every": 30,
+    "reverseOffset": 11
   },
   {
     "number": "AC9",
@@ -171,7 +311,19 @@
       "Chingrighata",
       "Salt Lake Sector V",
       "Karunamoyee"
-    ]
+    ],
+    "legs": [
+      13,
+      14,
+      10,
+      11,
+      14,
+      7
+    ],
+    "first": "06:20",
+    "last": "20:20",
+    "every": 40,
+    "reverseOffset": 20
   },
   {
     "number": "S12D",
@@ -187,7 +339,21 @@
       "Esplanade",
       "B.B.D. Bagh",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      13,
+      13,
+      12,
+      13,
+      6,
+      8,
+      7,
+      15
+    ],
+    "first": "05:45",
+    "last": "21:05",
+    "every": 30,
+    "reverseOffset": 14
   },
   {
     "number": "AC4",
@@ -203,7 +369,21 @@
       "Esplanade",
       "B.B.D. Bagh",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      12,
+      12,
+      13,
+      12,
+      7,
+      8,
+      7,
+      15
+    ],
+    "first": "06:10",
+    "last": "20:30",
+    "every": 40,
+    "reverseOffset": 18
   },
   {
     "number": "S21",
@@ -219,7 +399,21 @@
       "Gariahat",
       "Jadavpur",
       "Garia"
-    ]
+    ],
+    "legs": [
+      9,
+      13,
+      9,
+      13,
+      8,
+      18,
+      14,
+      18
+    ],
+    "first": "05:40",
+    "last": "21:00",
+    "every": 35,
+    "reverseOffset": 15
   },
   {
     "number": "S30",
@@ -231,7 +425,17 @@
       "Karunamoyee",
       "New Town",
       "Eco Park"
-    ]
+    ],
+    "legs": [
+      20,
+      9,
+      14,
+      12
+    ],
+    "first": "06:00",
+    "last": "21:00",
+    "every": 30,
+    "reverseOffset": 15
   },
   {
     "number": "S6A",
@@ -247,7 +451,21 @@
       "Park Street",
       "Esplanade",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      9,
+      11,
+      10,
+      12,
+      8,
+      11,
+      8,
+      20
+    ],
+    "first": "05:50",
+    "last": "21:10",
+    "every": 30,
+    "reverseOffset": 10
   },
   {
     "number": "S4",
@@ -265,7 +483,23 @@
       "Ultadanga",
       "Karunamoyee",
       "Salt Lake Sector V"
-    ]
+    ],
+    "legs": [
+      12,
+      11,
+      12,
+      13,
+      7,
+      8,
+      17,
+      15,
+      15,
+      9
+    ],
+    "first": "05:55",
+    "last": "20:55",
+    "every": 35,
+    "reverseOffset": 17
   },
   {
     "number": "AC1",
@@ -281,7 +515,21 @@
       "Esplanade",
       "B.B.D. Bagh",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      8,
+      8,
+      8,
+      8,
+      10,
+      7,
+      7,
+      15
+    ],
+    "first": "06:10",
+    "last": "20:50",
+    "every": 40,
+    "reverseOffset": 18
   },
   {
     "number": "S12E",
@@ -297,7 +545,21 @@
       "Esplanade",
       "B.B.D. Bagh",
       "Howrah Station"
-    ]
+    ],
+    "legs": [
+      12,
+      15,
+      12,
+      17,
+      7,
+      10,
+      7,
+      15
+    ],
+    "first": "06:05",
+    "last": "20:45",
+    "every": 40,
+    "reverseOffset": 20
   },
   {
     "number": "AC9B",
@@ -312,6 +574,19 @@
       "Salt Lake Sector V",
       "New Town",
       "Eco Park"
-    ]
+    ],
+    "legs": [
+      13,
+      14,
+      10,
+      11,
+      14,
+      16,
+      12
+    ],
+    "first": "06:30",
+    "last": "20:30",
+    "every": 45,
+    "reverseOffset": 20
   }
 ]

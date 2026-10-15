@@ -24,9 +24,6 @@ def list_routes(
     q: str | None = Query(None, min_length=1, description="Route number or terminal name"),
     operator_id: int | None = None,
     service_category_id: int | None = None,
-    verified: bool | None = Query(
-        None, description="True = only routes the transport office has confirmed"
-    ),
     paging: Paging = Depends(),
     db: Session = Depends(get_db),
 ):
@@ -44,8 +41,6 @@ def list_routes(
         query = query.where(Route.operator_id == operator_id)
     if service_category_id is not None:
         query = query.where(Route.service_category_id == service_category_id)
-    if verified is not None:
-        query = query.where(Route.verified.is_(verified))
 
     total = db.scalar(select(func.count()).select_from(query.subquery()))
     rows = db.scalars(query.order_by(Route.route_number).limit(paging.limit).offset(paging.offset)).all()
@@ -63,7 +58,6 @@ def get_route(route_number: str, db: Session = Depends(get_db)):
     return {
         **RouteSummary.model_validate(route).model_dump(),
         "via_text": route.via_text,
-        "timetable_source": route.timetable_source,
         "trip_count": trip_count,
         "stops": route.stops,
     }

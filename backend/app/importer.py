@@ -60,7 +60,6 @@ class ImportReport:
     buses: int = 0
     trips: int = 0
     trip_schedules: int = 0
-    unverified_routes: int = 0
     warnings: list[str] = field(default_factory=list)
 
     def summary(self) -> str:
@@ -74,7 +73,6 @@ class ImportReport:
             f"buses:               {self.buses}",
             f"trips:               {self.trips}",
             f"trip schedules:      {self.trip_schedules}",
-            f"unverified routes:   {self.unverified_routes} (kept in the database, hidden from journey search)",
         ]
         lines += [f"WARNING: {w}" for w in self.warnings]
         return "\n".join(lines)
@@ -115,8 +113,6 @@ def read_stands(path: Path) -> list[dict]:
         if not isinstance(row[0], int):
             continue  # title, header and blank rows
         serial, name, local, category, division, address, role = row[:7]
-        verified_cell = row[7] if len(row) > 7 else None
-        note = row[8] if len(row) > 8 else None
         rows.append(
             {
                 "serial_no": serial,
@@ -126,44 +122,14 @@ def read_stands(path: Path) -> list[dict]:
                 "operator_division": clean_text(division),
                 "address": clean_text(address),
                 "functional_role": clean_text(role),
-                "verified": is_verified(verified_cell),
-                "verification_note": clean_text(note),
             }
         )
     return rows
 
 
 # --------------------------------------------------------------------------- routes
-#: Master Index columns that carry the publication decision (added 15 Oct 2026).
-#: A route is only published when the workbook says so; an absent or blank cell means "no".
-_VERIFIED_HEADER = "verified"
-_SOURCE_HEADER = "timetable source"
-
-
-def _header_columns(ws) -> dict[str, int]:
-    """Map a header cell of the Master Index to its column index (0-based)."""
-    for row in ws.iter_rows(min_row=1, max_row=12, values_only=True):
-        if not row or not any(isinstance(c, str) and "Route Number" in c for c in row):
-            continue
-        return {
-            str(value).strip().lower(): position
-            for position, value in enumerate(row)
-            if isinstance(value, str)
-        }
-    return {}
-
-
-def is_verified(value: object) -> bool:
-    """Yes/true-style cells mean the route may be published; anything else means it may not."""
-    text_value = clean_text(value)
-    return text_value is not None and text_value.strip().lower() in {"yes", "y", "true", "1"}
-
-
 def read_master_index(wb: openpyxl.Workbook) -> dict[str, dict]:
     ws = wb.worksheets[0]
-    columns = _header_columns(ws)
-    verified_at = columns.get(_VERIFIED_HEADER)
-    source_at = columns.get(_SOURCE_HEADER)
     index: dict[str, dict] = {}
     for row in ws.iter_rows(values_only=True):
         if not isinstance(row[0], int) or not row[1]:
@@ -173,9 +139,6 @@ def read_master_index(wb: openpyxl.Workbook) -> dict[str, dict]:
             "origin": clean_text(row[3]),
             "destination": clean_text(row[4]),
             "fleet_text": clean_text(row[6]),
-            # Missing columns (older workbooks) publish nothing rather than everything.
-            "verified": is_verified(row[verified_at]) if verified_at is not None else False,
-            "timetable_source": clean_text(row[source_at]) if source_at is not None else None,
         }
     return index
 
@@ -305,16 +268,10 @@ def import_all(session: Session, stands_path: Path, routes_path: Path,
         if entry is None:
             report.warnings.append(f"route {rno} ({sheet['sheet']}) is not in the master index")
             fleet_text = None
-            verified = False
-            timetable_source = None
         else:
             fleet_text = entry["fleet_text"]
-            verified = entry["verified"]
-            timetable_source = entry["timetable_source"]
             if (entry["origin"], entry["destination"]) != (sheet["origin"], sheet["destination"]):
                 report.warnings.append(f"route {rno}: origin/destination differ from master index")
-        if not verified:
-            report.unverified_routes += 1
 
         op = operators.get(sheet["operator"])
         if op is None:
@@ -339,8 +296,6 @@ def import_all(session: Session, stands_path: Path, routes_path: Path,
             fleet_allocation_text=fleet_text,
             documented_fleet_count=parse_fleet_count(fleet_text),
             source_sheet=sheet["sheet"],
-            timetable_source=timetable_source,
-            verified=verified,
         )
         session.add(route)
         report.routes += 1

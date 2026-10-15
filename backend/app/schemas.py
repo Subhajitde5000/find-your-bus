@@ -46,17 +46,13 @@ class StandSummary(ORMModel):
     local_name: str | None
     node_category: str
     operator_division: str | None
-    #: Null when no published source gives an address; such a stand is still listed.
-    address: str | None
-    #: False = address/role still missing; the stand is listed without invented details.
-    verified: bool
+    address: str
     latitude: Decimal | None
     longitude: Decimal | None
 
 
 class StandDetail(StandSummary):
     functional_role: str | None
-    verification_note: str | None
     stops: list[StopRef]
 
 
@@ -71,8 +67,6 @@ class RouteSummary(ORMModel):
     destination_label: str
     fleet_allocation_text: str | None
     documented_fleet_count: int | None
-    #: False = still waiting for the transport office to confirm the route sheet.
-    verified: bool
 
 
 class RouteStopOut(ORMModel):
@@ -101,8 +95,6 @@ class TripOut(ORMModel):
 
 class RouteDetail(RouteSummary):
     via_text: str | None
-    #: Where the published timetable came from (blank while the route has none).
-    timetable_source: str | None
     trip_count: int
     stops: list[RouteStopOut]
 

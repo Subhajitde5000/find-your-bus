@@ -32,10 +32,7 @@ import { StopField } from "@/components/StopField";
 import { TripCard } from "@/components/TripCard";
 import { RouteExplorer } from "@/components/RouteExplorer";
 import {
-  countUnconfirmedRoutes,
   DATA_COUNTS,
-  DEFAULT_JOURNEY,
-  findRoutesWithoutTimetable,
   findTransferPlans,
   findTrip,
   findTrips,
@@ -67,12 +64,6 @@ function storageSet(key: string, value: string) {
   } catch {
     // storage can be blocked (private mode, full quota); the app still works without it
   }
-}
-
-/** Reads ?route=NNN so a route lookup can be shared as a link. */
-function readSharedRoute(): string | null {
-  const value = new URLSearchParams(window.location.search).get("route");
-  return value && value.trim() ? value.trim() : null;
 }
 
 /** Reads ?from=&to=&time=HHMM so a search can be shared as a link. */
@@ -142,14 +133,10 @@ function timeAgo(timestamp: number): string {
 export default function HomePage() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [themeReady, setThemeReady] = useState(false);
-  const [from, setFrom] = useState(DEFAULT_JOURNEY.from);
-  const [to, setTo] = useState(DEFAULT_JOURNEY.to);
+  const [from, setFrom] = useState("Esplanade");
+  const [to, setTo] = useState("Garia");
   const [time, setTime] = useState("08:00");
-  const [submitted, setSubmitted] = useState<Journey>({
-    from: DEFAULT_JOURNEY.from,
-    to: DEFAULT_JOURNEY.to,
-    time: "08:00",
-  });
+  const [submitted, setSubmitted] = useState<Journey>({ from: "Esplanade", to: "Garia", time: "08:00" });
   const [view, setView] = useState<View>("all");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
   const [visibleCount, setVisibleCount] = useState(6);
@@ -165,7 +152,6 @@ export default function HomePage() {
   const [showTopButton, setShowTopButton] = useState(false);
   const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "failed">("idle");
   const [searchMode, setSearchMode] = useState<"journey" | "route">("journey");
-  const [sharedRoute, setSharedRoute] = useState<string | null>(null);
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
@@ -185,13 +171,8 @@ export default function HomePage() {
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
-      const routeFromUrl = readSharedRoute();
-      if (routeFromUrl) {
-        setSharedRoute(routeFromUrl);
-        setSearchMode("route");
-      }
       const shared = readSharedJourney();
-      if (!routeFromUrl && shared) {
+      if (shared) {
         setFrom(shared.from);
         setTo(shared.to);
         setTime(shared.time);
@@ -226,18 +207,6 @@ export default function HomePage() {
   const transferPlans = useMemo(
     () => (allTrips.length === 0 ? findTransferPlans(submitted.from, submitted.to, parseClock(submitted.time)) : []),
     [allTrips.length, submitted.from, submitted.to, submitted.time],
-  );
-  // Routes that really do run between the two stops but publish no times for them. Without
-  // this the site used to fill the gap with made-up departures.
-  const routesWithoutTimetable = useMemo(
-    () => (allTrips.length === 0 ? findRoutesWithoutTimetable(submitted.from, submitted.to) : []),
-    [allTrips.length, submitted.from, submitted.to],
-  );
-  // Routes on the same corridor that are still waiting for the transport office: counted, never
-  // listed as a journey option and never given a time.
-  const awaitingConfirmation = useMemo(
-    () => (allTrips.length === 0 ? countUnconfirmedRoutes(submitted.from, submitted.to) : 0),
-    [allTrips.length, submitted.from, submitted.to],
   );
   const firstBusOfDay = allTrips[0];
 
@@ -412,7 +381,7 @@ export default function HomePage() {
               title="Timetables are bundled with this site. They are not live tracking."
             >
               <span className="city-pulse" aria-hidden="true" />
-              <span>{DATA_COUNTS.routes} routes · {DATA_COUNTS.routesWithTimetable} with times · {DATA_COUNTS.stops} stops</span>
+              <span>{DATA_COUNTS.routes} routes · {DATA_COUNTS.stops} stops · {DATA_COUNTS.stands} stands</span>
             </span>
             <span className="city-chip"><span className="city-pulse" /><span>Kolkata, WB</span></span>
             <button
@@ -522,11 +491,7 @@ export default function HomePage() {
                 </div>
               </>
             ) : (
-              <RouteExplorer
-                key={sharedRoute ?? "default"}
-                onSelectJourney={handleRouteSelectJourney}
-                initialRouteNumber={sharedRoute ?? undefined}
-              />
+              <RouteExplorer onSelectJourney={handleRouteSelectJourney} />
             )}
           </div>
         </section>
@@ -569,9 +534,7 @@ export default function HomePage() {
 
           <div className="journey-banner"><div className="journey-banner-stops"><span className="banner-dot origin" /><strong>{submitted.from}</strong><span className="banner-line"><ArrowRight size={17} /></span><span className="banner-dot destination" /><strong>{submitted.to}</strong></div><span className="journey-banner-count"><BusFront size={16} /> {allTrips.length === 0 && transferPlans.length > 0
             ? `${transferPlans.length} ${transferPlans.length === 1 ? "route" : "routes"} with 1 change`
-            : allTrips.length === 0 && (routesWithoutTimetable.length || awaitingConfirmation)
-              ? `${routesWithoutTimetable.length || awaitingConfirmation} ${(routesWithoutTimetable.length || awaitingConfirmation) === 1 ? "route" : "routes"} · no timetable yet`
-              : `${displayedTrips.length} ${displayedTrips.length === 1 ? "bus" : "buses"} ${view === "upcoming" ? "after your time" : "today"}`}</span><button type="button" className="share-button" onClick={shareJourney}><Share2 size={14} aria-hidden="true" /> {shareStatus === "copied" ? "Link copied" : shareStatus === "failed" ? "Copy failed" : "Share"}</button></div>
+            : `${displayedTrips.length} ${displayedTrips.length === 1 ? "bus" : "buses"} ${view === "upcoming" ? "after your time" : "today"}`}</span><button type="button" className="share-button" onClick={shareJourney}><Share2 size={14} aria-hidden="true" /> {shareStatus === "copied" ? "Link copied" : shareStatus === "failed" ? "Copy failed" : "Share"}</button></div>
 
           <div className="results-controls">
             <div className="view-tabs" role="tablist" aria-label="Timetable view">
@@ -592,52 +555,12 @@ export default function HomePage() {
               ) : (
                 <div className="empty-state">
                   <span className="empty-art"><PersonStanding size={26} aria-hidden="true" /></span>
-                  <h3>{allTrips.length === 0
-                    ? transferPlans.length
-                      ? "No direct bus — but you can get there with one change"
-                      : routesWithoutTimetable.length || awaitingConfirmation
-                        ? "This route connects your stops. No timetable yet."
-                        : "No bus connects those stops yet"
-                    : view === "upcoming"
-                      ? "That's the last bus after this time"
-                      : "No buses match this filter"}</h3>
+                  <h3>{allTrips.length === 0 ? (transferPlans.length ? "No direct bus — but you can get there with one change" : "No bus connects those stops yet") : view === "upcoming" ? "That's the last bus after this time" : "No buses match this filter"}</h3>
                   <p>{allTrips.length === 0
-                    ? transferPlans.length
-                      ? "Here are the quickest ways with a single change. Tap a bus number for its stops."
-                      : routesWithoutTimetable.length
-                        ? `We do not publish first or last bus times we cannot confirm, so there are no times to show for ${submitted.from} to ${submitted.to} yet. First bus, last bus and frequency are being collected for these routes.`
-                        : awaitingConfirmation
-                          ? `${awaitingConfirmation} ${awaitingConfirmation === 1 ? "route is" : "routes are"} recorded as running between these stops, but the transport office has not confirmed its timetable yet, so we do not offer it as a journey. Try one of these routes with published times instead:`
-                          : "We have no confirmed times for buses between these two stops. Most routes in this directory are still waiting for the transport office to confirm their first bus, last bus and frequency. Try one of these routes with published times instead:"
+                    ? (transferPlans.length ? "Here are the quickest ways with a single change. Tap a bus number for its stops." : "Buses in this preview run between major hubs. Try one of these busy routes instead:")
                     : view === "upcoming"
                       ? "You can still see the full day's timetable, or pick an earlier time below."
                       : "Try selecting All buses to see every service on this route."}</p>
-                  {allTrips.length === 0 && routesWithoutTimetable.length > 0 && (
-                    <div className="transfer-list" aria-label="Routes on this corridor with no published times">
-                      <p className="pending-heading">
-                        {transferPlans.length > 0
-                          ? "Direct routes on this corridor still waiting for a timetable:"
-                          : "Routes that run between these stops:"}
-                      </p>
-                      {routesWithoutTimetable.slice(0, 6).map((route) => (
-                        <div className="transfer-card pending" key={`pending-${route.number}`}>
-                          <div className="transfer-top">
-                            <strong><BusFront size={14} aria-hidden="true" /> Bus {route.number}</strong>
-                            <span className="pending-tag">Timetable pending</span>
-                          </div>
-                          <p className="pending-terminals">
-                            {route.operator} · {route.origin} <ArrowRight size={12} aria-hidden="true" /> {route.destination}
-                          </p>
-                          <p className="pending-note">No first bus, last bus or frequency published for this route yet.</p>
-                        </div>
-                      ))}
-                      {routesWithoutTimetable.length > 6 && (
-                        <p className="pending-note">
-                          +{routesWithoutTimetable.length - 6} more {routesWithoutTimetable.length - 6 === 1 ? "route" : "routes"} on this corridor, also waiting for confirmed times.
-                        </p>
-                      )}
-                    </div>
-                  )}
                   {allTrips.length === 0 && transferPlans.length > 0 && (
                     <div className="transfer-list" aria-label="Journeys with one change">
                       {transferPlans.map((plan) => {
@@ -680,10 +603,10 @@ export default function HomePage() {
                   <li><span className="tip-icon person"><PersonStanding size={15} aria-hidden="true" /></span><p>Reach your stop a few minutes early — buses sometimes leave a little ahead of the listed time.</p></li>
                   <li><span className="tip-icon users"><Users size={15} aria-hidden="true" /></span><p>Peak hours feel crowded. Midday and late-evening buses are usually quieter.</p></li>
                   <li><span className="tip-icon access"><Accessibility size={15} aria-hidden="true" /></span><p>Seats near the front are meant for seniors and passengers with disabilities.</p></li>
-                  <li><span className="tip-icon route"><Route size={15} aria-hidden="true" /></span><p>Big hubs such as Esplanade and Sealdah link to most routes. Where a route has no published times yet, we say so instead of guessing.</p></li>
+                  <li><span className="tip-icon route"><Route size={15} aria-hidden="true" /></span><p>Big hubs such as Esplanade and Sealdah link to most routes in this preview.</p></li>
                 </ul>
               </div>
-              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory bundled with this site, and only routes with published runs are shown. <strong>Nothing is estimated</strong>: routes still waiting for the transport office are listed without times. Times are not live, do not show bus locations, and may differ from official schedules.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> {DATA_COUNTS.routesWithTimetable} routes with published times</div><div className="sidebar-fact"><span><Check size={13} /></span> {DATA_COUNTS.routesWithoutTimetable} awaiting confirmation</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata-area routes only</div></div>
+              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory bundled with this site, and some routes use <strong>sample frequencies</strong>. Times are not live, do not show bus locations, and may differ from official schedules.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata-area routes only</div></div>
               <div className="sidebar-art"><div className="sidebar-art-label">A CITY ALWAYS IN MOTION</div><div className="sidebar-path"><span /><span /><span /></div><h3>Go on, Kolkata is waiting.</h3><p>From your first stop to your last, a little planning goes a long way.</p><Navigation size={24} className="sidebar-navigation" /></div>
             </aside>
           </div>

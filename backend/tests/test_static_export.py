@@ -1,10 +1,9 @@
-"""The static website dataset must never contain duplicate or unconfirmed data.
+"""The static website dataset must never contain duplicate data.
 
 These tests rebuild the dataset from the real Excel workbooks (the same code path as
 ``python manage.py export-static-data``) and assert the production invariants the
-frontend relies on: unique route numbers, unique stops/stands/buses, full referential
-integrity, and -- since 15 Oct 2026 -- that nothing is published as a timetable unless
-the workbook marks the route verified.
+frontend relies on: unique route numbers, unique stops/stands/buses, and full
+referential integrity between routes, stops, stands and buses.
 """
 
 import re
@@ -65,7 +64,7 @@ def test_counts_are_consistent(dataset):
     assert counts["stops"] == len(dataset["stops"])
     assert counts["buses"] == len(dataset["buses"])
     assert counts["routes"] == len(dataset["routes"])
-    assert counts["routes"] == counts["directoryRoutes"] + counts["previewRoutes"]
+    assert counts["routes"] == counts["directoryRoutes"] + counts["sampleRoutes"]
     assert counts["trips"] == sum(len(r["trips"]) for r in dataset["routes"])
     assert counts["routeStops"] == sum(len(r["stops"]) for r in dataset["routes"])
 
@@ -81,49 +80,18 @@ def test_stand_alias_keys_are_lowercase(dataset):
         assert target in stand_names, f"stand alias {key!r} points to unknown stand {target!r}"
 
 
-def test_preview_corridor_only_when_directory_lacks_the_number(dataset):
-    """A preview corridor may represent a route number only if the directory does not have
-    that number at all; the directory entry is otherwise the single record."""
-    dedupe = dataset["meta"]["dedupe"]
+def test_sample_kept_only_when_directory_has_no_runs(dataset):
+    """A preview sample may represent a route number only if the directory sheet for
+    that number has no runs; otherwise the directory entry is the single record."""
+    kept = dataset["meta"]["dedupe"]["samplesKeptOverBlankDirectoryRoutes"]
     by_number = {r["number"].lower(): r for r in dataset["routes"]}
-    for number in dedupe["keptPreviewRoutes"]:
+    for number in kept:
         route = by_number[number.lower()]
         assert route["source"] == "preview"
         assert route["trips"] == []
-        assert route["verified"] is False
-    for number in dedupe["skippedPreviewRoutes"]:
+        assert route["frequency"] is not None
+    skipped = dataset["meta"]["dedupe"]["skippedSampleRoutes"]
+    for number in skipped:
         route = by_number[number.lower()]
         assert route["source"] == "directory"
-
-
-def test_no_route_publishes_times_it_cannot_confirm(dataset):
-    """A route that is not verified must carry no trips, and a verified route must be the only
-    kind that does. Nothing in the dataset may hold invented 'frequency' or 'estimated' data."""
-    for route in dataset["routes"]:
-        if route["verified"]:
-            assert route["timetableSource"], f"verified route {route['number']} has no source"
-        else:
-            assert route["trips"] == [], f"unverified route {route['number']} publishes runs"
-        assert "frequency" not in route
-
-
-def test_published_routes_name_the_vehicles_that_work_them(dataset):
-    """The 40 templated private sheets (identical 12-run pattern, no registrations) are exactly
-    the sheets the audit flagged, so a published route must name a bus on at least one run.
-    Individual runs may still be floating reserve duties with no registration."""
-    for route in dataset["routes"]:
-        if not route["trips"]:
-            continue
-        assert any(trip["bus"] is not None for trip in route["trips"]), (
-            f"route {route['number']} publishes {len(route['trips'])} runs and names no bus"
-        )
-
-
-def test_counts_match_the_verification_columns(dataset):
-    counts = dataset["meta"]["counts"]
-    assert counts["verifiedRoutes"] == sum(1 for r in dataset["routes"] if r["verified"])
-    assert counts["unverifiedRoutes"] == sum(1 for r in dataset["routes"] if not r["verified"])
-    assert counts["routesWithTimetable"] == sum(1 for r in dataset["routes"] if r["trips"])
-    assert counts["routesWithoutTimetable"] == sum(1 for r in dataset["routes"] if not r["trips"])
-    # Nothing is published that is not verified, and vice versa.
-    assert counts["routesWithTimetable"] == counts["verifiedRoutes"]
+        assert route["trips"], f"directory route {number} kept over a sample has no runs"

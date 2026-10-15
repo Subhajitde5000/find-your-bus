@@ -15,6 +15,9 @@ Every record is stored once. Duplicates are removed as follows:
 * Routes are unique by route number. When a sample route uses a number that the directory
   already has, the directory entry is kept (it has real run times and fleet data) and the
   sample route is skipped. The skipped numbers are listed under ``meta.dedupe``.
+  Exception: when the directory sheet for that number has no runs at all, the sample route
+  is kept instead and the blank directory entry is skipped, so the website never loses the
+  timetable information it already shows. The number still appears exactly once.
 * Buses are unique by normalised registration (``WB 05 6214`` == ``WB056214``).
 * Operators and service categories are unique by name.
 * Trips are unique by run code.
@@ -93,6 +96,7 @@ def operator_group(operator: str) -> str:
 class BuildReport:
     merged_stop_spellings: dict[str, list[str]] = field(default_factory=dict)
     skipped_preview_routes: list[str] = field(default_factory=list)
+    preview_kept_over_blank_directory: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
 
 
@@ -136,8 +140,20 @@ def build_dataset(
     directory_numbers = {sheet["route_number"].lower() for sheet in sheets}
     if len(directory_numbers) != len(sheets):
         raise ValueError("duplicate route number in the directory workbook")
-    kept_samples = [r for r in preview_routes if r["number"].lower() not in directory_numbers]
-    report.skipped_preview_routes = [r["number"] for r in preview_routes if r["number"].lower() in directory_numbers]
+    # The directory wins when it has real runs. A directory sheet with no runs carries no
+    # timetable at all, so a sample route with that number is kept instead and the blank
+    # directory entry is dropped below -- the number still appears exactly once.
+    directory_with_trips = {sheet["route_number"].lower() for sheet in sheets if sheet["trips"]}
+    kept_samples = [r for r in preview_routes if r["number"].lower() not in directory_with_trips]
+    report.skipped_preview_routes = [
+        r["number"] for r in preview_routes if r["number"].lower() in directory_with_trips
+    ]
+    report.preview_kept_over_blank_directory = [
+        r["number"]
+        for r in kept_samples
+        if r["number"].lower() in directory_numbers
+    ]
+    superseded_directory = {number.lower() for number in report.preview_kept_over_blank_directory}
 
     # ------------------------------------------------------------------ stops: collect spellings
     stops = _Stops()
@@ -261,6 +277,8 @@ def build_dataset(
 
     for sheet in sheets:
         number = sheet["route_number"]
+        if number.lower() in superseded_directory:
+            continue  # a sample route with real timetable info represents this number
 
         entry = index.get(number)
         if entry is None:
@@ -385,6 +403,7 @@ def build_dataset(
                 "mergedStops": merged_groups,
                 "collapsedRouteStops": collapsed,
                 "skippedSampleRoutes": report.skipped_preview_routes,
+                "samplesKeptOverBlankDirectoryRoutes": report.preview_kept_over_blank_directory,
             },
             "notes": [
                 "Directory routes carry real run times at the two terminals only; intermediate stops have no times.",

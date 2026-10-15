@@ -239,6 +239,19 @@ function normaliseRoute(raw: RawRoute): Route {
 const ROUTES: Route[] = DATA.routes.map(normaliseRoute);
 const ROUTE_BY_NUMBER = new Map(ROUTES.map((route) => [route.number.toLowerCase(), route]));
 
+/**
+ * Stop -> routes serving it, in directory order. Journey search only ever needs the
+ * routes through the boarding stop, so this keeps lookups fast as the directory grows.
+ */
+const ROUTES_BY_STOP = new Map<string, Route[]>();
+for (const route of ROUTES) {
+  for (const stop of route.stops) {
+    const serving = ROUTES_BY_STOP.get(stop);
+    if (serving) serving.push(route);
+    else ROUTES_BY_STOP.set(stop, [route]);
+  }
+}
+
 // ---------------------------------------------------------------- stops and search
 
 /** Stop names are unique in the dataset (case, spaces and punctuation already merged). */
@@ -536,7 +549,10 @@ export function findTrips(from: string, to: string): BusTrip[] {
   const end = canonicalStop(to);
   if (!start || !end || start === end) return [];
   const results: BusTrip[] = [];
-  for (const route of ROUTES) results.push(...tripsOnRoute(route, start, end));
+  // Only routes through the boarding stop can connect the pair.
+  for (const route of ROUTES_BY_STOP.get(start) ?? []) {
+    results.push(...tripsOnRoute(route, start, end));
+  }
   return results.sort((a, b) => a.departure - b.departure || a.number.localeCompare(b.number));
 }
 
@@ -549,8 +565,19 @@ export function findTrip(from: string, to: string, tripId: string): BusTrip | un
 export function findTransferPlans(from: string, to: string, afterMinute: number, limit = 5): TransferPlan[] {
   if (!from || !to || from === to) return [];
   const plans: TransferPlan[] = [];
+  // A change is only possible at a stop served from both ends; other stops can
+  // never produce a plan, so they are not searched.
+  const reachableFromStart = new Set<string>();
+  for (const route of ROUTES_BY_STOP.get(from) ?? []) {
+    for (const stop of route.stops) reachableFromStart.add(stop);
+  }
+  const reachableToEnd = new Set<string>();
+  for (const route of ROUTES_BY_STOP.get(to) ?? []) {
+    for (const stop of route.stops) reachableToEnd.add(stop);
+  }
   for (const stop of STOPS) {
     if (stop === from || stop === to) continue;
+    if (!reachableFromStart.has(stop) || !reachableToEnd.has(stop)) continue;
     const legOne = findTrips(from, stop).filter((trip) => trip.departure >= afterMinute);
     if (!legOne.length) continue;
     const legTwo = findTrips(stop, to);
@@ -685,6 +712,7 @@ export const POPULAR_JOURNEYS: { from: string; to: string }[] = [
 ];
 
 export const DATA_COUNTS = {
+  stands: DATA.meta.counts.stands,
   stops: DATA.meta.counts.stops,
   routes: DATA.meta.counts.routes,
   trips: DATA.meta.counts.trips,

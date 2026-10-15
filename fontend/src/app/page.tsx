@@ -381,7 +381,7 @@ export default function HomePage() {
               title="Timetables are bundled with this site. They are not live tracking."
             >
               <span className="city-pulse" aria-hidden="true" />
-              <span>{DATA_COUNTS.stops} stops · {DATA_COUNTS.routes} routes</span>
+              <span>{DATA_COUNTS.routes} routes · {DATA_COUNTS.stops} stops · {DATA_COUNTS.stands} stands</span>
             </span>
             <span className="city-chip"><span className="city-pulse" /><span>Kolkata, WB</span></span>
             <button

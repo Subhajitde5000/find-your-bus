@@ -46,21 +46,25 @@ then rebuild the site.
 
 | Key | Contents |
 |---|---|
-| `stands` | 80 depots, terminals and route stands from `Kolkata_Bus_Stands_v2.xlsx` |
-| `stops` | 161 unique stop names, each optionally linked to a stand |
+| `stands` | 193 depots, terminals and route stands from `Kolkata_Bus_Stands_v2.xlsx` |
+| `stops` | 398 unique stop names, each optionally linked to a stand |
 | `buses` | 110 vehicle registration numbers |
-| `routes` | 95 routes: 87 from the directory, 8 sample routes with frequencies |
+| `routes` | 468 routes: 460 from the directory, 8 sample routes with frequencies |
 | `meta` | counts, and a `dedupe` record of everything that was merged or skipped |
 
 De-duplication rules applied by the exporter (all recorded under `meta.dedupe`):
 
 - **Routes** are unique by number. The 20 sample routes that used to live in
-  `timetables.ts` were merged in; the 12 whose numbers the directory already uses are dropped
-  (the directory entry has real run times), and the other 8 are kept.
+  `timetables.ts` were merged in; the 12 whose numbers the directory already covers with
+  real run times are dropped in favour of the directory entry, and the other 8 are kept.
+  A directory sheet with no runs at all never displaces a sample route, so the site keeps
+  the timetable information it already had (listed under
+  `samplesKeptOverBlankDirectoryRoutes`).
 - **Stops** are unique by name ignoring case, spaces and punctuation, so `E.M. Bypass` and
   `EM Bypass` become one stop. Names that resolve to the same bus stand also become one stop
   (`Esplanade` + `Esplanade Curzon Park` → `Esplanade Curzon Park`). A route never lists the same
-  stop twice; `NS2` is the only route where a stop had to be collapsed.
+  stop twice; the routes where a stop had to be collapsed are listed under
+  `collapsedRouteStops`.
 - **Buses** are unique by normalised registration (`WB 05 6214` == `WB056214`).
 - **Trips** are unique by run code; **operators** and **service categories** by name.
 

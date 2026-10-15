@@ -1232,28 +1232,3 @@ html[data-theme="dark"] .timetable-table tr:hover td {
   }
 }
 
-
-/* Timetable-pending marker: a route that is listed but has no confirmed times yet. */
-.pending-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-left: 8px;
-  padding: 3px 8px;
-  border-radius: 20px;
-  border: 1px dashed var(--line);
-  background: var(--field);
-  color: var(--soft-text);
-  font-size: 10.5px;
-  font-weight: 800;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.suggestion-route-operator .pending-tag { margin-left: 7px; }
-.meta-pill.pending { border-style: dashed; color: var(--soft-text); font-weight: 700; }
-.transfer-card.pending .transfer-top { margin-bottom: 5px; }
-.transfer-card.pending .transfer-top span { background: var(--field); color: var(--soft-text); border: 1px dashed var(--line); }
-.pending-terminals { margin: 0 0 6px; color: var(--soft-text); font-size: 13px; font-weight: 600; }
-.pending-note { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.6; }
-.pending-heading { margin: 0 0 2px; color: var(--heading); font-size: 13px; font-weight: 700; }

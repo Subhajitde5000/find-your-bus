@@ -61,12 +61,7 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
   const originName = route?.origin ?? "Origin";
   const destinationName = route?.destination ?? "Destination";
   const fleetInfo = route?.fleetText ?? (route?.fleetCount ? `${route.fleetCount} buses` : null);
-  // A route the transport office has not confirmed yet: shown so people can look it up, but
-  // never with times, and never in journey search.
-  const isPending = route ? !route.verified : false;
-  const hasPublishedTimes = Boolean(
-    route?.timetableSource && !route.timetableSource.toLowerCase().startsWith("none"),
-  );
+  const isSample = route?.source === "preview";
   const viaText = route && route.via.length ? route.via.join(", ") : null;
 
   // Stops list for display
@@ -148,10 +143,7 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
                       <ArrowRight size={13} />
                       <strong>{item.destination}</strong>
                     </div>
-                    <span className="suggestion-route-operator">
-                      {item.operator}
-                      {!item.verified && <span className="pending-tag">Timetable pending</span>}
-                    </span>
+                    <span className="suggestion-route-operator">{item.operator}</span>
                   </div>
                   {item.number === selectedRouteNumber && <Check size={16} className="selected-check" />}
                 </button>
@@ -253,15 +245,12 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
                 <span>Via: {viaText}</span>
               </span>
             )}
-            {activeTrips.length > 0 ? (
+            {activeTrips.length > 0 && (
               <span className="meta-pill highlight">
                 <Clock3 size={14} />
-                <span>{activeTrips.length} Scheduled Departures</span>
-              </span>
-            ) : (
-              <span className="meta-pill pending">
-                <Clock3 size={14} />
-                <span>{isPending ? "Timetable pending confirmation" : "No timetable published"}</span>
+                <span>
+                  {activeTrips.length} {isSample ? "Sample" : "Daily Scheduled"} Departures
+                </span>
               </span>
             )}
           </div>
@@ -340,9 +329,9 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
                 <div>
                   <h4>{direction === "outbound" ? originName : destinationName} Departures</h4>
                   <p>
-                    {hasPublishedTimes
-                      ? `Source: ${route?.timetableSource}. Not live.`
-                      : "No published times for this route yet. Nothing here is estimated."}
+                    {isSample
+                      ? "Sample departures for this route. Not an official timetable."
+                      : "Times from the Kolkata bus directory. Not live."}
                   </p>
                 </div>
                 <div className="direction-badge">
@@ -391,12 +380,8 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
               ) : (
                 <div className="timetable-empty">
                   <Clock3 size={32} />
-                  <h5>{isPending ? "Timetable pending" : "No departures listed for this direction"}</h5>
-                  <p>
-                    {isPending
-                      ? "This route is on the list, but the transport office has not confirmed its first bus, last bus and frequency yet, so we show no times."
-                      : "The route sheet has no run times for this direction."}
-                  </p>
+                  <h5>No departures listed for this direction</h5>
+                  <p>The directory has no run times for this route in this direction.</p>
                 </div>
               )}
             </div>

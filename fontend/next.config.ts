@@ -1,16 +1,10 @@
 import type { NextConfig } from "next";
 
-const backendUrl = process.env.BACKEND_URL || "http://127.0.0.1:8000";
-
+// The site is exported as static files (`npm run build` writes ./out). It has no server and
+// makes no API calls: timetable data is bundled from src/data/kolkata-bus-data.json.
 const nextConfig: NextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: `${backendUrl}/api/:path*`,
-      },
-    ];
-  },
+  output: "export",
+  trailingSlash: false,
 };
 
 export default nextConfig;

@@ -17,6 +17,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     Index,
+    Boolean,
     Integer,
     Numeric,
     String,
@@ -96,8 +97,15 @@ class BusStand(TimestampMixin, Base):
     local_name: Mapped[str | None] = mapped_column(String(200))
     node_category: Mapped[str] = mapped_column(String(80), nullable=False)
     operator_division: Mapped[str | None] = mapped_column(String(200))
-    address: Mapped[str] = mapped_column(Text, nullable=False)
+    #: Blank when no published source gives an address. This is a legitimate state, not an error:
+    #: the workbook leaves it empty rather than inventing one, and such a stand carries
+    #: ``verified = False`` plus a ``verification_note`` explaining what is missing.
+    address: Mapped[str | None] = mapped_column(Text)
     functional_role: Mapped[str | None] = mapped_column(Text)
+    #: False = the row is incomplete (no address and/or no functional role) and is waiting for
+    #: the transport office. Unverified stands are still listed, but never with invented details.
+    verification_note: Mapped[str | None] = mapped_column(Text)
+    verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default="false")
     # Not in the source spreadsheets yet; filled in later (geocoding / manual entry).
     latitude: Mapped[float | None] = mapped_column(Numeric(9, 6))
     longitude: Mapped[float | None] = mapped_column(Numeric(9, 6))
@@ -160,6 +168,11 @@ class Route(TimestampMixin, Base):
     fleet_allocation_text: Mapped[str | None] = mapped_column(String(200))
     documented_fleet_count: Mapped[int | None] = mapped_column(Integer)
     source_sheet: Mapped[str | None] = mapped_column(String(80))
+    #: Where the timetable (first/last bus, frequency, runs) came from, as written in the workbook.
+    timetable_source: Mapped[str | None] = mapped_column(Text)
+    #: False = the transport office has not confirmed this route yet. Unverified routes are kept
+    #: for reference but never appear in journey search results.
+    verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False, server_default="false")
 
     operator: Mapped[Operator] = relationship(back_populates="routes", lazy="selectin")
     service_category: Mapped[ServiceCategory] = relationship(

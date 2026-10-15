@@ -1,11 +1,5 @@
 import { BusFront, Clock3, CornerDownRight, ArrowUpRight } from "lucide-react";
-import { formatClock, formatDuration, type BusTrip, type TripKind } from "@/lib/timetables";
-
-const KIND_LABEL: Record<TripKind, string> = {
-  scheduled: "Scheduled",
-  sample: "Sample",
-  estimated: "Estimated",
-};
+import { formatClock, formatDuration, type BusTrip } from "@/lib/timetables";
 
 export function TripCard({ trip, onOpen, firstUpcoming }: {
   trip: BusTrip;
@@ -53,7 +47,13 @@ export function TripCard({ trip, onOpen, firstUpcoming }: {
       </button>
       <div className="trip-bottom">
         <span className="via-label"><CornerDownRight size={15} aria-hidden="true" /> Via {via}</span>
-        {firstUpcoming ? <span className="next-label"><span /> Next departure</span> : <span className="scheduled-label"><Clock3 size={13} /> {KIND_LABEL[trip.kind]}</span>}
+        {firstUpcoming ? (
+          <span className="next-label"><span /> Next departure</span>
+        ) : (
+          <span className="scheduled-label" title="Published run from the Kolkata bus directory, not live tracking.">
+            <Clock3 size={13} /> Scheduled
+          </span>
+        )}
         <span className="click-hint">Click for full details</span>
       </div>
     </article>

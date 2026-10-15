@@ -1,3 +1,34 @@
+"""
+API expectations are derived from the source workbooks rather than hard-coded, so the tests keep
+working as the directory grows. Stand and route counts below are read from the same files the
+importer reads.
+"""
+
+from pathlib import Path
+
+import openpyxl
+
+from app.importer import read_master_index, read_route_sheet, read_stands
+
+DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
+ROUTES_XLSX = DATA_DIR / "Kolkata_Comprehensive_Bus_Routes_and_Fleet_Directory.xlsx"
+
+
+def _stands():
+    return read_stands(DATA_DIR / "Kolkata_Bus_Stands_v2.xlsx")
+
+
+def _routes():
+    wb = openpyxl.load_workbook(ROUTES_XLSX, data_only=True)
+    return [read_route_sheet(ws) for ws in wb.worksheets[1:]], read_master_index(wb)
+
+
+def _published_routes():
+    """Numbers the workbook marks Verified = yes, i.e. the only ones with published times."""
+    sheets, index = _routes()
+    return {s["route_number"] for s in sheets if index.get(s["route_number"], {}).get("verified")}
+
+
 def test_health(client):
     r = client.get("/api/v1/health")
     assert r.status_code == 200
@@ -5,24 +36,29 @@ def test_health(client):
 
 
 def test_lookup_lists(client):
+    """Operators and categories are exactly the distinct values on the route sheets, and the
+    id/name pairs are stable across calls."""
+    sheets, _index = _routes()
     ops = client.get("/api/v1/operators").json()
     cats = client.get("/api/v1/service-categories").json()
-    assert len(ops) == 8
-    assert len(cats) == 10
+    assert {o["name"] for o in ops} == {s["operator"] for s in sheets}
+    assert {c["name"] for c in cats} == {s["category"] for s in sheets}
+    assert all(isinstance(o["id"], int) and o["name"] for o in ops)
+    assert ops == client.get("/api/v1/operators").json()
 
 
 def test_stands_list_and_filter(client):
+    stands = _stands()
     body = client.get("/api/v1/stands", params={"limit": 200}).json()
-    assert body["total"] == 80
-    assert len(body["items"]) == 80
-    terminals = client.get(
-        "/api/v1/stands", params={"category": "Major Passenger Terminal", "limit": 200}
-    ).json()
-    assert terminals["total"] == 27
-    depots = client.get("/api/v1/stands", params={"category": "Operational Maintenance Depot"}).json()
-    nodes = client.get("/api/v1/stands", params={"category": "Route Stand & Transit Node"}).json()
-    assert depots["total"] == 28
-    assert nodes["total"] == 25
+    assert body["total"] == len(stands)
+    for category in (
+        "Major Passenger Terminal",
+        "Operational Maintenance Depot",
+        "Route Stand & Transit Node",
+    ):
+        expected = sum(1 for s in stands if s["node_category"] == category)
+        got = client.get("/api/v1/stands", params={"category": category, "limit": 1}).json()
+        assert got["total"] == expected, category
     search = client.get("/api/v1/stands", params={"q": "Howrah"}).json()
     assert search["total"] >= 3
 
@@ -45,11 +81,59 @@ def test_stand_limit_validation(client):
     assert client.get("/api/v1/stands", params={"limit": 500}).status_code == 422
 
 
+def _all_route_numbers(client):
+    """Walk every page of /routes (the API caps a page at 200)."""
+    numbers, offset = set(), 0
+    while True:
+        body = client.get("/api/v1/routes", params={"limit": 200, "offset": offset}).json()
+        numbers.update(r["route_number"] for r in body["items"])
+        offset += body["limit"]
+        if offset >= body["total"]:
+            return body["total"], numbers
+
+
 def test_routes_list(client):
-    body = client.get("/api/v1/routes", params={"limit": 200}).json()
-    assert body["total"] == 87
-    numbers = {r["route_number"] for r in body["items"]}
+    sheets, _index = _routes()
+    total, numbers = _all_route_numbers(client)
+    assert total == len(sheets)
+    assert numbers == {s["route_number"] for s in sheets}
     assert {"S12", "AC1", "235", "LD_Digha", "MB_Howrah_Garia"} <= numbers
+
+
+def test_route_list_pages_without_gaps_or_repeats(client):
+    """Paging must not lose or duplicate a route: 200 + 200 + rest covers the directory exactly."""
+    total, numbers = _all_route_numbers(client)
+    first = client.get("/api/v1/routes", params={"limit": 200, "offset": 0}).json()
+    second = client.get("/api/v1/routes", params={"limit": 200, "offset": 200}).json()
+    assert len(first["items"]) == 200
+    assert len(second["items"]) == min(200, total - 200)
+    first_numbers = [r["route_number"] for r in first["items"]]
+    assert len(first_numbers) == len(set(first_numbers))
+    assert first_numbers == sorted(first_numbers)
+    assert not set(first_numbers) & {r["route_number"] for r in second["items"]}
+    assert len(numbers) == total
+
+
+def test_route_list_can_be_limited_to_verified_routes(client):
+    published = _published_routes()
+    total = client.get("/api/v1/routes", params={"limit": 1}).json()["total"]
+    verified = client.get("/api/v1/routes", params={"verified": True, "limit": 200}).json()
+    pending = client.get("/api/v1/routes", params={"verified": False, "limit": 200}).json()
+    assert verified["total"] == len(published)
+    assert pending["total"] == total - len(published)
+    assert verified["total"] + pending["total"] == total
+    assert all(r["verified"] for r in verified["items"])
+    assert all(not r["verified"] for r in pending["items"])
+
+
+def test_route_detail_records_the_timetable_source(client):
+    body = client.get("/api/v1/routes/S12").json()
+    assert body["verified"] is True
+    assert "Route_S12" in body["timetable_source"]
+    pending = client.get("/api/v1/routes/45B").json()
+    assert pending["verified"] is False
+    assert pending["trip_count"] == 0
+    assert pending["timetable_source"].lower().startswith("none")
 
 
 def test_route_detail_stops_in_order(client):
@@ -160,6 +244,38 @@ def test_journey_with_after_filter(client):
     s12 = [o for o in body["options"] if o["route_number"] == "S12"][0]
     assert all(d["departure_time"] >= "12:00:00" for d in s12["departures"])
     assert len(s12["departures"]) > 0
+
+
+def _route_stop_ids(client, route_number):
+    detail = client.get(f"/api/v1/routes/{route_number}").json()
+    stops = sorted(detail["stops"], key=lambda s: s["sequence"])
+    return [s["stop"]["id"] for s in stops]
+
+
+def test_journey_search_never_offers_an_unverified_route(client):
+    """Routes waiting for the transport office must not appear, even when they serve both stops.
+    Searching S12's own terminals returns every sheet on that corridor, and only the verified
+    ones are allowed back."""
+    published = _published_routes()
+    stop_ids = _route_stop_ids(client, "S12")
+    options = client.get(
+        "/api/v1/journeys/search",
+        params={"from_stop_id": stop_ids[0], "to_stop_id": stop_ids[-1]},
+    ).json()["options"]
+    returned = {option["route_number"] for option in options}
+    assert "S12" in returned
+    assert returned <= published, f"unverified routes leaked into the search: {returned - published}"
+
+
+def test_journey_search_of_an_unverified_corridor_has_no_options(client):
+    """Route 45B has no confirmed times and nothing else serves Salt Lake Stadium -> Garia 6 No.
+    Stand, so the search must return nothing rather than a made-up timetable."""
+    stop_ids = _route_stop_ids(client, "45B")
+    body = client.get(
+        "/api/v1/journeys/search",
+        params={"from_stop_id": stop_ids[0], "to_stop_id": stop_ids[-1]},
+    ).json()
+    assert body["options"] == []
 
 
 def test_journey_intermediate_stop_has_no_timetable(client):

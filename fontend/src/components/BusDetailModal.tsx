@@ -5,13 +5,10 @@ import {
   Accessibility, Armchair, ArrowRight, BusFront, Flag, Info, PersonStanding, Route, Snowflake,
   Sunrise, Sunset, Timer, Users, Wind, X,
 } from "lucide-react";
-import { formatClock, formatDuration, type BusTrip, type TripKind } from "@/lib/timetables";
+import { formatClock, formatDuration, type BusTrip } from "@/lib/timetables";
 
-const NOTE_BY_KIND: Record<TripKind, string> = {
-  scheduled: "Times from the Kolkata bus directory. Not live; confirm with the operator before you travel.",
-  sample: "Sample frequency for this route. Not an official timetable.",
-  estimated: "Estimated departures: the directory has no published times for this stop pair.",
-};
+const SCHEDULE_NOTE =
+  "Times as printed in the Kolkata bus directory for this route. Not live tracking; confirm with the operator before you travel.";
 
 export function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClose: () => void }) {
   useEffect(() => {
@@ -34,7 +31,6 @@ export function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClos
   const arrival = formatClock(trip.arrival);
   const first = formatClock(trip.serviceStart);
   const last = formatClock(trip.serviceEnd);
-  const gapLabel = trip.kind === "scheduled" ? "Typical gap" : "Runs every";
 
   return (
     <div className="modal-backdrop" role="presentation" onClick={onClose}>
@@ -66,7 +62,7 @@ export function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClos
           <div><span><PersonStanding size={13} aria-hidden="true" /> Departs {trip.boarding}</span><strong>{departure.time} <em>{departure.period}</em></strong></div>
           <div><span><Flag size={13} aria-hidden="true" /> Arrives {trip.alighting}</span><strong>{arrival.time} <em>{arrival.period}</em></strong></div>
           <div><span><Timer size={13} aria-hidden="true" /> Journey time</span><strong>{formatDuration(trip.duration)}</strong></div>
-          <div><span><BusFront size={13} aria-hidden="true" /> {gapLabel}</span><strong>{trip.headway ? `${trip.headway} min` : "—"}</strong></div>
+          <div><span><BusFront size={13} aria-hidden="true" /> Typical gap</span><strong>{trip.headway ? `${trip.headway} min` : "—"}</strong></div>
           <div><span><Sunrise size={13} aria-hidden="true" /> First bus</span><strong>{first.time} <em>{first.period}</em></strong></div>
           <div><span><Sunset size={13} aria-hidden="true" /> Last bus</span><strong>{last.time} <em>{last.period}</em></strong></div>
         </div>
@@ -108,7 +104,7 @@ export function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClos
           </div>
         </div>
 
-        <div className="modal-note"><Info size={14} /> {NOTE_BY_KIND[trip.kind]}</div>
+        <div className="modal-note"><Info size={14} /> {SCHEDULE_NOTE}</div>
       </div>
     </div>
   );

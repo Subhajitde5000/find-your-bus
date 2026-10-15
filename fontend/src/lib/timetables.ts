@@ -7,16 +7,14 @@ import dataset from "@/data/kolkata-bus-data.json";
  * which is generated from the Excel directories by `python manage.py export-static-data`.
  * There are no network calls: all lookups run in the browser on that bundled data.
  *
- * Three kinds of trip are produced:
- * - "scheduled": a run from the directory with published times at the two terminals.
- * - "sample":    a route from the preview list, with illustrative first/last/every frequencies.
- * - "estimated": a directory route between two stops that are not both terminals. The
- *                directory has no times for those stops, so departures are estimated.
+ * Every departure the site shows is a published run of a verified route. There are deliberately
+ * no estimated, sampled or interpolated times: a route whose sheet has no times, or that the
+ * transport office has not confirmed yet, is listed as "no timetable yet" and never invents one.
+ * Routes with `verified: false` are hidden from journey search entirely.
  */
 
 export type ServiceType = "AC" | "Non-AC";
 export type Direction = "outbound" | "return";
-export type TripKind = "scheduled" | "sample" | "estimated";
 
 export interface RouteStop {
   name: string;
@@ -31,7 +29,6 @@ export interface BusTrip {
   number: string;
   operator: string;
   type: ServiceType;
-  kind: TripKind;
   terminusFrom: string;
   terminusTo: string;
   boarding: string;
@@ -73,6 +70,8 @@ export interface RouteSummary {
   origin: string;
   destination: string;
   source: "directory" | "preview";
+  /** false = still waiting for the transport office: listed, but with no times */
+  verified: boolean;
 }
 
 export interface RouteDetail extends RouteSummary {
@@ -80,6 +79,18 @@ export interface RouteDetail extends RouteSummary {
   via: string[];
   fleetText: string | null;
   fleetCount: number | null;
+  /** where the published times came from, or null when the route has none */
+  timetableSource: string | null;
+}
+
+/** A route that physically serves both stops but publishes no times for them. */
+export interface ConnectingRoute {
+  number: string;
+  operator: string;
+  type: ServiceType;
+  origin: string;
+  destination: string;
+  verified: boolean;
 }
 
 export interface RouteDeparture {
@@ -101,14 +112,6 @@ interface RawTrip {
   notes: string | null;
 }
 
-interface RawFrequency {
-  first: string;
-  last: string;
-  every: number;
-  reverseOffset: number;
-  legs: number[];
-}
-
 interface RawRoute {
   number: string;
   source: "directory" | "preview";
@@ -119,8 +122,9 @@ interface RawRoute {
   destination: string;
   stops: string[];
   fleet: { text: string | null; count: number | null } | null;
+  verified: boolean;
+  timetableSource: string | null;
   trips: RawTrip[];
-  frequency?: RawFrequency;
 }
 
 interface RawDataset {
@@ -154,7 +158,7 @@ export function formatClock(totalMinutes: number): { time: string; period: strin
   };
 }
 
-/** 24-hour "HH:MM" for inputs and sample data. */
+/** 24-hour "HH:MM" for inputs and timetables. */
 export function toClock24(totalMinutes: number): string {
   const minutesInDay = ((totalMinutes % 1440) + 1440) % 1440;
   return `${String(Math.floor(minutesInDay / 60)).padStart(2, "0")}:${String(minutesInDay % 60).padStart(2, "0")}`;
@@ -187,9 +191,10 @@ interface Route {
   stops: string[];
   fleetText: string | null;
   fleetCount: number | null;
+  verified: boolean;
+  timetableSource: string | null;
   scheduled: ScheduledRun[];
   headway: Record<Direction, number | null>;
-  frequency: { first: number; last: number; every: number; reverseOffset: number; legs: number[] } | null;
 }
 
 /** Average minutes between the first and last run; null with fewer than two runs. */
@@ -219,20 +224,13 @@ function normaliseRoute(raw: RawRoute): Route {
     stops: raw.stops,
     fleetText: raw.fleet?.text ?? null,
     fleetCount: raw.fleet?.count ?? null,
+    verified: raw.verified,
+    timetableSource: raw.timetableSource ?? null,
     scheduled,
     headway: {
       outbound: typicalHeadway(scheduled.map((run) => run.out[0])),
       return: typicalHeadway(scheduled.map((run) => run.ret[0])),
     },
-    frequency: raw.frequency
-      ? {
-          first: parseClock(raw.frequency.first),
-          last: parseClock(raw.frequency.last),
-          every: raw.frequency.every,
-          reverseOffset: raw.frequency.reverseOffset,
-          legs: raw.frequency.legs,
-        }
-      : null,
   };
 }
 
@@ -394,10 +392,6 @@ export function resolveStop(input: string): string | undefined {
 
 const DIRECTIONS: Direction[] = ["outbound", "return"];
 const MIN_CHANGE_MINUTES = 4;
-const ESTIMATE_START = 6 * 60;
-const ESTIMATE_END = 21 * 60;
-const ESTIMATE_EVERY = 25;
-const ESTIMATE_DURATION = 45;
 
 function stopsInDirection(route: Route, direction: Direction): string[] {
   return direction === "outbound" ? route.stops : [...route.stops].reverse();
@@ -423,7 +417,6 @@ function scheduledTrips(route: Route, direction: Direction, stops: string[], out
       number: route.number,
       operator: route.operator,
       type: route.type,
-      kind: "scheduled",
       terminusFrom: stops[0],
       terminusTo: stops[last],
       boarding: stops[0],
@@ -447,83 +440,6 @@ function scheduledTrips(route: Route, direction: Direction, stops: string[], out
   }
 }
 
-function sampleTrips(route: Route, direction: Direction, stops: string[], from: number, to: number, out: BusTrip[]) {
-  const frequency = route.frequency;
-  if (!frequency) return;
-  const offset = direction === "return" ? frequency.reverseOffset : 0;
-  const legs = direction === "return" ? [...frequency.legs].reverse() : frequency.legs;
-  const cumulative = [0];
-  for (const leg of legs) cumulative.push(cumulative[cumulative.length - 1] + leg);
-
-  const first = frequency.first + offset;
-  const last = frequency.last + offset;
-  for (let start = first; start <= last; start += frequency.every) {
-    const departure = start + cumulative[from];
-    const arrival = start + cumulative[to];
-    if (departure >= 1440) continue;
-    out.push({
-      id: `${route.number}-${direction}-${start}`,
-      number: route.number,
-      operator: route.operator,
-      type: route.type,
-      kind: "sample",
-      terminusFrom: stops[0],
-      terminusTo: stops[stops.length - 1],
-      boarding: stops[from],
-      alighting: stops[to],
-      departure,
-      arrival,
-      duration: arrival - departure,
-      via: stops.slice(from + 1, to),
-      fullStops: stops.map((name, index) => ({
-        name,
-        minutes: start + cumulative[index],
-        journey: index >= from && index <= to,
-      })),
-      headway: frequency.every,
-      serviceStart: first,
-      serviceEnd: last,
-      runCode: null,
-      bus: null,
-      notes: null,
-    });
-  }
-}
-
-function estimatedTrips(route: Route, direction: Direction, stops: string[], from: number, to: number, out: BusTrip[]) {
-  const last = stops.length - 1;
-  for (let start = ESTIMATE_START; start <= ESTIMATE_END; start += ESTIMATE_EVERY) {
-    const departure = start;
-    const arrival = start + ESTIMATE_DURATION;
-    out.push({
-      id: `est-${route.number}-${direction}-${start}-${from}-${to}`,
-      number: route.number,
-      operator: route.operator,
-      type: route.type,
-      kind: "estimated",
-      terminusFrom: stops[0],
-      terminusTo: stops[last],
-      boarding: stops[from],
-      alighting: stops[to],
-      departure,
-      arrival,
-      duration: ESTIMATE_DURATION,
-      via: stops.slice(from + 1, to),
-      fullStops: stops.map((name, index) => ({
-        name,
-        minutes: index === from ? departure : index === to ? arrival : null,
-        journey: index >= from && index <= to,
-      })),
-      headway: ESTIMATE_EVERY,
-      serviceStart: ESTIMATE_START,
-      serviceEnd: ESTIMATE_END,
-      runCode: null,
-      bus: null,
-      notes: null,
-    });
-  }
-}
-
 function tripsOnRoute(route: Route, from: string, to: string): BusTrip[] {
   const found: BusTrip[] = [];
   for (const direction of DIRECTIONS) {
@@ -531,29 +447,83 @@ function tripsOnRoute(route: Route, from: string, to: string): BusTrip[] {
     const boarding = stops.indexOf(from);
     const alighting = stops.indexOf(to);
     if (boarding < 0 || alighting <= boarding) continue;
-
+    // Times are only published at a route's two terminals, so only a terminal-to-terminal
+    // journey has a timetable. Every other pair on the same route is reported as "no
+    // timetable yet" instead of being given a made-up departure time.
     const isTerminalPair = boarding === 0 && alighting === stops.length - 1;
-    if (route.source === "directory") {
-      if (isTerminalPair && route.scheduled.length > 0) scheduledTrips(route, direction, stops, found);
-      else estimatedTrips(route, direction, stops, boarding, alighting, found);
-    } else {
-      sampleTrips(route, direction, stops, boarding, alighting, found);
-    }
+    if (!isTerminalPair) continue;
+    scheduledTrips(route, direction, stops, found);
   }
   return found;
 }
 
-/** Every bus that passes both stops, in travel order, sorted by departure. */
+/** Every published bus that passes both stops, in travel order, sorted by departure. */
 export function findTrips(from: string, to: string): BusTrip[] {
   const start = canonicalStop(from);
   const end = canonicalStop(to);
   if (!start || !end || start === end) return [];
   const results: BusTrip[] = [];
-  // Only routes through the boarding stop can connect the pair.
+  // Only routes through the boarding stop can connect the pair. Unverified routes are never
+  // offered as journey options.
   for (const route of ROUTES_BY_STOP.get(start) ?? []) {
+    if (!route.verified) continue;
     results.push(...tripsOnRoute(route, start, end));
   }
   return results.sort((a, b) => a.departure - b.departure || a.number.localeCompare(b.number));
+}
+
+/**
+ * Confirmed routes that pass both stops but publish no times for them, so the site can say
+ * "this route connects your stops — no timetable yet" instead of showing invented times.
+ */
+export function findRoutesWithoutTimetable(from: string, to: string): ConnectingRoute[] {
+  const start = canonicalStop(from);
+  const end = canonicalStop(to);
+  if (!start || !end || start === end) return [];
+  const found: ConnectingRoute[] = [];
+  for (const route of ROUTES_BY_STOP.get(start) ?? []) {
+    if (!route.verified || route.scheduled.length === 0) continue;
+    const connects = DIRECTIONS.some((direction) => {
+      const stops = stopsInDirection(route, direction);
+      const boarding = stops.indexOf(start);
+      const alighting = stops.indexOf(end);
+      return boarding >= 0 && alighting > boarding;
+    });
+    if (!connects) continue;
+    if (tripsOnRoute(route, start, end).length) continue;
+    found.push({
+      number: route.number,
+      operator: route.operator,
+      type: route.type,
+      origin: route.origin,
+      destination: route.destination,
+      verified: route.verified,
+    });
+  }
+  return found.sort((a, b) => a.number.localeCompare(b.number));
+}
+
+/**
+ * How many routes serve both stops in order but are still waiting for the transport office.
+ * Journey search never lists them (unconfirmed corridors are not offered as a journey), but the
+ * empty state says that they exist instead of pretending no route runs there.
+ */
+export function countUnconfirmedRoutes(from: string, to: string): number {
+  const start = canonicalStop(from);
+  const end = canonicalStop(to);
+  if (!start || !end || start === end) return 0;
+  let count = 0;
+  for (const route of ROUTES_BY_STOP.get(start) ?? []) {
+    if (route.verified) continue;
+    const connects = DIRECTIONS.some((direction) => {
+      const stops = stopsInDirection(route, direction);
+      const boarding = stops.indexOf(start);
+      const alighting = stops.indexOf(end);
+      return boarding >= 0 && alighting > boarding;
+    });
+    if (connects) count += 1;
+  }
+  return count;
 }
 
 /** Looks a saved bus back up from a previously viewed journey. */
@@ -567,12 +537,15 @@ export function findTransferPlans(from: string, to: string, afterMinute: number,
   const plans: TransferPlan[] = [];
   // A change is only possible at a stop served from both ends; other stops can
   // never produce a plan, so they are not searched.
+  // Only verified routes can carry a leg of the plan, so only they widen the reachable sets.
   const reachableFromStart = new Set<string>();
   for (const route of ROUTES_BY_STOP.get(from) ?? []) {
+    if (!route.verified) continue;
     for (const stop of route.stops) reachableFromStart.add(stop);
   }
   const reachableToEnd = new Set<string>();
   for (const route of ROUTES_BY_STOP.get(to) ?? []) {
+    if (!route.verified) continue;
     for (const stop of route.stops) reachableToEnd.add(stop);
   }
   for (const stop of STOPS) {
@@ -625,6 +598,7 @@ function toSummary(route: Route): RouteSummary {
     origin: route.origin,
     destination: route.destination,
     source: route.source,
+    verified: route.verified,
   };
 }
 
@@ -661,6 +635,7 @@ export function getRoute(routeNumber: string): RouteDetail | undefined {
     via: route.stops.slice(1, -1),
     fleetText: route.fleetText,
     fleetCount: route.fleetCount,
+    timetableSource: route.timetableSource,
   };
 }
 
@@ -669,51 +644,47 @@ export function getRouteDepartures(routeNumber: string, direction: Direction): R
   const route = ROUTE_BY_NUMBER.get(routeNumber.trim().toLowerCase());
   if (!route) return [];
 
-  if (route.source === "directory") {
-    return route.scheduled
-      .map((run) => {
-        const [departure, rawArrival] = direction === "outbound" ? run.out : run.ret;
-        return {
-          id: `${run.run}-${direction}`,
-          runCode: run.run,
-          bus: run.bus,
-          departure,
-          arrival: arrivalAfter(departure, rawArrival),
-          notes: run.notes,
-        };
-      })
-      .sort((a, b) => a.departure - b.departure);
-  }
-
-  const frequency = route.frequency;
-  if (!frequency) return [];
-  const offset = direction === "return" ? frequency.reverseOffset : 0;
-  const travel = frequency.legs.reduce((sum, leg) => sum + leg, 0);
-  const departures: RouteDeparture[] = [];
-  for (let start = frequency.first + offset; start <= frequency.last + offset; start += frequency.every) {
-    departures.push({
-      id: `${route.number}-${direction}-${start}`,
-      runCode: null,
-      bus: null,
-      departure: start,
-      arrival: start + travel,
-      notes: null,
-    });
-  }
-  return departures;
+  // Only runs printed in the workbook are listed. A route with no published runs returns an
+  // empty list, and the UI says so rather than filling the table with invented times.
+  return route.scheduled
+    .map((run) => {
+      const [departure, rawArrival] = direction === "outbound" ? run.out : run.ret;
+      return {
+        id: `${run.run}-${direction}`,
+        runCode: run.run,
+        bus: run.bus,
+        departure,
+        arrival: arrivalAfter(departure, rawArrival),
+        notes: run.notes,
+      };
+    })
+    .sort((a, b) => a.departure - b.departure);
 }
 
 // ---------------------------------------------------------------- presentation helpers
 
+/**
+ * Example journeys for the empty state. Each one is a terminal-to-terminal pair on a route with
+ * published times, so the suggestion always leads somewhere real.
+ */
 export const POPULAR_JOURNEYS: { from: string; to: string }[] = [
-  { from: "Esplanade", to: "Garia" },
-  { from: "Howrah Station", to: "Salt Lake Sector V" },
-  { from: "Garia", to: "Park Street" },
+  { from: "Garia 6 No. Stand", to: "Howrah Railway Station" },
+  { from: "Jadavpur 8B Terminus", to: "Howrah Railway Station" },
+  { from: "Howrah Railway Station", to: "Sapoorji / New Town" },
 ];
+
+/** The journey the page opens with; also a terminal pair with published times. */
+export const DEFAULT_JOURNEY: { from: string; to: string } = {
+  from: "Garia 6 No. Stand",
+  to: "Howrah Railway Station",
+};
 
 export const DATA_COUNTS = {
   stands: DATA.meta.counts.stands,
   stops: DATA.meta.counts.stops,
   routes: DATA.meta.counts.routes,
   trips: DATA.meta.counts.trips,
+  verifiedRoutes: DATA.meta.counts.verifiedRoutes ?? 0,
+  routesWithTimetable: DATA.meta.counts.routesWithTimetable ?? 0,
+  routesWithoutTimetable: DATA.meta.counts.routesWithoutTimetable ?? 0,
 };

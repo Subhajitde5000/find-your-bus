@@ -1,5 +1,6 @@
 node_modules
 .next
+out
 # Python backend
 __pycache__/
 *.pyc
@@ -7,4 +8,4 @@ __pycache__/
 venv/
 .pytest_cache/
 .ruff_cache/
-.env/
+.env

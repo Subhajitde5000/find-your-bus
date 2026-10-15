@@ -1,38 +1,26 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowLeftRight,
   ArrowRight,
   ArrowUpRight,
   BusFront,
   Check,
-  ChevronRight,
   Clock3,
   CornerDownRight,
-  Footprints,
   Info,
-  Layers,
   MapPin,
   Route as RouteIcon,
   Search,
-  Sparkles,
-  Users,
   X,
 } from "lucide-react";
 import {
-  fetchRouteDetail,
-  fetchRoutes,
-  fetchRouteTrips,
-  type BackendRouteDetail,
-  type BackendRouteSummary,
-  type BackendRouteTrip,
-} from "@/lib/api";
-import {
-  getLocalRouteDetail,
-  searchLocalRoutes,
-  type LocalRouteSummary,
-  type ServiceType,
+  getRoute,
+  getRouteDepartures,
+  searchRoutes,
+  toClock24,
+  type Direction,
 } from "@/lib/timetables";
 
 const POPULAR_ROUTE_CHIPS = ["1", "12C", "205", "218", "230", "S5", "AC12", "45B"];
@@ -44,99 +32,20 @@ interface RouteExplorerProps {
 
 export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExplorerProps) {
   const [searchQuery, setSearchQuery] = useState(initialRouteNumber || "");
-  const [selectedRouteNumber, setSelectedRouteNumber] = useState<string | null>(initialRouteNumber || "1");
-  const [routeDetail, setRouteDetail] = useState<BackendRouteDetail | null>(null);
-  const [localFallback, setLocalFallback] = useState<LocalRouteSummary | null>(null);
-  const [trips, setTrips] = useState<BackendRouteTrip[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [selectedRouteNumber, setSelectedRouteNumber] = useState<string>(initialRouteNumber || "1");
   const [activeTab, setActiveTab] = useState<"stops" | "timetable">("stops");
-  const [direction, setDirection] = useState<"outbound" | "return">("outbound");
-  const [suggestions, setSuggestions] = useState<BackendRouteSummary[]>([]);
+  const [direction, setDirection] = useState<Direction>("outbound");
   const [isOpenSuggestions, setIsOpenSuggestions] = useState(false);
-  const [allRoutesList, setAllRoutesList] = useState<BackendRouteSummary[]>([]);
 
-  // Load route directory on mount
-  useEffect(() => {
-    let mounted = true;
-    async function loadDirectory() {
-      const data = await fetchRoutes("", 100);
-      if (mounted && data.length > 0) {
-        setAllRoutesList(data);
-      }
-    }
-    loadDirectory();
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  // Update suggestions as search query changes
-  useEffect(() => {
-    const q = searchQuery.trim().toLowerCase();
-    if (!q) {
-      setSuggestions(allRoutesList.slice(0, 8));
-      return;
-    }
-    if (allRoutesList.length > 0) {
-      const filtered = allRoutesList.filter(
-        (r) =>
-          r.route_number.toLowerCase().includes(q) ||
-          r.origin_label.toLowerCase().includes(q) ||
-          r.destination_label.toLowerCase().includes(q),
-      );
-      setSuggestions(filtered.slice(0, 10));
-    } else {
-      // Local fallback
-      const local = searchLocalRoutes(q).map((lr, idx) => ({
-        id: idx + 1,
-        route_number: lr.route_number,
-        operator: { id: 1, name: lr.operator },
-        service_category: { id: 1, name: lr.type },
-        origin: { id: 1, name: lr.origin, bus_stand_id: null },
-        destination: { id: 2, name: lr.destination, bus_stand_id: null },
-        origin_label: lr.origin,
-        destination_label: lr.destination,
-        fleet_allocation_text: null,
-        documented_fleet_count: null,
-      }));
-      setSuggestions(local.slice(0, 8));
-    }
-  }, [searchQuery, allRoutesList]);
-
-  // Load details when selected route changes
-  useEffect(() => {
-    if (!selectedRouteNumber) return;
-    let mounted = true;
-    setLoading(true);
-
-    async function loadRoute() {
-      if (!selectedRouteNumber) return;
-      const [detail, routeTrips] = await Promise.all([
-        fetchRouteDetail(selectedRouteNumber),
-        fetchRouteTrips(selectedRouteNumber),
-      ]);
-
-      if (!mounted) return;
-
-      if (detail) {
-        setRouteDetail(detail);
-        setLocalFallback(null);
-        setTrips(routeTrips);
-      } else {
-        // Fallback to local routes
-        const local = getLocalRouteDetail(selectedRouteNumber);
-        setLocalFallback(local || null);
-        setRouteDetail(null);
-        setTrips([]);
-      }
-      setLoading(false);
-    }
-
-    loadRoute();
-    return () => {
-      mounted = false;
-    };
-  }, [selectedRouteNumber]);
+  const suggestions = useMemo(
+    () => searchRoutes(searchQuery, searchQuery.trim() ? 10 : 8),
+    [searchQuery],
+  );
+  const route = useMemo(() => getRoute(selectedRouteNumber), [selectedRouteNumber]);
+  const departures = useMemo(
+    () => getRouteDepartures(selectedRouteNumber, direction),
+    [selectedRouteNumber, direction],
+  );
 
   function handleSelectRoute(routeNum: string) {
     setSelectedRouteNumber(routeNum);
@@ -144,38 +53,33 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
     setIsOpenSuggestions(false);
   }
 
-  // Active route presentation data
-  const routeNumber = routeDetail?.route_number || localFallback?.route_number || selectedRouteNumber || "";
-  const isAC =
-    (routeDetail?.service_category.name || localFallback?.type || "").toUpperCase().includes("AC") &&
-    !(routeDetail?.service_category.name || localFallback?.type || "").toUpperCase().includes("NON-AC");
-  const serviceType: ServiceType = isAC ? "AC" : "Non-AC";
-  const operatorName = routeDetail?.operator.name || localFallback?.operator || "Kolkata Bus Service";
-  const originName = routeDetail?.origin_label || localFallback?.origin || "Origin";
-  const destinationName = routeDetail?.destination_label || localFallback?.destination || "Destination";
-  const fleetInfo = routeDetail?.fleet_allocation_text || (routeDetail?.documented_fleet_count ? `${routeDetail.documented_fleet_count} buses` : null);
+  // Presentation values for the selected route
+  const routeNumber = route?.number ?? selectedRouteNumber;
+  const isAC = route?.type === "AC";
+  const serviceType = isAC ? "AC" : "Non-AC";
+  const operatorName = route?.operator ?? "Kolkata Bus Service";
+  const originName = route?.origin ?? "Origin";
+  const destinationName = route?.destination ?? "Destination";
+  const fleetInfo = route?.fleetText ?? (route?.fleetCount ? `${route.fleetCount} buses` : null);
+  const isSample = route?.source === "preview";
+  const viaText = route && route.via.length ? route.via.join(", ") : null;
 
   // Stops list for display
-  const rawStops = routeDetail?.stops.map((s) => s.stop.name) || localFallback?.stops || [];
+  const rawStops = route?.stops ?? [];
   const displayStops = direction === "outbound" ? rawStops : [...rawStops].reverse();
 
-  // Trips list filtered by active direction
-  const activeTrips = useMemo(() => {
-    return trips
-      .map((t) => {
-        const sched = t.schedules.find((s) => s.direction === direction);
-        return {
-          id: t.id,
-          run_code: t.run_code,
-          busReg: t.bus?.registration_no || "Scheduled Bus",
-          departure: sched ? sched.departure_time.slice(0, 5) : "--:--",
-          arrival: sched ? sched.arrival_time.slice(0, 5) : "--:--",
-          notes: t.notes,
-        };
-      })
-      .filter((t) => t.departure !== "--:--")
-      .sort((a, b) => a.departure.localeCompare(b.departure));
-  }, [trips, direction]);
+  const activeTrips = useMemo(
+    () =>
+      departures.map((item) => ({
+        id: item.id,
+        runCode: item.runCode ?? "—",
+        busReg: item.bus ?? "Not recorded",
+        departure: toClock24(item.departure),
+        arrival: toClock24(item.arrival),
+        notes: item.notes,
+      })),
+    [departures],
+  );
 
   return (
     <div className="route-explorer">
@@ -215,7 +119,7 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
           )}
         </div>
 
-        {/* Live Suggestions Dropdown */}
+        {/* Suggestions Dropdown */}
         {isOpenSuggestions && (
           <div className="route-suggestions-menu" role="listbox">
             <div className="suggestions-header">
@@ -227,30 +131,21 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
             {suggestions.length > 0 ? (
               suggestions.map((item) => (
                 <button
-                  key={item.route_number}
+                  key={item.number}
                   type="button"
-                  className={`route-suggestion-item ${item.route_number === selectedRouteNumber ? "active" : ""}`}
-                  onClick={() => handleSelectRoute(item.route_number)}
+                  className={`route-suggestion-item ${item.number === selectedRouteNumber ? "active" : ""}`}
+                  onClick={() => handleSelectRoute(item.number)}
                 >
-                  <span
-                    className={`route-badge-chip ${
-                      item.service_category.name.toUpperCase().includes("AC") &&
-                      !item.service_category.name.toUpperCase().includes("NON-AC")
-                        ? "ac"
-                        : ""
-                    }`}
-                  >
-                    {item.route_number}
-                  </span>
+                  <span className={`route-badge-chip ${item.type === "AC" ? "ac" : ""}`}>{item.number}</span>
                   <div className="suggestion-route-info">
                     <div className="suggestion-route-terminals">
-                      <strong>{item.origin_label}</strong>
+                      <strong>{item.origin}</strong>
                       <ArrowRight size={13} />
-                      <strong>{item.destination_label}</strong>
+                      <strong>{item.destination}</strong>
                     </div>
-                    <span className="suggestion-route-operator">{item.operator.name}</span>
+                    <span className="suggestion-route-operator">{item.operator}</span>
                   </div>
-                  {item.route_number === selectedRouteNumber && <Check size={16} className="selected-check" />}
+                  {item.number === selectedRouteNumber && <Check size={16} className="selected-check" />}
                 </button>
               ))
             ) : (
@@ -282,12 +177,7 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
       </div>
 
       {/* Route Detail Presentation Card */}
-      {loading ? (
-        <div className="route-loading-state">
-          <div className="pulse-spinner" />
-          <span>Loading route {selectedRouteNumber} details...</span>
-        </div>
-      ) : routeDetail || localFallback ? (
+      {route ? (
         <div className="route-display-card">
           {/* Card Top: Number, Terminus, Badges */}
           <div className="route-card-header">
@@ -349,16 +239,18 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
               <MapPin size={14} />
               <span>{displayStops.length} Total Stops</span>
             </span>
-            {routeDetail?.via_text && (
+            {viaText && (
               <span className="meta-pill via">
                 <CornerDownRight size={14} />
-                <span>Via: {routeDetail.via_text}</span>
+                <span>Via: {viaText}</span>
               </span>
             )}
             {activeTrips.length > 0 && (
               <span className="meta-pill highlight">
                 <Clock3 size={14} />
-                <span>{activeTrips.length} Daily Scheduled Departures</span>
+                <span>
+                  {activeTrips.length} {isSample ? "Sample" : "Daily Scheduled"} Departures
+                </span>
               </span>
             )}
           </div>
@@ -436,7 +328,11 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
               <div className="timetable-header-info">
                 <div>
                   <h4>{direction === "outbound" ? originName : destinationName} Departures</h4>
-                  <p>Official timetable runs loaded from Kolkata bus directory.</p>
+                  <p>
+                    {isSample
+                      ? "Sample departures for this route. Not an official timetable."
+                      : "Times from the Kolkata bus directory. Not live."}
+                  </p>
                 </div>
                 <div className="direction-badge">
                   <span>{direction.toUpperCase()}</span>
@@ -459,7 +355,7 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
                       {activeTrips.map((trip) => (
                         <tr key={trip.id}>
                           <td>
-                            <span className="run-code-badge">{trip.run_code}</span>
+                            <span className="run-code-badge">{trip.runCode}</span>
                           </td>
                           <td className="time-cell">
                             <strong>{trip.departure}</strong>
@@ -484,8 +380,8 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
               ) : (
                 <div className="timetable-empty">
                   <Clock3 size={32} />
-                  <h5>No scheduled trips recorded for this direction</h5>
-                  <p>Regular service runs along this corridor every 20-30 minutes between 06:00 and 21:00.</p>
+                  <h5>No departures listed for this direction</h5>
+                  <p>The directory has no run times for this route in this direction.</p>
                 </div>
               )}
             </div>

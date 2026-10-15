@@ -31,18 +31,17 @@ import { HeroMap } from "@/components/HeroMap";
 import { StopField } from "@/components/StopField";
 import { TripCard } from "@/components/TripCard";
 import { RouteExplorer } from "@/components/RouteExplorer";
-import { checkBackendHealth, fetchAllStops, searchBackendJourneys } from "@/lib/api";
 import {
+  DATA_COUNTS,
   findTransferPlans,
   findTrip,
   findTrips,
   formatClock,
   formatDuration,
-  getStopId,
   parseClock,
   POPULAR_JOURNEYS,
-  registerDatabaseStops,
   resolveStop,
+  toClock24,
   type BusTrip,
   type ServiceType,
 } from "@/lib/timetables";
@@ -95,11 +94,6 @@ function kolkataTime(): string {
   const hour = parts.find((part) => part.type === "hour")?.value ?? "08";
   const minute = parts.find((part) => part.type === "minute")?.value ?? "00";
   return `${hour}:${minute}`;
-}
-
-function toClock24(totalMinutes: number): string {
-  const minutesInDay = ((totalMinutes % 1440) + 1440) % 1440;
-  return `${String(Math.floor(minutesInDay / 60)).padStart(2, "0")}:${String(minutesInDay % 60).padStart(2, "0")}`;
 }
 
 function kolkataDate(): string {
@@ -157,60 +151,7 @@ export default function HomePage() {
   ]);
   const [showTopButton, setShowTopButton] = useState(false);
   const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "failed">("idle");
-  const [dbConnected, setDbConnected] = useState<boolean | null>(null);
-  const [stopCount, setStopCount] = useState<number>(0);
-  const [backendTrips, setBackendTrips] = useState<BusTrip[] | null>(null);
-  const [isLoadingLive, setIsLoadingLive] = useState(false);
   const [searchMode, setSearchMode] = useState<"journey" | "route">("journey");
-
-  useEffect(() => {
-    let mounted = true;
-    async function initBackend() {
-      const isHealthy = await checkBackendHealth();
-      if (!mounted) return;
-      setDbConnected(isHealthy);
-      if (isHealthy) {
-        const stops = await fetchAllStops();
-        if (mounted && stops.length > 0) {
-          registerDatabaseStops(stops);
-          setStopCount(stops.length);
-        }
-      }
-    }
-    initBackend();
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    let mounted = true;
-    async function loadBackendJourneys() {
-      const fromId = getStopId(submitted.from);
-      const toId = getStopId(submitted.to);
-      if (fromId && toId) {
-        setIsLoadingLive(true);
-        const live = await searchBackendJourneys(fromId, toId, submitted.time);
-        if (mounted) {
-          if (live && live.length > 0) {
-            setBackendTrips(live);
-          } else {
-            setBackendTrips(null);
-          }
-          setIsLoadingLive(false);
-        }
-      } else {
-        if (mounted) {
-          setBackendTrips(null);
-          setIsLoadingLive(false);
-        }
-      }
-    }
-    loadBackendJourneys();
-    return () => {
-      mounted = false;
-    };
-  }, [submitted.from, submitted.to, submitted.time]);
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
@@ -251,11 +192,7 @@ export default function HomePage() {
     };
   }, []);
 
-  const fallbackTrips = useMemo(() => findTrips(submitted.from, submitted.to), [submitted.from, submitted.to]);
-  const allTrips = useMemo(
-    () => (backendTrips && backendTrips.length > 0 ? backendTrips : fallbackTrips),
-    [backendTrips, fallbackTrips],
-  );
+  const allTrips = useMemo(() => findTrips(submitted.from, submitted.to), [submitted.from, submitted.to]);
   const filteredTrips = useMemo(
     () => allTrips.filter((trip) => typeFilter === "all" || trip.type === typeFilter),
     [allTrips, typeFilter],
@@ -439,34 +376,13 @@ export default function HomePage() {
             <a href="#about">About</a>
           </nav>
           <div className="header-actions">
-            {dbConnected !== null && (
-              <span
-                className="city-chip"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.4rem",
-                  fontSize: "0.78rem",
-                  padding: "0.3rem 0.65rem",
-                  borderRadius: "9999px",
-                  background: dbConnected ? "rgba(34, 197, 94, 0.12)" : "rgba(156, 163, 175, 0.12)",
-                  color: dbConnected ? "#16a34a" : "#6b7280",
-                  fontWeight: 600,
-                  border: dbConnected ? "1px solid rgba(34, 197, 94, 0.3)" : "1px solid rgba(156, 163, 175, 0.3)",
-                }}
-                title={dbConnected ? `Connected to PostgreSQL (${stopCount || 173} stops loaded)` : "Backend API offline - using fallback data"}
-              >
-                <span
-                  style={{
-                    width: 7,
-                    height: 7,
-                    borderRadius: "50%",
-                    backgroundColor: dbConnected ? "#22c55e" : "#9ca3af",
-                  }}
-                />
-                <span>{dbConnected ? `Live (${stopCount || 173} stops)` : "Offline Preview"}</span>
-              </span>
-            )}
+            <span
+              className="city-chip"
+              title="Timetables are bundled with this site. They are not live tracking."
+            >
+              <span className="city-pulse" aria-hidden="true" />
+              <span>{DATA_COUNTS.routes} routes · {DATA_COUNTS.stops} stops · {DATA_COUNTS.stands} stands</span>
+            </span>
             <span className="city-chip"><span className="city-pulse" /><span>Kolkata, WB</span></span>
             <button
               type="button"
@@ -571,7 +487,7 @@ export default function HomePage() {
                 <div className="popular-row">
                   <span>Popular routes</span>
                   <div className="popular-chips">{POPULAR_JOURNEYS.map((journey) => <button key={`${journey.from}-${journey.to}`} type="button" onClick={() => choosePopular(journey)}>{journey.from}<ArrowRight size={13} />{journey.to}</button>)}</div>
-                  <span className="data-hint"><Info size={13} /> Sample schedules · not live</span>
+                  <span className="data-hint"><Info size={13} /> Timetable data · not live tracking</span>
                 </div>
               </>
             ) : (
@@ -690,7 +606,7 @@ export default function HomePage() {
                   <li><span className="tip-icon route"><Route size={15} aria-hidden="true" /></span><p>Big hubs such as Esplanade and Sealdah link to most routes in this preview.</p></li>
                 </ul>
               </div>
-              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>This is a frontend timetable preview with <strong>preloaded sample times</strong>. It does not show live bus locations or verified official departures.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata-area routes only</div></div>
+              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory bundled with this site, and some routes use <strong>sample frequencies</strong>. Times are not live, do not show bus locations, and may differ from official schedules.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata-area routes only</div></div>
               <div className="sidebar-art"><div className="sidebar-art-label">A CITY ALWAYS IN MOTION</div><div className="sidebar-path"><span /><span /><span /></div><h3>Go on, Kolkata is waiting.</h3><p>From your first stop to your last, a little planning goes a long way.</p><Navigation size={24} className="sidebar-navigation" /></div>
             </aside>
           </div>

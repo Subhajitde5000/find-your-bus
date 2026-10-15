@@ -6,7 +6,7 @@ and serves them through a read-only JSON API.
 ```
 backend/
 ├── main.py                  FastAPI app (uvicorn entry point)
-├── manage.py                CLI: create tables, import Excel data
+├── manage.py                CLI: create tables, import Excel data, export the frontend JSON
 ├── app/
 │   ├── config.py            settings (DATABASE_URL, CORS_ORIGINS) from .env / environment
 │   ├── db.py                SQLAlchemy engine, session, Base
@@ -41,7 +41,12 @@ Set `DATABASE_URL` in `backend/.env` (see `.env.example`), e.g.
 python manage.py init-db          # creates all tables
 python manage.py import-data      # loads ../data/*.xlsx (refuses to run if data already exists)
 python manage.py import-data --replace   # wipe these tables and reload from the Excel files
+python manage.py export-static-data      # writes ../fontend/src/data/kolkata-bus-data.json
 ```
+
+`export-static-data` reads the Excel files directly and does not need PostgreSQL. The frontend is a
+static site that bundles that JSON, so it does not call this API; the endpoint list below is for the
+database-backed side of the project and for rebuilding the data.
 
 The import runs in one transaction; if anything fails nothing is written. Expected output:
 
@@ -66,8 +71,8 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 - Interactive docs: http://localhost:8000/docs
 - Health check: http://localhost:8000/api/v1/health
 
-The frontend (Next.js, port 3000) is allowed by default via `CORS_ORIGINS`. Keep the browser
-calling relative `/api/...` URLs and proxy them to this server rather than hard-coding `localhost`.
+The Next.js frontend is allowed by default via `CORS_ORIGINS`. It no longer calls the API at
+runtime: see the project README for the static data file built by `export-static-data`.
 
 ## 4. API endpoints (all under `/api/v1`)
 

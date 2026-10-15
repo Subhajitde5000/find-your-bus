@@ -51,16 +51,22 @@ database-backed side of the project and for rebuilding the data.
 The import runs in one transaction; if anything fails nothing is written. Expected output:
 
 ```
-stands:              80
-operators:           8
+stands:              193
+operators:           9
 service categories:  10
-stops:               173 (54 linked to a stand)
-routes:              87
-route stops:         521
+stops:               428 (206 linked to a stand)
+routes:              466
+route stops:         2723
 buses:               110
 trips:               1048
 trip schedules:      2096
+unverified routes:   419 (kept in the database, hidden from journey search)
 ```
+
+419 of the 466 route rows above are unconfirmed; that is expected. The import always loads the whole
+workbook (the database is a working copy for the office), and the *publication* decision is taken
+from the `Verified` column when the frontend data file is built. See
+`../data/MISSING_DATA_AUDIT.md`, "Publication gate".
 
 ## 3. Run the API
 
@@ -84,7 +90,7 @@ runtime: see the project README for the static data file built by `export-static
 | GET | `/stands?q=&category=&limit=&offset=` | Depots, terminals and route stands |
 | GET | `/stands/{id}` | One stand, with the stops linked to it |
 | GET | `/stops?q=&linked=&limit=&offset=` | Named points on routes (autocomplete source) |
-| GET | `/routes?q=&operator_id=&service_category_id=&limit=&offset=` | Route list |
+| GET | `/routes?q=&operator_id=&service_category_id=&verified=&limit=&offset=` | Route list (`verified=true` returns only confirmed routes) |
 | GET | `/routes/{route_number}` | Route with ordered stops, terminals, fleet info, trip count |
 | GET | `/routes/{route_number}/trips` | Every run of the route with its bus and times |
 | GET | `/buses?q=&limit=&offset=` | Buses (search by registration, spaces optional) |
@@ -100,7 +106,11 @@ List endpoints return `{"items": [...], "total": N, "limit": L, "offset": O}`.
 - `direction` — `outbound` (origin → destination) or `return` (destination → origin).
 - `schedule_available` — `true` only when the two stops are the route's two terminals.
   Timetables in the source cover terminals only, so for a stop in the middle of a route
-  `departures` is empty and `schedule_available` is `false`.
+  `departures` is empty and `schedule_available` is `false`. The static site reports that case as
+  *"This route connects your stops. No timetable yet."*
+- Routes with `verified = false` are never returned: until the transport office confirms a route
+  sheet, its corridor must not be offered as a journey. A corridor served only by unverified routes
+  returns `"options": []`.
 - `departures` — each run with its bus registration (if known), sorted by departure time.
   `after=HH:MM` drops earlier departures.
 
@@ -119,12 +129,12 @@ operators (1) ──< routes >── (1) service_categories
 
 | Table | Rows | Holds |
 |---|---|---|
-| `bus_stands` | 80 | Depots, major passenger terminals, route stands: name, local name, category, operator division, address, role. `latitude`/`longitude` are empty for now. |
-| `stops` | 173 | Every named point on a route. `bus_stand_id` links it to a stand when the match is clear. |
-| `operators` | 8 | Operator names as given in each route sheet. |
+| `bus_stands` | 193 | Depots, major passenger terminals, route stands: name, local name, category, operator division, address, role, `verified`, `verification_note`. `latitude`/`longitude` are empty for now. |
+| `stops` | 428 | Every named point on a route. `bus_stand_id` links it to a stand when the match is clear. |
+| `operators` | 9 | Operator names as given in each route sheet. |
 | `service_categories` | 10 | Category per route. |
-| `routes` | 87 | Route number, operator, category, origin/destination (with source labels), via text, documented fleet. |
-| `route_stops` | 521 | Ordered stops of each route (`sequence` 1 = origin, last = destination). |
+| `routes` | 466 | Route number, operator, category, origin/destination (with source labels), via text, documented fleet, `timetable_source`, `verified`. |
+| `route_stops` | 2723 | Ordered stops of each route (`sequence` 1 = origin, last = destination). |
 | `buses` | 110 | Registration number (`registration_no`) and normalised lookup key (`registration_key`). |
 | `trips` | 1048 | One run (`RUN-S12-01`) of a route, optionally by a bus. |
 | `trip_schedules` | 2096 | Outbound and return departure/arrival times for each trip. |
@@ -149,12 +159,17 @@ Schema design notes:
 - **Route numbers:** the four minibus sheets are named `Route_MB_HG`, `Route_MB_HB`, `Route_MB_BT`,
   `Route_MB_AJ`. The importer takes the route number from the sheet's title line
   (`MB_Howrah_Garia` etc.) so it matches the master index.
-- **Stand links:** 54 of 173 stops are linked to a bus stand (exact name, local name, or the alias
-  list in `app/stand_aliases.py`). 41 terminal names used by routes are not linked yet, for example
+- **Stand links:** 206 of 428 stops are linked to a bus stand (exact name, local name, or the alias
+  list in `app/stand_aliases.py`). Terminal names used by routes are not linked yet, for example
   *Barasat Champadali Stand*, *Garia 6 No. Stand*, *Barrackpore Court*, *Digha Bus Stand*.
   Add a line to `stand_aliases.py` once you confirm a match, then re-run `import-data --replace`.
-- **Timetables:** times come straight from the spreadsheets. They are not checked against official
-  schedules.
+- **Timetables:** times come straight from the spreadsheets and only for routes whose Master Index
+  row says `Verified = yes` (47 today). They are not checked against official schedules, and the
+  site shows no estimated, sampled or interpolated time anywhere.
+- **Verification columns:** the Master Index carries `Verified`, `Timetable Source` and
+  `May Publish`; the stands sheet carries `Verified` and `Verification Note`. The importer reads all
+  of them into `routes.verified` / `routes.timetable_source` and `bus_stands.verified` /
+  `bus_stands.verification_note`, and `export-static-data` gates the frontend data file on them.
 - **Fleet numbers:** `documented_fleet_count` is parsed from the master index ("14 Active WBTC Buses").
   Private routes have no count.
 

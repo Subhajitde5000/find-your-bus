@@ -46,20 +46,21 @@ then rebuild the site.
 
 | Key | Contents |
 |---|---|
-| `stands` | 193 depots, terminals and route stands from `Kolkata_Bus_Stands_v2.xlsx` |
-| `stops` | 398 unique stop names, each optionally linked to a stand |
+| `stands` | 193 depots, terminals and route stands from `Kolkata_Bus_Stands_v2.xlsx`, each with a `verified` flag |
+| `stops` | 387 unique stop names, each optionally linked to a stand |
 | `buses` | 110 vehicle registration numbers |
-| `routes` | 468 routes: 460 from the directory, 8 sample routes with frequencies |
+| `routes` | 468 routes: 466 from the directory and 2 preview corridors, each with `verified` and `timetableSource` |
 | `meta` | counts, and a `dedupe` record of everything that was merged or skipped |
 
 De-duplication rules applied by the exporter (all recorded under `meta.dedupe`):
 
-- **Routes** are unique by number. The 20 sample routes that used to live in
-  `timetables.ts` were merged in; the 12 whose numbers the directory already covers with
-  real run times are dropped in favour of the directory entry, and the other 8 are kept.
-  A directory sheet with no runs at all never displaces a sample route, so the site keeps
-  the timetable information it already had (listed under
-  `samplesKeptOverBlankDirectoryRoutes`).
+- **Routes** are unique by number, and the directory always wins: the corridors that used to live
+  in `timetables.ts` (now `data/preview_route_corridors.json`) are only exported for the 2 route
+  numbers the directory does not contain at all. The rest are listed under
+  `skippedPreviewRoutes`.
+- **Verified routes only.** The Master Index `Verified` column decides what is published. A route
+  marked `no` keeps its corridor but is exported with no trips, tagged *Timetable pending* in the
+  route list, and left out of journey search.
 - **Stops** are unique by name ignoring case, spaces and punctuation, so `E.M. Bypass` and
   `EM Bypass` become one stop. Names that resolve to the same bus stand also become one stop
   (`Esplanade` + `Esplanade Curzon Park` → `Esplanade Curzon Park`). A route never lists the same
@@ -68,15 +69,21 @@ De-duplication rules applied by the exporter (all recorded under `meta.dedupe`):
 - **Buses** are unique by normalised registration (`WB 05 6214` == `WB056214`).
 - **Trips** are unique by run code; **operators** and **service categories** by name.
 
-### Kinds of departure
+### Departures
 
-- **Scheduled** — a run from the directory with published times at the two terminals.
-- **Sample** — a route from the preview list using its first/last/every frequency.
-- **Estimated** — a directory route between two stops that are not both terminals. The directory
-  publishes no times for those, so departures are estimated every 25 minutes between 06:00 and
-  21:00. These are labelled "Estimated" in the UI.
+Every departure shown is a **scheduled run published in the directory**, at one of the two
+terminals of a **verified** route, and it names the run code and (where the sheet records one) the
+bus. There is nothing else:
 
-Nothing in the site is live tracking.
+- No estimated departures, no sample or interpolated frequencies, and no fixed journey time.
+- A route that serves both stops but has no published times for that pair says
+  *"This route connects your stops. No timetable yet."* and shows no times.
+- A route the transport office has not confirmed yet is tagged *Timetable pending* in the route
+  list and never appears in journey search.
+
+Nothing in the site is live tracking. See `data/TIMETABLE_COLLECTION_PLAN.md` for how the remaining
+routes get their real first bus, last bus and frequency, and `data/MISSING_DATA_AUDIT.md`
+("Publication gate") for what is published today.
 
 ## Backend
 
@@ -92,6 +99,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 ## Data notes
 
-Times come straight from the spreadsheets and are not checked against official schedules.
-Sample routes carry illustrative frequencies. See the "Data notes" section of the backend README
-for the known gaps (stand links, coordinates, intermediate-stop times).
+Times come straight from the spreadsheets, only for routes marked `Verified = yes`, and are not
+checked against official schedules. 47 of 468 routes are published today; the other 421 are listed
+without times until the transport office confirms them. See the "Data notes" section of the backend
+README for the known gaps (stand links, coordinates, intermediate-stop times).

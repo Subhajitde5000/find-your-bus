@@ -27,12 +27,15 @@ def search_journeys(
         raise HTTPException(status_code=404, detail="stop not found")
 
     # Routes that serve both stops. Each row gives the sequence number of both stops on that route.
+    # Unverified routes are excluded: until the transport office confirms a route sheet, its
+    # corridor (and therefore any journey built on it) must not be offered to passengers.
     boarding = aliased(RouteStop)
     alighting = aliased(RouteStop)
     matches = db.execute(
         select(Route, boarding.sequence, alighting.sequence)
         .join(boarding, (boarding.route_id == Route.id) & (boarding.stop_id == from_stop_id))
         .join(alighting, (alighting.route_id == Route.id) & (alighting.stop_id == to_stop_id))
+        .where(Route.verified.is_(True))
         .order_by(Route.route_number)
     ).all()
     if not matches:

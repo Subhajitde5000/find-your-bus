@@ -57,11 +57,16 @@ def cmd_export_static_data(args: argparse.Namespace) -> int:
         for canonical, variants in report.merged_stop_spellings.items():
             print(f"  {canonical!r} <- {variants}")
     if report.skipped_preview_routes:
-        print(f"sample routes skipped (number already in directory): {report.skipped_preview_routes}")
-    if report.preview_kept_over_blank_directory:
+        print(f"preview corridors skipped (number is in the directory): {report.skipped_preview_routes}")
+    if report.kept_preview_routes:
         print(
-            "sample routes kept (directory sheet has no runs): "
-            f"{report.preview_kept_over_blank_directory}"
+            "preview corridors kept (number is not in the directory at all): "
+            f"{report.kept_preview_routes}"
+        )
+    if report.unverified_routes:
+        print(
+            f"unverified routes (no times published, hidden from journey search): "
+            f"{len(report.unverified_routes)}"
         )
     for warning in report.warnings:
         print(f"WARNING: {warning}")

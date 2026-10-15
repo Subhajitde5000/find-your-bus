@@ -5,19 +5,22 @@ Inputs
 1. ``Kolkata_Bus_Stands_v2.xlsx``                       -> stands (depots, terminals, route stands)
 2. ``Kolkata_Comprehensive_Bus_Routes_and_Fleet_Directory.xlsx``
                                                        -> routes, stops, trips, buses (the directory)
-3. ``data/timetable_preview_routes.json``               -> sample routes that used to be hard-coded in
-                                                          ``fontend/src/lib/timetables.ts``
+3. ``data/preview_route_corridors.json``                -> route corridors that used to be hard-coded in
+                                                          ``fontend/src/lib/timetables.ts``. The file was
+                                                          reduced to corridors on 15 Oct 2026: the
+                                                          first/last/every values it used to hold were
+                                                          illustrative, not published data.
 
 Every record is stored once. Duplicates are removed as follows:
 
 * Stops are unique by name ignoring case, spaces and punctuation, so ``EM Bypass`` and
   ``E.M. Bypass`` become one stop. The spelling used most often in the directory is kept.
-* Routes are unique by route number. When a sample route uses a number that the directory
-  already has, the directory entry is kept (it has real run times and fleet data) and the
-  sample route is skipped. The skipped numbers are listed under ``meta.dedupe``.
-  Exception: when the directory sheet for that number has no runs at all, the sample route
-  is kept instead and the blank directory entry is skipped, so the website never loses the
-  timetable information it already shows. The number still appears exactly once.
+* Routes are unique by route number, and the directory always wins: a preview corridor is
+  only exported for a number the directory does not have at all. The skipped numbers are
+  listed under ``meta.dedupe``.
+* Only routes the workbook marks ``Verified = yes`` are published with a timetable. Routes
+  that are still waiting for the transport office keep their corridor but carry no trips and
+  no times, and the frontend hides them from journey search.
 * Buses are unique by normalised registration (``WB 05 6214`` == ``WB056214``).
 * Operators and service categories are unique by name.
 * Trips are unique by run code.
@@ -64,7 +67,7 @@ EXTRA_MERGES: dict[str, str] = {
 DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 DEFAULT_STANDS = DATA_DIR / "Kolkata_Bus_Stands_v2.xlsx"
 DEFAULT_ROUTES = DATA_DIR / "Kolkata_Comprehensive_Bus_Routes_and_Fleet_Directory.xlsx"
-DEFAULT_PREVIEW = DATA_DIR / "timetable_preview_routes.json"
+DEFAULT_PREVIEW = DATA_DIR / "preview_route_corridors.json"
 DEFAULT_OUTPUT = DATA_DIR.parent / "fontend" / "src" / "data" / "kolkata-bus-data.json"
 
 
@@ -96,7 +99,8 @@ def operator_group(operator: str) -> str:
 class BuildReport:
     merged_stop_spellings: dict[str, list[str]] = field(default_factory=dict)
     skipped_preview_routes: list[str] = field(default_factory=list)
-    preview_kept_over_blank_directory: list[str] = field(default_factory=list)
+    kept_preview_routes: list[str] = field(default_factory=list)
+    unverified_routes: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
 
 
@@ -140,20 +144,14 @@ def build_dataset(
     directory_numbers = {sheet["route_number"].lower() for sheet in sheets}
     if len(directory_numbers) != len(sheets):
         raise ValueError("duplicate route number in the directory workbook")
-    # The directory wins when it has real runs. A directory sheet with no runs carries no
-    # timetable at all, so a sample route with that number is kept instead and the blank
-    # directory entry is dropped below -- the number still appears exactly once.
-    directory_with_trips = {sheet["route_number"].lower() for sheet in sheets if sheet["trips"]}
-    kept_samples = [r for r in preview_routes if r["number"].lower() not in directory_with_trips]
+    # The directory is the source of truth for a number it has, runs or no runs: the preview
+    # corridors are older copies of the same routes. A preview corridor is only used for a
+    # route number that the directory does not contain at all.
+    kept_samples = [r for r in preview_routes if r["number"].lower() not in directory_numbers]
     report.skipped_preview_routes = [
-        r["number"] for r in preview_routes if r["number"].lower() in directory_with_trips
+        r["number"] for r in preview_routes if r["number"].lower() in directory_numbers
     ]
-    report.preview_kept_over_blank_directory = [
-        r["number"]
-        for r in kept_samples
-        if r["number"].lower() in directory_numbers
-    ]
-    superseded_directory = {number.lower() for number in report.preview_kept_over_blank_directory}
+    report.kept_preview_routes = [r["number"] for r in kept_samples]
 
     # ------------------------------------------------------------------ stops: collect spellings
     stops = _Stops()
@@ -181,8 +179,11 @@ def build_dataset(
                 "localName": row["local_name"],
                 "category": row["node_category"],
                 "division": row["operator_division"],
+                # Blank when no published source has an address; never filled with a guess.
                 "address": row["address"],
                 "role": row["functional_role"],
+                "verified": row["verified"],
+                "note": row["verification_note"],
             }
         )
     stands_by_name = {s["name"].lower(): s for s in stands}
@@ -277,17 +278,21 @@ def build_dataset(
 
     for sheet in sheets:
         number = sheet["route_number"]
-        if number.lower() in superseded_directory:
-            continue  # a sample route with real timetable info represents this number
 
         entry = index.get(number)
         if entry is None:
             report.warnings.append(f"route {number} is not in the master index")
             fleet_text = None
+            verified = False
+            timetable_source = None
         else:
             fleet_text = entry["fleet_text"]
+            verified = entry["verified"]
+            timetable_source = entry["timetable_source"]
             if (entry["origin"], entry["destination"]) != (sheet["origin"], sheet["destination"]):
                 report.warnings.append(f"route {number}: origin/destination differ from master index")
+        if not verified:
+            report.unverified_routes.append(number)
 
         origin_raw = clean_stop_name(sheet["origin"])
         destination_raw = clean_stop_name(sheet["destination"])
@@ -305,8 +310,10 @@ def build_dataset(
         add_unique(operators, sheet["operator"])
         add_unique(categories, sheet["category"])
 
+        # A route that is not verified yet keeps its corridor so it can be looked up, but it
+        # carries no times: unconfirmed data must never look like a timetable.
         trips = []
-        for trip in sheet["trips"]:
+        for trip in sheet["trips"] if verified else []:
             if trip["run_code"] in run_codes:
                 raise ValueError(f"duplicate run code {trip['run_code']!r}")
             run_codes.add(trip["run_code"])
@@ -337,6 +344,8 @@ def build_dataset(
             "destination": stop_sequence[-1],
             "stops": stop_sequence,
             "fleet": {"text": fleet_text, "count": parse_fleet_count(fleet_text)} if fleet_text else None,
+            "verified": verified,
+            "timetableSource": timetable_source,
             "trips": trips,
         }
         if origin_raw != origin_final:
@@ -345,7 +354,10 @@ def build_dataset(
             route["destinationLabel"] = destination_raw
         routes.append(route)
 
-    # ------------------------------------------------------------------ sample routes (no duplicates)
+    # ------------------------------------------------------------------ preview corridors (no duplicates)
+    # Route corridors the directory does not contain at all. They carry no times: the
+    # first/last/every values the preview file used to hold were illustrative, not published
+    # timetables, and are no longer exported or shown.
     for sample in kept_samples:
         number = sample["number"]
         names = final_sequence(list(sample["stops"]), number)
@@ -363,14 +375,10 @@ def build_dataset(
                 "destination": names[-1],
                 "stops": names,
                 "fleet": None,
+                # Nothing here has been confirmed by the transport office yet.
+                "verified": False,
+                "timetableSource": None,
                 "trips": [],
-                "frequency": {
-                    "first": sample["first"],
-                    "last": sample["last"],
-                    "every": sample["every"],
-                    "reverseOffset": sample.get("reverseOffset", 0),
-                    "legs": sample["legs"],
-                },
             }
         )
 
@@ -387,6 +395,7 @@ def build_dataset(
             "sources": [stands_path.name, routes_path.name, preview_path.name],
             "counts": {
                 "stands": len(stands),
+                "verifiedStands": sum(1 for s in stands if s["verified"]),
                 "stops": len(stop_list),
                 "stopsLinkedToStands": sum(1 for s in stop_list if s["stand"]),
                 "operators": len(operators),
@@ -394,7 +403,11 @@ def build_dataset(
                 "buses": len(buses),
                 "routes": len(routes),
                 "directoryRoutes": sum(1 for r in routes if r["source"] == "directory"),
-                "sampleRoutes": sum(1 for r in routes if r["source"] == "preview"),
+                "previewRoutes": sum(1 for r in routes if r["source"] == "preview"),
+                "verifiedRoutes": sum(1 for r in routes if r["verified"]),
+                "unverifiedRoutes": sum(1 for r in routes if not r["verified"]),
+                "routesWithTimetable": sum(1 for r in routes if r["trips"]),
+                "routesWithoutTimetable": sum(1 for r in routes if not r["trips"]),
                 "routeStops": sum(len(r["stops"]) for r in routes),
                 "trips": trip_count,
             },
@@ -402,12 +415,13 @@ def build_dataset(
                 "mergedStopSpellings": report.merged_stop_spellings,
                 "mergedStops": merged_groups,
                 "collapsedRouteStops": collapsed,
-                "skippedSampleRoutes": report.skipped_preview_routes,
-                "samplesKeptOverBlankDirectoryRoutes": report.preview_kept_over_blank_directory,
+                "skippedPreviewRoutes": report.skipped_preview_routes,
+                "keptPreviewRoutes": report.kept_preview_routes,
             },
             "notes": [
-                "Directory routes carry real run times at the two terminals only; intermediate stops have no times.",
-                "Sample routes use illustrative frequencies (first, last, every) and are not official timetables.",
+                "Times exist only where a route sheet publishes them, and only at the two terminals.",
+                "Routes marked verified=false are awaiting transport office confirmation: they have no times and are hidden from journey search.",
+                "There are no estimated or sample departures anywhere in this file.",
             ],
         },
         "stands": stands,

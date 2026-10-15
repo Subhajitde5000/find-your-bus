@@ -17,7 +17,7 @@ CREATE TABLE public.bus_stands (
     local_name character varying(200),
     node_category character varying(80) NOT NULL,
     operator_division character varying(200),
-    address text NOT NULL,
+    address text,
     functional_role text,
     verification_note text,
     verified boolean DEFAULT false NOT NULL,

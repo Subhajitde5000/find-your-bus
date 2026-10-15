@@ -36,10 +36,15 @@ def test_health(client):
 
 
 def test_lookup_lists(client):
+    """Operators and categories are exactly the distinct values on the route sheets, and the
+    id/name pairs are stable across calls."""
+    sheets, _index = _routes()
     ops = client.get("/api/v1/operators").json()
     cats = client.get("/api/v1/service-categories").json()
-    assert len(ops) == 8
-    assert len(cats) == 10
+    assert {o["name"] for o in ops} == {s["operator"] for s in sheets}
+    assert {c["name"] for c in cats} == {s["category"] for s in sheets}
+    assert all(isinstance(o["id"], int) and o["name"] for o in ops)
+    assert ops == client.get("/api/v1/operators").json()
 
 
 def test_stands_list_and_filter(client):
@@ -76,12 +81,37 @@ def test_stand_limit_validation(client):
     assert client.get("/api/v1/stands", params={"limit": 500}).status_code == 422
 
 
+def _all_route_numbers(client):
+    """Walk every page of /routes (the API caps a page at 200)."""
+    numbers, offset = set(), 0
+    while True:
+        body = client.get("/api/v1/routes", params={"limit": 200, "offset": offset}).json()
+        numbers.update(r["route_number"] for r in body["items"])
+        offset += body["limit"]
+        if offset >= body["total"]:
+            return body["total"], numbers
+
+
 def test_routes_list(client):
     sheets, _index = _routes()
-    body = client.get("/api/v1/routes", params={"limit": 200}).json()
-    assert body["total"] == len(sheets)
-    numbers = {r["route_number"] for r in body["items"]}
+    total, numbers = _all_route_numbers(client)
+    assert total == len(sheets)
+    assert numbers == {s["route_number"] for s in sheets}
     assert {"S12", "AC1", "235", "LD_Digha", "MB_Howrah_Garia"} <= numbers
+
+
+def test_route_list_pages_without_gaps_or_repeats(client):
+    """Paging must not lose or duplicate a route: 200 + 200 + rest covers the directory exactly."""
+    total, numbers = _all_route_numbers(client)
+    first = client.get("/api/v1/routes", params={"limit": 200, "offset": 0}).json()
+    second = client.get("/api/v1/routes", params={"limit": 200, "offset": 200}).json()
+    assert len(first["items"]) == 200
+    assert len(second["items"]) == min(200, total - 200)
+    first_numbers = [r["route_number"] for r in first["items"]]
+    assert len(first_numbers) == len(set(first_numbers))
+    assert first_numbers == sorted(first_numbers)
+    assert not set(first_numbers) & {r["route_number"] for r in second["items"]}
+    assert len(numbers) == total
 
 
 def test_route_list_can_be_limited_to_verified_routes(client):

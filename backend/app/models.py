@@ -97,7 +97,10 @@ class BusStand(TimestampMixin, Base):
     local_name: Mapped[str | None] = mapped_column(String(200))
     node_category: Mapped[str] = mapped_column(String(80), nullable=False)
     operator_division: Mapped[str | None] = mapped_column(String(200))
-    address: Mapped[str] = mapped_column(Text, nullable=False)
+    #: Blank when no published source gives an address. This is a legitimate state, not an error:
+    #: the workbook leaves it empty rather than inventing one, and such a stand carries
+    #: ``verified = False`` plus a ``verification_note`` explaining what is missing.
+    address: Mapped[str | None] = mapped_column(Text)
     functional_role: Mapped[str | None] = mapped_column(Text)
     #: False = the row is incomplete (no address and/or no functional role) and is waiting for
     #: the transport office. Unverified stands are still listed, but never with invented details.

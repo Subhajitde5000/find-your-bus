@@ -46,7 +46,8 @@ class StandSummary(ORMModel):
     local_name: str | None
     node_category: str
     operator_division: str | None
-    address: str
+    #: Null when no published source gives an address; such a stand is still listed.
+    address: str | None
     #: False = address/role still missing; the stand is listed without invented details.
     verified: bool
     latitude: Decimal | None

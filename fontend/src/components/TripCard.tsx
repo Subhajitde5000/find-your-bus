@@ -3,8 +3,8 @@ import { formatClock, formatDuration, type BusTrip, type TripKind } from "@/lib/
 
 const KIND_LABEL: Record<TripKind, string> = {
   scheduled: "Scheduled",
-  approximate: "Approx. time",
   sample: "Sample",
+  estimated: "Estimated",
 };
 
 export function TripCard({ trip, onOpen, firstUpcoming }: {
@@ -24,7 +24,7 @@ export function TripCard({ trip, onOpen, firstUpcoming }: {
         type="button"
         className="trip-main"
         onClick={onOpen}
-        aria-label={`Bus ${trip.number}, ${trip.type}, ${trip.departureApprox ? "about " : ""}${departure.time} ${departure.period} from ${trip.boarding} to ${trip.alighting}${trip.departureApprox || trip.arrivalApprox ? ", approximate time" : ""}. Open all details and stops.`}
+        aria-label={`Bus ${trip.number}, ${trip.type}, ${departure.time} ${departure.period} from ${trip.boarding} to ${trip.alighting}. Open all details and stops.`}
       >
         <span className="trip-identity">
           <span className={`route-square ${trip.type === "AC" ? "ac" : ""}`}><BusFront size={22} strokeWidth={2} /></span>
@@ -36,15 +36,15 @@ export function TripCard({ trip, onOpen, firstUpcoming }: {
 
         <span className="trip-times">
           <span className="trip-time-place">
-            <span className="trip-clock"><time>{trip.departureApprox ? "~" : ""}{departure.time}</time><span>{departure.period}</span></span>
+            <span className="trip-clock"><time>{departure.time}</time><span>{departure.period}</span></span>
             <span className="trip-stop-name">{trip.boarding}</span>
           </span>
           <span className="journey-connector" aria-label={`${formatDuration(trip.duration)} journey`}>
             <span className="connector-line"><i /><i /></span>
-            <span>{trip.departureApprox || trip.arrivalApprox ? "~" : ""}{formatDuration(trip.duration)}</span>
+            <span>{formatDuration(trip.duration)}</span>
           </span>
           <span className="trip-time-place arrival">
-            <span className="trip-clock"><time>{trip.arrivalApprox ? "~" : ""}{arrival.time}</time><span>{arrival.period}</span></span>
+            <span className="trip-clock"><time>{arrival.time}</time><span>{arrival.period}</span></span>
             <span className="trip-stop-name">{trip.alighting}</span>
           </span>
         </span>

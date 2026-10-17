@@ -7,22 +7,16 @@ import dataset from "@/data/kolkata-bus-data.json";
  * which is generated from the Excel directories by `python manage.py export-static-data`.
  * There are no network calls: all lookups run in the browser on that bundled data.
  *
- * Three kinds of trip are produced, and none of them is ever made up:
- * - "scheduled":   a run from the directory with published times at the route's two terminals.
- * - "approximate": the same runs, searched between two stops that are not both terminals. The
- *                  directory publishes times only at the terminals, so the time at a middle stop
- *                  is worked out from that run's real terminal times (equal time per stop,
- *                  in the direction the bus is actually travelling) and shown as approximate.
- * - "sample":      a route from the preview list, with illustrative first/last/every frequencies.
- *
- * A route with no published times produces no trips at all. `findRouteLinks` lists those routes
- * instead, so people still learn that a bus connects their stops without being shown a time that
- * does not exist.
+ * Three kinds of trip are produced:
+ * - "scheduled": a run from the directory with published times at the two terminals.
+ * - "sample":    a route from the preview list, with illustrative first/last/every frequencies.
+ * - "estimated": a directory route between two stops that are not both terminals. The
+ *                directory has no times for those stops, so departures are estimated.
  */
 
 export type ServiceType = "AC" | "Non-AC";
 export type Direction = "outbound" | "return";
-export type TripKind = "scheduled" | "approximate" | "sample";
+export type TripKind = "scheduled" | "sample" | "estimated";
 
 export interface RouteStop {
   name: string;
@@ -30,8 +24,6 @@ export interface RouteStop {
   minutes: number | null;
   /** true when the stop sits between the searched boarding and alighting stops */
   journey: boolean;
-  /** true when `minutes` was worked out from the route's terminal times rather than published */
-  approximate?: boolean;
 }
 
 export interface BusTrip {
@@ -46,9 +38,6 @@ export interface BusTrip {
   alighting: string;
   departure: number;
   arrival: number;
-  /** true when the departure / arrival at the searched stop is worked out, not published */
-  departureApprox: boolean;
-  arrivalApprox: boolean;
   duration: number;
   via: string[];
   /** every stop on the route in this direction, in order */
@@ -69,8 +58,6 @@ export interface TransferPlan {
   transferStop: string;
   first: BusTrip;
   second: BusTrip;
-  /** true when either bus time is approximate, so the real wait can differ */
-  approximate: boolean;
   /** minutes spent waiting at the change stop */
   wait: number;
   departure: number;
@@ -271,7 +258,7 @@ for (const route of ROUTES) {
 export const STOPS: string[] = DATA.stops.map((stop) => stop.name).sort((a, b) => a.localeCompare(b));
 
 /** Extra names people actually type or say for a stop (English short forms and Bengali). */
-export const STOP_ALIASES: Record<string, string[]> = {
+const STOP_ALIASES: Record<string, string[]> = {
   "Howrah Station": ["howrah", "howrah stn", "howrah railway station", "হাওড়া"],
   "Salt Lake Sector V": ["salt lake", "saltlake", "sector 5", "sector v", "sector five", "সল্টলেক", "সেক্টর ফাইভ"],
   "B.B.D. Bagh": ["bbd bagh", "bbd", "dalhousie", "বিবাদী বাগ"],
@@ -309,7 +296,7 @@ export const STOP_ALIASES: Record<string, string[]> = {
   Exide: ["exide crossing"],
   Mominpur: ["momin pur"],
   Taratala: ["tara tala"],
-  "Parnasree Pally": ["parnasree", "parnashree", "parnashree pally"],
+  Parnashree: ["parnasree", "parnashree"],
 };
 
 /**
@@ -407,12 +394,10 @@ export function resolveStop(input: string): string | undefined {
 
 const DIRECTIONS: Direction[] = ["outbound", "return"];
 const MIN_CHANGE_MINUTES = 4;
-/** Approximate times can be off by several minutes, so changes between them need a larger margin. */
-const MIN_CHANGE_APPROX_MINUTES = 10;
-
-function changeMargin(first: BusTrip, second: BusTrip): number {
-  return first.kind === "approximate" || second.kind === "approximate" ? MIN_CHANGE_APPROX_MINUTES : MIN_CHANGE_MINUTES;
-}
+const ESTIMATE_START = 6 * 60;
+const ESTIMATE_END = 21 * 60;
+const ESTIMATE_EVERY = 25;
+const ESTIMATE_DURATION = 45;
 
 function stopsInDirection(route: Route, direction: Direction): string[] {
   return direction === "outbound" ? route.stops : [...route.stops].reverse();
@@ -445,8 +430,6 @@ function scheduledTrips(route: Route, direction: Direction, stops: string[], out
       alighting: stops[last],
       departure,
       arrival,
-      departureApprox: false,
-      arrivalApprox: false,
       duration: Math.max(1, arrival - departure),
       via: stops.slice(1, last),
       fullStops: stops.map((name, index) => ({
@@ -490,8 +473,6 @@ function sampleTrips(route: Route, direction: Direction, stops: string[], from: 
       alighting: stops[to],
       departure,
       arrival,
-      departureApprox: false,
-      arrivalApprox: false,
       duration: arrival - departure,
       via: stops.slice(from + 1, to),
       fullStops: stops.map((name, index) => ({
@@ -509,106 +490,54 @@ function sampleTrips(route: Route, direction: Direction, stops: string[], from: 
   }
 }
 
-/**
- * A directory run searched between two stops that are not both terminals.
- *
- * The directory publishes a departure and an arrival only at the two terminals, once per direction.
- * The time at any stop in between is worked out from the same run's real terminal times, assuming
- * equal time between stops, and the result is always flagged approximate. Because the real times
- * for the direction the bus is travelling are used (outbound times one way, return times the
- * other), a journey and its reverse never show the same list of times.
- */
-function approximateTrips(route: Route, direction: Direction, stops: string[], from: number, to: number, out: BusTrip[]) {
+function estimatedTrips(route: Route, direction: Direction, stops: string[], from: number, to: number, out: BusTrip[]) {
   const last = stops.length - 1;
-  const timeAt = (departure: number, arrival: number, index: number) =>
-    Math.round(departure + ((arrival - departure) * index) / last);
-
-  const runs = route.scheduled.map((run) => {
-    const [terminalDeparture, rawArrival] = direction === "outbound" ? run.out : run.ret;
-    const terminalArrival = arrivalAfter(terminalDeparture, rawArrival);
-    const departure = timeAt(terminalDeparture, terminalArrival, from);
-    const arrival = Math.max(departure + 1, timeAt(terminalDeparture, terminalArrival, to));
-    return { run, terminalDeparture, terminalArrival, departure, arrival };
-  });
-  const boardingTimes = runs.map((item) => item.departure);
-  const serviceStart = Math.min(...boardingTimes);
-  const serviceEnd = Math.max(...boardingTimes);
-  const headway = route.headway[direction];
-
-  for (const { run, terminalDeparture, terminalArrival, departure, arrival } of runs) {
+  for (let start = ESTIMATE_START; start <= ESTIMATE_END; start += ESTIMATE_EVERY) {
+    const departure = start;
+    const arrival = start + ESTIMATE_DURATION;
     out.push({
-      id: `${run.run}-${direction}-${from}-${to}`,
+      id: `est-${route.number}-${direction}-${start}-${from}-${to}`,
       number: route.number,
       operator: route.operator,
       type: route.type,
-      kind: "approximate",
+      kind: "estimated",
       terminusFrom: stops[0],
       terminusTo: stops[last],
       boarding: stops[from],
       alighting: stops[to],
       departure,
       arrival,
-      departureApprox: from !== 0,
-      arrivalApprox: to !== last,
-      duration: arrival - departure,
+      duration: ESTIMATE_DURATION,
       via: stops.slice(from + 1, to),
-      fullStops: stops.map((name, index) => {
-        if (index === 0) return { name, minutes: terminalDeparture, journey: index >= from && index <= to };
-        if (index === last) return { name, minutes: terminalArrival, journey: index >= from && index <= to };
-        const journey = index >= from && index <= to;
-        if (index === from) return { name, minutes: departure, journey, approximate: true };
-        if (index === to) return { name, minutes: arrival, journey, approximate: true };
-        return { name, minutes: null, journey };
-      }),
-      headway,
-      serviceStart,
-      serviceEnd,
-      runCode: run.run,
-      bus: run.bus,
-      notes: run.notes,
+      fullStops: stops.map((name, index) => ({
+        name,
+        minutes: index === from ? departure : index === to ? arrival : null,
+        journey: index >= from && index <= to,
+      })),
+      headway: ESTIMATE_EVERY,
+      serviceStart: ESTIMATE_START,
+      serviceEnd: ESTIMATE_END,
+      runCode: null,
+      bus: null,
+      notes: null,
     });
   }
 }
 
-/** True when the route has any published times (a directory timetable or a sample frequency). */
-function hasTimes(route: Route): boolean {
-  return route.source === "preview" ? route.frequency !== null : route.scheduled.length > 0;
-}
-
-interface Connection {
-  direction: Direction;
-  /** the route's stops in the order this direction visits them */
-  stops: string[];
-  boarding: number;
-  alighting: number;
-}
-
-/**
- * The directions in which a bus on this route takes you from `from` to `to`. A route is listed
- * once, for the one direction that visits `from` before `to`; the opposite journey only matches
- * the opposite direction, which has its own times.
- */
-function connections(route: Route, from: string, to: string): Connection[] {
-  const found: Connection[] = [];
+function tripsOnRoute(route: Route, from: string, to: string): BusTrip[] {
+  const found: BusTrip[] = [];
   for (const direction of DIRECTIONS) {
     const stops = stopsInDirection(route, direction);
     const boarding = stops.indexOf(from);
     const alighting = stops.indexOf(to);
-    if (boarding >= 0 && alighting > boarding) found.push({ direction, stops, boarding, alighting });
-  }
-  return found;
-}
+    if (boarding < 0 || alighting <= boarding) continue;
 
-function tripsOnRoute(route: Route, from: string, to: string): BusTrip[] {
-  if (!hasTimes(route)) return [];
-  const found: BusTrip[] = [];
-  for (const { direction, stops, boarding, alighting } of connections(route, from, to)) {
-    if (route.source === "preview") {
-      sampleTrips(route, direction, stops, boarding, alighting, found);
-    } else if (boarding === 0 && alighting === stops.length - 1) {
-      scheduledTrips(route, direction, stops, found);
+    const isTerminalPair = boarding === 0 && alighting === stops.length - 1;
+    if (route.source === "directory") {
+      if (isTerminalPair && route.scheduled.length > 0) scheduledTrips(route, direction, stops, found);
+      else estimatedTrips(route, direction, stops, boarding, alighting, found);
     } else {
-      approximateTrips(route, direction, stops, boarding, alighting, found);
+      sampleTrips(route, direction, stops, boarding, alighting, found);
     }
   }
   return found;
@@ -625,50 +554,6 @@ export function findTrips(from: string, to: string): BusTrip[] {
     results.push(...tripsOnRoute(route, start, end));
   }
   return results.sort((a, b) => a.departure - b.departure || a.number.localeCompare(b.number));
-}
-
-export interface RouteLink {
-  id: string;
-  number: string;
-  operator: string;
-  type: ServiceType;
-  category: string | null;
-  direction: Direction;
-  boarding: string;
-  alighting: string;
-  terminusFrom: string;
-  terminusTo: string;
-  via: string[];
-}
-
-/**
- * Routes that carry you from `from` to `to` but have no published times. They are never given
- * invented departures; the caller shows them as "this bus connects your stops, no timetable yet".
- */
-export function findRouteLinks(from: string, to: string): RouteLink[] {
-  const start = canonicalStop(from);
-  const end = canonicalStop(to);
-  if (!start || !end || start === end) return [];
-  const links: RouteLink[] = [];
-  for (const route of ROUTES_BY_STOP.get(start) ?? []) {
-    if (hasTimes(route)) continue;
-    for (const { direction, stops, boarding, alighting } of connections(route, start, end)) {
-      links.push({
-        id: `${route.number}-${direction}`,
-        number: route.number,
-        operator: route.operator,
-        type: route.type,
-        category: route.category,
-        direction,
-        boarding: stops[boarding],
-        alighting: stops[alighting],
-        terminusFrom: stops[0],
-        terminusTo: stops[stops.length - 1],
-        via: stops.slice(boarding + 1, alighting),
-      });
-    }
-  }
-  return links.sort((a, b) => a.number.localeCompare(b.number, undefined, { numeric: true }));
 }
 
 /** Looks a saved bus back up from a previously viewed journey. */
@@ -699,7 +584,7 @@ export function findTransferPlans(from: string, to: string, afterMinute: number,
     if (!legTwo.length) continue;
     for (const first of legOne.slice(0, 12)) {
       const second = legTwo.find(
-        (trip) => trip.departure >= first.arrival + changeMargin(first, trip) && trip.number !== first.number,
+        (trip) => trip.departure >= first.arrival + MIN_CHANGE_MINUTES && trip.number !== first.number,
       );
       if (!second) continue;
       plans.push({
@@ -709,7 +594,6 @@ export function findTransferPlans(from: string, to: string, afterMinute: number,
         transferStop: stop,
         first,
         second,
-        approximate: first.kind === "approximate" || second.kind === "approximate",
         wait: second.departure - first.arrival,
         departure: first.departure,
         arrival: second.arrival,

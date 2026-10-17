@@ -29,12 +29,10 @@ import {
 import { BusDetailModal } from "@/components/BusDetailModal";
 import { HeroMap } from "@/components/HeroMap";
 import { StopField } from "@/components/StopField";
-import { RouteLinks } from "@/components/RouteLinks";
 import { TripCard } from "@/components/TripCard";
 import { RouteExplorer } from "@/components/RouteExplorer";
 import {
   DATA_COUNTS,
-  findRouteLinks,
   findTransferPlans,
   findTrip,
   findTrips,
@@ -211,19 +209,6 @@ export default function HomePage() {
     [allTrips.length, submitted.from, submitted.to, submitted.time],
   );
   const firstBusOfDay = allTrips[0];
-  const routeLinks = useMemo(
-    () => findRouteLinks(submitted.from, submitted.to).filter((link) => typeFilter === "all" || link.type === typeFilter),
-    [submitted.from, submitted.to, typeFilter],
-  );
-  const countLabel = (() => {
-    if (allTrips.length === 0) {
-      const parts: string[] = [];
-      if (routeLinks.length) parts.push(`${routeLinks.length} ${routeLinks.length === 1 ? "bus" : "buses"} without a timetable`);
-      if (transferPlans.length) parts.push(`${transferPlans.length} ${transferPlans.length === 1 ? "route" : "routes"} with 1 change`);
-      if (parts.length) return parts.join(" · ");
-    }
-    return `${displayedTrips.length} ${displayedTrips.length === 1 ? "bus" : "buses"} ${view === "upcoming" ? "after your time" : "today"}`;
-  })();
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
@@ -235,7 +220,7 @@ export default function HomePage() {
             const valid = parsed.filter(
               (item: unknown): item is HistoryEntry =>
                 Boolean(item) && typeof item === "object" && typeof (item as HistoryEntry).tripId === "string",
-            ).filter((item) => findTrip(item.from, item.to, item.tripId) !== undefined);
+            );
             setHistory(valid.slice(0, HISTORY_LIMIT));
           }
         }
@@ -547,7 +532,9 @@ export default function HomePage() {
             <div className="schedule-indicator"><span className="schedule-indicator-icon"><CalendarDays size={17} /></span><span><strong>{today}</strong><small>Kolkata local time (IST)</small></span></div>
           </div>
 
-          <div className="journey-banner"><div className="journey-banner-stops"><span className="banner-dot origin" /><strong>{submitted.from}</strong><span className="banner-line"><ArrowRight size={17} /></span><span className="banner-dot destination" /><strong>{submitted.to}</strong></div><span className="journey-banner-count"><BusFront size={16} /> {countLabel}</span><button type="button" className="share-button" onClick={shareJourney}><Share2 size={14} aria-hidden="true" /> {shareStatus === "copied" ? "Link copied" : shareStatus === "failed" ? "Copy failed" : "Share"}</button></div>
+          <div className="journey-banner"><div className="journey-banner-stops"><span className="banner-dot origin" /><strong>{submitted.from}</strong><span className="banner-line"><ArrowRight size={17} /></span><span className="banner-dot destination" /><strong>{submitted.to}</strong></div><span className="journey-banner-count"><BusFront size={16} /> {allTrips.length === 0 && transferPlans.length > 0
+            ? `${transferPlans.length} ${transferPlans.length === 1 ? "route" : "routes"} with 1 change`
+            : `${displayedTrips.length} ${displayedTrips.length === 1 ? "bus" : "buses"} ${view === "upcoming" ? "after your time" : "today"}`}</span><button type="button" className="share-button" onClick={shareJourney}><Share2 size={14} aria-hidden="true" /> {shareStatus === "copied" ? "Link copied" : shareStatus === "failed" ? "Copy failed" : "Share"}</button></div>
 
           <div className="results-controls">
             <div className="view-tabs" role="tablist" aria-label="Timetable view">
@@ -568,15 +555,12 @@ export default function HomePage() {
               ) : (
                 <div className="empty-state">
                   <span className="empty-art"><PersonStanding size={26} aria-hidden="true" /></span>
-                  <h3>{allTrips.length === 0 ? (routeLinks.length ? (transferPlans.length ? "No timetable for the direct bus — a timed option with one change is below" : "No timetable is published for the direct bus yet") : transferPlans.length ? "No direct bus — but you can get there with one change" : "No bus connects those stops yet") : view === "upcoming" ? "That's the last bus after this time" : "No buses match this filter"}</h3>
+                  <h3>{allTrips.length === 0 ? (transferPlans.length ? "No direct bus — but you can get there with one change" : "No bus connects those stops yet") : view === "upcoming" ? "That's the last bus after this time" : "No buses match this filter"}</h3>
                   <p>{allTrips.length === 0
-                    ? (routeLinks.length
-                      ? (transferPlans.length ? "The direct bus is listed first and has no published times. Below it are the quickest timed ways with a single change." : "The bus below connects your stops. City buses in Kolkata run to frequency, so no departure times are published for it — and we only show times we can back up. Ask at the stop or check with the operator.")
-                      : transferPlans.length ? "Here are the quickest ways with a single change. Tap a bus number for its stops." : "Buses in this preview run between major hubs. Try one of these busy routes instead:")
+                    ? (transferPlans.length ? "Here are the quickest ways with a single change. Tap a bus number for its stops." : "Buses in this preview run between major hubs. Try one of these busy routes instead:")
                     : view === "upcoming"
                       ? "You can still see the full day's timetable, or pick an earlier time below."
                       : "Try selecting All buses to see every service on this route."}</p>
-                  {allTrips.length === 0 && <RouteLinks links={routeLinks} noTrips />}
                   {allTrips.length === 0 && transferPlans.length > 0 && (
                     <div className="transfer-list" aria-label="Journeys with one change">
                       {transferPlans.map((plan) => {
@@ -585,8 +569,8 @@ export default function HomePage() {
                         return (
                           <div className="transfer-card" key={plan.id}>
                             <div className="transfer-top">
-                              <strong>{plan.first.departureApprox ? "~" : ""}{start.time} {start.period} <ArrowRight size={13} aria-hidden="true" /> {plan.second.arrivalApprox ? "~" : ""}{end.time} {end.period}</strong>
-                              <span>{plan.approximate ? "~" : ""}{formatDuration(plan.duration)} · 1 change{plan.approximate ? " · approx. times" : ""}</span>
+                              <strong>{start.time} {start.period} <ArrowRight size={13} aria-hidden="true" /> {end.time} {end.period}</strong>
+                              <span>{formatDuration(plan.duration)} · 1 change</span>
                             </div>
                             <ol className="transfer-legs">
                               <li><button type="button" onClick={() => openTrip(plan.first)}><BusFront size={14} aria-hidden="true" /> Bus {plan.first.number}</button> {plan.first.boarding} <ArrowRight size={12} aria-hidden="true" /> {plan.transferStop}</li>
@@ -611,7 +595,6 @@ export default function HomePage() {
                       </div>}
                 </div>
               )}
-              {allTrips.length > 0 && <RouteLinks links={routeLinks} noTrips={false} />}
             </div>
             <aside className="results-sidebar" aria-label="Timetable information">
               <div className="sidebar-tips">
@@ -623,7 +606,7 @@ export default function HomePage() {
                   <li><span className="tip-icon route"><Route size={15} aria-hidden="true" /></span><p>Big hubs such as Esplanade and Sealdah link to most routes in this preview.</p></li>
                 </ul>
               </div>
-              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory bundled with this site. Times marked <strong>~</strong> are approximate, some routes use <strong>sample frequencies</strong>, and routes with no published timetable are listed without times. Times are not live, do not show bus locations, and may differ from official schedules.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata-area routes only</div></div>
+              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory bundled with this site, and some routes use <strong>sample frequencies</strong>. Times are not live, do not show bus locations, and may differ from official schedules.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata-area routes only</div></div>
               <div className="sidebar-art"><div className="sidebar-art-label">A CITY ALWAYS IN MOTION</div><div className="sidebar-path"><span /><span /><span /></div><h3>Go on, Kolkata is waiting.</h3><p>From your first stop to your last, a little planning goes a long way.</p><Navigation size={24} className="sidebar-navigation" /></div>
             </aside>
           </div>

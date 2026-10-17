@@ -7,14 +7,11 @@ import {
 } from "lucide-react";
 import { formatClock, formatDuration, type BusTrip, type TripKind } from "@/lib/timetables";
 
-function noteFor(trip: BusTrip): string {
-  const notes: Record<TripKind, string> = {
-    scheduled: "Times from the Kolkata bus directory. Not live; confirm with the operator before you travel.",
-    approximate: `The directory publishes times only at ${trip.terminusFrom} and ${trip.terminusTo}. Times marked ~ at the stops in between are worked out from those real times, so they can be off by several minutes. Not live; confirm with the operator before you travel.`,
-    sample: "Sample frequency for this route. Not an official timetable.",
-  };
-  return notes[trip.kind];
-}
+const NOTE_BY_KIND: Record<TripKind, string> = {
+  scheduled: "Times from the Kolkata bus directory. Not live; confirm with the operator before you travel.",
+  sample: "Sample frequency for this route. Not an official timetable.",
+  estimated: "Estimated departures: the directory has no published times for this stop pair.",
+};
 
 export function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClose: () => void }) {
   useEffect(() => {
@@ -37,8 +34,7 @@ export function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClos
   const arrival = formatClock(trip.arrival);
   const first = formatClock(trip.serviceStart);
   const last = formatClock(trip.serviceEnd);
-  const gapLabel = trip.kind === "sample" ? "Runs every" : "Typical gap";
-  const tilde = (approximate: boolean) => (approximate ? "~" : "");
+  const gapLabel = trip.kind === "scheduled" ? "Typical gap" : "Runs every";
 
   return (
     <div className="modal-backdrop" role="presentation" onClick={onClose}>
@@ -67,12 +63,12 @@ export function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClos
         </div>
 
         <div className="modal-stats">
-          <div><span><PersonStanding size={13} aria-hidden="true" /> Departs {trip.boarding}</span><strong>{tilde(trip.departureApprox)}{departure.time} <em>{departure.period}</em></strong></div>
-          <div><span><Flag size={13} aria-hidden="true" /> Arrives {trip.alighting}</span><strong>{tilde(trip.arrivalApprox)}{arrival.time} <em>{arrival.period}</em></strong></div>
-          <div><span><Timer size={13} aria-hidden="true" /> Journey time</span><strong>{tilde(trip.departureApprox || trip.arrivalApprox)}{formatDuration(trip.duration)}</strong></div>
+          <div><span><PersonStanding size={13} aria-hidden="true" /> Departs {trip.boarding}</span><strong>{departure.time} <em>{departure.period}</em></strong></div>
+          <div><span><Flag size={13} aria-hidden="true" /> Arrives {trip.alighting}</span><strong>{arrival.time} <em>{arrival.period}</em></strong></div>
+          <div><span><Timer size={13} aria-hidden="true" /> Journey time</span><strong>{formatDuration(trip.duration)}</strong></div>
           <div><span><BusFront size={13} aria-hidden="true" /> {gapLabel}</span><strong>{trip.headway ? `${trip.headway} min` : "—"}</strong></div>
-          <div><span><Sunrise size={13} aria-hidden="true" /> First bus</span><strong>{tilde(trip.departureApprox)}{first.time} <em>{first.period}</em></strong></div>
-          <div><span><Sunset size={13} aria-hidden="true" /> Last bus</span><strong>{tilde(trip.departureApprox)}{last.time} <em>{last.period}</em></strong></div>
+          <div><span><Sunrise size={13} aria-hidden="true" /> First bus</span><strong>{first.time} <em>{first.period}</em></strong></div>
+          <div><span><Sunset size={13} aria-hidden="true" /> Last bus</span><strong>{last.time} <em>{last.period}</em></strong></div>
         </div>
 
         <div className="modal-amenities">
@@ -105,14 +101,14 @@ export function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClos
                     {role === "alighting" && <em>Get off here</em>}
                     {role === "journey" && <em className="on-route">On your route</em>}
                   </span>
-                  <span className="timeline-time">{clock ? `${stop.approximate ? "~" : ""}${clock.time} ${clock.period}` : "No time published"}</span>
+                  <span className="timeline-time">{clock ? `${clock.time} ${clock.period}` : "No time published"}</span>
                 </div>
               );
             })}
           </div>
         </div>
 
-        <div className="modal-note"><Info size={14} /> {noteFor(trip)}</div>
+        <div className="modal-note"><Info size={14} /> {NOTE_BY_KIND[trip.kind]}</div>
       </div>
     </div>
   );

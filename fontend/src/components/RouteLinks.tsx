@@ -35,6 +35,18 @@ export function RouteLinks({ links, noTrips }: { links: RouteLink[]; noTrips: bo
             <div>
               <strong>{link.number}<span className={`type-badge ${link.type === "AC" ? "ac" : ""}`}>{link.type}</span></strong>
               <span>{link.operator} · to {link.terminusTo}</span>
+              {link.provenance && (
+                <span className="route-link-source">
+                  Route list: {link.provenance === "wbtc_routes" || link.provenance === "wbtc_routes;kolbusopedia"
+                    ? "WBTC"
+                    : link.provenance === "kolbusopedia"
+                      ? "Bus-O-Pedia"
+                      : link.provenance === "osm"
+                        ? "OpenStreetMap"
+                        : link.provenance}
+                  {link.confidence === "verified" ? " · verified" : " · community"}
+                </span>
+              )}
               <span className="route-link-via"><CornerDownRight size={13} aria-hidden="true" /> {viaLabel(link.via)}</span>
             </div>
           </li>

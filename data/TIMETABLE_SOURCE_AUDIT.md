@@ -1,5 +1,17 @@
 # Timetable sourcing audit — 17 October 2026
 
+> **Status update (same day):** this audit was written against the old 460-route directory.
+> The site has since moved to the v2 workbook, which publishes passage times for all 75 of its
+> routes. The source findings below still explain why no external timetable was added, but the
+> route counts refer to the old file. See `DATA_SOURCE_CONFLICT.md` for the migration decision.
+>
+> **Second update (17 October 2026):** the expansion pass re-checked three more city sources —
+> BusJatri (its own route pages say "Stop times estimated from the trip departure + route length"),
+> citybustimetable.com (every page says "estimated, assumed per stop") and calcutta-transport
+> (GTFS build report: default 15-minute headway, times estimated from distance). The conclusion is
+> unchanged: no city stop times were imported. The routes themselves were added without times; see
+> `ROUTE_EXPANSION_AUDIT.md`.
+
 **Question:** the Excel workbooks carry run times for 87 of the 460 directory routes.
 Can real departure times be sourced for the other 373 — and can real times be sourced for
 the intermediate stops of the routes that do have times?

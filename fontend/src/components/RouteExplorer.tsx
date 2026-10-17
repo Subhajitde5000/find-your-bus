@@ -23,7 +23,7 @@ import {
   type Direction,
 } from "@/lib/timetables";
 
-const POPULAR_ROUTE_CHIPS = ["1", "12C", "205", "218", "230", "S5", "AC12", "45B"];
+const POPULAR_ROUTE_CHIPS = ["1", "12C", "205", "218", "S12", "AC9", "C11", "45B"];
 
 interface RouteExplorerProps {
   onSelectJourney?: (from: string, to: string) => void;
@@ -62,7 +62,20 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
   const destinationName = route?.destination ?? "Destination";
   const fleetInfo = route?.fleetText ?? (route?.fleetCount ? `${route.fleetCount} buses` : null);
   const isSample = route?.source === "preview";
-  const viaText = route && route.via.length ? route.via.join(", ") : null;
+  const isCatalogue = route?.source === "catalogue";
+  const isExternal = route?.source === "external";
+  const provenanceLabel =
+    route?.provenance === "wbtc_routes" || route?.provenance === "wbtc_routes;kolbusopedia"
+      ? "WBTC city route list"
+      : route?.provenance === "kolbusopedia"
+        ? "Bus-O-Pedia route catalogue"
+        : route?.provenance === "osm"
+          ? "OpenStreetMap route relation"
+          : route?.provenance ?? null;
+  const viaText =
+    route && route.via.length
+      ? `${route.via.slice(0, 6).join(", ")}${route.via.length > 6 ? ` +${route.via.length - 6} more` : ""}`
+      : null;
 
   // Stops list for display
   const rawStops = route?.stops ?? [];
@@ -94,7 +107,7 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
             <input
               id="route-number-input"
               type="text"
-              placeholder="e.g. 1, 12C, 205, 218, S5, AC12..."
+              placeholder="e.g. 1, 12C, 205, S12, AC9, C11..."
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
@@ -151,7 +164,7 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
             ) : (
               <div className="suggestion-empty-state">
                 <Info size={16} />
-                <span>No routes found matching &quot;{searchQuery}&quot;. Try numbers like 1, 12C, 205, or S5.</span>
+                <span>No routes found matching &quot;{searchQuery}&quot;. Try numbers like 1, 12C, 205, or S12.</span>
               </div>
             )}
           </div>
@@ -216,7 +229,12 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
                 <button
                   type="button"
                   className="plan-trip-btn"
-                  onClick={() => onSelectJourney(originName, destinationName)}
+                  onClick={() =>
+                    onSelectJourney(
+                      direction === "outbound" ? originName : destinationName,
+                      direction === "outbound" ? destinationName : originName,
+                    )
+                  }
                   title="Plan journey between terminals"
                 >
                   <Search size={14} />
@@ -251,6 +269,18 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
                 <span>
                   {activeTrips.length} {isSample ? "Sample" : "Daily Scheduled"} Departures
                 </span>
+              </span>
+            )}
+            {isCatalogue && (
+              <span className="meta-pill">
+                <Info size={14} />
+                <span>Route only · no published timetable</span>
+              </span>
+            )}
+            {provenanceLabel && (isCatalogue || isExternal) && (
+              <span className="meta-pill via">
+                <RouteIcon size={14} />
+                <span>{provenanceLabel}{route?.confidence === "verified" ? " · verified" : ""}</span>
               </span>
             )}
           </div>
@@ -331,7 +361,11 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
                   <p>
                     {isSample
                       ? "Sample departures for this route. Not an official timetable."
-                      : "Times from the Kolkata bus directory. Not live."}
+                      : isExternal
+                        ? `Published stop-by-stop timetable from ${provenanceLabel ?? "the operator"}. Not live.`
+                        : isCatalogue
+                          ? "No timetable is published for this route. Kolkata city buses run to frequency; no departure is invented."
+                          : "Published passage times from the Kolkata bus directory v2. Not live."}
                   </p>
                 </div>
                 <div className="direction-badge">
@@ -380,8 +414,12 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
               ) : (
                 <div className="timetable-empty">
                   <Clock3 size={32} />
-                  <h5>No departures listed for this direction</h5>
-                  <p>The directory has no run times for this route in this direction.</p>
+                  <h5>{isCatalogue ? "No timetable is published for this route" : "No departures listed for this direction"}</h5>
+                  <p>
+                    {isCatalogue
+                      ? "The route and its stops are real; the times are not published anywhere, so they are left blank."
+                      : "The directory has no run times for this route in this direction."}
+                  </p>
                 </div>
               )}
             </div>

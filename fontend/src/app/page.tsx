@@ -120,6 +120,34 @@ interface HistoryEntry {
   viewedAt: number;
 }
 
+/**
+ * Saved entries can come from an older version of the site (or from a corrupted
+ * localStorage), so nothing stored is trusted. The trip is looked up again and the
+ * card is rebuilt from that trip: missing `from`/`to` used to make `findTrip` throw
+ * and wipe the whole list. Every field shown on the card is rebuilt from the current trip, so an
+ * entry saved by an older version cannot keep a stale time or marker.
+ */
+function readHistoryEntry(item: unknown): HistoryEntry | null {
+  if (!item || typeof item !== "object") return null;
+  const raw = item as Partial<HistoryEntry>;
+  if (typeof raw.tripId !== "string" || typeof raw.from !== "string" || typeof raw.to !== "string") return null;
+  const trip = findTrip(raw.from, raw.to, raw.tripId);
+  if (!trip) return null;
+  const viewedAt = typeof raw.viewedAt === "number" && Number.isFinite(raw.viewedAt) ? raw.viewedAt : Date.now();
+  return {
+    key: `${trip.id}:${raw.from}->${raw.to}`,
+    tripId: trip.id,
+    from: raw.from,
+    to: raw.to,
+    number: trip.number,
+    type: trip.type,
+    boarding: trip.boarding,
+    alighting: trip.alighting,
+    departure: trip.departure,
+    viewedAt,
+  };
+}
+
 const HISTORY_KEY = "cholo-recent-buses";
 const HISTORY_LIMIT = 6;
 
@@ -232,10 +260,9 @@ export default function HomePage() {
         if (raw) {
           const parsed: unknown = JSON.parse(raw);
           if (Array.isArray(parsed)) {
-            const valid = parsed.filter(
-              (item: unknown): item is HistoryEntry =>
-                Boolean(item) && typeof item === "object" && typeof (item as HistoryEntry).tripId === "string",
-            ).filter((item) => findTrip(item.from, item.to, item.tripId) !== undefined);
+            const valid = parsed
+              .map(readHistoryEntry)
+              .filter((item): item is HistoryEntry => item !== null);
             setHistory(valid.slice(0, HISTORY_LIMIT));
           }
         }
@@ -585,8 +612,8 @@ export default function HomePage() {
                         return (
                           <div className="transfer-card" key={plan.id}>
                             <div className="transfer-top">
-                              <strong>{plan.first.departureApprox ? "~" : ""}{start.time} {start.period} <ArrowRight size={13} aria-hidden="true" /> {plan.second.arrivalApprox ? "~" : ""}{end.time} {end.period}</strong>
-                              <span>{plan.approximate ? "~" : ""}{formatDuration(plan.duration)} · 1 change{plan.approximate ? " · approx. times" : ""}</span>
+                              <strong>{start.time} {start.period} <ArrowRight size={13} aria-hidden="true" /> {end.time} {end.period}</strong>
+                              <span>{formatDuration(plan.duration)} · 1 change{plan.includesSample ? " · sample times" : ""}</span>
                             </div>
                             <ol className="transfer-legs">
                               <li><button type="button" onClick={() => openTrip(plan.first)}><BusFront size={14} aria-hidden="true" /> Bus {plan.first.number}</button> {plan.first.boarding} <ArrowRight size={12} aria-hidden="true" /> {plan.transferStop}</li>
@@ -623,7 +650,7 @@ export default function HomePage() {
                   <li><span className="tip-icon route"><Route size={15} aria-hidden="true" /></span><p>Big hubs such as Esplanade and Sealdah link to most routes in this preview.</p></li>
                 </ul>
               </div>
-              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory bundled with this site. Times marked <strong>~</strong> are approximate, some routes use <strong>sample frequencies</strong>, and routes with no published timetable are listed without times. Times are not live, do not show bus locations, and may differ from official schedules.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata-area routes only</div></div>
+              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory v2, which publishes a passage time at every stop, plus a small number of long-distance services whose operator publishes stop-by-stop times. <strong>{DATA_COUNTS.catalogueRoutes} more routes</strong> come from the WBTC and Bus-O-Pedia route lists; Kolkata city buses run to frequency, so those have no times at all and are shown as route links. Some routes use <strong>sample frequencies</strong> and are labelled Sample. Times are not live, do not show bus locations, and may differ from official schedules.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata and suburban routes</div></div>
               <div className="sidebar-art"><div className="sidebar-art-label">A CITY ALWAYS IN MOTION</div><div className="sidebar-path"><span /><span /><span /></div><h3>Go on, Kolkata is waiting.</h3><p>From your first stop to your last, a little planning goes a long way.</p><Navigation size={24} className="sidebar-navigation" /></div>
             </aside>
           </div>

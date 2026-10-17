@@ -1,5 +1,10 @@
 # Missing-data audit — 15 October 2026
 
+> **Status update (17 October 2026):** this pass edited the Excel workbooks and deliberately did
+> not regenerate the site data. The site has since been regenerated from the v2 workbook; the 25
+> added stands are in the bundled data (193 stands). Route/page counts in this note describe the
+> old directory. See `DATA_SOURCE_CONFLICT.md` for the migration decision.
+
 Scope of this pass: **Excel files only.** The website data file
 (`fontend/src/data/kolkata-bus-data.json`) was **not** regenerated and no
 website code was touched, as instructed. Everything added below is a

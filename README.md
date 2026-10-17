@@ -21,6 +21,7 @@ npm run dev        # http://localhost:3000
 npm run build      # static export -> fontend/out
 npm run lint
 npm run typecheck
+npm test             # journey-search regression tests (every route, both directions)
 ```
 
 `npm run build` writes plain HTML/CSS/JS to `fontend/out`, which can be served by any static host
@@ -70,11 +71,21 @@ De-duplication rules applied by the exporter (all recorded under `meta.dedupe`):
 
 ### Kinds of departure
 
-- **Scheduled** — a run from the directory with published times at the two terminals.
+The site never shows a time that is not backed by the data.
+
+- **Scheduled** — a run from the directory, searched between the route's two terminals. Outbound
+  searches use the outbound times and return searches use the return times.
+- **Approximate** (shown with a `~`) — the same real runs, searched between two stops that are not
+  both terminals. The directory publishes times only at the terminals, so the time at a stop in
+  between is worked out from that run's real terminal times (equal time per stop, in the direction
+  the bus is travelling). It can be off by several minutes. Changes between approximate buses get a
+  10 minute margin instead of 4.
 - **Sample** — a route from the preview list using its first/last/every frequency.
-- **Estimated** — a directory route between two stops that are not both terminals. The directory
-  publishes no times for those, so departures are estimated every 25 minutes between 06:00 and
-  21:00. These are labelled "Estimated" in the UI.
+- **No timetable** — a route with no published times is listed as "connects your stops, no
+  timetable yet" with no times at all. Nothing is generated for it.
+
+A journey and its reverse use the times of the direction the bus actually travels, so they never
+show the same list. `npm test` checks this for every route and every pair of its stops.
 
 Nothing in the site is live tracking.
 

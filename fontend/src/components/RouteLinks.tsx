@@ -22,7 +22,9 @@ export function RouteLinks({ links, noTrips }: { links: RouteLink[]; noTrips: bo
           <Info size={17} aria-hidden="true" />
           <div>
             <h3>{one ? "Another bus connects" : "More buses connect"} your stops — no published timetable yet</h3>
-            <p>We only show times we can back up. Ask at the stop or check with the operator.</p>
+            {/* City buses here run to frequency, so no operator publishes times for them. See
+                data/TIMETABLE_SOURCE_AUDIT.md for the sources checked. */}
+            <p>City buses in Kolkata run to frequency, so most have no published times. We only show times we can back up — ask at the stop or check with the operator.</p>
           </div>
         </div>
       )}

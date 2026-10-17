@@ -571,7 +571,7 @@ export default function HomePage() {
                   <h3>{allTrips.length === 0 ? (routeLinks.length ? (transferPlans.length ? "No timetable for the direct bus — a timed option with one change is below" : "No timetable is published for the direct bus yet") : transferPlans.length ? "No direct bus — but you can get there with one change" : "No bus connects those stops yet") : view === "upcoming" ? "That's the last bus after this time" : "No buses match this filter"}</h3>
                   <p>{allTrips.length === 0
                     ? (routeLinks.length
-                      ? (transferPlans.length ? "The direct bus is listed first and has no published times. Below it are the quickest timed ways with a single change." : "The bus below connects your stops, but no departure times are published for it, and we only show times we can back up. Ask at the stop or check with the operator.")
+                      ? (transferPlans.length ? "The direct bus is listed first and has no published times. Below it are the quickest timed ways with a single change." : "The bus below connects your stops. City buses in Kolkata run to frequency, so no departure times are published for it — and we only show times we can back up. Ask at the stop or check with the operator.")
                       : transferPlans.length ? "Here are the quickest ways with a single change. Tap a bus number for its stops." : "Buses in this preview run between major hubs. Try one of these busy routes instead:")
                     : view === "upcoming"
                       ? "You can still see the full day's timetable, or pick an earlier time below."

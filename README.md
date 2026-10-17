@@ -87,6 +87,19 @@ The site never shows a time that is not backed by the data.
 A journey and its reverse use the times of the direction the bus actually travels, so they never
 show the same list. `npm test` checks this for every route and every pair of its stops.
 
+### Why most routes have no times
+
+Kolkata city and suburban buses **run to frequency** — no operator or government body publishes a
+fixed departure timetable for them, and there is no open GTFS feed. The run times in the workbook
+are the exception, not the rule.
+
+`data/TIMETABLE_SOURCE_AUDIT.md` records every source checked before reaching that conclusion: the
+official WBTC route list (routes and stoppages, no times), the BusJatri open dataset (4,728
+services; 317 rows match this project's routes and **none** of them carries a time), and the sites
+that do display a city timetable — one of which states outright that its times are "estimated,
+assumed per stop". Nothing from them was added. Where a time cannot be sourced, the field stays
+blank.
+
 Nothing in the site is live tracking.
 
 ## Backend

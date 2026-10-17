@@ -9,3 +9,6 @@ venv/
 .pytest_cache/
 .ruff_cache/
 .env
+
+# External data cache (re-downloaded by scripts/import_external_routes.py)
+.cache/

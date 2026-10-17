@@ -1249,3 +1249,5 @@ html[data-theme="dark"] .timetable-table tr:hover td {
 .route-links li strong { display: inline-flex; align-items: center; gap: 8px; color: var(--heading); font-size: 15px; font-weight: 800; }
 .route-links li span { color: var(--soft-text); font-size: 13px; font-weight: 600; }
 .route-links .route-link-via { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); }
+
+.route-link-source { display: block; font-size: 11px; letter-spacing: 0.02em; color: #6c7f74; }

@@ -18,6 +18,7 @@ import {
   Lightbulb,
   Moon,
   MapPin,
+  LocateFixed,
   Navigation,
   PersonStanding,
   Route,
@@ -650,7 +651,7 @@ export default function HomePage() {
                   <li><span className="tip-icon route"><Route size={15} aria-hidden="true" /></span><p>Big hubs such as Esplanade and Sealdah link to most routes in this preview.</p></li>
                 </ul>
               </div>
-              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory v2, which publishes a passage time at every stop, plus a small number of long-distance services whose operator publishes stop-by-stop times. <strong>{DATA_COUNTS.catalogueRoutes} more routes</strong> come from the WBTC and Bus-O-Pedia route lists; Kolkata city buses run to frequency, so those have no times at all and are shown as route links. Some routes use <strong>sample frequencies</strong> and are labelled Sample. Times are not live, do not show bus locations, and may differ from official schedules.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata and suburban routes</div></div>
+              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory v2, which publishes a passage time at every stop, plus a small number of long-distance services whose operator publishes stop-by-stop times. <strong>{DATA_COUNTS.catalogueRoutes} more routes</strong> come from the WBTC and Bus-O-Pedia route lists; Kolkata city buses run to frequency, so those have no times at all and are shown as route links. Some routes use <strong>sample frequencies</strong> and are labelled Sample. Times are not live, do not show bus locations, and may differ from official schedules. The <strong>Set on bus</strong> screen is different: it uses your phone&apos;s own GPS to follow your route and works offline, but it still does not track buses.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata and suburban routes</div></div>
               <div className="sidebar-art"><div className="sidebar-art-label">A CITY ALWAYS IN MOTION</div><div className="sidebar-path"><span /><span /><span /></div><h3>Go on, Kolkata is waiting.</h3><p>From your first stop to your last, a little planning goes a long way.</p><Navigation size={24} className="sidebar-navigation" /></div>
             </aside>
           </div>
@@ -661,6 +662,7 @@ export default function HomePage() {
   <div className="how-card"><span className="how-number">02</span><span className="how-icon"><Clock3 size={24} /></span><h3>Choose a time</h3><p>Use a quick time or set your own, then see every bus for the rest of the day.</p></div>
   <div className="how-card"><span className="how-number">03</span><span className="how-icon"><BusFront size={24} /></span><h3>Tap your bus</h3><p>Open any bus to see its full route, every stop, and the times along the way.</p></div>
 </div></section>
+        <section className="ride-promo page-container" aria-labelledby="ride-promo-title"><div className="ride-promo-inner"><span className="ride-promo-icon"><LocateFixed size={26} /></span><div className="ride-promo-copy"><div className="section-kicker"><span className="kicker-dash" /> ON THE BUS, OFFLINE</div><h2 id="ride-promo-title">Set on bus<span className="accent-period">.</span></h2><p>Open any bus and tap <strong>Set on bus</strong>. A full-page route map follows you along it with no signal at all: how far the next stop is, and how long to every stop still ahead. It uses your phone&apos;s own GPS, so it works where a bus is most likely to lose reception — and it tells you plainly if you are not on the route.</p><ul><li><Check size={14} strokeWidth={3} /> Works completely offline</li><li><Check size={14} strokeWidth={3} /> Distances and times to every stop ahead</li><li><Check size={14} strokeWidth={3} /> Says &ldquo;you are not seated in this bus&rdquo; when you are not</li></ul></div><a className="ride-promo-action" href="#search"><span>Find a bus to ride</span><ArrowRight size={17} /></a></div></section>
         <BusDetailModal trip={detailTrip} onClose={() => setDetailTrip(null)} />
       </main>
 

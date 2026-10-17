@@ -1,0 +1,58 @@
+{
+  "id": "/",
+  "name": "Cholo — Kolkata Bus Guide",
+  "short_name": "Cholo",
+  "description": "Kolkata bus timetables and an offline ride screen. Find buses between your stops, and follow your route with no signal.",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "browser"],
+  "orientation": "portrait-primary",
+  "background_color": "#f8faf7",
+  "theme_color": "#195a45",
+  "categories": ["travel", "navigation", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Find a bus",
+      "short_name": "Find a bus",
+      "description": "Search the timetable between two stops",
+      "url": "/#search",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Ride along",
+      "short_name": "Ride",
+      "description": "Open the offline ride screen for a route you are on",
+      "url": "/ride",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

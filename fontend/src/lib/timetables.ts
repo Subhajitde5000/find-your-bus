@@ -49,6 +49,8 @@ export interface BusTrip {
   type: ServiceType;
   kind: TripKind;
   source: RouteSource;
+  /** The direction this trip travels in, which decides the stop order and the times. */
+  direction: Direction;
   terminusFrom: string;
   terminusTo: string;
   boarding: string;
@@ -508,6 +510,7 @@ function directoryTrips(
       type: route.type,
       kind: "scheduled",
       source: route.source,
+      direction,
       terminusFrom: stops[0],
       terminusTo: stops[stops.length - 1],
       boarding: stops[from],
@@ -566,6 +569,7 @@ function sampleTrips(route: Route, direction: Direction, stops: string[], from: 
       type: route.type,
       kind: "sample",
       source: route.source,
+      direction,
       terminusFrom: stops[0],
       terminusTo: stops[stops.length - 1],
       boarding: stops[from],
@@ -852,6 +856,180 @@ export function getRouteDepartures(routeNumber: string, direction: Direction): R
     });
   }
   return departures;
+}
+
+// ---------------------------------------------------------------- ride timetable
+
+export interface RideStopTime {
+  name: string;
+  /** Published passage time in minutes on the service timeline, or null. */
+  minutes: number | null;
+}
+
+export interface RideTimetable {
+  number: string;
+  operator: string;
+  type: ServiceType;
+  category: string | null;
+  source: RouteSource;
+  direction: Direction;
+  /** The route's stops in this direction's travel order. */
+  stops: RideStopTime[];
+  runCode: string | null;
+  bus: string | null;
+  /** null when nothing is published for this route, which is most of the directory. */
+  kind: TripKind | null;
+  headway: number | null;
+  serviceStart: number | null;
+  serviceEnd: number | null;
+  notes: string | null;
+  /** Other runs in this direction today, so the ride screen can offer a different bus. */
+  otherRuns: number;
+}
+
+/** The first non-null time of a run, which is when that bus starts working. */
+function firstTime(run: ScheduledRun): number | null {
+  for (const value of run.timeline) if (value !== null) return value;
+  return null;
+}
+
+/**
+ * One direction of one route, as a stop-by-stop timetable, for the ride screen.
+ *
+ * Which run is used:
+ * - `runCode` names it exactly (the passenger opened a specific departure);
+ * - otherwise the next run that has not gone yet at `atMinute`;
+ * - otherwise the last run of the day, so a late-evening ride still has times.
+ *
+ * A route with no published times returns `kind: null` and no minutes at all. The
+ * ride screen then falls back to the corridor distance and says the times are
+ * estimates. Nothing here invents a departure.
+ */
+export function getRideTimetable(
+  routeNumber: string,
+  direction: Direction,
+  atMinute?: number,
+  runCode?: string | null,
+): RideTimetable | undefined {
+  if (typeof routeNumber !== "string") return undefined;
+  const route = ROUTE_BY_NUMBER.get(routeNumber.trim().toLowerCase());
+  if (!route) return undefined;
+  const stops = stopsInDirection(route, direction);
+  const wanted = typeof runCode === "string" && runCode ? runCode : null;
+
+  if (route.scheduled.length) {
+    const runs = route.scheduled.filter((run) => run.direction === direction);
+    if (!runs.length) {
+      return {
+        number: route.number,
+        operator: route.operator,
+        type: route.type,
+        category: route.category,
+        source: route.source,
+        direction,
+        stops: stops.map((name) => ({ name, minutes: null })),
+        runCode: null,
+        bus: null,
+        kind: null,
+        headway: null,
+        serviceStart: null,
+        serviceEnd: null,
+        notes: null,
+        otherRuns: 0,
+      };
+    }
+    const departures = runs
+      .map(firstTime)
+      .filter((value): value is number => value !== null)
+      .sort((a, b) => a - b);
+    const serviceStart = departures.length ? departures[0] : null;
+    const serviceEnd = departures.length ? departures[departures.length - 1] : null;
+
+    let chosen = wanted ? runs.find((run) => run.run === wanted) : undefined;
+    if (!chosen) {
+      const upcoming =
+        typeof atMinute === "number"
+          ? runs.find((run) => {
+              const start = firstTime(run);
+              return start !== null && start >= atMinute;
+            })
+          : undefined;
+      chosen = upcoming ?? runs[runs.length - 1];
+    }
+
+    return {
+      number: route.number,
+      operator: route.operator,
+      type: route.type,
+      category: route.category,
+      source: route.source,
+      direction,
+      stops: stops.map((name, index) => ({ name, minutes: chosen.timeline[index] ?? null })),
+      runCode: chosen.run,
+      bus: chosen.bus,
+      kind: "scheduled",
+      headway: typicalHeadway(departures),
+      serviceStart,
+      serviceEnd,
+      notes: chosen.notes,
+      otherRuns: Math.max(0, runs.length - 1),
+    };
+  }
+
+  const frequency = route.frequency;
+  if (frequency) {
+    const legs = direction === "return" ? [...frequency.legs].reverse() : frequency.legs;
+    const cumulative = [0];
+    for (const leg of legs) cumulative.push(cumulative[cumulative.length - 1] + leg);
+    const travel = frequency.legs.reduce((sum, leg) => sum + leg, 0);
+    const starts: number[] = [];
+    for (let start = frequency.first; start <= frequency.last; start += frequency.every) {
+      // Same model as sampleTrips: the return is the outbound bus coming back.
+      starts.push(direction === "return" ? start + travel + frequency.reverseOffset : start);
+    }
+    const usable = starts.filter((start) => start + cumulative[0] < 1440);
+    const chosen =
+      (typeof atMinute === "number"
+        ? usable.find((start) => start + cumulative[0] >= atMinute)
+        : undefined) ?? usable[usable.length - 1] ?? starts[starts.length - 1];
+
+    return {
+      number: route.number,
+      operator: route.operator,
+      type: route.type,
+      category: route.category,
+      source: route.source,
+      direction,
+      stops: stops.map((name, index) => ({ name, minutes: chosen + (cumulative[index] ?? 0) })),
+      runCode: null,
+      bus: null,
+      kind: "sample",
+      headway: frequency.every,
+      serviceStart: usable.length ? usable[0] + cumulative[0] : null,
+      serviceEnd: usable.length ? usable[usable.length - 1] + cumulative[0] : null,
+      notes: null,
+      otherRuns: Math.max(0, usable.length - 1),
+    };
+  }
+
+  // A catalogue route: a real route number and a real stop chain, no times anywhere.
+  return {
+    number: route.number,
+    operator: route.operator,
+    type: route.type,
+    category: route.category,
+    source: route.source,
+    direction,
+    stops: stops.map((name) => ({ name, minutes: null })),
+    runCode: null,
+    bus: null,
+    kind: null,
+    headway: null,
+    serviceStart: null,
+    serviceEnd: null,
+    notes: null,
+    otherRuns: 0,
+  };
 }
 
 // ---------------------------------------------------------------- presentation helpers

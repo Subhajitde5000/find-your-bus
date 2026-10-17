@@ -3,11 +3,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/build_sw.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/lib/timetables.test.ts"
+    "test": "tsx --test src/lib/timetables.test.ts src/lib/ride.test.ts src/lib/render.test.tsx"
   },
   "dependencies": {
     "lucide-react": "^1.54.0",

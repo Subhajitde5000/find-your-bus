@@ -8,10 +8,44 @@ backend/   FastAPI + PostgreSQL. Loads an Excel directory into Postgres, serves 
 fontend/   Next.js site. Ships as static files and makes no API calls.
 data/      Source workbooks, the sample routes, the route extension, and the data audits.
 scripts/   build_static_data.py — the workbooks -> bundled JSON exporter.
+           geocode_stops.py    — stop coordinates for the offline ride screen.
 ```
 
 The website does not call the backend. All timetable data is generated once into
 `fontend/src/data/kolkata-bus-data.json`, bundled at build time, and read in the browser.
+
+## The offline ride screen ("Set on bus")
+
+Open any bus from the timetable, or any route in the route explorer, and tap **Set on
+bus**. It opens `/ride`, a full-page screen that follows you along the route **with no
+network at all**:
+
+- **Are you on the bus?** Your GPS position is matched against the route's corridor. On
+  it, and the screen measures from where you are. Off it for more than 20 seconds and it
+  says **"You are not seated in this bus"**, with the nearest stop and its distance,
+  rather than showing times for a bus you are not on.
+- **How far is the next stop?** Straight-line distance along the corridor, from your
+  averaged GPS position.
+- **How long to every stop still ahead?** On a route with a published timetable, the
+  published passage times. On a route without one, the corridor distance at that route's
+  own measured speed — always labelled *estimate from distance*. A stop with neither a
+  time nor a position gets a dash, never a guess.
+
+It works offline because it has to be able to: a bus is exactly where you are least
+likely to have a signal. The route, the stop coordinates and the timetable are all in the
+bundle; the only live input is the phone's own GPS, read by the browser.
+
+**This is not live tracking.** Nothing follows the bus. The only moving thing the site
+knows about is the passenger's own phone.
+
+### Installable (PWA)
+
+`npm run build` writes a web app manifest and a service worker that precaches the whole
+app shell (about 2.5 MB). After the first visit the site loads and runs with no signal,
+and can be installed to a home screen on Android and iOS.
+
+Stop coordinates come from openly published open datasets and are checked against the
+route chains; see [`data/STOP_COORDINATE_AUDIT.md`](data/STOP_COORDINATE_AUDIT.md).
 
 ## Frontend (static site)
 
@@ -19,15 +53,48 @@ The website does not call the backend. All timetable data is generated once into
 cd fontend
 npm install
 npm run dev        # http://localhost:3000
-npm run build      # static export -> fontend/out
+npm run build      # static export -> fontend/out, then writes out/sw.js
 npm run lint
 npm run typecheck
-npm test             # journey-search regression tests (every route, both directions)
+npm test             # journey-search, ride-engine and render tests (111 of them)
 ```
 
 `npm run build` writes plain HTML/CSS/JS to `fontend/out`, which can be served by any static host
 (nginx, S3 + CloudFront, Netlify, GitHub Pages, Vercel static output). There is no server, no
 serverless function and no runtime data fetching.
+
+After the export, `scripts/build_sw.mjs` walks `out/` and writes `out/sw.js` with a
+precache list hashed from the file contents, so a new build always replaces the old cache
+and an unchanged one never invalidates it. The service worker is registered in production
+only — in development it would serve stale code.
+
+Icons in `fontend/public/icons/` are drawn by `fontend/scripts/make_icons.py` from the
+brand colours, so they can be regenerated instead of being edited by hand.
+
+### Offline requires https (or localhost)
+
+`navigator.geolocation` and service workers both need a secure context. Serve `out/` over
+https, or test on `http://localhost`. A plain-http LAN address will work for the
+timetable but not for the ride screen.
+
+### Testing the ride screen without a bus
+
+`/ride` accepts a route as a query string, so you can open it directly:
+
+```
+/ride?route=1&dir=outbound                     # route number, direction
+/ride?route=230&dir=return&from=Esplanade&to=Alipore%20Zoo
+/ride?route=1&dir=outbound&run=RUN-1-OUT-01    # a specific published run
+```
+
+To try it without moving, open the page on a laptop and use your browser's location
+override (Chrome DevTools → Sensors → Location) to place yourself on a stop's
+coordinates — `data/stop_coordinates_review.csv` has all of them.
+
+`npm test` also covers the ride engine directly: synthetic routes for the exact
+matching cases, the real dataset for the invariants, and a simulated ride that walks a
+real route's corridor with realistic GPS noise and asserts the passenger is never
+wrongly told they are not on the bus.
 
 ### Regenerating the data file
 
@@ -35,7 +102,7 @@ The JSON is generated from the **v2** workbooks by a standalone script (no datab
 
 ```bash
 python -m venv .venv
-.venv/bin/pip install openpyxl
+.venv/bin/pip install openpyxl pillow
 .venv/bin/python scripts/build_static_data.py
 ```
 
@@ -46,9 +113,26 @@ That reads:
 3. `data/timetable_preview_routes.json`
 4. `data/Kolkata_Bus_Routes_Extension-v3.xlsx` (the routes missing from v2; pass
    `--no-extension` to build from the v2 workbook alone)
+5. `data/stop_coordinates.json` (the reviewed stop coordinates; pass `--no-coordinates`
+   to build without them)
 
 and writes `fontend/src/data/kolkata-bus-data.json`. Re-run it whenever the workbooks change, then
-rebuild the site. The script prints the counts and refuses to write if the workbook is internally
+rebuild the site.
+
+Stop coordinates are a separate step, because they come from a different kind of source
+and need reviewing:
+
+```bash
+.venv/bin/python scripts/geocode_stops.py            # -> data/stop_coordinates.json
+.venv/bin/python scripts/build_static_data.py        # merges them into the site JSON
+```
+
+`geocode_stops.py` downloads two open datasets into `.cache/geocode/`, matches every stop
+name, checks each match against the route chains, and writes both the table and
+`data/stop_coordinates_review.csv` for you to check. See
+[`data/STOP_COORDINATE_AUDIT.md`](data/STOP_COORDINATE_AUDIT.md) for what it found, what
+it rejected and what is still missing. Add `--osm` to fill the gaps from OpenStreetMap;
+that needs full internet access, which this repository's build environment does not have. The script prints the counts and refuses to write if the workbook is internally
 inconsistent (return stops not the outbound stops reversed, a run with the wrong number of times,
 duplicate route numbers or run codes).
 
@@ -70,7 +154,7 @@ and is kept only for the backend history.
 | Key | Contents |
 |---|---|
 | `stands` | 193 depots, terminals and route stands from `Kolkata_Bus_Stands_v2.xlsx` |
-| `stops` | 152 unique stop names, each optionally linked to a stand |
+| `stops` | 2,194 unique stop names, each optionally linked to a stand, and 1,209 of them with a reviewed `lat`/`lng` and `coordConfidence` |
 | `buses` | 343 vehicle registration numbers |
 | `routes` | 650 routes: 75 from the v2 directory, 8 sample routes, 566 catalogue routes with no timetable, 1 externally timed long-distance service |
 | `runs` | 1,058 directional runs, each with one time per stop |
@@ -130,7 +214,8 @@ that do display a city timetable — one of which states outright that its times
 assumed per stop". Nothing from them was added. Where a time cannot be sourced, the field stays
 blank.
 
-Nothing in the site is live tracking.
+Nothing in the site is live tracking, except that the ride screen knows where *you* are,
+from your own phone's GPS, and tells you whether that is on the route you opened.
 
 ## Backend
 

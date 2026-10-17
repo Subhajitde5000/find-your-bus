@@ -1,11 +1,27 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { PwaBridge } from "@/components/PwaBridge";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Cholo — Kolkata Bus Timetables",
-  description: "Find scheduled Kolkata buses between your stops. Explore today's departures, routes, and journey stops with Cholo.",
+  description:
+    "Find scheduled Kolkata buses between your stops. Explore today's departures, routes, and journey stops with Cholo.",
   applicationName: "Cholo",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "Cholo",
+    statusBarStyle: "default",
+  },
+  icons: {
+    icon: [
+      { url: "/icons/icon.svg", type: "image/svg+xml" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+  },
   openGraph: {
     title: "Cholo — Kolkata Bus Timetables",
     description: "Find buses between any two Kolkata stops, with one-change journeys and full stop lists.",
@@ -35,8 +51,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
         />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <PwaBridge />
+      </body>
     </html>
   );
 }

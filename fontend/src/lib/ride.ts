@@ -855,3 +855,32 @@ export function corridorCoverage(ride: RideRoute): { located: number; total: num
     ratio: ride.stops.length ? ride.locatedStops / ride.stops.length : 0,
   };
 }
+
+/**
+ * Where on the ground a distance along the corridor falls.
+ *
+ * The map needs this to place the bus between stops. It walks the same segments the
+ * matcher uses, so the marker sits on the line the corridor is actually made of, and
+ * interpolates linearly inside the leg that contains the distance — which is a straight
+ * segment, so the interpolation is exact to within the corridor's own granularity.
+ *
+ * Beyond the last located stop it returns that stop rather than extrapolating: this
+ * project never invents a position, and a bus past the end of the mapped corridor is
+ * simply drawn at the end of it.
+ */
+export function pointAtMetres(ride: RideRoute, metres: number): Position | null {
+  if (!ride.segments.length) return null;
+  const clamped = Math.max(0, Math.min(metres, ride.totalMetres));
+  for (const segment of ride.segments) {
+    const end = segment.startMetres + segment.metres;
+    if (clamped > end && segment !== ride.segments[ride.segments.length - 1]) continue;
+    const span = segment.metres > 0 ? (clamped - segment.startMetres) / segment.metres : 0;
+    const t = Math.max(0, Math.min(1, span));
+    return {
+      lat: segment.from.lat + (segment.to.lat - segment.from.lat) * t,
+      lng: segment.from.lng + (segment.to.lng - segment.from.lng) * t,
+    };
+  }
+  const last = ride.segments[ride.segments.length - 1];
+  return last.to;
+}

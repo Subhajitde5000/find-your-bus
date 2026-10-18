@@ -246,6 +246,12 @@ describe("the /ride page, in a DOM", () => {
       assert.ok(page.text().includes("Next stop"), "and the next one is named");
       assert.match(page.text(), /\d+(\.\d+)? (m|km)/, "the page shows a real distance");
       assert.equal(page.container.querySelectorAll(".ride-stop.current").length, 1, "exactly one 'here'");
+
+      // The drawn map: the route as a line, with the passenger's marker on it.
+      assert.equal(page.container.querySelectorAll(".ride-map-svg").length, 1, "the map is drawn");
+      assert.equal(page.container.querySelectorAll(".ride-map-marker").length, 1, "the bus is on the map");
+      assert.ok(page.container.querySelectorAll(".ride-map-stop").length >= 2, "and so are the stops");
+      assert.ok(page.container.querySelector(".ride-map-done"), "the travelled part is drawn");
     } finally {
       page.unmount();
     }
@@ -281,6 +287,9 @@ describe("the /ride page, in a DOM", () => {
       assert.ok(page.text().includes("You are not seated in this bus"), page.text().slice(0, 400));
       assert.match(page.text(), /nearest stop/i, "and it names the nearest stop");
       assert.equal(page.container.querySelectorAll(".ride-stop.current").length, 0, "no 'here' marker");
+      // The map still shows the route, so the passenger can see where the bus should be.
+      assert.equal(page.container.querySelectorAll(".ride-map-svg").length, 1);
+      assert.equal(page.container.querySelectorAll(".ride-map-marker").length, 0, "but no bus on it");
     } finally {
       page.unmount();
     }

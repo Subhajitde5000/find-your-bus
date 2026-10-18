@@ -30,6 +30,12 @@ network at all**:
   published passage times. On a route without one, the corridor distance at that route's
   own measured speed — always labelled *estimate from distance*. A stop with neither a
   time nor a position gets a dash, never a guess.
+- **Where are you on the route?** The route drawn as a map: a line through the real stop
+  positions, to scale, with a north arrow, a scale bar, and your bus marked on it. It is
+  **not a street map** — there are no roads, because drawing them would mean downloading
+  map tiles, an API key, and tens of megabytes before you leave home. What you get is
+  the true *shape* of the route and your place along it, offline and instantly. Stops the
+  data cannot place are left off the map, and the caption says how many.
 
 It works offline because it has to be able to: a bus is exactly where you are least
 likely to have a signal. The route, the stop coordinates and the timetable are all in the
@@ -56,7 +62,7 @@ npm run dev        # http://localhost:3000
 npm run build      # static export -> fontend/out, then writes out/sw.js
 npm run lint
 npm run typecheck
-npm test             # journey-search, ride-engine and render tests (111 of them)
+npm test             # journey-search, ride-engine, render and page tests (148 of them)
 ```
 
 `npm run build` writes plain HTML/CSS/JS to `fontend/out`, which can be served by any static host

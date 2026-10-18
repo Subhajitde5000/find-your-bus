@@ -24,6 +24,7 @@ import {
   X,
 } from "lucide-react";
 import { RideProgress, RideStopList } from "@/components/RideMap";
+import { RideRouteMap } from "@/components/RideRouteMap";
 import { formatClock, type Direction } from "@/lib/timetables";
 import {
   advanceTracker,
@@ -252,6 +253,9 @@ function RideScreen() {
   const currentStop = onBus && match ? ride.stops[match.stopIndex] : null;
   const nextStopIndex = onBus && match?.nextStopIndex !== null && match?.nextStopIndex !== undefined ? match.nextStopIndex : null;
   const nextStop = nextStopIndex === null ? null : ride.stops[nextStopIndex];
+  // Stops already behind the bus. The map dims them and the list strikes them through,
+  // and both must agree, so the set is computed once here.
+  const passedStops = new Set(onBus ? legs.filter((leg) => leg.passed).map((leg) => leg.index) : []);
   const status = tracker.status;
   const arrival = summary?.eta !== null && summary?.eta !== undefined ? formatClock(summary.eta) : null;
   const nowClock = formatClock(nowMinutes);
@@ -389,6 +393,18 @@ function RideScreen() {
               {tracker.rejected > 0 ? ` · ${tracker.rejected} ignored` : ""}
             </span>
           </div>
+        </section>
+
+        <section className="ride-map-section" aria-label="Route map">
+          <RideRouteMap
+            ride={ride}
+            metresAlong={onBus ? match?.metresAlong ?? null : null}
+            onBus={onBus}
+            currentStop={currentStop?.index ?? null}
+            destinationIndex={destination}
+            nextStopIndex={nextStopIndex}
+            passed={passedStops}
+          />
         </section>
 
         <RideProgress ride={ride} metresAlong={onBus ? match?.metresAlong ?? null : null} onBus={onBus} />

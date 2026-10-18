@@ -12,7 +12,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import { RideProgress, RideStopList } from "@/components/RideMap";
-import { buildRide, matchRide, rideLegs, type RideRoute } from "@/lib/ride";
+import { buildRide, matchRide, pointAtMetres, rideLegs, type RideRoute } from "@/lib/ride";
 import { stopPosition } from "@/lib/coords";
 import { formatDistance, formatRideMinutes } from "@/lib/geo";
 import { formatClock } from "@/lib/timetables";
@@ -24,21 +24,7 @@ function rideOrFail(number: string): RideRoute {
 }
 
 function renderLegs(ride: RideRoute, metresAlong: number | null) {
-  const point =
-    metresAlong === null
-      ? null
-      : (() => {
-          for (const segment of ride.segments) {
-            if (metresAlong <= segment.startMetres + segment.metres) {
-              const ratio = segment.metres === 0 ? 0 : (metresAlong - segment.startMetres) / segment.metres;
-              return {
-                lat: segment.from.lat + ratio * (segment.to.lat - segment.from.lat),
-                lng: segment.from.lng + ratio * (segment.to.lng - segment.from.lng),
-              };
-            }
-          }
-          return null;
-        })();
+  const point = metresAlong === null ? null : pointAtMetres(ride, metresAlong);
   const match = point ? matchRide(ride, point) : null;
   const onBus = match?.state === "on-bus";
   const legs = rideLegs(ride, onBus ? match : null, {

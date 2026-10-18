@@ -1430,8 +1430,9 @@ html[data-theme="dark"] .ride-header { background: rgba(22, 36, 29, .94); }
 .ride-map-stop.current { fill: var(--brand); stroke: var(--surface); stroke-width: 2.5; }
 .ride-map-marker-halo { fill: var(--brand); opacity: .18; }
 .ride-map-marker-dot { fill: var(--brand); stroke: var(--surface); stroke-width: 2; }
-.ride-map-label { fill: var(--muted); font-size: 8.5px; font-weight: 700; }
-.ride-map-north line { stroke: var(--muted); stroke-width: 1.4; }
+.ride-map-label { fill: var(--muted); font-size: 8.5px; font-weight: 700; paint-order: stroke; stroke: var(--surface); stroke-width: 2.5px; }
+.ride-map-north { color: var(--muted); }
+.ride-map-north line { stroke: currentColor; stroke-width: 1.4; }
 .ride-map-north text { fill: var(--muted); font-size: 8px; font-weight: 800; }
 .ride-map-scale line { stroke: var(--muted); stroke-width: 1.4; }
 .ride-map-scale text { fill: var(--muted); font-size: 8px; font-weight: 700; }
@@ -1443,3 +1444,4 @@ html[data-theme="dark"] .ride-header { background: rgba(22, 36, 29, .94); }
 .legend-dot.next { border-color: var(--brand); background: var(--mint); }
 .legend-dot.destination { border-color: var(--accent); background: var(--accent-soft); }
 .ride-map-note { color: var(--muted); font-size: 11px; font-weight: 600; }
+.ride-map-note a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }

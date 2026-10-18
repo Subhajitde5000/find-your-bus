@@ -56,7 +56,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body>
+      {/* Browser extensions (for example Grammarly) can add data attributes before hydration. */}
+      <body suppressHydrationWarning>
         {children}
         <PwaBridge />
       </body>

@@ -151,6 +151,21 @@ describe("RideRouteMap", () => {
     assert.ok(markup.includes("no published position"));
   });
 
+  it("says when a leg has no road shape and is drawn straight", () => {
+    // Digha Express runs past stops the road export does not reach, so some legs have no
+    // shape to draw. The caption must admit that rather than let a straight line pass
+    // for a road.
+    const ride = rideOrFail("Digha_Express");
+    const straight = ride.segments.length - ride.roadSegments;
+    assert.ok(straight > 0, "this route needs a leg with no road shape");
+    const markup = renderMap(ride, null, false);
+    assert.ok(
+      markup.includes(`${straight} of ${ride.segments.length} legs`),
+      `no straight-leg note in ${markup.slice(-600)}`,
+    );
+    assert.ok(markup.includes("straight line"));
+  });
+
   it("draws a scale bar in real units", () => {
     const ride = rideOrFail("1");
     const markup = renderMap(ride, null, false);

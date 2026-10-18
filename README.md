@@ -66,7 +66,7 @@ npm run dev        # http://localhost:3000
 npm run build      # static export -> fontend/out, then writes out/sw.js
 npm run lint
 npm run typecheck
-npm test             # journey-search, ride-engine, render and page tests (148 of them)
+npm test             # journey-search, ride-engine, render and page tests (149 of them)
 ```
 
 `npm run build` writes plain HTML/CSS/JS to `fontend/out`, which can be served by any static host
@@ -159,7 +159,7 @@ by SHA-256), exports them through HOT's raw-data-api, snaps every located stop o
 timed route to the nearest road, routes each leg with A* over that graph, simplifies the
 result to 5 m and refuses any leg that detours more than six times its straight-line
 distance. It writes `fontend/src/data/route-geometry.json`: about 270 KB for 512 of the
-514 directed legs of the 84 timed routes (72 KB gzipped). The rest are drawn as straight
+552 directed legs of the 84 timed routes (72 KB gzipped). The rest are drawn as straight
 lines and the map caption says how many. A stop more than 130 m from any road is left
 unplaced rather than given an invented road. A warm run takes about a minute; the cached
 download lives in `.cache/`, which is git-ignored.

@@ -646,11 +646,11 @@ export function advanceTracker(
     const jump = haversineMetres(lastAccepted, fix);
     const seconds = Math.max(1, (fix.timestamp - lastAccepted.timestamp) / 1000);
     if (jump > settings.maxJumpMetres && jump / seconds > settings.maxSpeedMps) {
-      // The old window and this fix cannot both be right, and averaging two
-      // contradictory places puts the passenger somewhere neither is. So the window
-      // restarts here instead of dropping the fix: if the new place is the true one the
-      // screen recovers in two more readings, and if it was a one-off bad fix the state
-      // machine still needs two consistent readings before it believes it.
+      // The old window and this fix cannot both be right, and a window holding two
+      // contradictory places describes neither. So the window restarts here instead of
+      // dropping the fix: if the new place is the true one the screen recovers in two
+      // more readings, and if it was a one-off bad fix the state machine still needs two
+      // consistent readings before it believes it.
       next.fixes = [fix];
       next.readingsAlong = [];
       next.accepted += 1;
@@ -684,7 +684,19 @@ export function advanceTracker(
   // window holds distances along the route rather than raw positions off it.
   const radius = Math.max(stopRadius, corridorRadius);
   const newest = next.fixes[next.fixes.length - 1];
-  const newestLeg = nearestSegment(ride, newest, state.readingsAlong.at(-1)?.metres ?? null);
+  const nearestNow = nearestStop(ride, newest);
+  // Boarding at a stop is the one case where the first reading can be ambiguous: a
+  // route that drives the same road twice has two branches under the same tarmac, and
+  // the stop the passenger is standing at names the right one. Everything after this
+  // follows on from the stop, so the ambiguity is settled once rather than every fix.
+  if (!state.readingsAlong.length && nearestNow && nearestNow.metres <= stopRadius) {
+    const anchoredAt = ride.stops[nearestNow.index].distanceAlongMetres;
+    if (anchoredAt !== null) {
+      next.readingsAlong = [{ at: newest.timestamp, metres: anchoredAt, offsetMetres: nearestNow.metres }];
+    }
+  }
+
+  const newestLeg = nearestSegment(ride, newest, next.readingsAlong.at(-1)?.metres ?? null);
   const newestReading =
     newestLeg && newestLeg.offsetMetres <= radius
       ? {
@@ -693,7 +705,7 @@ export function advanceTracker(
           offsetMetres: newestLeg.offsetMetres,
         }
       : null;
-  next.readingsAlong = newestReading ? [...state.readingsAlong, newestReading] : [...state.readingsAlong];
+  if (newestReading) next.readingsAlong = [...next.readingsAlong, newestReading];
   const oldestKept = next.fixes[0].timestamp;
   next.readingsAlong = next.readingsAlong
     .filter((reading) => reading.at >= oldestKept)
@@ -703,7 +715,6 @@ export function advanceTracker(
   // misses the corridor is a drift, and the screen must say so rather than coasting on
   // where the window was a few seconds ago.
   const along = newestReading ? smoothedAlong(next.readingsAlong) : null;
-  const nearestNow = nearestStop(ride, newest);
   const match =
     along !== null && nearestNow
       ? describeMatch(

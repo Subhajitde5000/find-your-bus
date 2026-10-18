@@ -7,10 +7,13 @@ import {
   type TripKind,
 } from "./timetables";
 import { STOP_COORD_CONFIDENCE, stopPosition, type CoordConfidence } from "./coords";
+import { legGeometry } from "./routeGeometry";
 import {
+  corridorMetres,
   haversineMetres,
   isPlausibleFix,
-  projectOntoSegment,
+  projectOntoPolyline,
+  slicePolyline,
   type CorridorSegment,
   type GeoFix,
   type Position,
@@ -82,6 +85,11 @@ export interface RideRoute {
   stops: RideStop[];
   /** The measurable parts of the corridor, in travel order. */
   segments: CorridorSegment[];
+  /**
+   * How many segments follow a bundled road shape. The rest are straight lines, which
+   * is the honest fallback for a leg no road network could place -- the map says which.
+   */
+  roadSegments: number;
   /** Length of the measurable corridor, which is not the whole route when stops are unlocated. */
   totalMetres: number;
   locatedStops: number;
@@ -130,8 +138,14 @@ function defaultSpeedMps(totalMetres: number): number {
 /**
  * Builds the corridor for one direction of one route.
  *
- * The corridor is the polyline through the stops that have coordinates. A route with
- * unlocated stops therefore has a corridor with gaps: distances are measured along
+ * The corridor follows the road between each pair of located stops, because a bus
+ * drives the street and not the straight line: the road is longer, it bends, and the
+ * position the passenger's phone reports is on it. Where the bundle has no road shape
+ * for a leg -- the intercity stops outside the road export -- the leg falls back to
+ * the straight line between the two stops, and `roadSegments` records how often that
+ * happened so the map can say so.
+ *
+ * A route with unlocated stops has a corridor with gaps: distances are measured along
  * what is known and never across a gap, so a missing stop makes the total shorter
  * rather than wrong.
  */
@@ -157,18 +171,22 @@ export function buildRide(request: RideRequest): RideResult {
   });
 
   const segments: CorridorSegment[] = [];
+  let roadSegments = 0;
   let total = 0;
   let previous: RideStop | null = null;
   for (const stop of stops) {
     if (!stop.position) continue;
+    const position = stop.position;
     stop.distanceAlongMetres = total;
     if (previous?.position) {
-      const metres = haversineMetres(previous.position, stop.position);
+      const road = legGeometry(previous.name, stop.name);
+      if (road) roadSegments += 1;
+      const points = road ?? [previous.position, position];
+      const metres = corridorMetres(points);
       segments.push({
         fromStop: previous.index,
         toStop: stop.index,
-        from: previous.position,
-        to: stop.position,
+        points,
         metres,
         startMetres: total,
       });
@@ -204,6 +222,7 @@ export function buildRide(request: RideRequest): RideResult {
       destination: timetable.stops[timetable.stops.length - 1]?.name ?? "",
       stops,
       segments,
+      roadSegments,
       totalMetres: total,
       locatedStops,
       runCode: timetable.runCode,
@@ -282,7 +301,27 @@ export interface RideMatch {
 export interface MatchOptions {
   stopRadiusMetres?: number;
   corridorRadiusMetres?: number;
+  /**
+   * Metres along the corridor at the previous match. A road that loops back on itself
+   * -- a bridge approach, a one-way system round a block -- has two points equally
+   * close to the same phone, and the distance alone cannot say which one the bus is at.
+   * The previous reading can, so the tracker passes it in.
+   */
+  previousMetresAlong?: number | null;
 }
+
+/**
+ * How much farther from the road a competing point may be and still count as equally
+ * close. A phone's own accuracy is several times this, so a candidate inside it is not
+ * measurably worse than the nearest one.
+ */
+export const CONTINUITY_TOLERANCE_METRES = 10;
+
+/**
+ * How far a match may fall behind the previous one and still count as the bus standing
+ * still or creeping, rather than as the other direction of a road the route retraces.
+ */
+export const BACKWARD_SLACK_METRES = 5;
 
 /** The nearest located stop to a position, and how far away it is. */
 export function nearestStop(ride: RideRoute, position: Position): NearestStop | null {
@@ -295,19 +334,53 @@ export function nearestStop(ride: RideRoute, position: Position): NearestStop | 
   return best;
 }
 
-/** The corridor segment a position is closest to, and how far off the line it is. */
+/**
+ * The corridor segment a position is closest to, and how far off the line it is.
+ *
+ * When `previousMetresAlong` is given, points that are as close to the road as the
+ * nearest one are treated as one place, and the one nearest the passenger's previous
+ * position wins. Without that, a road passing close to itself would teleport the
+ * marker along the route even though the phone never moved.
+ */
 export function nearestSegment(
   ride: RideRoute,
   position: Position,
+  previousMetresAlong: number | null = null,
 ): { segment: CorridorSegment; offsetMetres: number; alongMetres: number } | null {
-  let best: { segment: CorridorSegment; offsetMetres: number; alongMetres: number } | null = null;
+  const candidates: { segment: CorridorSegment; offsetMetres: number; alongMetres: number; at: number }[] = [];
   for (const segment of ride.segments) {
-    const projection = projectOntoSegment(segment.from, segment.to, position);
-    if (!best || projection.offsetMetres < best.offsetMetres) {
-      best = { segment, offsetMetres: projection.offsetMetres, alongMetres: projection.alongMetres };
-    }
+    const projection = projectOntoPolyline(segment.points, position);
+    if (!projection) continue;
+    candidates.push({
+      segment,
+      offsetMetres: projection.offsetMetres,
+      alongMetres: projection.alongMetres,
+      at: segment.startMetres + projection.alongMetres,
+    });
   }
-  return best;
+  if (!candidates.length) return null;
+
+  let nearest = candidates[0];
+  for (const candidate of candidates) {
+    if (candidate.offsetMetres < nearest.offsetMetres) nearest = candidate;
+  }
+
+  let chosen = nearest;
+  if (previousMetresAlong !== null) {
+    const plausible = candidates.filter(
+      (candidate) => candidate.offsetMetres <= nearest.offsetMetres + CONTINUITY_TOLERANCE_METRES,
+    );
+    // A route that turns round at a terminus and drives back up the same road puts the
+    // passenger equally close to the outbound and the return branch, and the distances
+    // alone cannot tell them apart. The bus, though, only moves forward: a branch that
+    // would take the passenger backwards is the one it has already driven.
+    const forward = plausible.filter((candidate) => candidate.at >= previousMetresAlong - BACKWARD_SLACK_METRES);
+    const pool = forward.length ? forward : plausible;
+    chosen = pool.reduce((best, candidate) =>
+      Math.abs(candidate.at - previousMetresAlong) < Math.abs(best.at - previousMetresAlong) ? candidate : best,
+    );
+  }
+  return { segment: chosen.segment, offsetMetres: chosen.offsetMetres, alongMetres: chosen.alongMetres };
 }
 
 /** The next stop ahead of a corridor position, in travel order. */
@@ -320,16 +393,67 @@ function nextStopAfter(ride: RideRoute, stopIndex: number): RideStop | null {
 }
 
 /**
+ * The stop at or before a distance along the corridor -- the one the passenger has
+ * reached -- and the next stop ahead.
+ */
+function stopsAround(ride: RideRoute, metres: number): { stop: RideStop | null; ahead: RideStop | null } {
+  let stop: RideStop | null = null;
+  for (const candidate of ride.stops) {
+    if (candidate.distanceAlongMetres === null) continue;
+    if (candidate.distanceAlongMetres <= metres + 0.001) stop = candidate;
+  }
+  return { stop, ahead: stop ? nextStopAfter(ride, stop.index) : null };
+}
+
+/**
+ * Everything the screen shows for a known distance along the corridor.
+ *
+ * `atStop` is true when the passenger is on the stop as well as at its distance along
+ * the route: within the stop radius of the mapped shelter, and no more than that
+ * radius past the stop's own position. Approaching a stop is "next stop", which is
+ * what a passenger reading the screen expects; being at it is "you are here".
+ */
+function describeMatch(
+  ride: RideRoute,
+  metres: number,
+  offsetMetres: number,
+  nearest: NearestStop,
+  stopRadiusMetres: number,
+): RideMatch {
+  const { stop, ahead } = stopsAround(ride, metres);
+  const atStop =
+    stop !== null &&
+    stop.index === nearest.index &&
+    nearest.metres <= stopRadiusMetres &&
+    metres - (stop.distanceAlongMetres ?? 0) <= stopRadiusMetres;
+  return {
+    state: "on-bus",
+    atStop,
+    stopIndex: stop ? stop.index : nearest.index,
+    nextStopIndex: ahead ? ahead.index : null,
+    metresToNextStop:
+      ahead?.distanceAlongMetres !== null && ahead?.distanceAlongMetres !== undefined
+        ? Math.max(0, ahead.distanceAlongMetres - metres)
+        : null,
+    metresAlong: metres,
+    metresOffRoute: offsetMetres,
+    nearest,
+  };
+}
+
+/**
  * Matches one position against a route.
  *
  * Two tests, in order:
  *   - within the stop radius of a stop -> on the bus, at that stop;
- *   - otherwise within the corridor radius of a leg -> on the bus, between two stops;
+ *   - otherwise within the corridor radius of the road -> on the bus, between stops;
  *   - otherwise -> not seated.
  *
  * The corridor test is what keeps the answer stable while the bus is moving: a bus
  * spends most of its time between stops, and matching stops alone would flip to "not
- * seated" every few minutes.
+ * seated" every few minutes. The road is what the corridor is measured along now, and
+ * the stop test stays first because a shelter is often a few metres off the carriageway
+ * -- further than that at a few stops the data places loosely.
  */
 export function matchRide(ride: RideRoute, position: Position, options: MatchOptions = {}): RideMatch {
   const stopRadius = options.stopRadiusMetres ?? STOP_RADIUS_METRES;
@@ -350,38 +474,14 @@ export function matchRide(ride: RideRoute, position: Position, options: MatchOpt
     };
   }
 
-  if (nearest.metres <= stopRadius) {
-    const stop = ride.stops[nearest.index];
-    const ahead = nextStopAfter(ride, nearest.index);
-    return {
-      state: "on-bus",
-      atStop: true,
-      stopIndex: nearest.index,
-      nextStopIndex: ahead ? ahead.index : null,
-      metresToNextStop:
-        ahead?.distanceAlongMetres !== null && ahead?.distanceAlongMetres !== undefined && stop.distanceAlongMetres !== null
-          ? ahead.distanceAlongMetres - stop.distanceAlongMetres
-          : null,
-      metresAlong: stop.distanceAlongMetres,
-      metresOffRoute: nearest.metres,
-      nearest,
-    };
+  const stop = ride.stops[nearest.index];
+  if (nearest.metres <= stopRadius && stop.distanceAlongMetres !== null) {
+    return describeMatch(ride, stop.distanceAlongMetres, nearest.metres, nearest, stopRadius);
   }
 
-  const leg = nearestSegment(ride, position);
+  const leg = nearestSegment(ride, position, options.previousMetresAlong ?? null);
   if (leg && leg.offsetMetres <= corridorRadius) {
-    const metresAlong = leg.segment.startMetres + leg.alongMetres;
-    const ahead = nextStopAfter(ride, leg.segment.fromStop);
-    return {
-      state: "on-bus",
-      atStop: false,
-      stopIndex: leg.segment.fromStop,
-      nextStopIndex: ahead ? ahead.index : null,
-      metresToNextStop: leg.segment.startMetres + leg.segment.metres - metresAlong,
-      metresAlong,
-      metresOffRoute: leg.offsetMetres,
-      nearest,
-    };
+    return describeMatch(ride, leg.segment.startMetres + leg.alongMetres, leg.offsetMetres, nearest, stopRadius);
   }
 
   return {
@@ -440,11 +540,36 @@ export interface ProgressPoint {
   metresAlong: number;
 }
 
+/** One fix that landed on the corridor: when it was taken, and where it puts the bus. */
+export interface CorridorReading {
+  at: number;
+  metres: number;
+  offsetMetres: number;
+}
+
+/**
+ * The mean of the window's corridor positions.
+ *
+ * Now that the readings are distances along one line, averaging them is what averaging
+ * positions could never be: safe at a bend, and monotone. If the bus only moves
+ * forward, every reading is at least the one before it, and the mean of a trailing
+ * window of such readings can only move forward too -- which is what the screen
+ * promises, and what a fitted line through the same points does not guarantee.
+ */
+function smoothedAlong(readings: CorridorReading[]): number | null {
+  if (!readings.length) return null;
+  let sum = 0;
+  for (const reading of readings) sum += reading.metres;
+  return sum / readings.length;
+}
+
 export interface TrackerState {
   status: TrackerStatus;
-  /** The fixes behind the current average, oldest first. */
+  /** The fixes behind the current match, oldest first. */
   fixes: GeoFix[];
-  /** The averaged position the match is made on. */
+  /** Corridor positions of the fixes in the window, oldest first. */
+  readingsAlong: CorridorReading[];
+  /** Where the window puts the bus: on the road when matched, the newest fix otherwise. */
   smoothed: Position | null;
   match: RideMatch | null;
   /** Every fix offered, good or bad. */
@@ -465,6 +590,7 @@ export function initTracker(): TrackerState {
   return {
     status: "waiting",
     fixes: [],
+    readingsAlong: [],
     smoothed: null,
     match: null,
     readings: 0,
@@ -475,29 +601,6 @@ export function initTracker(): TrackerState {
     lastFixAt: null,
     progress: [],
     notice: "Looking for your position…",
-  };
-}
-
-/**
- * The mean of a window of fixes.
- *
- * Averaging a handful of readings is what stops a single bad fix — the kind a phone
- * produces near tall buildings or inside a bus — from moving the passenger a street
- * over and flipping the screen to "not seated".
- */
-export function averageFixes(fixes: GeoFix[]): { position: Position; accuracy: number } | null {
-  if (!fixes.length) return null;
-  let lat = 0;
-  let lng = 0;
-  let accuracy = 0;
-  for (const fix of fixes) {
-    lat += fix.lat;
-    lng += fix.lng;
-    accuracy += Number.isFinite(fix.accuracy) ? fix.accuracy : 0;
-  }
-  return {
-    position: { lat: lat / fixes.length, lng: lng / fixes.length },
-    accuracy: accuracy / fixes.length,
   };
 }
 
@@ -514,6 +617,8 @@ export function advanceTracker(
   options: TrackerOptions = {},
 ): TrackerState {
   const settings = { ...TRACKER_DEFAULTS, ...options };
+  const stopRadius = settings.stopRadiusMetres ?? STOP_RADIUS_METRES;
+  const corridorRadius = settings.corridorRadiusMetres ?? CORRIDOR_RADIUS_METRES;
   const next: TrackerState = {
     ...state,
     fixes: [...state.fixes],
@@ -541,12 +646,13 @@ export function advanceTracker(
     const jump = haversineMetres(lastAccepted, fix);
     const seconds = Math.max(1, (fix.timestamp - lastAccepted.timestamp) / 1000);
     if (jump > settings.maxJumpMetres && jump / seconds > settings.maxSpeedMps) {
-      // The old window and this fix cannot both be right, and averaging two
-      // contradictory places puts the passenger somewhere neither is. So the window
-      // restarts here instead of dropping the fix: if the new place is the true one the
-      // screen recovers in two more readings, and if it was a one-off bad fix the state
-      // machine still needs two consistent readings before it believes it.
+      // The old window and this fix cannot both be right, and a window holding two
+      // contradictory places describes neither. So the window restarts here instead of
+      // dropping the fix: if the new place is the true one the screen recovers in two
+      // more readings, and if it was a one-off bad fix the state machine still needs two
+      // consistent readings before it believes it.
       next.fixes = [fix];
+      next.readingsAlong = [];
       next.accepted += 1;
       next.lastFixAt = fix.timestamp;
       next.consecutiveOnRoute = 0;
@@ -566,22 +672,65 @@ export function advanceTracker(
   next.accepted += 1;
   next.lastFixAt = fix.timestamp;
 
-  const averaged = averageFixes(next.fixes);
-  if (!averaged) return next;
-  next.smoothed = averaged.position;
-
   // The window, not the lifetime count: after a jump the window is short again and a
   // single reading must not be enough to move the passenger back onto the bus.
   if (next.fixes.length < settings.minFixesToMatch) {
+    next.smoothed = { lat: fix.lat, lng: fix.lng };
     next.notice = "Getting your position…";
     return next;
   }
 
-  const match = matchRide(ride, next.smoothed, {
-    stopRadiusMetres: options.stopRadiusMetres,
-    corridorRadiusMetres: options.corridorRadiusMetres,
-  });
+  // Read the newest fix onto the corridor before the window is considered, so the
+  // window holds distances along the route rather than raw positions off it.
+  const radius = Math.max(stopRadius, corridorRadius);
+  const newest = next.fixes[next.fixes.length - 1];
+  const nearestNow = nearestStop(ride, newest);
+  // Boarding at a stop is the one case where the first reading can be ambiguous: a
+  // route that drives the same road twice has two branches under the same tarmac, and
+  // the stop the passenger is standing at names the right one. Everything after this
+  // follows on from the stop, so the ambiguity is settled once rather than every fix.
+  if (!state.readingsAlong.length && nearestNow && nearestNow.metres <= stopRadius) {
+    const anchoredAt = ride.stops[nearestNow.index].distanceAlongMetres;
+    if (anchoredAt !== null) {
+      next.readingsAlong = [{ at: newest.timestamp, metres: anchoredAt, offsetMetres: nearestNow.metres }];
+    }
+  }
+
+  const newestLeg = nearestSegment(ride, newest, next.readingsAlong.at(-1)?.metres ?? null);
+  const newestReading =
+    newestLeg && newestLeg.offsetMetres <= radius
+      ? {
+          at: newest.timestamp,
+          metres: newestLeg.segment.startMetres + newestLeg.alongMetres,
+          offsetMetres: newestLeg.offsetMetres,
+        }
+      : null;
+  if (newestReading) next.readingsAlong = [...next.readingsAlong, newestReading];
+  const oldestKept = next.fixes[0].timestamp;
+  next.readingsAlong = next.readingsAlong
+    .filter((reading) => reading.at >= oldestKept)
+    .slice(-settings.windowSize);
+
+  // Smoothing is only meaningful while this reading is on the road. A reading that
+  // misses the corridor is a drift, and the screen must say so rather than coasting on
+  // where the window was a few seconds ago.
+  const along = newestReading ? smoothedAlong(next.readingsAlong) : null;
+  const match =
+    along !== null && nearestNow
+      ? describeMatch(
+          ride,
+          Math.min(ride.totalMetres, Math.max(0, along)),
+          newestReading?.offsetMetres ?? 0,
+          nearestNow,
+          stopRadius,
+        )
+      : matchRide(ride, newest, {
+          stopRadiusMetres: stopRadius,
+          corridorRadiusMetres: corridorRadius,
+          previousMetresAlong: state.match?.metresAlong ?? null,
+        });
   next.match = match;
+  next.smoothed = match.metresAlong !== null ? pointAtMetres(ride, match.metresAlong) : { lat: newest.lat, lng: newest.lng };
 
   if (match.state === "on-bus") {
     next.consecutiveOnRoute += 1;
@@ -857,30 +1006,36 @@ export function corridorCoverage(ride: RideRoute): { located: number; total: num
 }
 
 /**
- * Where on the ground a distance along the corridor falls.
+ * The corridor from its start up to `metres`, as a polyline ending exactly there.
  *
- * The map needs this to place the bus between stops. It walks the same segments the
- * matcher uses, so the marker sits on the line the corridor is actually made of, and
- * interpolates linearly inside the leg that contains the distance — which is a straight
- * segment, so the interpolation is exact to within the corridor's own granularity.
+ * The map draws the travelled part of the route with this, so the line and the bus
+ * marker end at the same point. It walks the same segments the matcher uses, which is
+ * why the two never disagree about where the passenger is.
+ */
+export function corridorUpTo(ride: RideRoute, metres: number): Position[] {
+  if (!ride.segments.length) return [];
+  const clamped = Math.max(0, Math.min(metres, ride.totalMetres));
+  const points: Position[] = [ride.segments[0].points[0]];
+  for (const segment of ride.segments) {
+    const end = segment.startMetres + segment.metres;
+    if (clamped >= end) {
+      points.push(...segment.points.slice(1));
+      continue;
+    }
+    points.push(...slicePolyline(segment.points, clamped - segment.startMetres).slice(1));
+    break;
+  }
+  return points;
+}
+
+/**
+ * Where on the ground a distance along the corridor falls.
  *
  * Beyond the last located stop it returns that stop rather than extrapolating: this
  * project never invents a position, and a bus past the end of the mapped corridor is
  * simply drawn at the end of it.
  */
 export function pointAtMetres(ride: RideRoute, metres: number): Position | null {
-  if (!ride.segments.length) return null;
-  const clamped = Math.max(0, Math.min(metres, ride.totalMetres));
-  for (const segment of ride.segments) {
-    const end = segment.startMetres + segment.metres;
-    if (clamped > end && segment !== ride.segments[ride.segments.length - 1]) continue;
-    const span = segment.metres > 0 ? (clamped - segment.startMetres) / segment.metres : 0;
-    const t = Math.max(0, Math.min(1, span));
-    return {
-      lat: segment.from.lat + (segment.to.lat - segment.from.lat) * t,
-      lng: segment.from.lng + (segment.to.lng - segment.from.lng) * t,
-    };
-  }
-  const last = ride.segments[ride.segments.length - 1];
-  return last.to;
+  const points = corridorUpTo(ride, metres);
+  return points.length ? points[points.length - 1] : null;
 }

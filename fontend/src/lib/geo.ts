@@ -86,14 +86,15 @@ function toDegrees(radians: number) {
 }
 
 /**
- * A pair of consecutive stops, which is the unit the corridor is measured in.
+ * One leg of the corridor: two consecutive located stops and the line between them.
  * `fromStop` and `toStop` are indexes into the ride's stop list.
  */
 export interface CorridorSegment {
   fromStop: number;
   toStop: number;
-  from: Position;
-  to: Position;
+  /** The road from the first stop to the second, or the two stops when none is known. */
+  points: Position[];
+  /** Length of `points`, which is the road's length rather than the gap between stops. */
   metres: number;
   /** Metres along the whole corridor at the start of this segment. */
   startMetres: number;
@@ -144,13 +145,84 @@ export function crossTrackMetres(from: Position, to: Position, point: Position):
   return projectOntoSegment(from, to, point).offsetMetres;
 }
 
-/** Total length in metres of a chain of stops that all have coordinates. */
+/** Total length in metres of a chain of points. */
 export function corridorMetres(points: Position[]): number {
   let total = 0;
   for (let index = 1; index < points.length; index += 1) {
     total += haversineMetres(points[index - 1], points[index]);
   }
   return total;
+}
+
+/**
+ * Projects `point` onto a polyline, the way the corridor needs it.
+ *
+ * The projection is the nearest one over all the sub-segments, and `alongMetres` is
+ * measured from the start of the whole line rather than from the sub-segment that won.
+ * That is what lets the ride engine keep one distance-along-the-route for a road that
+ * bends: without it, the bus would appear to jump backwards at every corner.
+ */
+export function projectOntoPolyline(points: Position[], point: Position): Projection | null {
+  if (!points.length) return null;
+  if (points.length === 1) {
+    return { t: 0, offsetMetres: haversineMetres(points[0], point), alongMetres: 0, point: points[0] };
+  }
+
+  const cumulative = [0];
+  for (let index = 1; index < points.length; index += 1) {
+    cumulative.push(cumulative[index - 1] + haversineMetres(points[index - 1], points[index]));
+  }
+  const total = cumulative[cumulative.length - 1];
+
+  let bestOffset = Infinity;
+  let bestAlong = 0;
+  let bestPoint = points[0];
+  for (let index = 1; index < points.length; index += 1) {
+    const projection = projectOntoSegment(points[index - 1], points[index], point);
+    if (projection.offsetMetres < bestOffset) {
+      bestOffset = projection.offsetMetres;
+      bestAlong = Math.min(cumulative[index - 1] + projection.alongMetres, total);
+      bestPoint = projection.point;
+    }
+  }
+  return {
+    t: total === 0 ? 0 : bestAlong / total,
+    offsetMetres: bestOffset,
+    alongMetres: bestAlong,
+    point: bestPoint,
+  };
+}
+
+/**
+ * The first `metres` of a polyline, ending exactly at that distance.
+ *
+ * The map draws the travelled part of the route with this, so it ends at the same
+ * point the passenger's marker is drawn at. A distance past the end returns the whole
+ * line; one before the start returns its first point.
+ */
+export function slicePolyline(points: Position[], metres: number): Position[] {
+  if (!points.length) return [];
+  if (metres <= 0 || points.length === 1) return [points[0]];
+
+  const sliced = [points[0]];
+  let travelled = 0;
+  for (let index = 1; index < points.length; index += 1) {
+    const leg = haversineMetres(points[index - 1], points[index]);
+    if (travelled + leg < metres) {
+      sliced.push(points[index]);
+      travelled += leg;
+      continue;
+    }
+    const ratio = leg === 0 ? 0 : (metres - travelled) / leg;
+    if (ratio > 0) {
+      sliced.push({
+        lat: points[index - 1].lat + (points[index].lat - points[index - 1].lat) * ratio,
+        lng: points[index - 1].lng + (points[index].lng - points[index - 1].lng) * ratio,
+      });
+    }
+    return sliced;
+  }
+  return sliced;
 }
 
 /**

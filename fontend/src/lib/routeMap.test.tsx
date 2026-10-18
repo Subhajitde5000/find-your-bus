@@ -18,7 +18,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import { RideRouteMap } from "@/components/RideRouteMap";
-import { buildRide, matchRide, pointAtMetres, type RideRoute } from "@/lib/ride";
+import { buildRide, matchRide, nearestSegment, pointAtMetres, type RideRoute } from "@/lib/ride";
 import { haversineMetres } from "@/lib/geo";
 
 function rideOrFail(number: string, direction: "outbound" | "return" = "outbound"): RideRoute {
@@ -55,48 +55,53 @@ function renderMap(ride: RideRoute, metresAlong: number | null, onBus: boolean):
 }
 
 describe("pointAtMetres", () => {
-  it("puts zero metres at the first located stop", () => {
+  it("starts where the routed road starts, at the first stop", () => {
     const ride = rideOrFail("1");
     const first = ride.stops.find((stop) => stop.position)!;
     const point = pointAtMetres(ride, 0)!;
     assert.ok(point, "a rideable route must have a point at zero");
+    assert.deepEqual(point, ride.segments[0].points[0], "zero is the first vertex of the road");
+    // The shelter is a few metres off the carriageway, so the drawn line starts near it
+    // rather than exactly on it.
     assert.ok(
-      haversineMetres(point, first.position!) < 1,
-      `expected ${JSON.stringify(point)} to be at ${first.name}`,
+      haversineMetres(point, first.position!) < 150,
+      `${first.name} is ${haversineMetres(point, first.position!).toFixed(0)} m from the road`,
     );
   });
 
-  it("puts the full corridor at the last located stop, and clamps past it", () => {
+  it("ends the corridor at the last stop, and clamps past it", () => {
     const ride = rideOrFail("1");
     const last = [...ride.stops].reverse().find((stop) => stop.position)!;
+    const lastSegment = ride.segments[ride.segments.length - 1];
     const point = pointAtMetres(ride, ride.totalMetres)!;
-    assert.ok(haversineMetres(point, last.position!) < 1);
+    assert.deepEqual(point, lastSegment.points[lastSegment.points.length - 1]);
+    assert.ok(haversineMetres(point, last.position!) < 150);
 
     // This project never invents a position: a bus past the end of the mapped corridor
     // is drawn at the end of it, not projected into open country.
     const beyond = pointAtMetres(ride, ride.totalMetres + 25_000)!;
-    assert.ok(haversineMetres(beyond, last.position!) < 1);
+    assert.deepEqual(beyond, point);
     const before = pointAtMetres(ride, -500)!;
-    const first = ride.stops.find((stop) => stop.position)!;
-    assert.ok(haversineMetres(before, first.position!) < 1);
+    assert.deepEqual(before, ride.segments[0].points[0]);
   });
 
-  it("advances monotonically along the corridor", () => {
+  it("places every distance on the road, and in order", () => {
     const ride = rideOrFail("1");
-    let previous = pointAtMetres(ride, 0)!;
-    let travelled = 0;
-    const steps = 20;
-    for (let index = 1; index <= steps; index += 1) {
-      const point = pointAtMetres(ride, (ride.totalMetres * index) / steps)!;
-      travelled += haversineMetres(previous, point);
-      previous = point;
+    let previous = -Infinity;
+    const steps = 50;
+    for (let index = 0; index <= steps; index += 1) {
+      const metres = (ride.totalMetres * index) / steps;
+      const point = pointAtMetres(ride, metres)!;
+      const found = nearestSegment(ride, point);
+      assert.ok(found, `no corridor at ${metres.toFixed(0)} m`);
+      const at = found.segment.startMetres + found.alongMetres;
+      // Going out along the corridor and measuring the result back must give the same
+      // distance: the marker is placed by distance, so the two must agree.
+      assert.ok(Math.abs(at - metres) < 1, `${metres.toFixed(0)} m came back as ${at.toFixed(0)} m`);
+      assert.ok(found.offsetMetres < 0.01, `the point is ${found.offsetMetres.toFixed(2)} m off its own road`);
+      assert.ok(at > previous || index === 0);
+      previous = at;
     }
-    // Walking the corridor stop by stop must cover at least the corridor's length; the
-    // slack is the difference between straight segments and great-circle legs.
-    assert.ok(
-      travelled >= ride.totalMetres * 0.99,
-      `walked ${travelled.toFixed(0)} m of a ${ride.totalMetres.toFixed(0)} m corridor`,
-    );
   });
 
   it("returns null when the corridor cannot be drawn at all", () => {
@@ -146,6 +151,21 @@ describe("RideRouteMap", () => {
     assert.ok(markup.includes("no published position"));
   });
 
+  it("says when a leg has no road shape and is drawn straight", () => {
+    // Digha Express runs past stops the road export does not reach, so some legs have no
+    // shape to draw. The caption must admit that rather than let a straight line pass
+    // for a road.
+    const ride = rideOrFail("Digha_Express");
+    const straight = ride.segments.length - ride.roadSegments;
+    assert.ok(straight > 0, "this route needs a leg with no road shape");
+    const markup = renderMap(ride, null, false);
+    assert.ok(
+      markup.includes(`${straight} of ${ride.segments.length} legs`),
+      `no straight-leg note in ${markup.slice(-600)}`,
+    );
+    assert.ok(markup.includes("straight line"));
+  });
+
   it("draws a scale bar in real units", () => {
     const ride = rideOrFail("1");
     const markup = renderMap(ride, null, false);
@@ -153,37 +173,55 @@ describe("RideRouteMap", () => {
     assert.ok(/(km|\d+ m)</.test(markup), "the scale bar should carry a distance label");
   });
 
-  it("draws the route without distortion", () => {
+  it("draws every road at the same scale", () => {
     /*
-     * The one property a map has to have: the same scale everywhere. If the projection
-     * is right, one SVG unit is the same number of metres on every leg of the route, so
-     * the drawing is a true shape and not a squashed one.
+     * The one property a map has to have: the same scale everywhere. Each drawn edge is
+     * compared with its real length, so a projection that squashed one axis, or a line
+     * built from mismatched coordinates, would show up as edges that disagree.
+     *
+     * Coordinates are drawn to a tenth of an SVG unit, so an edge is allowed that much
+     * rounding at each end plus half a percent of its length.
      */
     const ride = rideOrFail("1");
     const markup = renderMap(ride, null, false);
-    const circles = new Map<number, { x: number; y: number }>();
-    for (const match of markup.matchAll(
-      /<circle class="ride-map-stop [a-z]+" cx="([-\d.]+)" cy="([-\d.]+)" r="([\d.]+)"><title>(.*?)(?: \(passed\))?<\/title>/g,
-    )) {
-      const index = ride.stops.findIndex((stop) => stop.name === match[4]);
-      if (index >= 0) circles.set(index, { x: Number(match[1]), y: Number(match[2]) });
+    const line = /class="ride-map-line" d="([^"]+)"/.exec(markup);
+    assert.ok(line, "the route line should be drawn");
+    const drawn = [...line[1].matchAll(/[ML]([-\d.]+) ([-\d.]+)/g)].map((m) => ({
+      x: Number(m[1]),
+      y: Number(m[2]),
+    }));
+
+    const road: { lat: number; lng: number }[] = [];
+    for (const segment of ride.segments) {
+      for (const point of segment.points) {
+        const last = road[road.length - 1];
+        if (!last || last.lat !== point.lat || last.lng !== point.lng) road.push(point);
+      }
     }
-    assert.equal(circles.size, ride.locatedStops);
+    assert.equal(drawn.length, road.length, "every vertex of the road should be drawn");
 
     const scales: number[] = [];
-    for (const segment of ride.segments) {
-      const from = circles.get(segment.fromStop);
-      const to = circles.get(segment.toStop);
-      assert.ok(from && to, `segment ${segment.fromStop}->${segment.toStop} should be drawn`);
-      const units = Math.hypot(to.x - from.x, to.y - from.y);
-      scales.push(units / segment.metres);
+    for (let index = 1; index < road.length; index += 1) {
+      const metres = haversineMetres(road[index - 1], road[index]);
+      if (metres < 5) continue;
+      scales.push(
+        Math.hypot(drawn[index].x - drawn[index - 1].x, drawn[index].y - drawn[index - 1].y) / metres,
+      );
     }
-    const min = Math.min(...scales);
-    const max = Math.max(...scales);
-    assert.ok(
-      max / min < 1.01,
-      `scale varies by ${(((max / min) - 1) * 100).toFixed(2)}% across the route: ${scales.map((s) => s.toFixed(5)).join(", ")}`,
-    );
+    assert.ok(scales.length > 100, `${scales.length} measurable edges`);
+    const sorted = [...scales].sort((a, b) => a - b);
+    const scale = sorted[Math.floor(sorted.length / 2)];
+
+    for (let index = 1; index < road.length; index += 1) {
+      const metres = haversineMetres(road[index - 1], road[index]);
+      const length = Math.hypot(drawn[index].x - drawn[index - 1].x, drawn[index].y - drawn[index - 1].y);
+      if (metres < 10) continue;
+      const slack = 0.15 + length * 0.005;
+      assert.ok(
+        Math.abs(length - metres * scale) <= slack,
+        `edge ${index} is ${length.toFixed(2)} units for ${metres.toFixed(1)} m, expected ${(metres * scale).toFixed(2)}`,
+      );
+    }
   });
 
   it("keeps every stop and the marker inside the drawing", () => {

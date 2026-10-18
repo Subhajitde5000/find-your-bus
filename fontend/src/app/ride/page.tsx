@@ -389,7 +389,7 @@ function RideScreen() {
                   : "—"}
             </strong>
             <span className="ride-card-meta">
-              {tracker.fixes.length} of 5 fixes averaged
+              {tracker.fixes.length} recent fixes
               {tracker.rejected > 0 ? ` · ${tracker.rejected} ignored` : ""}
             </span>
           </div>
@@ -457,6 +457,15 @@ function RideScreen() {
               <strong>Positions.</strong> Stop coordinates are copied from open datasets
               (OpenStreetMap contributors, GeoNames, Wikidata) and checked against the route chains.
               They are street-accurate, not surveyed; treat the distances as close rather than exact.
+            </li>
+            <li>
+              <strong>The line on the map.</strong> Roads between stops were routed once, offline,
+              over OpenStreetMap and bundled as a simplified line: no tiles, no download at the
+              roadside. Distances and the map are measured along that line, so a curved road reads
+              as its true length. Map data © OpenStreetMap contributors, available under the{" "}
+              <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noreferrer">
+                Open Database Licence
+              </a>.
             </li>
           </ul>
           <p className="ride-footnote-sign">

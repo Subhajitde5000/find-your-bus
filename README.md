@@ -9,6 +9,7 @@ fontend/   Next.js site. Ships as static files and makes no API calls.
 data/      Source workbooks, the sample routes, the route extension, and the data audits.
 scripts/   build_static_data.py — the workbooks -> bundled JSON exporter.
            geocode_stops.py    — stop coordinates for the offline ride screen.
+           build_route_geometry.py — road shapes for the ride map, from OpenStreetMap.
 ```
 
 The website does not call the backend. All timetable data is generated once into
@@ -24,18 +25,20 @@ network at all**:
   it, and the screen measures from where you are. Off it for more than 20 seconds and it
   says **"You are not seated in this bus"**, with the nearest stop and its distance,
   rather than showing times for a bus you are not on.
-- **How far is the next stop?** Straight-line distance along the corridor, from your
-  averaged GPS position.
+- **How far is the next stop?** Distance along the roads the route runs on, from a window
+  of recent fixes smoothed along the corridor itself rather than on the map, so a bend
+  cannot drag the marker off the line.
 - **How long to every stop still ahead?** On a route with a published timetable, the
   published passage times. On a route without one, the corridor distance at that route's
   own measured speed — always labelled *estimate from distance*. A stop with neither a
   time nor a position gets a dash, never a guess.
-- **Where are you on the route?** The route drawn as a map: a line through the real stop
-  positions, to scale, with a north arrow, a scale bar, and your bus marked on it. It is
-  **not a street map** — there are no roads, because drawing them would mean downloading
-  map tiles, an API key, and tens of megabytes before you leave home. What you get is
-  the true *shape* of the route and your place along it, offline and instantly. Stops the
-  data cannot place are left off the map, and the caption says how many.
+- **Where are you on the route?** The route drawn as a map: **the roads the bus actually
+  drives**, routed once offline over OpenStreetMap, simplified and bundled as a short
+  line — no tiles, no API key, no download at the roadside. It is still not a *street*
+  map: there are no other streets, buildings or landmarks. But the road you are on is the
+  road in the drawing, and both the marker and every distance are measured along it.
+  North arrow, scale bar, and your bus marked on the line. Stops the data cannot place
+  are left off the map, and the caption says how many and why.
 
 It works offline because it has to be able to: a bus is exactly where you are least
 likely to have a signal. The route, the stop coordinates and the timetable are all in the
@@ -47,8 +50,9 @@ knows about is the passenger's own phone.
 ### Installable (PWA)
 
 `npm run build` writes a web app manifest and a service worker that precaches the whole
-app shell (about 2.5 MB). After the first visit the site loads and runs with no signal,
-and can be installed to a home screen on Android and iOS.
+app shell — about 2.8 MB, of which the road shapes are roughly 72 KB compressed. After
+the first visit the site loads and runs with no signal, and can be installed to a home
+screen on Android and iOS.
 
 Stop coordinates come from openly published open datasets and are checked against the
 route chains; see [`data/STOP_COORDINATE_AUDIT.md`](data/STOP_COORDINATE_AUDIT.md).
@@ -62,7 +66,7 @@ npm run dev        # http://localhost:3000
 npm run build      # static export -> fontend/out, then writes out/sw.js
 npm run lint
 npm run typecheck
-npm test             # journey-search, ride-engine, render and page tests (148 of them)
+npm test             # journey-search, ride-engine, render and page tests (149 of them)
 ```
 
 `npm run build` writes plain HTML/CSS/JS to `fontend/out`, which can be served by any static host
@@ -141,6 +145,28 @@ it rejected and what is still missing. Add `--osm` to fill the gaps from OpenStr
 that needs full internet access, which this repository's build environment does not have. The script prints the counts and refuses to write if the workbook is internally
 inconsistent (return stops not the outbound stops reversed, a run with the wrong number of times,
 duplicate route numbers or run codes).
+
+The map's road shapes are a separate, one-off step, committed with the site so the
+browser never contacts a routing service:
+
+```bash
+.venv/bin/pip install pyshp                 # the only dependency
+.venv/bin/python scripts/build_route_geometry.py
+```
+
+It downloads one 30 MB archive of OpenStreetMap road lines (pinned by commit and checked
+by SHA-256), exports them through HOT's raw-data-api, snaps every located stop of every
+timed route to the nearest road, routes each leg with A* over that graph, simplifies the
+result to 5 m and refuses any leg that detours more than six times its straight-line
+distance. It writes `fontend/src/data/route-geometry.json`: about 270 KB for 512 of the
+552 directed legs of the 84 timed routes (72 KB gzipped). The rest are drawn as straight
+lines and the map caption says how many. A stop more than 130 m from any road is left
+unplaced rather than given an invented road. A warm run takes about a minute; the cached
+download lives in `.cache/`, which is git-ignored.
+
+The road data is © OpenStreetMap contributors, available under the
+[Open Database Licence](https://opendatacommons.org/licenses/odbl/1-0/). That attribution
+is shown on the map and in the ride screen's notes.
 
 To rebuild the route extension itself (it downloads the two public datasets into `.cache/`,
 which is git-ignored):

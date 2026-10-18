@@ -1,25 +1,27 @@
 "use client";
 
-import { pointAtMetres, type RideRoute } from "@/lib/ride";
-import { formatDistance } from "@/lib/geo";
+import { corridorUpTo, pointAtMetres, type RideRoute } from "@/lib/ride";
+import { formatDistance, type Position } from "@/lib/geo";
 
 /*
- * The route drawn as a map, from the bundled coordinates.
+ * The route drawn as a map, from the data already in the bundle.
  *
- * This is the phase of the offline map that needs no network. A tile map needs image
- * tiles: a provider, an API key, and tens of megabytes pre-downloaded before the
- * passenger leaves home. This one needs nothing, because the stop coordinates are
- * already in the bundle.
+ * This is the offline map. A tile map needs image tiles: a provider, an API key, and
+ * tens of megabytes pre-downloaded before the passenger leaves home. This one needs
+ * nothing, because the stop coordinates and the road shape of every timed leg are
+ * already in the bundle -- routed once over OpenStreetMap, simplified, and shipped as
+ * a few hundred kilobytes of JSON.
  *
- * What it is: the true shape of the route — a polyline through the real stop positions,
- * correctly proportioned, with a scale bar and a north arrow. What it is not: a street
- * map. There are no roads or landmarks, because drawing them is what costs the tiles.
+ * What it is: the roads the bus actually drives, correctly proportioned, with a scale
+ * bar, a north arrow, and the bus marked where the passenger is. What it is not: a
+ * street map. There are no other streets, buildings or landmarks, because drawing
+ * them is what costs the tiles.
  *
  * The projection is equirectangular with a cosine correction for longitude. Over the
  * tens of kilometres a bus route covers it is indistinguishable from a conformal
  * projection, and it has the virtue of being obviously correct. Because it is affine,
- * any geographic point (not just a stop) can be placed with the same transform, which is
- * how the bus marker lands exactly on the line.
+ * any geographic point (not just a stop) can be placed with the same transform, which
+ * is how the bus marker lands exactly on the line.
  */
 
 const KM_PER_DEGREE_LAT = 110.574;
@@ -49,20 +51,39 @@ interface ProjectedStop {
   at: number | null;
 }
 
-function toXY(projection: Projection, lat: number, lng: number): { x: number; y: number } {
+function toXY(projection: Projection, point: Position): { x: number; y: number } {
   return {
-    x: PADDING + (lng - projection.minLng) * KM_PER_DEGREE_LNG * projection.cosLat * projection.unitsPerKm,
+    x: PADDING + (point.lng - projection.minLng) * KM_PER_DEGREE_LNG * projection.cosLat * projection.unitsPerKm,
     // SVG y grows downwards, and north is up.
-    y: projection.height - PADDING - (lat - projection.minLat) * KM_PER_DEGREE_LAT * projection.unitsPerKm,
+    y: projection.height - PADDING - (point.lat - projection.minLat) * KM_PER_DEGREE_LAT * projection.unitsPerKm,
   };
 }
 
-function project(ride: RideRoute): { projection: Projection; stops: ProjectedStop[] } | null {
-  const located = ride.stops.filter((stop) => stop.position);
-  if (located.length < 2) return null;
+/**
+ * The corridor as one line.
+ *
+ * Consecutive legs normally meet exactly, because both were routed to the same point
+ * on the road. Where they do not -- a stop mapped on each side of a divided road -- the
+ * join is a short straight step, which is truer than pretending the bus teleports.
+ */
+function corridorOf(ride: RideRoute): Position[] {
+  const points: Position[] = [];
+  for (const segment of ride.segments) {
+    for (const point of segment.points) {
+      const last = points[points.length - 1];
+      if (!last || last.lat !== point.lat || last.lng !== point.lng) points.push(point);
+    }
+  }
+  return points;
+}
 
-  const lats = located.map((stop) => stop.position!.lat);
-  const lngs = located.map((stop) => stop.position!.lng);
+function project(ride: RideRoute): { projection: Projection; stops: ProjectedStop[]; corridor: Position[] } | null {
+  if (ride.stops.filter((stop) => stop.position).length < 2) return null;
+  const corridor = corridorOf(ride);
+  if (corridor.length < 2) return null;
+
+  const lats = corridor.map((point) => point.lat);
+  const lngs = corridor.map((point) => point.lng);
   const minLat = Math.min(...lats);
   const maxLat = Math.max(...lats);
   const minLng = Math.min(...lngs);
@@ -88,42 +109,28 @@ function project(ride: RideRoute): { projection: Projection; stops: ProjectedSto
 
   const stops: ProjectedStop[] = ride.stops.map((stop) => {
     const base = { index: stop.index, name: stop.name, at: stop.distanceAlongMetres };
-    if (!stop.position) return { ...base, x: 0, y: 0 };
-    return { ...base, ...toXY(projection, stop.position.lat, stop.position.lng) };
+    if (!stop.position || stop.distanceAlongMetres === null) return { ...base, x: 0, y: 0 };
+    // The stop is drawn where the corridor reaches it, which is the point on the road
+    // its coordinate was snapped to. The coordinate itself is the shelter, a few metres
+    // to the side, and plotting that would leave every dot beside the line.
+    const anchor = pointAtMetres(ride, stop.distanceAlongMetres) ?? stop.position;
+    return { ...base, ...toXY(projection, anchor) };
   });
 
-  return { projection, stops };
+  return { projection, stops, corridor };
 }
 
 /**
- * The route as one polyline.
+ * The corridor as one SVG path.
  *
- * A stop with no position is simply not a vertex: the line goes straight from the
- * located stop before it to the located stop after it, which is the same straight-line
- * approximation every other segment of this drawing uses. Breaking the line instead
- * would leave the passenger's marker floating in a gap, because the corridor — the
- * thing the marker is placed along — does bridge it. The caption says which stops are
- * missing.
+ * A stop with no position is not a vertex: its neighbours' roads meet across the gap,
+ * which is what the corridor measures too. Breaking the line instead would leave the
+ * passenger's marker floating in a gap it does not actually have.
  */
 function toPath(points: { x: number; y: number }[]): string {
   return points
     .map((point, index) => `${index === 0 ? "M" : "L"}${point.x.toFixed(1)} ${point.y.toFixed(1)}`)
     .join(" ");
-}
-
-/** The part of the route already travelled, ending at the passenger's position. */
-function travelledPath(
-  stops: ProjectedStop[],
-  ride: RideRoute,
-  metres: number,
-  projection: Projection,
-): string | null {
-  const points = stops
-    .filter((stop) => stop.at !== null && stop.at <= metres)
-    .map((stop) => ({ x: stop.x, y: stop.y }));
-  const here = pointAtMetres(ride, metres);
-  if (here) points.push(toXY(projection, here.lat, here.lng));
-  return points.length > 1 ? toPath(points) : null;
 }
 
 /** A round distance that fits the scale bar, from the usual 1-2-5 series. */
@@ -158,16 +165,18 @@ export function RideRouteMap({
 }: Props) {
   const built = project(ride);
   if (!built) return null;
-  const { projection, stops } = built;
+  const { projection, stops, corridor } = built;
 
   const here = onBus && metresAlong !== null ? pointAtMetres(ride, metresAlong) : null;
-  const marker = here ? toXY(projection, here.lat, here.lng) : null;
-  const done = here && metresAlong !== null ? travelledPath(stops, ride, metresAlong, projection) : null;
+  const marker = here ? toXY(projection, here) : null;
+  const done = here && metresAlong !== null ? corridorUpTo(ride, metresAlong).map((point) => toXY(projection, point)) : null;
   const scale = scaleBar(projection.unitsPerKm, Math.min(projection.width, projection.height) / 3);
   const unlocated = stops.filter((stop) => stop.at === null).length;
+  const straight = ride.segments.length - ride.roadSegments;
 
   const first = stops.find((stop) => stop.at !== null);
   const last = [...stops].reverse().find((stop) => stop.at !== null);
+  const usesRoads = ride.roadSegments > 0;
 
   return (
     <figure className="ride-route-map">
@@ -176,7 +185,9 @@ export function RideRouteMap({
         className="ride-map-svg"
         role="img"
         preserveAspectRatio="xMidYMid meet"
-        aria-label={`Map of route ${ride.number}, ${ride.origin} to ${ride.destination}. ${ride.locatedStops} of ${ride.stops.length} stops are mapped.`}
+        aria-label={`Map of route ${ride.number}, ${ride.origin} to ${ride.destination}. ${
+          usesRoads ? "The route follows the roads it runs on. " : ""
+        }${ride.locatedStops} of ${ride.stops.length} stops are mapped.`}
       >
         <defs>
           <marker id="ride-north" viewBox="0 0 10 10" refX="5" refY="9" markerWidth="5" markerHeight="5" orient="auto">
@@ -184,9 +195,9 @@ export function RideRouteMap({
           </marker>
         </defs>
 
-        <path className="ride-map-line" d={toPath(stops.filter((stop) => stop.at !== null))} />
+        <path className="ride-map-line" d={toPath(corridor.map((point) => toXY(projection, point)))} />
 
-        {done && <path className="ride-map-done" d={done} />}
+        {done && <path className="ride-map-done" d={toPath(done)} />}
 
         {stops
           .filter((stop) => stop.at !== null)
@@ -209,7 +220,10 @@ export function RideRouteMap({
           </g>
         )}
 
-        {/* Terminus labels, so the drawing can be oriented without guessing. */}
+        {/* The stops at each end of the drawn line, named. When the terminus itself
+            has no published position, the line starts at the first stop that does, and
+            this labels that stop rather than putting the terminus's name on a road it
+            was never placed on. */}
         {first && (
           <text
             className="ride-map-label"
@@ -217,7 +231,7 @@ export function RideRouteMap({
             y={first.y + 15}
             textAnchor={first.x > projection.width / 2 ? "end" : "start"}
           >
-            {ride.origin}
+            {first.name}
           </text>
         )}
         {last && last.index !== first?.index && (
@@ -227,7 +241,7 @@ export function RideRouteMap({
             y={last.y - 11}
             textAnchor={last.x > projection.width / 2 ? "end" : "start"}
           >
-            {ride.destination}
+            {last.name}
           </text>
         )}
 
@@ -256,6 +270,20 @@ export function RideRouteMap({
             position, so {unlocated === 1 ? "it is" : "they are"} not marked here.
           </span>
         )}
+        {straight > 0 && (
+          <span className="ride-map-note">
+            {straight} of {ride.segments.length} leg{ride.segments.length === 1 ? "" : "s"} between stops{" "}
+            {straight === 1 ? "has" : "have"} no road shape bundled, so {straight === 1 ? "it is" : "they are"} drawn as
+            a straight line.
+          </span>
+        )}
+        <span className="ride-map-note">
+          Roads: ©{" "}
+          <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
+            OpenStreetMap contributors
+          </a>
+          , ODbL
+        </span>
       </figcaption>
     </figure>
   );

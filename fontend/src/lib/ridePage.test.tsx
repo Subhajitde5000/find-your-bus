@@ -103,7 +103,7 @@ installGeolocation();
 const React = require("react") as typeof import("react") & { act: (cb: () => void) => void };
 const { createRoot } = require("react-dom/client") as typeof import("react-dom/client");
 const RidePage = (require("@/app/ride/page") as { default: React.FC }).default;
-const { buildRide } = require("@/lib/ride") as typeof import("@/lib/ride");
+const { buildRide, pointAtMetres } = require("@/lib/ride") as typeof import("@/lib/ride");
 
 // --------------------------------------------------------------------------- helpers
 
@@ -173,19 +173,9 @@ function stopCoordinates(routeNumber: string, which = 0) {
 function pointAlong(routeNumber: string, ratio: number) {
   const built = buildRide({ number: routeNumber, direction: "outbound" });
   if (!built.ok) assert.fail(`route ${routeNumber} should build`);
-  const { ride } = built;
-  const metres = ride.totalMetres * ratio;
-  for (const segment of ride.segments) {
-    if (metres <= segment.startMetres + segment.metres) {
-      const t = segment.metres === 0 ? 0 : (metres - segment.startMetres) / segment.metres;
-      return {
-        lat: segment.from.lat + t * (segment.to.lat - segment.from.lat),
-        lng: segment.from.lng + t * (segment.to.lng - segment.from.lng),
-      };
-    }
-  }
-  const last = ride.segments[ride.segments.length - 1];
-  return { lat: last.to.lat, lng: last.to.lng };
+  const point = pointAtMetres(built.ride, built.ride.totalMetres * ratio);
+  if (!point) assert.fail(`route ${routeNumber} has no corridor`);
+  return point;
 }
 
 /** Three fixes one second apart: the minimum the tracker needs to commit. */

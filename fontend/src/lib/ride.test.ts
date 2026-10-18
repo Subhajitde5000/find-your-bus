@@ -18,7 +18,6 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import dataset from "@/data/kolkata-bus-data.json";
 import {
-  averageFixes,
   advanceTracker,
   buildRide,
   CORRIDOR_RADIUS_METRES,
@@ -29,6 +28,7 @@ import {
   legDistance,
   matchRide,
   nearestStop,
+  pointAtMetres,
   rideLegs,
   rideSummary,
   STOP_RADIUS_METRES,
@@ -98,8 +98,7 @@ function syntheticRoute(spec: SyntheticStop[]): RideRoute {
       segments.push({
         fromStop: previous.index,
         toStop: stop.index,
-        from: previous.position,
-        to: stop.position,
+        points: [previous.position, stop.position],
         metres,
         startMetres: total,
       });
@@ -119,6 +118,7 @@ function syntheticRoute(spec: SyntheticStop[]): RideRoute {
     destination: spec[spec.length - 1]?.name ?? "",
     stops,
     segments,
+    roadSegments: 0,
     totalMetres: total,
     locatedStops: stops.filter((stop) => stop.position).length,
     runCode: "RUN-T1-OUT-01",
@@ -494,19 +494,6 @@ describe("matchRide", () => {
 // ---------------------------------------------------------------- smoothing and state
 
 describe("GPS smoothing", () => {
-  it("averages a window of fixes", () => {
-    const averaged = averageFixes([
-      fix(22.5, 88.3, 0, 10),
-      fix(22.5001, 88.3002, 1, 20),
-      fix(22.4999, 88.2998, 2, 30),
-    ]);
-    assert.ok(averaged);
-    assert.ok(Math.abs(averaged.position.lat - 22.5) < 1e-9);
-    assert.ok(Math.abs(averaged.position.lng - 88.3) < 1e-9);
-    assert.equal(averaged.accuracy, 20);
-    assert.equal(averageFixes([]), null);
-  });
-
   it("takes three good fixes to commit: two for a position, two matches to confirm", () => {
     let tracker = initTracker();
     assert.equal(tracker.status, "waiting");
@@ -582,6 +569,46 @@ describe("GPS smoothing", () => {
     const wobbled = advanceTracker(onTheBus(), FIVE_STOPS, fixAlong(FIVE_STOPS, 340, 3, 60));
     assert.equal(wobbled.status, "on-bus", "a single wobble must not say 'not seated'");
     assert.ok((wobbled.match?.metresOffRoute ?? 99) < CORRIDOR_RADIUS_METRES);
+  });
+
+  it("follows a route that turns round and drives back up the same road", () => {
+    /*
+     * Kolkata routes do this at a terminus: the bus turns round and comes back along
+     * the street it arrived on. Halfway round the turn, the outbound and return
+     * branches of the corridor cover the same tarmac, so the distance alone cannot say
+     * which one the passenger is on. The tracker must keep moving forwards rather than
+     * switching to the branch that would carry the marker back the way it came.
+     */
+    const thereAndBack = syntheticRoute([
+      { name: "Start", metres: 0, minutes: 600 },
+      { name: "Turn", metres: 500, minutes: 602 },
+      { name: "Back", metres: 400, minutes: 603 },
+    ]);
+    assert.ok(thereAndBack.totalMetres > 550, "the return leg retraces the outbound one");
+
+    const speed = 5;
+    let tracker = initTracker();
+    let previous = -1;
+    for (let metres = 0; metres <= thereAndBack.totalMetres; metres += 10) {
+      const point = pointAtMetres(thereAndBack, metres);
+      assert.ok(point);
+      tracker = advanceTracker(tracker, thereAndBack, {
+        ...point,
+        accuracy: 8,
+        timestamp: 1_700_000_000_000 + (metres / speed) * 1000,
+      });
+      const along = tracker.match?.metresAlong ?? null;
+      if (along === null) continue;
+      if (previous >= 0) {
+        assert.ok(along >= previous - 40, `went backwards: ${previous.toFixed(0)} -> ${along.toFixed(0)}`);
+      }
+      previous = along;
+    }
+    assert.equal(tracker.status, "on-bus");
+    assert.ok(
+      Math.abs((tracker.match?.metresAlong ?? 0) - thereAndBack.totalMetres) < 40,
+      `ended at ${tracker.match?.metresAlong?.toFixed(0)} m of ${thereAndBack.totalMetres.toFixed(0)} m`,
+    );
   });
 
   it("holds 'on the bus' through a short drift off the corridor", () => {
@@ -810,10 +837,10 @@ describe("a real timed route end to end", () => {
     const { ride } = result;
     const first = ride.stops.find((stop) => stop.position) as RideStop;
     const second = ride.stops.find((stop) => stop.position && stop.index > first.index) as RideStop;
-    const halfway = {
-      lat: (first.position!.lat + second.position!.lat) / 2,
-      lng: (first.position!.lng + second.position!.lng) / 2,
-    };
+    // Halfway *along the road*, not halfway across the map: on a curved corridor the
+    // straight-line midpoint can be a street away from the route.
+    const halfway = pointAtMetres(ride, (first.distanceAlongMetres! + second.distanceAlongMetres!) / 2);
+    assert.ok(halfway, "the corridor has a point halfway between the first two stops");
     const match = matchRide(ride, halfway);
     assert.equal(match.state, "on-bus");
     assert.equal(match.stopIndex, first.index);
@@ -903,19 +930,7 @@ describe("a simulated ride along a real route", () => {
   }
 
   /** The point a given number of metres along a route's corridor. */
-  function pointAlong(ride: RideRoute, metres: number): Position | null {
-    for (const segment of ride.segments) {
-      if (metres <= segment.startMetres + segment.metres) {
-        const ratio = segment.metres === 0 ? 0 : (metres - segment.startMetres) / segment.metres;
-        return {
-          lat: segment.from.lat + ratio * (segment.to.lat - segment.from.lat),
-          lng: segment.from.lng + ratio * (segment.to.lng - segment.from.lng),
-        };
-      }
-    }
-    const last = ride.segments[ride.segments.length - 1];
-    return last ? { lat: last.to.lat, lng: last.to.lng } : null;
-  }
+  const pointAlong = pointAtMetres;
 
   it("stays on the bus for a whole clean run", () => {
     const run = simulate("1", 0);

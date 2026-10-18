@@ -7,7 +7,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/lib/timetables.test.ts src/lib/ride.test.ts src/lib/render.test.tsx"
+    "test": "tsx --test src/lib/timetables.test.ts src/lib/ride.test.ts src/lib/render.test.tsx src/lib/ridePage.test.tsx src/lib/serviceWorker.test.ts"
   },
   "dependencies": {
     "lucide-react": "^1.54.0",
@@ -17,11 +17,13 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.1.17",
+    "@types/jsdom": "^30.0.0",
     "@types/node": "22.19.15",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.6",
+    "jsdom": "^30.1.3",
     "postcss": "8.5.8",
     "tailwindcss": "4.1.17",
     "tsx": "4.23.15",

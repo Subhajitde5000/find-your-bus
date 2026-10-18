@@ -232,6 +232,13 @@ function main() {
     console.error(`build_sw: ${OUT} does not exist. Run "next build" first.`);
     process.exit(1);
   }
+
+  // The offline fallback is written first so that it is part of the export when the
+  // precache list is collected. Writing it afterwards leaves the worker with a fallback
+  // it can never serve.
+  mkdirSync(OUT, { recursive: true });
+  writeFileSync(join(OUT, "offline.html"), OFFLINE_HTML, "utf8");
+
   const { urls, total, skipped, files } = collect();
   if (!urls.length) {
     console.error("build_sw: nothing to precache. Did next build succeed?");
@@ -255,7 +262,6 @@ function main() {
 
   mkdirSync(OUT, { recursive: true });
   writeFileSync(join(OUT, "sw.js"), serviceWorkerSource(urls, version), "utf8");
-  writeFileSync(join(OUT, "offline.html"), OFFLINE_HTML, "utf8");
 
   // Public files are copied into out/ by Next, so the manifest is already there.
   if (!existsSync(join(OUT, "manifest.webmanifest")) && existsSync(join(PUBLIC, "manifest.webmanifest"))) {

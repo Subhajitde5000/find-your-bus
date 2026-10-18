@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Cholo Kolkata Bus Guide">
+  <rect width="512" height="512" rx="97" fill="#195a45"/>
+  <rect x="67" y="123" width="378" height="256" rx="46" fill="#ffffff"/>
+  <rect x="101" y="157" width="310" height="116" rx="26" fill="#d6e9dd"/>
+  <rect x="157" y="131" width="198" height="20" rx="8" fill="#104833"/>
+  <rect x="89" y="323" width="334" height="38" rx="14" fill="#195a45"/>
+  <rect x="107" y="333" width="44" height="20" rx="9" fill="#e9865c"/>
+  <rect x="361" y="333" width="44" height="20" rx="9" fill="#e9865c"/>
+  <rect x="111" y="373" width="60" height="44" rx="14" fill="#104833"/>
+  <rect x="341" y="373" width="60" height="44" rx="14" fill="#104833"/>
+  <circle cx="424" cy="89" r="15" fill="#e9865c"/>
+</svg>

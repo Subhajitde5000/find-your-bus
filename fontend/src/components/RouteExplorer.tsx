@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import {
   ArrowLeftRight,
   ArrowRight,
@@ -10,6 +11,7 @@ import {
   Clock3,
   CornerDownRight,
   Info,
+  LocateFixed,
   MapPin,
   Route as RouteIcon,
   Search,
@@ -22,6 +24,7 @@ import {
   toClock24,
   type Direction,
 } from "@/lib/timetables";
+import { isRideable } from "@/lib/coords";
 
 const POPULAR_ROUTE_CHIPS = ["1", "12C", "205", "218", "S12", "AC9", "C11", "45B"];
 
@@ -225,6 +228,16 @@ export function RouteExplorer({ onSelectJourney, initialRouteNumber }: RouteExpl
                   Direction: <strong>{direction === "outbound" ? "Outbound" : "Return"}</strong>
                 </span>
               </button>
+              {isRideable(displayStops) && (
+                <Link
+                  className="ride-along-btn"
+                  href={`/ride?route=${encodeURIComponent(routeNumber)}&dir=${direction}`}
+                  title="Open the full-page ride map for this route"
+                >
+                  <LocateFixed size={14} />
+                  <span>Set on bus</span>
+                </Link>
+              )}
               {onSelectJourney && (
                 <button
                   type="button"

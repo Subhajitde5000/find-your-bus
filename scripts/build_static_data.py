@@ -12,6 +12,10 @@ Inputs
 ``data/timetable_preview_routes.json``
     The illustrative sample routes. A sample is skipped when the v2 directory
     publishes the same route number, because a route number must be unique.
+``data/stop_coordinates.json``
+    Latitude/longitude per stop, written by ``scripts/geocode_stops.py``. Used by the
+    offline ride screen to match the phone's position against the route. Optional:
+    pass ``--no-coordinates`` to build without it.
 
 Output
 ------
@@ -59,6 +63,7 @@ DEFAULT_ROUTES = DATA_DIR / "Kolkata_Comprehensive_Bus_Routes_and_Fleet_Director
 DEFAULT_STANDS = DATA_DIR / "Kolkata_Bus_Stands_v2.xlsx"
 DEFAULT_PREVIEW = DATA_DIR / "timetable_preview_routes.json"
 DEFAULT_EXTENSION = DATA_DIR / "Kolkata_Bus_Routes_Extension-v3.xlsx"
+DEFAULT_COORDINATES = DATA_DIR / "stop_coordinates.json"
 DEFAULT_OUTPUT = ROOT / "fontend" / "src" / "data" / "kolkata-bus-data.json"
 
 RUN_PREFIX = "RUN-"
@@ -379,6 +384,7 @@ def read_route_sheet(sheet) -> DirectoryRoute:
 @dataclass
 class BuildReport:
     merged_stops: dict[str, list[str]] = field(default_factory=dict)
+    coordinates: dict[str, Any] = field(default_factory=dict)
     skipped_samples: list[str] = field(default_factory=list)
     alignment_warnings: list[str] = field(default_factory=list)
     blank_time_cells: int = 0
@@ -489,13 +495,57 @@ def read_extension(path: Path) -> tuple[list[dict[str, Any]], list[dict[str, Any
     return catalogue, timed
 
 
+# --------------------------------------------------------------------------- coordinates
+
+# A stop outside this box is a name collision in another part of India, not a Kolkata
+# bus stop. The box is generous: it covers Siliguri in the north and the Sundarbans in
+# the south, and the whole of the neighbouring districts the intercity routes reach.
+COORDINATE_BOX = {"lat": (21.0, 27.5), "lng": (86.0, 90.0)}
+COORDINATE_CONFIDENCE = ("high", "medium", "review")
+
+
+def read_coordinates(path: Path | None) -> dict[str, dict[str, Any]]:
+    """The reviewed coordinate table, validated. An empty dict when no file is given.
+
+    Nothing here is invented: a malformed row is an error, because a wrong position is
+    worse than a missing one.
+    """
+    if path is None or not path.exists():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    stops = payload.get("stops")
+    if not isinstance(stops, dict):
+        raise ValueError(f"{path.name}: expected a 'stops' object")
+    result: dict[str, dict[str, Any]] = {}
+    for name, entry in stops.items():
+        for field in ("lat", "lng", "confidence"):
+            if field not in entry:
+                raise ValueError(f"{path.name}: {name}: missing '{field}'")
+        for field, (low, high) in COORDINATE_BOX.items():
+            value = entry[field]
+            if not isinstance(value, (int, float)) or isinstance(value, bool):
+                raise ValueError(f"{path.name}: {name}: '{field}' is not a number")
+            if not low <= value <= high:
+                raise ValueError(f"{path.name}: {name}: {field}={value} is outside {low}-{high}")
+        if entry["confidence"] not in COORDINATE_CONFIDENCE:
+            raise ValueError(f"{path.name}: {name}: unknown confidence {entry['confidence']!r}")
+        result[name] = {
+            "lat": round(float(entry["lat"]), 5),
+            "lng": round(float(entry["lng"]), 5),
+            "coordConfidence": entry["confidence"],
+        }
+    return result
+
+
 def build_dataset(
     routes_path: Path = DEFAULT_ROUTES,
     stands_path: Path = DEFAULT_STANDS,
     preview_path: Path = DEFAULT_PREVIEW,
     extension_path: Path | None = DEFAULT_EXTENSION,
+    coordinates_path: Path | None = DEFAULT_COORDINATES,
 ) -> tuple[dict[str, Any], BuildReport]:
     report = BuildReport()
+    coordinates = read_coordinates(coordinates_path)
     stand_rows = read_stands(stands_path)
     preview_routes: list[dict[str, Any]] = json.loads(preview_path.read_text(encoding="utf-8"))
 
@@ -749,10 +799,30 @@ def build_dataset(
             stand = stands_by_name.get(STAND_ALIASES[key].lower())
         return stand.name if stand else None
 
+    def stop_entry(name: str) -> dict[str, Any]:
+        entry: dict[str, Any] = {"name": name, "stand": linked_stand(name)}
+        # A stop with no coordinate simply has none: the ride screen says so instead of
+        # guessing where it is.
+        entry.update(coordinates.get(name, {}))
+        return entry
+
     stop_list = [
-        {"name": name, "stand": linked_stand(name)}
-        for name in sorted(stop_names, key=lambda value: (value.lower(), value))
+        stop_entry(name) for name in sorted(stop_names, key=lambda value: (value.lower(), value))
     ]
+    unplaced = sorted(set(coordinates) - set(stop_names), key=lambda value: value.lower())
+    report.coordinates = {
+        "located": sum(1 for stop in stop_list if "lat" in stop),
+        "high": sum(1 for stop in stop_list if stop.get("coordConfidence") == "high"),
+        "medium": sum(1 for stop in stop_list if stop.get("coordConfidence") == "medium"),
+        "review": sum(1 for stop in stop_list if stop.get("coordConfidence") == "review"),
+        "unplaced": unplaced,
+    }
+
+    def located_count(route: dict[str, Any]) -> int:
+        return sum(1 for stop in route["stops"] if stop in coordinates)
+
+    def has_times(route: dict[str, Any]) -> bool:
+        return bool(route["runs"]) or (route["source"] == "preview" and "frequency" in route)
 
     run_count = sum(len(route["runs"]) for route in routes)
     dataset: dict[str, Any] = {
@@ -763,6 +833,7 @@ def build_dataset(
                 stands_path.name,
                 preview_path.name,
                 *([extension_path.name] if extension_path is not None and extension_path.exists() else []),
+                *([coordinates_path.name] if coordinates_path is not None and coordinates_path.exists() else []),
             ],
             "counts": {
                 "stands": len(stand_rows),
@@ -778,6 +849,25 @@ def build_dataset(
                 "externalTimedRoutes": sum(1 for route in routes if route["source"] == "external"),
                 "routeStops": sum(len(route["stops"]) for route in routes),
                 "runs": run_count,
+                "stopsLocated": report.coordinates["located"],
+                "routesRideable": sum(1 for route in routes if located_count(route) >= 2),
+                "timedRoutesRideable": sum(
+                    1 for route in routes if has_times(route) and located_count(route) >= 2
+                ),
+            },
+            "coordinates": {
+                "source": coordinates_path.name if coordinates_path is not None else None,
+                "licence": (
+                    "ODbL 1.0 (c) OpenStreetMap contributors; GeoNames CC BY 4.0; Wikidata CC0. "
+                    "Copied from openly published datasets by scripts/geocode_stops.py; "
+                    "see data/STOP_COORDINATE_AUDIT.md."
+                ),
+                "confidence": {
+                    "high": report.coordinates["high"],
+                    "medium": report.coordinates["medium"],
+                    "review": report.coordinates["review"],
+                },
+                "notLocated": report.coordinates["unplaced"],
             },
             "dedupe": {
                 "mergedStops": report.merged_stops,
@@ -791,6 +881,7 @@ def build_dataset(
                 "Sample routes use illustrative frequencies (first, last, every) and are not official timetables.",
                 "Catalogue routes come from published route lists and have no times at all: Kolkata city buses run to frequency and no source publishes stop times. They are never given an invented departure.",
                 "External timed services are long-distance services whose operator or depot publishes a time at every stop. Intermediate times are copied from that timetable, not interpolated.",
+                "Stop coordinates are copied from openly published datasets and reviewed; a stop no source can place has no coordinate and is never estimated. They power the offline ride screen only.",
             ],
         },
         "stands": [
@@ -825,6 +916,10 @@ def main() -> int:
     parser.add_argument("--preview", type=Path, default=DEFAULT_PREVIEW)
     parser.add_argument("--extension", type=Path, default=DEFAULT_EXTENSION)
     parser.add_argument("--no-extension", action="store_true", help="build from the v2 directory only")
+    parser.add_argument("--coordinates", type=Path, default=DEFAULT_COORDINATES,
+                        help="reviewed stop coordinates written by scripts/geocode_stops.py")
+    parser.add_argument("--no-coordinates", action="store_true",
+                        help="build without stop coordinates (the ride screen then stays disabled)")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
 
@@ -834,6 +929,7 @@ def main() -> int:
             args.stands,
             args.preview,
             None if args.no_extension else args.extension,
+            None if args.no_coordinates else args.coordinates,
         )
     except ValueError as error:
         print(f"ERROR: {error}", file=sys.stderr)
@@ -854,6 +950,22 @@ def main() -> int:
         + (", ".join(report.skipped_samples) if report.skipped_samples else "none")
     )
     print(f"Merged stop spellings: {len(report.merged_stops)}")
+    coords = dataset["meta"]["coordinates"]
+    located = counts["stopsLocated"]
+    print(
+        f"Stop coordinates: {located} of {counts['stops']} stops "
+        f"({coords['confidence']['high']} high, {coords['confidence']['medium']} medium, "
+        f"{coords['confidence']['review']} review); "
+        f"{counts['timedRoutesRideable']} of {counts['directoryRoutes'] + counts['sampleRoutes'] + counts['externalTimedRoutes']} "
+        f"timed routes rideable, {counts['routesRideable']} of {counts['routes']} routes overall"
+    )
+    if report.coordinates["unplaced"]:
+        print(
+            "Coordinate rows that match no stop in the workbooks (re-run geocode_stops.py after a "
+            f"data change): {len(report.coordinates['unplaced'])} -- "
+            + ", ".join(report.coordinates["unplaced"][:8])
+            + (" ..." if len(report.coordinates["unplaced"]) > 8 else "")
+        )
     if report.alignment_warnings:
         print(f"Alignment sentences that differ from timetable columns: {len(report.alignment_warnings)}")
     print(f"Wrote {args.output}")

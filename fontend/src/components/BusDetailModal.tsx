@@ -1,11 +1,29 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import {
-  Accessibility, Armchair, ArrowRight, BusFront, Flag, Info, PersonStanding, Route, Snowflake,
-  Sunrise, Sunset, Timer, Users, Wind, X,
+  Accessibility, Armchair, ArrowRight, BusFront, Flag, Info, LocateFixed, PersonStanding, Route,
+  Snowflake, Sunrise, Sunset, Timer, Users, Wind, X,
 } from "lucide-react";
 import { formatClock, formatDuration, type BusTrip, type TripKind } from "@/lib/timetables";
+import { isRideable } from "@/lib/coords";
+
+/**
+ * The URL of the full-page ride screen for this trip.
+ *
+ * It carries everything the ride page needs to reproduce the bus the passenger is
+ * looking at: the route, the direction it is travelling, the stops they planned, and
+ * the run whose published times they are reading. Nothing is passed that the ride page
+ * could not rebuild, so the link works when it is shared or opened cold.
+ */
+export function rideLink(trip: BusTrip): string {
+  const params = new URLSearchParams({ route: trip.number, dir: trip.direction });
+  if (trip.boarding) params.set("from", trip.boarding);
+  if (trip.alighting) params.set("to", trip.alighting);
+  if (trip.runCode) params.set("run", trip.runCode);
+  return `/ride?${params.toString()}`;
+}
 
 function noteFor(trip: BusTrip): string {
   if (trip.source === "external") {
@@ -115,6 +133,31 @@ export function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClos
         </div>
 
         <div className="modal-note"><Info size={14} /> {noteFor(trip)}</div>
+
+        {isRideable(trip.fullStops.map((stop) => stop.name)) ? (
+          <div className="modal-ride">
+            <div className="modal-ride-text">
+              <strong><LocateFixed size={15} aria-hidden="true" /> Set on bus</strong>
+              <span>
+                Follow this route on a full-page map: where you are on it, how far the next stop is,
+                and how long to {trip.alighting}. Works with no signal.
+              </span>
+            </div>
+            <Link className="modal-ride-button" href={rideLink(trip)}>
+              Open <ArrowRight size={15} aria-hidden="true" />
+            </Link>
+          </div>
+        ) : (
+          <div className="modal-ride disabled">
+            <div className="modal-ride-text">
+              <strong>Set on bus is not available for this route</strong>
+              <span>
+                Fewer than two of its stops have a published position, so there is not enough of the
+                route to match against. The timetable above still applies.
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "description": "Reviewed latitude/longitude for the bus stops the site lists.",
+    "description": "Reviewed latitude/longitude for the bus stops the site lists. 12 stops were added and 3 were upgraded by hand after scripts/geocode_stops.py ran (see manualAdditions below); the unresolved/rejectedByRouteGeometry counts below still describe that automated pass only, not the manual additions.",
     "generatedBy": "scripts/geocode_stops.py",
     "licence": "Stop coordinates are copied from openly published datasets: arkodeepg/calcutta-transport and murmusuvash2-wq/busjatri-open-data (ODbL 1.0 (c) OpenStreetMap contributors; GeoNames CC BY 4.0; Wikidata CC0). Entries fetched with --osm are (c) OpenStreetMap contributors, ODbL 1.0.",
     "sources": [
@@ -16,10 +16,10 @@
       "calcutta-transport/gtfs/stops.txt"
     ],
     "counts": {
-      "stops": 1209,
-      "high": 665,
-      "medium": 448,
-      "review": 96,
+      "stops": 1221,
+      "high": 667,
+      "medium": 456,
+      "review": 98,
       "unresolved": 985,
       "rejectedByRouteGeometry": 78,
       "timedRouteStops": 163,
@@ -32,7 +32,11 @@
       "Coordinates outside 21.0-27.5 N / 86.0-90.0 E are dropped as name collisions.",
       "A coordinate the route chains contradict is rejected: a bus cannot be 60 km from its previous stop.",
       "An unresolved stop is absent, not estimated. The ride screen says so."
-    ]
+    ],
+    "manualAdditions": {
+      "description": "Entries added by hand on top of scripts/geocode_stops.py's output, to work through next step/MISSING_COORDINATES.csv. Each was looked up against a real published map source (OpenStreetMap-derived listings, GeoNames, Wikipedia/Wikidata, or a specific business address) and sanity-checked against the before/after stops on its busiest route. Sources and notes are on each entry; see data/stop_coordinates_review.csv for the audit trail.",
+      "count": 15
+    }
   },
   "stops": {
     "10 No. Tank": {
@@ -737,6 +741,16 @@
       "matchedName": "B.N.R. Hospital",
       "matchedOn": "b n r hospital"
     },
+    "B.T. College": {
+      "lat": 22.67972,
+      "lng": 88.45194,
+      "source": "http://wikimapia.org/15116105/B-T-COLLEGE-BUS-STOP",
+      "method": "manual_osm_websearch",
+      "confidence": "review",
+      "matchedName": "B.T. College",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "Wikimapia-labelled bus stand on route 223, between Madhyamgram Chowmatha and Birati. Community-sourced map, flagged for a second check."
+    },
     "Babubazar": {
       "lat": 22.53809,
       "lng": 88.3191,
@@ -979,6 +993,16 @@
       "confidence": "medium",
       "matchedName": "Bakshi",
       "matchedOn": "bakshi"
+    },
+    "Bakultala": {
+      "lat": 22.56417,
+      "lng": 88.28618,
+      "source": "https://www.justdial.com/Howrah/Bakultala-Howrah-Andul-Road",
+      "method": "manual_osm_websearch",
+      "confidence": "medium",
+      "matchedName": "Bakultala",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "Bakultala, Andul Road, Howrah (the stop used by routes 61/RT-20 between Chunavati and Danesh Shaikh Lane) -- NOT the same-named Bakultala stops in Behala/Kasba. Cross-checked against a second Andul Road address at 22.5651,88.2838 (~300m away)."
     },
     "Balakhali": {
       "lat": 22.35834,
@@ -2276,6 +2300,16 @@
       "matchedName": "Bongaon",
       "matchedOn": "bongaon"
     },
+    "Bonhooghly": {
+      "lat": 22.64899,
+      "lng": 88.38098,
+      "source": "https://indiamapia.com/Kolkata/Bonhooghly.html",
+      "method": "manual_osm_websearch",
+      "confidence": "review",
+      "matchedName": "Bonhooghly",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "Locality centroid (pincode 700108), not a bus-stop node; corroborated by a Wikimedia Commons geotagged photo of the area at 22.6463,88.3834 (~450m away)."
+    },
     "Bonhooghly Tobin Road": {
       "lat": 22.63834,
       "lng": 88.37591,
@@ -2734,6 +2768,16 @@
       "confidence": "high",
       "matchedName": "Chandni Chowk",
       "matchedOn": "chandni chowk"
+    },
+    "Chandni Market": {
+      "lat": 22.56543,
+      "lng": 88.3546,
+      "source": "https://www.tripopola.com/location/kolkata/chandni-chowk-market/15522",
+      "method": "manual_osm_websearch",
+      "confidence": "medium",
+      "matchedName": "Chandni Market",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "Chandni Chowk Market, Esplanade; cross-checked against Justdial listing at 22.5638,88.3540 (~250m away, same market)."
     },
     "Chandpur": {
       "lat": 22.61353,
@@ -3446,6 +3490,16 @@
       "matchedName": "Dhukrijhara",
       "matchedOn": "dhukrijhara"
     },
+    "Dhulagarh": {
+      "lat": 22.57634,
+      "lng": 88.19244,
+      "source": "https://www.mapquest.com/in/west-bengal/howrah/711302/dhulagarh-more-22.57634,88.19244",
+      "method": "manual_osm_websearch",
+      "confidence": "review",
+      "matchedName": "Dhulagarh",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "'Dhulagarh More' crossing; sits on the road between Ranihati and Alampur. Single source only, flagged for a second check."
+    },
     "Dhulasimla": {
       "lat": 22.41474,
       "lng": 88.09367,
@@ -4135,9 +4189,20 @@
       "lng": 88.37724,
       "source": "calcutta-transport/docs/data/places.json",
       "method": "gazetteer",
-      "confidence": "review",
+      "confidence": "high",
       "matchedName": "Garia 6 no. bus terminus",
-      "matchedOn": "garia 6 no bus terminus"
+      "matchedOn": "garia 6 no bus terminus",
+      "note": "Confirmed against four independent sources (latlong.net, mapcarta/OSM, Wikimapia, maps.me) all within 20m of the coordinate already on file."
+    },
+    "Garia Depot": {
+      "lat": 22.4735,
+      "lng": 88.3748,
+      "source": "https://www.justdial.com/Kolkata/Calcutta-State-Transport-Corporation-Garia",
+      "method": "manual_osm_websearch",
+      "confidence": "review",
+      "matchedName": "Garia Depot",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "CSTC bus depot office, S C Mullick Road, Garia. Distinct from the 'Garia 6 No.' passenger terminus already in this file; flagged for human confirmation that this is the depot the site means."
     },
     "Garia Dhalai Bridge": {
       "lat": 22.46528,
@@ -5462,6 +5527,16 @@
       "matchedName": "Kadambagachi",
       "matchedOn": "kadambagachi"
     },
+    "Kadamtala": {
+      "lat": 22.59116,
+      "lng": 88.31998,
+      "source": "https://yappe.in/west-bengal/howrah/kadamtala/1770690",
+      "method": "manual_osm_websearch",
+      "confidence": "medium",
+      "matchedName": "Kadamtala",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "Kadamtala, Bantra, Howrah (between Howrah Maidan and Dasnagar) -- NOT the same-named Kadamtala in Behala or Jalpaiguri. The dataset's own automated match for this name was rejected for being 70km off-corridor, confirming the name collision."
+    },
     "Kahankia": {
       "lat": 22.94214,
       "lng": 88.84667,
@@ -5956,6 +6031,16 @@
       "confidence": "medium",
       "matchedName": "Khandalia",
       "matchedOn": "khandalia"
+    },
+    "Khanna Cinema": {
+      "lat": 22.59504,
+      "lng": 88.37527,
+      "source": "https://yappe.in/west-bengal/kolkata/khanna-cinema/573526",
+      "method": "manual_osm_websearch",
+      "confidence": "medium",
+      "matchedName": "Khanna Cinema",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "OSM-derived 'Khanna Cinema' bus stop, Hati Bagan / APC Road."
     },
     "Kharampur": {
       "lat": 22.52765,
@@ -7226,6 +7311,16 @@
       "matchedName": "Moonbeam",
       "matchedOn": "moonbeam"
     },
+    "Moulali": {
+      "lat": 22.5618,
+      "lng": 88.3671,
+      "source": "https://yappe.in/west-bengal/kolkata/moulali/582089",
+      "method": "manual_osm_websearch",
+      "confidence": "medium",
+      "matchedName": "Moulali",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "OSM-derived 'Moulali' bus stop node (AJC Bose Rd / Moulali crossing); corroborated by rome2rio transit data at 22.5616,88.3666-88.3671."
+    },
     "Mourigram": {
       "lat": 22.58027,
       "lng": 88.25603,
@@ -8158,9 +8253,10 @@
       "lng": 88.30154,
       "source": "calcutta-transport/docs/data/places.json",
       "method": "gazetteer",
-      "confidence": "review",
+      "confidence": "high",
       "matchedName": "Parnasree Pally",
-      "matchedOn": "parnasree pally"
+      "matchedOn": "parnasree pally",
+      "note": "Confirmed against GeoNames, which publishes the identical coordinate (22.50648,88.30154), and Wikipedia/Wikidata (22.509,88.306, ~300m away)."
     },
     "Paschim Tajpur": {
       "lat": 22.7626,
@@ -8747,6 +8843,16 @@
       "matchedName": "Rajarhat Chowmatha",
       "matchedOn": "rajarhat chowmatha"
     },
+    "Rajballavpara": {
+      "lat": 22.59997,
+      "lng": 88.3675,
+      "source": "https://yappe.in/west-bengal/kolkata/raj-ballabh-park/491811",
+      "method": "manual_osm_websearch",
+      "confidence": "medium",
+      "matchedName": "Rajballavpara",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "OSM-derived 'Raj Ballabh Para' bus stop, immediately south of the Shyambazar five-point crossing."
+    },
     "Rajbari": {
       "lat": 22.40729,
       "lng": 88.79476,
@@ -8989,6 +9095,16 @@
       "confidence": "high",
       "matchedName": "Rashmoni Bazar",
       "matchedOn": "rashmoni bazar"
+    },
+    "Rathtala": {
+      "lat": 22.66458,
+      "lng": 88.37688,
+      "source": "https://www.justdial.com (Belgharia Service Station, 'Near Kamarhati Municipality', Rathtala, B.T. Road)",
+      "method": "manual_osm_websearch",
+      "confidence": "review",
+      "matchedName": "Rathtala",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "Proxy location: a business address at Rathtala Mor, not the bus stop node itself. The dataset's own automated match for this name was rejected for being 15.5km off-corridor, so a name collision is known to exist; treat this as a rough placement pending a sharper source."
     },
     "Reckjuani": {
       "lat": 22.6318,
@@ -9418,9 +9534,10 @@
       "lng": 88.43105,
       "source": "calcutta-transport/docs/data/places.json",
       "method": "gazetteer",
-      "confidence": "review",
+      "confidence": "medium",
       "matchedName": "SDF Building",
-      "matchedOn": "sdf building"
+      "matchedOn": "sdf building",
+      "note": "Confirmed against magicbricks.com (22.568879,88.431604) and an Airtel store listing (22.5687801,88.4317201), both within ~100m of the gazetteer coordinate already on file."
     },
     "Sealdah": {
       "lat": 22.57002,
@@ -9655,6 +9772,16 @@
       "confidence": "medium",
       "matchedName": "Shikra More",
       "matchedOn": "shikra more"
+    },
+    "Shilpara": {
+      "lat": 22.47242,
+      "lng": 88.31007,
+      "source": "https://www.mappls.com/place-bus+stop-diamond+harbour+road-silpara-purba+barisha-kolkata-west+bengal-700008-LAO71H",
+      "method": "manual_osm_websearch",
+      "confidence": "medium",
+      "matchedName": "Shilpara",
+      "matchedOn": "manual verification, see data/stop_coordinates_review.csv",
+      "note": "Bus stop POI on Diamond Harbour Road at Silpara; sits exactly between Sakherbazar and Thakurpukur on the route chain."
     },
     "Shimultala": {
       "lat": 22.44428,

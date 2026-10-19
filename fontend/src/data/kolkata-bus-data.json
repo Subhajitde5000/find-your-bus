@@ -22,7 +22,7 @@
       "externalTimedRoutes": 1,
       "routeStops": 11526,
       "runs": 1058,
-      "stopsLocated": 1209,
+      "stopsLocated": 1221,
       "routesRideable": 650,
       "timedRoutesRideable": 84
     },
@@ -30,9 +30,9 @@
       "source": "stop_coordinates.json",
       "licence": "ODbL 1.0 (c) OpenStreetMap contributors; GeoNames CC BY 4.0; Wikidata CC0. Copied from openly published datasets by scripts/geocode_stops.py; see data/STOP_COORDINATE_AUDIT.md.",
       "confidence": {
-        "high": 665,
-        "medium": 448,
-        "review": 96
+        "high": 667,
+        "medium": 456,
+        "review": 98
       },
       "notLocated": []
     },
@@ -2454,7 +2454,10 @@
     },
     {
       "name": "B.T. College",
-      "stand": null
+      "stand": null,
+      "lat": 22.67972,
+      "lng": 88.45194,
+      "coordConfidence": "review"
     },
     {
       "name": "Babanpur",
@@ -2735,7 +2738,10 @@
     },
     {
       "name": "Bakultala",
-      "stand": null
+      "stand": null,
+      "lat": 22.56417,
+      "lng": 88.28618,
+      "coordConfidence": "medium"
     },
     {
       "name": "Balaka Housing (EcoPark)",
@@ -4203,7 +4209,10 @@
     },
     {
       "name": "Bonhooghly",
-      "stand": null
+      "stand": null,
+      "lat": 22.64899,
+      "lng": 88.38098,
+      "coordConfidence": "review"
     },
     {
       "name": "Bonhooghly Tobin Road",
@@ -4688,7 +4697,10 @@
     },
     {
       "name": "Chandni Market",
-      "stand": null
+      "stand": null,
+      "lat": 22.56543,
+      "lng": 88.3546,
+      "coordConfidence": "medium"
     },
     {
       "name": "Chandpara B.D.O. Office",
@@ -5553,7 +5565,10 @@
     },
     {
       "name": "Dhulagarh",
-      "stand": null
+      "stand": null,
+      "lat": 22.57634,
+      "lng": 88.19244,
+      "coordConfidence": "review"
     },
     {
       "name": "Dhulagarh Bazar",
@@ -6332,7 +6347,7 @@
       "stand": null,
       "lat": 22.46514,
       "lng": 88.37724,
-      "coordConfidence": "review"
+      "coordConfidence": "high"
     },
     {
       "name": "Garia 6no. Bus stand",
@@ -6344,7 +6359,10 @@
     },
     {
       "name": "Garia Depot",
-      "stand": "Garia Depot"
+      "stand": "Garia Depot",
+      "lat": 22.4735,
+      "lng": 88.3748,
+      "coordConfidence": "review"
     },
     {
       "name": "Garia Dhalai Bridge",
@@ -7845,7 +7863,10 @@
     },
     {
       "name": "Kadamtala",
-      "stand": "Kadamtala Bus Stand"
+      "stand": "Kadamtala Bus Stand",
+      "lat": 22.59116,
+      "lng": 88.31998,
+      "coordConfidence": "medium"
     },
     {
       "name": "Kadapara",
@@ -8522,7 +8543,10 @@
     },
     {
       "name": "Khanna Cinema",
-      "stand": null
+      "stand": null,
+      "lat": 22.59504,
+      "lng": 88.37527,
+      "coordConfidence": "medium"
     },
     {
       "name": "Kharagpur Chowrangee",
@@ -9981,7 +10005,10 @@
     },
     {
       "name": "Moulali",
-      "stand": null
+      "stand": null,
+      "lat": 22.5618,
+      "lng": 88.3671,
+      "coordConfidence": "medium"
     },
     {
       "name": "Mourigram",
@@ -11065,7 +11092,7 @@
       "stand": "Parnasree Lake Stand",
       "lat": 22.50648,
       "lng": 88.30154,
-      "coordConfidence": "review"
+      "coordConfidence": "high"
     },
     {
       "name": "Parthapur",
@@ -11732,7 +11759,10 @@
     },
     {
       "name": "Rajballavpara",
-      "stand": null
+      "stand": null,
+      "lat": 22.59997,
+      "lng": 88.3675,
+      "coordConfidence": "medium"
     },
     {
       "name": "Rajbari",
@@ -11981,7 +12011,10 @@
     },
     {
       "name": "Rathtala",
-      "stand": "Rathtala"
+      "stand": "Rathtala",
+      "lat": 22.66458,
+      "lng": 88.37688,
+      "coordConfidence": "review"
     },
     {
       "name": "Ratneshwarpur",
@@ -12517,7 +12550,7 @@
       "stand": null,
       "lat": 22.56888,
       "lng": 88.43105,
-      "coordConfidence": "review"
+      "coordConfidence": "medium"
     },
     {
       "name": "Sealdah",
@@ -12787,7 +12820,10 @@
     },
     {
       "name": "Shilpara",
-      "stand": null
+      "stand": null,
+      "lat": 22.47242,
+      "lng": 88.31007,
+      "coordConfidence": "medium"
     },
     {
       "name": "Shimulpur Senbari",

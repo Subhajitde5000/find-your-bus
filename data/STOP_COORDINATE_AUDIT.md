@@ -145,3 +145,40 @@ The ride screen shows "position approximate" next to any `review` stop.
 | `data/stop_coordinates_review.csv` | One row per stop with everything needed to check the choice, including the alternatives. |
 | `fontend/src/data/kolkata-bus-data.json` | The site bundle. `scripts/build_static_data.py` merges the coordinates into each stop as `lat`, `lng` and `coordConfidence`. |
 | `.cache/geocode/` | Downloaded datasets and OSM query cache. Git-ignored. |
+
+## Manual verification round (ranks 1–20 of `next step/MISSING_COORDINATES.csv`)
+
+Everything above this section was written automatically by `scripts/geocode_stops.py`.
+Re-running that script (with or without `--osm`) reproduces the exact same output —
+it has exhausted every dataset/gazetteer it knows about. Closing more of the backlog
+in `next step/MISSING_COORDINATES.csv` requires looking stops up by hand against a
+real map source and checking the result against the stop's neighbours on its route.
+
+Working through the stops ranked 1–20 by `next step/rank_missing_stops.py` (the
+highest-impact ones, by routes unlocked):
+
+- **12 new stops added** (previously had no coordinate at all): Moulali, Shilpara,
+  Garia Depot, Chandni Market, Dhulagarh, Bakultala, Rajballavpara, B.T. College,
+  Khanna Cinema, Rathtala, Bonhooghly, Kadamtala. Each has its source URL and a note
+  in `data/stop_coordinates.json` and a row in `data/stop_coordinates_review.csv`
+  (`method=manual_osm_websearch`).
+  - 5 of these (Garia Depot, Dhulagarh, B.T. College, Rathtala, Bonhooghly) are only a
+    single, weaker source (a business address, a locality centroid, or a
+    community-edited map) and are marked `confidence=review` — please check them.
+  - Bakultala, Kadamtala, Rathtala and B.T. College share a name with a stop
+    *elsewhere in West Bengal* that this project's automated geometry check had
+    already rejected as implausible (8.8–70.5 km off the route corridor). The
+    coordinates added here are a *different* place with the same name, picked because
+    it sits naturally between the stop's neighbours on the route — but because this
+    is exactly the kind of mix-up the automated check exists to catch, please give
+    these four a second look too.
+- **3 existing `review` stops confirmed and upgraded**: SDF Building and Garia 6 No.
+  (→ `medium`/`high`) and Parnasree (→ `high`), each cross-checked against two to four
+  independent real-world listings that agree with the coordinate already on file.
+- **Left blank, on purpose** (no reliable source found — instruction was not to guess):
+  Ramnagar, Airport Gate 3, Khanna (the plain "Khanna" stop, as distinct from "Khanna
+  Cinema"). R.G. Kar Hospital's existing `review` coordinate was left untouched
+  (not re-checked this round).
+- Ranks 21–100 of the same file have **not** been looked at yet; `next
+  step/MISSING_COORDINATES.csv` was regenerated after the changes above and still
+  lists 973 missing + 98 review stops.

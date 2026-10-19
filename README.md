@@ -39,6 +39,9 @@ network at all**:
   road in the drawing, and both the marker and every distance are measured along it.
   North arrow, scale bar, and your bus marked on the line. Stops the data cannot place
   are left off the map, and the caption says how many and why.
+  The map zooms and pans: **+ / −**, pinch, drag, or Ctrl/Cmd + wheel. **Show the whole route**
+  fits it back, and **Follow my bus** keeps the map centred on you. Stop names appear as you
+  zoom in, placed so none overlap. The maths is in `fontend/src/lib/mapView.ts`.
 
 It works offline because it has to be able to: a bus is exactly where you are least
 likely to have a signal. The route, the stop coordinates and the timetable are all in the

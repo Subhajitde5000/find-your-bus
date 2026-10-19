@@ -7,7 +7,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/lib/timetables.test.ts src/lib/ride.test.ts src/lib/render.test.tsx src/lib/ridePage.test.tsx src/lib/serviceWorker.test.ts src/lib/routeMap.test.tsx"
+    "test": "tsx --test src/lib/timetables.test.ts src/lib/ride.test.ts src/lib/render.test.tsx src/lib/ridePage.test.tsx src/lib/serviceWorker.test.ts src/lib/routeMap.test.tsx src/lib/mapView.test.ts src/lib/routeMapControls.test.tsx"
   },
   "dependencies": {
     "lucide-react": "^1.54.0",

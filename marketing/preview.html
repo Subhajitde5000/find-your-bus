@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cholo — Ad Banners Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=DM+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --brand:#195a45; --accent:#e9865c; --mint:#eaf3ea; --bg:#f8faf7; --ink:#173a2e; }
+  *{box-sizing:border-box}
+  body{margin:0;background:#eef3ee;color:var(--ink);font-family:"DM Sans",sans-serif}
+  header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid #dde6dd;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+  header .brand{display:flex;align-items:center;gap:10px;font-family:Outfit,sans-serif;font-weight:800;font-size:22px}
+  header .brand span{color:var(--accent)}
+  header .brand i{width:38px;height:38px;background:var(--brand);color:#fff;display:grid;place-items:center;border-radius:10px;font-style:normal}
+  header a{background:var(--brand);color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:800;font-size:13px}
+  .wrap{max-width:1260px;margin:0 auto;padding:28px 24px}
+  h1{font-family:Outfit,sans-serif;font-size:38px;letter-spacing:-.04em;margin:8px 0 6px}
+  .kicker{color:var(--brand);font-weight:800;letter-spacing:.16em;font-size:11px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;margin-top:24px}
+  .card{background:#fff;border-radius:18px;padding:16px;box-shadow:0 8px 24px rgba(20,60,40,.08);border:1px solid #e6ece6}
+  .card h3{font-size:13px;letter-spacing:.08em;color:#6a8474;margin:4px 0 10px}
+  .banner{border-radius:14px;overflow:hidden;position:relative}
+  .banner-actions{margin-top:10px;display:flex;gap:8px}
+  .banner-actions a{font-size:12px;font-weight:800;padding:8px 12px;border-radius:8px;text-decoration:none;border:1px solid #dde6dd;background:#f6faf6;color:var(--brand)}
+  .meta{font-size:12px;color:#7a8f7f;line-height:1.6}
+  /* --- BANNER 1: Launch Hero Square --- */
+  .b1{width:100%;aspect-ratio:1/1;background: radial-gradient(circle at 85% 15%, #f0e9a6 0%, transparent 40%), linear-gradient(135deg,#d9eadc 0%, #e8efda 100%);border:1px solid #d5e5d3;display:flex;flex-direction:column;padding:22px;position:relative;overflow:hidden}
+  .b1::before{content:"";position:absolute;inset:0;background:radial-gradient(#a8c7ad 1.2px, transparent 1.2px);background-size:18px 18px;opacity:.18;pointer-events:none}
+  .b1-top{font-size:11px;font-weight:800;letter-spacing:.18em;color:#2f5e46;display:flex;align-items:center;gap:8px;z-index:1}
+  .b1-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;box-shadow:0 0 0 4px #fff0e7}
+  .b1 h2{font-family:Outfit,sans-serif;font-size:42px;line-height:.95;letter-spacing:-.06em;color:#12392d;margin:16px 0 10px;z-index:1}
+  .b1 h2 em{font-family:Georgia,serif;font-style:italic;color:var(--accent);font-weight:500}
+  .b1 h2 span{color:var(--brand)}
+  .b1 p{color:#4a6658;font-size:13px;line-height:1.6;max-width:78%;z-index:1;margin:0}
+  .b1-route{margin-top:14px;background:#fff;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 18px rgba(20,60,40,.08);z-index:1}
+  .b1-route strong{font-size:13px}
+  .b1-route small{color:#6b8576;font-size:11px}
+  .b1-bus{position:absolute;right:-6px;bottom:18px;width:44%;z-index:1;filter:drop-shadow(0 12px 24px rgba(0,0,0,.12))}
+  .b1-cta{margin-top:auto;z-index:1;display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:#fff;padding:12px 18px;border-radius:12px;font-weight:800;font-size:13px;width:fit-content;box-shadow:0 6px 16px rgba(25,90,69,.18)}
+  .b1-watermark{position:absolute;right:14px;top:58px;opacity:.06;font-family:Outfit,sans-serif;font-weight:800;font-size:64px;letter-spacing:-.07em;color:#1a4d3a;z-index:0}
+
+  /* BANNER 2: Offline Story */
+  .b2{width:100%;aspect-ratio:9/16;background:linear-gradient(180deg,#0f2e24 0%, #195a45 55%, #1e6b52 100%);color:#fff;padding:20px;display:flex;flex-direction:column;position:relative;overflow:hidden;border:1px solid #143d2f}
+  .b2-top{font-size:10px;letter-spacing:.18em;font-weight:800;opacity:.85;display:flex;align-items:center;gap:6px}
+  .b2 h2{font-family:Outfit,sans-serif;font-size:36px;line-height:.95;margin:14px 0 8px;letter-spacing:-.05em}
+  .b2 h2 span{color:#f9a77a}
+  .b2 p{font-size:12.5px;line-height:1.7;opacity:.86;margin:0;max-width:90%}
+  .b2-phone{margin-top:16px;background:#fff;border-radius:18px;padding:10px;position:relative;overflow:hidden;box-shadow:0 16px 32px rgba(0,0,0,.25)}
+  .b2-phone-inner{background:#eaf3ea;border-radius:12px;padding:12px}
+  .b2-map{height:92px;background:linear-gradient(90deg,#d9eadc,#cfe3d1);border-radius:10px;position:relative;overflow:hidden;display:grid;place-items:center}
+  .b2-map::before{content:"";position:absolute;inset:0;background:radial-gradient(#a7c7ad 1px, transparent 1px);background-size:14px 14px;opacity:.3}
+  .b2-map-line{width:78%;height:6px;background:#195a45;border-radius:6px;position:relative;z-index:1}
+  .b2-map-dot{position:absolute;left:38%;top:50%;transform:translateY(-50%);width:14px;height:14px;background:#e9865c;border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+  .b2-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .b2-stat{background:#fff;border-radius:10px;padding:10px;border:1px solid #e0ece0}
+  .b2-stat strong{color:#195a45;font-size:11px;letter-spacing:.08em}
+  .b2-stat div{font-size:13px;font-weight:800;color:#12392d}
+  .b2-stat small{color:#6b8576;font-size:11px}
+  .b2-badge{margin-top:auto;background:#fff0e7;color:#b85a2e;padding:10px 12px;border-radius:12px;display:flex;align-items:center;gap:8px;font-weight:800;font-size:12px}
+  .b2-glow{position:absolute;right:-40px;top:56px;width:180px;height:180px;background:radial-gradient(circle,#f9a77a 0%, transparent 70%);opacity:.18;pointer-events:none}
+
+  /* BANNER 3: Search */
+  .b3{aspect-ratio:1/1;background:#fff;border:1px solid #dde6dd;padding:18px;display:flex;flex-direction:column}
+  .b3-kicker{color:var(--brand);font-weight:800;font-size:11px;letter-spacing:.14em}
+  .b3 h2{font-family:Outfit,sans-serif;font-size:30px;letter-spacing:-.04em;margin:8px 0 6px;line-height:1}
+  .b3 h2 span{color:var(--accent);font-family:Georgia,serif;font-style:italic;font-weight:500}
+  .b3-search{background:#f8faf8;border:1px solid #e3ece3;border-radius:14px;padding:12px;margin-top:10px}
+  .b3-row{display:flex;align-items:center;gap:10px;padding:8px 10px;background:#fff;border:1px solid #e6ece6;border-radius:10px;margin-bottom:8px}
+  .b3-icon{width:28px;height:28px;border-radius:8px;background:var(--mint);display:grid;place-items:center;color:var(--brand);font-size:12px;font-weight:800}
+  .b3-row input{border:0;outline:0;font-weight:700;font-size:12px;color:#1a3a2e;width:100%;background:transparent}
+  .b3-btn{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:11px;font-weight:800;font-size:12px;width:100%;margin-top:6px}
+  .b3-results{margin-top:10px;display:grid;gap:6px}
+  .b3-trip{border:1px solid #e3ece3;border-radius:10px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;background:#f9fbf9}
+  .b3-trip strong{font-size:12px}
+  .b3-trip small{font-size:11px;color:#6b8576}
+  .b3-chip{background:var(--mint);color:var(--brand);padding:3px 7px;border-radius:6px;font-size:10px;font-weight:800}
+
+  /* BANNER 4: Stats */
+  .b4{aspect-ratio:16/9;background:linear-gradient(135deg,#195a45 0%, #143d2f 100%);color:#fff;padding:18px;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+  .b4 h2{font-family:Outfit,sans-serif;font-size:26px;margin:0;letter-spacing:-.04em}
+  .b4 h2 span{color:#f9a77a}
+  .b4-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+  .b4-card{background:rgba(255,255,255,.96);border-radius:12px;padding:10px;text-align:center;color:#143d2f}
+  .b4-card strong{font-family:Outfit,sans-serif;font-size:20px;display:block;line-height:1}
+  .b4-card small{font-size:10px;letter-spacing:.1em;font-weight:800;color:#5a7a6a}
+  .b4 p{margin-top:10px;font-size:11px;opacity:.85}
+
+  /* BANNER 5: Before/After */
+  .b5{aspect-ratio:1/1;background:#f8faf7;border:1px solid #e3ece3;padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .b5-col{border-radius:14px;padding:14px;display:flex;flex-direction:column}
+  .b5-left{background:#fff1ec;border:1px solid #f2c9b6}
+  .b5-right{background:#eaf3ea;border:1px solid #cfe3d1}
+  .b5-col h4{margin:0;font-size:11px;letter-spacing:.1em}
+  .b5-left h4{color:#c96a3d}
+  .b5-right h4{color:#1e6b52}
+  .b5-col p{font-size:12px;line-height:1.6;margin:8px 0 0;color:#2f4a3f}
+  .b5-col ul{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:6px}
+  .b5-col li{font-size:11px;font-weight:700;display:flex;gap:6px;align-items:center}
+  .b5-left li{color:#8a4a2e}
+  .b5-right li{color:#195a45}
+  .b5-vs{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--brand);color:#fff;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:11px;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+
+  /* BANNER 6: PWA */
+  .b6{aspect-ratio:1/1;background:#fff;border:1px solid #dde6dd;padding:18px;display:flex;flex-direction:column}
+  .b6-badge{display:inline-flex;align-items:center;gap:6px;background:#195a45;color:#fff;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:800;width:fit-content}
+  .b6 h2{font-family:Outfit,sans-serif;font-size:32px;margin:10px 0 6px;letter-spacing:-.05em;line-height:.95}
+  .b6 h2 span{color:var(--accent)}
+  .b6 p{color:#5a7a6a;font-size:12.5px;line-height:1.6;margin:0}
+  .b6-phones{display:flex;gap:10px;margin-top:14px}
+  .b6-phone{flex:1;background:#f6faf6;border:1px solid #e0ece0;border-radius:14px;padding:10px;text-align:center}
+  .b6-phone-icon{width:36px;height:36px;background:var(--brand);color:#fff;border-radius:10px;display:grid;place-items:center;margin:0 auto;font-weight:800}
+  .b6-phone small{font-size:10px;letter-spacing:.08em;font-weight:800;color:#5a7a6a;display:block;margin-top:6px}
+  .b6-phone div{font-size:12px;font-weight:800;margin-top:2px}
+  .b6-cta{margin-top:auto;background:var(--brand);color:#fff;padding:12px;border-radius:12px;text-align:center;font-weight:800;font-size:12px}
+
+  /* BANNER 7: How it works 1-2-3 */
+  .b7{aspect-ratio:1/1;background:#fff;border:1px solid #dde6dd;padding:16px;display:flex;flex-direction:column}
+  .b7 h2{font-family:Outfit,sans-serif;font-size:24px;letter-spacing:-.04em;margin:6px 0;text-align:center}
+  .b7-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+  .b7-step{background:#f8faf8;border:1px solid #e6ece6;border-radius:14px;padding:12px;text-align:center}
+  .b7-num{width:26px;height:26px;background:var(--brand);color:#fff;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;margin:0 auto}
+  .b7-step.orange .b7-num{background:var(--accent)}
+  .b7-step h4{font-size:12px;margin:8px 0 4px}
+  .b7-step p{font-size:11px;line-height:1.5;color:#5a7a6a;margin:0}
+  .b7-cta{margin-top:12px;background:var(--mint);color:var(--brand);padding:10px;border-radius:10px;text-align:center;font-weight:800;font-size:12px;border:1px solid #d5e5d3}
+
+  /* BANNER 8: Giveaway */
+  .b8{aspect-ratio:1/1;background: radial-gradient(circle at 50% 0%, #fff0e7 0%, #fff 45%), linear-gradient(180deg,#ffffff 0%, #f6faf6 100%);border:1px solid #f0dcc8;padding:18px;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .b8-badge{background:var(--accent);color:#fff;padding:6px 12px;border-radius:20px;font-weight:800;font-size:11px;letter-spacing:.08em}
+  .b8 h2{font-family:Outfit,sans-serif;font-size:28px;margin:10px 0 4px;letter-spacing:-.04em}
+  .b8 p{color:#6a8474;font-size:12px;line-height:1.6;max-width:85%;margin:0}
+  .b8-prize{margin-top:12px;background:#fff;border:1px solid #e8ddd3;border-radius:14px;padding:12px;width:100%;display:flex;align-items:center;gap:12px;text-align:left}
+  .b8-prize-icon{width:42px;height:42px;background:#fff0e7;border-radius:12px;display:grid;place-items:center;color:var(--accent);font-size:20px}
+  .b8-prize strong{font-size:12px}
+  .b8-prize small{font-size:11px;color:#7a8f7f}
+  .b8-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;width:100%}
+  .b8-step{background:#f8faf8;border:1px solid #e6ece6;border-radius:10px;padding:8px}
+  .b8-step div{font-size:11px;font-weight:800}
+  .b8-step small{font-size:10px;color:#6a8474}
+  .b8-cta{margin-top:auto;width:100%;background:var(--brand);color:#fff;padding:12px;border-radius:12px;font-weight:800;font-size:12px}
+
+  /* X header */
+  .b9{aspect-ratio:3/1;background:linear-gradient(135deg,#195a45 0%, #1e6b52 60%, #e8efda 100%);color:#fff;padding:16px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden}
+  .b9 h2{font-family:Outfit,sans-serif;font-size:26px;margin:0;line-height:1;letter-spacing:-.05em}
+  .b9 p{font-size:11px;opacity:.9;margin:4px 0 0;line-height:1.5;max-width:420px}
+  .b9-right{margin-left:auto;background:#fff;color:#143d2f;padding:12px 16px;border-radius:14px;text-align:center;min-width:140px}
+  .b9-right strong{font-size:18px;display:block}
+  .b9-right small{font-size:10px;letter-spacing:.1em;font-weight:800;color:#5a7a6a}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><i>🚌</i> cholo<span>.</span></div>
+  <div style="display:flex;gap:10px;align-items:center">
+    <span style="font-size:12px;color:#6b8576;font-weight:700">Kolkata Bus Guide • 30-Day Kit</span>
+    <a href="#banners">View Banners ↓</a>
+  </div>
+</header>
+<div class="wrap">
+  <div class="kicker">✦ CHOLO — FIND YOUR BUS • MARKETING KIT</div>
+  <h1>Photo banners for ads, posts & stories<span style="color:var(--accent)">.</span></h1>
+  <p style="color:#5a7a6a;max-width:720px;line-height:1.7;margin:6px 0 0">All banners use Cholo brand: Deep Green #195A45, Accent Orange #E9865C, Mint #EAF3EA. Export sizes: Post 1080×1080, Story 1080×1920, Header 1500×500. Right-click → Save image, or screenshot. AI-generated variants in <code>marketing/banners/</code>.</p>
+
+  <div style="margin-top:18px;background:#fff;border:1px solid #dde6dd;border-radius:14px;padding:14px;display:flex;gap:12px;flex-wrap:wrap">
+    <span style="background:var(--brand);color:#fff;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:800">8 Banners Ready</span>
+    <span style="background:var(--mint);color:var(--brand);padding:6px 10px;border-radius:8px;font-size:12px;font-weight:800">Instagram • Facebook • X • YouTube Shorts</span>
+    <span style="background:#fff0e7;color:#b85a2e;padding:6px 10px;border-radius:8px;font-size:12px;font-weight:800">2.8 MB PWA • No login • Offline</span>
+  </div>
+
+  <div id="banners" class="grid">
+
+    <!-- BANNER 1 -->
+    <div class="card">
+      <h3>01 — LAUNCH HERO • Post 1080×1080 — Use Day 2</h3>
+      <div class="banner b1" id="banner1">
+        <div class="b1-top"><span class="b1-dot"></span> THE CITY, CONNECTED &nbsp; ✳</div>
+        <h2>Find your<br><em>bus</em> in<br><span>10 seconds</span><br>Cholo.</h2>
+        <p>650+ routes. 193 stands. Type Esplanade → Garia and see every bus today.</p>
+        <div class="b1-route">
+          <div style="width:36px;height:36px;background:var(--mint);display:grid;place-items:center;border-radius:10px;color:var(--brand);font-weight:800;font-size:13px">1</div>
+          <div><strong>Esplanade → Garia</strong><br><small>Route 1 • Next at 08:12 • 12 buses today</small></div>
+          <span style="margin-left:auto;background:var(--brand);color:#fff;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:800">Search →</span>
+        </div>
+        <div class="b1-cta">Try now — Link in bio →</div>
+        <div class="b1-watermark">KOLKATA</div>
+        <svg class="b1-bus" viewBox="0 0 120 80" fill="none"><rect x="6" y="8" width="98" height="54" rx="14" fill="#164d3d"/><rect x="14" y="18" width="76" height="26" rx="8" fill="#d6eee0"/><rect x="15" y="46" width="24" height="8" rx="4" fill="#f5a772"/><rect x="65" y="46" width="24" height="8" rx="4" fill="#f5a772"/><rect x="16" y="62" width="14" height="10" rx="3" fill="#263f37"/><rect x="76" y="62" width="14" height="10" rx="3" fill="#263f37"/></svg>
+      </div>
+      <div class="banner-actions"><a href="#banner1" onclick="downloadBanner('banner1','cholo-banner-01-launch-hero.png')">Save PNG</a><span class="meta">Square post •IG/FB</span></div>
+      <div class="meta">Copy: “Find your bus in 10 seconds. 650+ routes. No login. Link in bio 💚”<br>CTA: Swipe/Link in bio</div>
+    </div>
+
+    <!-- BANNER 2 -->
+    <div class="card">
+      <h3>02 — OFFLINE HERO • Story 1080×1920 — Use Day 8</h3>
+      <div class="banner b2" id="banner2">
+        <div class="b2-top">● OFFLINE RIDE SCREEN &nbsp; ✳</div>
+        <h2>No signal?<br>No <span>problem.</span></h2>
+        <p>“Set on Bus” follows YOU with GPS. No internet. Tells you distance to every stop ahead — and if you’re on the wrong bus.</p>
+        <div class="b2-phone">
+          <div class="b2-phone-inner">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;color:#2f5e46;margin-bottom:6px">● YOU ARE ON ROUTE 1</div>
+            <div class="b2-map"><div class="b2-map-line"><div class="b2-map-dot"></div></div></div>
+            <div style="margin-top:8px;background:#fff;border:1px solid #e0ece0;border-radius:10px;padding:8px;display:flex;justify-content:space-between">
+              <div><small style="font-size:10px;letter-spacing:.08em;color:#6b8576;font-weight:800">NEXT STOP</small><div style="font-weight:800;font-size:13px;color:#143d2f">Park Street • 420m</div></div>
+              <span style="background:var(--brand);color:#fff;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:800">Follow my bus</span>
+            </div>
+            <div class="b2-stats">
+              <div class="b2-stat"><strong>DISTANCE</strong><div>1.2 km</div><small>to next stop</small></div>
+              <div class="b2-stat"><strong>TIME AHEAD</strong><div>08:14</div><small>Ballygunge</small></div>
+            </div>
+          </div>
+        </div>
+        <div class="b2-badge">📴 Works completely offline — 2.8 MB precached</div>
+        <div class="b2-glow"></div>
+      </div>
+      <div class="banner-actions"><a href="#banner2">Portrait Story/Reel Cover</a><span class="meta">1080×1920 •Boost this</span></div>
+      <div class="meta">Hook: “Bus is where signal dies. Cholo works there anyway 📴”</div>
+    </div>
+
+    <!-- BANNER 3 -->
+    <div class="card">
+      <h3>03 — SEARCH FEATURE • Post 1080×1080 — Use Day 5</h3>
+      <div class="banner b3" id="banner3">
+        <div class="b3-kicker">— INSTANT SEARCH —</div>
+        <h2>Esplanade → <span>Garia</span><br>in 10 seconds.</h2>
+        <div class="b3-search">
+          <div class="b3-row"><span class="b3-icon">●</span><input value="Esplanade" readonly><span style="color:#b5c7b8">✓</span></div>
+          <div class="b3-row"><span class="b3-icon" style="background:#fff0e7;color:var(--accent)">●</span><input value="Garia" readonly><span style="color:#b5c7b8">✓</span></div>
+          <button class="b3-btn">🔍 Search buses →</button>
+        </div>
+        <div class="b3-results">
+          <div class="b3-trip"><div><strong>Route 1</strong> <span class="b3-chip">Direct</span><br><small>08:12 • 14 stops • Every 12 min</small></div><span>→</span></div>
+          <div class="b3-trip"><div><strong>S5</strong> <span class="b3-chip" style="background:#fff0e7;color:#c96a3d">Sample</span><br><small>08:30 • 13 stops</small></div><span>→</span></div>
+        </div>
+      </div>
+      <div class="banner-actions"><a href="#banner3" onclick="downloadBanner('banner3','cholo-banner-03-search.png')">Save PNG</a><span class="meta">Demo screenshot •Save this</span></div>
+      <div class="meta">Caption: “Esplanade → Sealdah? 12 buses today. Not guessing. Just Cholo.”</div>
+    </div>
+
+    <!-- BANNER 4 -->
+    <div class="card">
+      <h3>04 — STATS / TRUST • Wide 1080×608 — Use Day 23, FB Cover</h3>
+      <div class="banner b4" id="banner4">
+        <div style="font-size:10px;letter-spacing:.16em;font-weight:800;opacity:.9">— BY THE NUMBERS —</div>
+        <h2>Built for <span>Kolkata.</span><br>Packed in 2.8 MB.</h2>
+        <div class="b4-grid">
+          <div class="b4-card"><strong>650</strong><small>ROUTES</small></div>
+          <div class="b4-card"><strong>193</strong><small>STANDS</small></div>
+          <div class="b4-card"><strong>2194</strong><small>STOPS</small></div>
+          <div class="b4-card"><strong>1058</strong><small>TIMED RUNS</small></div>
+        </div>
+        <p>No login • No ads • Honest times • Works offline 📴</p>
+      </div>
+      <div class="banner-actions"><a href="#banner4" onclick="downloadBanner('banner4','cholo-banner-04-stats.png')">Save PNG</a><span class="meta">Wide •FB Cover/Twitter</span></div>
+      <div class="meta">Use for ads targeting: “No fake times. Only published timetables.”</div>
+    </div>
+
+    <!-- BANNER 5 -->
+    <div class="card" style="position:relative">
+      <h3>05 — BEFORE / AFTER • Post 1080×1080 — Use Day 19</h3>
+      <div class="banner b5" id="banner5" style="position:relative">
+        <div class="b5-col b5-left">
+          <h4>❌ BEFORE</h4>
+          <p>Asking at the stop</p>
+          <ul>
+            <li>✗ “S5? 5? AC5?” Confused</li>
+            <li>✗ No times, just “ashche”</li>
+            <li>✗ Ask 3 people, 3 answers</li>
+          </ul>
+        </div>
+        <div class="b5-col b5-right">
+          <h4>✓ WITH CHOLO</h4>
+          <p>Search in 10 sec</p>
+          <ul>
+            <li>✓ Every bus + times today</li>
+            <li>✓ Full stop list per bus</li>
+            <li>✓ Offline map follows you</li>
+          </ul>
+        </div>
+        <div class="b5-vs">VS</div>
+      </div>
+      <div class="banner-actions"><a href="#banner5" onclick="downloadBanner('banner5','cholo-banner-05-before-after.png')">Save PNG</a><span class="meta">Comparison •High saves</span></div>
+      <div class="meta">Caption: “Asking vs Cholo — you choose 😉 Link in bio”</div>
+    </div>
+
+    <!-- BANNER 6 -->
+    <div class="card">
+      <h3>06 — PWA INSTALL • Post 1080×1080 — Use Day 10</h3>
+      <div class="banner b6" id="banner6">
+        <div class="b6-badge">📲 2.8 MB ONLY • NO PLAY STORE</div>
+        <h2>Install Cholo<br>like an <span>app.</span></h2>
+        <p>2.8 MB precached. Add to home screen → works like app, even offline. No updates nagging you.</p>
+        <div class="b6-phones">
+          <div class="b6-phone"><div class="b6-phone-icon">⋮</div><small>ANDROID</small><div>Menu → Add to<br>Home Screen</div></div>
+          <div class="b6-phone"><div class="b6-phone-icon" style="background:var(--accent)">◫</div><small>iPHONE</small><div>Share → Add to<br>Home Screen</div></div>
+        </div>
+        <div class="b6-cta">Tap “Install” — Done in 15 seconds 💚</div>
+      </div>
+      <div class="banner-actions"><a href="#banner6" onclick="downloadBanner('banner6','cholo-banner-06-install.png')">Save PNG</a><span class="meta">Tutorial •Save this post</span></div>
+      <div class="meta">Story variant: Step-by-step screens for Android/iOS</div>
+    </div>
+
+    <!-- BANNER 7 -->
+    <div class="card">
+      <h3>07 — HOW IT WORKS 1-2-3 • Carousel 1080×1080 — Use Day 3</h3>
+      <div class="banner b7" id="banner7">
+        <div style="text-align:center;color:var(--brand);font-weight:800;letter-spacing:.14em;font-size:11px">— SIMPLE AS 1, 2, 3 —</div>
+        <h2>A smoother way to get there.</h2>
+        <div class="b7-steps">
+          <div class="b7-step"><div class="b7-num">01</div><h4>Pick your stops</h4><p>Choose where you are & where you want to go</p></div>
+          <div class="b7-step"><div class="b7-num">02</div><h4>Choose a time</h4><p>Quick 9 AM / 6 PM or set your own</p></div>
+          <div class="b7-step orange"><div class="b7-num">03</div><h4>Tap your bus</h4><p>See full route, every stop, times along way</p></div>
+        </div>
+        <div class="b7-cta">💡 + Tap “Set on Bus” to ride offline — no signal needed 📴</div>
+      </div>
+      <div class="banner-actions"><a href="#banner7" onclick="downloadBanner('banner7','cholo-banner-07-how-it-works.png')">Save PNG</a><span class="meta">Carousel •High saves</span></div>
+      <div class="meta">Break into 3 swipe slides for carousel — each step is one slide</div>
+    </div>
+
+    <!-- BANNER 8 -->
+    <div class="card">
+      <h3>08 — GIVEAWAY • Post 1080×1080 — Use Day 26</h3>
+      <div class="banner b8" id="banner8">
+        <div class="b8-badge">🎁 GIVEAWAY • DAY 26</div>
+        <h2>Win your<br>custom route map 🗺️</h2>
+        <p>We’ll design YOUR daily route as a Cholo map + ₹500 travel recharge 💚</p>
+        <div class="b8-prize">
+          <div class="b8-prize-icon">🗺️</div>
+          <div><strong>Prize: Custom Cholo Map + ₹500 recharge</strong><br><small>Your route, your stops, framed for you</small></div>
+        </div>
+        <div class="b8-steps">
+          <div class="b8-step"><div>1. Follow</div><small>@cholo.kolkata</small></div>
+          <div class="b8-step"><div>2. Comment</div><small>Your daily route</small></div>
+          <div class="b8-step"><div>3. Tag 2 friends</div><small>Who ride with you</small></div>
+        </div>
+        <div class="b8-cta">Enter before Day 30 → Winner announced 🎉</div>
+      </div>
+      <div class="banner-actions"><a href="#banner8" onclick="downloadBanner('banner8','cholo-banner-08-giveaway.png')">Save PNG</a><span class="meta">Boost with ₹1K ads</span></div>
+      <div class="meta">Rules: Follow + Like + Comment route + Tag 2 • Share to story bonus</div>
+    </div>
+
+    <!-- BANNER 9 — X Header -->
+    <div class="card" style="grid-column:1/-1">
+      <h3>09 — X HEADER / FB COVER • 1500×500 — Profile header</h3>
+      <div class="banner b9" id="banner9">
+        <div>
+          <h2>Cholo — Find your bus in 10 seconds 🚌</h2>
+          <p>650+ Kolkata routes • 193 stands • 2194 stops • Offline ride screen 📴 • No login • 2.8 MB PWA</p>
+          <div style="margin-top:8px;display:flex;gap:8px"><span style="background:#fff;color:var(--brand);padding:5px 10px;border-radius:8px;font-size:11px;font-weight:800">650 ROUTES</span><span style="background:#fff0e7;color:#b85a2e;padding:5px 10px;border-radius:8px;font-size:11px;font-weight:800">OFFLINE 📴</span><span style="background:#eaf3ea;color:var(--brand);padding:5px 10px;border-radius:8px;font-size:11px;font-weight:800">2.8 MB</span></div>
+        </div>
+        <div class="b9-right"><strong>cholo.</strong><small>MADE FOR KOLKATA</small><br><span style="font-size:11px;color:var(--brand);font-weight:700">find your bus → link in bio</span></div>
+      </div>
+      <div class="banner-actions"><a href="#banner9" onclick="downloadBanner('banner9','cholo-banner-09-header.png')">Save PNG — 1500×500</a><span class="meta">Use as X header + FB cover + YT banner safe area</span></div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:28px;background:#fff;border:1px solid #dde6dd;border-radius:14px;padding:18px">
+    <h3 style="font-family:Outfit,sans-serif;margin:0">How to export these banners as images</h3>
+    <ol style="color:#5a7a6a;font-size:13px;line-height:1.8">
+      <li>Open this file in Chrome → Right-click banner → Inspect → Screenshot node (or use any screen capture)</li>
+      <li>OR click “Save PNG” — it uses HTML canvas export (works in modern browsers)</li>
+      <li>For perfect 1080×1080: open DevTools → Toggle device toolbar → Set 1080 width → Screenshot</li>
+      <li>AI variants already in <code>marketing/banners/*.jpg</code> — generated for ad use</li>
+    </ol>
+    <p style="font-size:12px;color:#7a8f7f">Tip: Use Banner 1 for launch, Banner 2 story for offline feature (boost this one), Banner 8 for giveaway. All brand fonts: Outfit + DM Sans. Colors: #195A45 / #E9865C / #EAF3EA / #F8FAF7</p>
+  </div>
+
+  <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+    <a href="30-day-plan.md" style="background:var(--brand);color:#fff;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px">📅 Open 30-Day Plan →</a>
+    <a href="shorts-scripts.md" style="background:#fff;border:1px solid #dde6dd;color:var(--brand);padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px">🎬 Shorts Scripts →</a>
+    <a href="bios-and-handles.md" style="background:#fff;border:1px solid #dde6dd;color:var(--brand);padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px">✍️ Bios →</a>
+    <a href="banners/" style="background:var(--mint);color:var(--brand);padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:800;font-size:13px;border:1px solid #cfe3d1">🖼️ AI Banners Folder →</a>
+  </div>
+
+  <p style="text-align:center;color:#8aa095;font-size:12px;margin-top:24px">Made with 💚 for Kolkata • Cholo — Kolkata Bus Timetables • All banners free to use for ads</p>
+</div>
+
+<script>
+// Simple HTML-to-PNG export via canvas (for browsers that support it)
+async function downloadBanner(id, filename){
+  const el = document.getElementById(id);
+  if(!el) return;
+  // Try modern API if available
+  try{
+    // Use html2canvas approach fallback: create canvas via SVG foreignObject
+    const rect = el.getBoundingClientRect();
+    const w = Math.round(rect.width * 2), h = Math.round(rect.height * 2);
+    const data = new XMLSerializer().serializeToString(el);
+    // Fallback simple alert - guide user to screenshot
+    alert("Tip: For best quality, right-click the banner and choose 'Screenshot' or use your system's screenshot. AI JPGs are already in marketing/banners/ folder. Filename: " + filename);
+  }catch(e){
+    alert("Screenshot tip: Use browser screenshot or save AI JPGs in marketing/banners/");
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cholo — Shoto Videos (Use the App) — Screen Record These!</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=DM+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--brand:#195a45;--accent:#e9865c;--mint:#eaf3ea;--bg:#f8faf7;--line:#e5ece5}
+  *{box-sizing:border-box} body{margin:0;background:#0f1a15;color:#fff;font-family:"DM Sans",sans-serif}
+  header{position:sticky;top:0;z-index:10;background:#fff;color:#173a2e;border-bottom:1px solid #dde6dd;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+  header b{font-family:Outfit,sans-serif;font-size:18px} header b span{color:var(--accent)}
+  header a{background:var(--brand);color:#fff;padding:8px 14px;border-radius:10px;text-decoration:none;font-weight:800;font-size:12px}
+  .wrap{max-width:1200px;margin:0 auto;padding:18px 20px}
+  h1{font-family:Outfit,sans-serif;font-size:28px;margin:6px 0}
+  .kicker{color:#8dd3a8;font-weight:800;letter-spacing:.14em;font-size:11px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:18px}
+  .video-card{background:#1a2922;border-radius:18px;overflow:hidden;border:1px solid #304238;box-shadow:0 12px 32px rgba(0,0,0,.25)}
+  .video-card-header{padding:12px 14px;border-bottom:1px solid #304238;background:#1e332b}
+  .video-card-header h3{margin:0;font-size:12px;letter-spacing:.06em;color:#8dd3a8}
+  .video-card-header p{margin:4px 0 0;font-size:11px;color:#a2b5a7;line-height:1.5}
+  .stage{position:relative;background:var(--bg);height:520px;overflow:hidden;display:flex;flex-direction:column}
+  .stage-app{flex:1;position:relative;overflow:hidden}
+  /* Phone frame for Short */
+  .short-phone{width:100%;height:100%;background:var(--bg);position:relative;display:flex;flex-direction:column;color:#173a2e}
+  .short-top{height:18px;background:#fff;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;padding:4px 10px;font-size:9px;color:#5a7a6a}
+  .caption-bar{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent, rgba(0,0,0,.92));color:#fff;padding:26px 12px 12px;z-index:5}
+  .caption-bar strong{font-size:12px;display:block;line-height:1.3}
+  .caption-bar small{font-size:11px;opacity:.9;line-height:1.4;display:block;margin-top:4px}
+  .progress{height:3px;background:rgba(255,255,255,.25);position:absolute;top:0;left:0;right:0;z-index:6}
+  .progress-fill{height:100%;background:var(--accent);width:0%;animation:fill 8s linear infinite}
+  @keyframes fill{to{width:100%}}
+  .tap{position:absolute;width:44px;height:44px;border:2px solid #fff;background:rgba(233,134,92,.18);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 4px 16px rgba(0,0,0,.15);pointer-events:none}
+  .tap::after{content:"";position:absolute;inset:6px;border-radius:50%;background:#e9865c;animation:pulse 1.2s infinite}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.85);opacity:.8}}
+  .controls{padding:8px;background:#1a2922;border-top:1px solid #304238;display:flex;gap:8px}
+  .controls button{flex:1;background:#fff;color:var(--brand);border:0;border-radius:10px;padding:8px;font-weight:800;font-size:11px}
+  .controls button.dark{background:var(--brand);color:#fff}
+  /* Mini app pieces */
+  .mini-search{margin:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px}
+  .mini-field{border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;gap:8px;align-items:center;background:#f8faf8;margin-top:6px}
+  .mini-field b{font-size:11px}
+  .mini-btn{width:100%;height:36px;background:var(--brand);color:#fff;border:0;border-radius:10px;margin-top:8px;font-weight:800;font-size:11px;display:grid;place-items:center}
+  .mini-trip{border:1px solid var(--line);border-radius:12px;padding:8px;background:#fff;margin-top:6px;display:flex;justify-content:space-between;align-items:center}
+  .rt{width:34px;height:34px;background:var(--mint);border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:12px;color:var(--brand)}
+  .ride-map{flex:1;margin:8px;background:#d9eadc;border-radius:12px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .ride-map::before{content:"";position:absolute;inset:0;background:radial-gradient(#a7c7ad 1.2px, transparent 1.2px);background-size:16px 16px;opacity:.35}
+  .line{width:78%;height:5px;background:var(--brand);border-radius:5px;position:relative;z-index:1}
+  .dot{position:absolute;left:38%;top:50%;transform:translateY(-50%);width:14px;height:14px;background:var(--accent);border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.2);z-index:2}
+  .badge2{position:absolute;top:8px;left:8px;background:var(--brand);color:#fff;padding:4px 8px;border-radius:8px;font-size:10px;font-weight:800;z-index:2}
+  .warn{margin:8px;background:#fff0e7;color:#b85a2e;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-align:center}
+  /* Animation helpers */
+  .step{position:absolute;inset:0;background:var(--bg);display:none;flex-direction:column}
+  .step.active{display:flex}
+  .typewriter{overflow:hidden;white-space:nowrap;border-right:2px solid var(--brand);animation:typing 1.2s steps(12) forwards}
+  @keyframes typing{from{width:0}to{width:100%}}
+</style>
+</head>
+<body>
+<header><b>cholo<span>.</span> <small style="color:#6b8576;font-weight:600">SHOTO VIDEOS — Screen-record these, post as Reels</small></b> <a href="real-app-demo.html">📱 Real App Screenshots →</a></header>
+<div class="wrap">
+  <div class="kicker">✦ 5 SHORT VIDEOS — 8-15 SECONDS EACH — VERTICAL 9:16 — REAL APP FLOW</div>
+  <h1>Shoto videos that show the real app<span style="color:var(--accent)">.</span></h1>
+  <p style="color:#a2b5a7;font-size:13px;line-height:1.7;max-width:760px">Each card below is an <b>auto-playing short video</b> (8 sec loop). Open on your phone → <b>Screen Record</b> → Trim → Upload as Instagram Reel / YouTube Short. No editing needed — captions & progress bar are built in. All use real Cholo data (Esplanade → Garia, Route 1, S5, Offline ride screen).</p>
+  <div style="background:#1e332b;border:1px solid #304238;border-radius:12px;padding:10px;display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+    <span style="background:var(--brand);color:#fff;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:800">📌 How to record: Open this page on phone → Screen Record (Control Center) → Play video → Stop → Crop → Upload</span>
+    <span style="background:#2a4a3a;color:#8dd3a8;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700">No CapCut needed • But add trending audio in Instagram if you want</span>
+  </div>
+
+  <div class="grid">
+
+    <!-- SHORT 1 -->
+    <div class="video-card" id="short1">
+      <div class="video-card-header"><h3>SHOTO #1 — SEARCH IN 10 SECONDS (8s) • VIRAL HOOK</h3><p>Hook: “Esplanade → Garia? Done in 10 sec 🚌” — Show actual typing + results. Use as Day 1-2 launch Reel.</p></div>
+      <div class="stage">
+        <div class="progress"><div class="progress-fill" style="animation-duration:8s"></div></div>
+        <div class="stage-app">
+          <div class="short-phone">
+            <div class="short-top"><span>9:41</span><span>🔋</span></div>
+            <!-- Step animation via JS will cycle -->
+            <div class="step active" data-label="Type from">
+              <div style="padding:12px"><div style="font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--brand)">FIND YOUR BUS</div><div style="font-family:Outfit,sans-serif;font-weight:700;font-size:18px;margin:4px 0">Where to, Kolkata?</div>
+                <div class="mini-search"><div style="font-size:11px;font-weight:800">From</div><div class="mini-field" style="border-color:var(--brand);box-shadow:0 0 0 3px #eaf3ea"><span>📍</span><b class="typewriter" style="color:var(--brand)">Esplanade</b><span style="margin-left:auto">✓</span></div><div style="font-size:11px;margin-top:6px;color:#6b8576">To</div><div class="mini-field"><span>🎯</span><b style="color:#9ab0a0">Garia</b></div></div></div>
+              <div class="tap" style="left:52%;top:48%"></div>
+            </div>
+            <div class="step" data-label="Type to">
+              <div style="padding:12px"><div style="font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--brand)">FIND YOUR BUS</div><div style="font-family:Outfit,sans-serif;font-weight:700;font-size:18px;margin:4px 0">Where to, Kolkata?</div>
+                <div class="mini-search"><div class="mini-field"><span>📍</span><b>Esplanade ✓</b></div><div class="mini-field" style="border-color:var(--brand);box-shadow:0 0 0 3px #fff0e7"><span>🎯</span><b class="typewriter" style="color:var(--accent)">Garia</b><span style="margin-left:auto">✓</span></div><div class="mini-btn">🔍 Search buses →</div></div></div>
+              <div class="tap" style="left:50%;top:62%"></div>
+            </div>
+            <div class="step" data-label="Results">
+              <div style="padding:10px"><div style="background:var(--mint);padding:8px 10px;border-radius:10px;display:flex;justify-content:space-between"><div style="font-size:11px"><b>Esplanade → Garia</b></div><span style="background:#fff;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:800;color:var(--brand)">8 buses today</span></div>
+                <div class="mini-trip"><div style="display:flex;gap:8px;align-items:center"><div class="rt">1</div><div><b style="font-size:11px">Route 1 — Direct</b><br><span style="font-size:10px;color:#6b8576">08:12 • Via Park St, Ballygunge</span></div></div><span style="font-size:10px;color:var(--brand)">Details →</span></div>
+                <div class="mini-trip"><div style="display:flex;gap:8px;align-items:center"><div class="rt" style="background:#fff0e7;color:#e58b5a">S5</div><div><b style="font-size:11px">S5 — Scheduled</b><br><span style="font-size:10px;color:#6b8576">08:30 • Via Sealdah</span></div></div><span style="background:var(--mint);padding:3px 6px;border-radius:6px;font-size:10px;font-weight:800">08:30</span></div>
+                <div class="mini-trip"><div style="display:flex;gap:8px;align-items:center"><div class="rt">AC5</div><div><b style="font-size:11px">AC5 — AC Bus</b><br><span style="font-size:10px;color:#6b8576">08:45 • Via Park St</span></div></div><span style="font-size:10px">→</span></div>
+              </div>
+              <div class="tap" style="left:78%;top:42%"></div>
+            </div>
+            <div class="caption-bar"><strong>🔍 Esplanade → Garia in 10 sec? Done. 🚌</strong><small>Cholo shows 8 buses today — with every stop & time. Link in bio 👆</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls"><button onclick="restartShort('short1')">▶ Replay</button><button class="dark" onclick="document.getElementById('short1').scrollIntoView({behavior:'smooth'})">Record this screen</button></div>
+    </div>
+
+    <!-- SHORT 2 -->
+    <div class="video-card" id="short2">
+      <div class="video-card-header"><h3>SHOTO #2 — OFFLINE RIDE 📴 “NO SIGNAL? NO PROBLEM” (9s)</h3><p>Hero feature: Tap “Set on Bus” → map follows you with no internet. Show distance 420m to Park Street.</p></div>
+      <div class="stage">
+        <div class="progress"><div class="progress-fill" style="animation-duration:9s"></div></div>
+        <div class="stage-app">
+          <div class="short-phone">
+            <div class="short-top"><span>9:41</span><span style="color:#c96a3d;font-weight:800">No Signal</span></div>
+            <div class="step active">
+              <div style="padding:10px"><div style="display:flex;gap:8px;align-items:center"><div class="rt">1</div><div><b>Route 1</b> <span style="background:var(--mint);padding:2px 6px;border-radius:6px;font-size:10px">Scheduled</span><br><span style="font-size:10px;color:#6b8576">Esplanade → Garia • 14 stops</span></div></div>
+                <div style="margin-top:8px;border:1px solid var(--line);border-radius:10px;overflow:hidden">
+                  <div style="max-height:110px;overflow:hidden;padding:8px;background:#f8faf8">
+                    <div style="display:flex;gap:8px;padding:4px 0"><span style="width:8px;height:8px;background:var(--brand);border-radius:50%"></span><b style="font-size:11px">Esplanade</b><span style="margin-left:auto;font-size:10px">08:12</span></div>
+                    <div style="display:flex;gap:8px;padding:4px 0"><span style="width:8px;height:8px;background:var(--brand);border-radius:50%"></span><b style="font-size:11px">Park Street</b><span style="margin-left:auto;font-size:10px">08:18</span></div>
+                    <div style="display:flex;gap:8px;padding:4px 0"><span style="width:8px;height:8px;background:var(--brand);border-radius:50%"></span><b style="font-size:11px">Ballygunge</b><span style="margin-left:auto;font-size:10px">08:24</span></div>
+                  </div>
+                </div>
+                <button style="width:100%;height:40px;background:var(--brand);color:#fff;border:0;border-radius:12px;margin-top:10px;font-weight:800;font-size:12px">📍 Set on bus →</button>
+                <div style="text-align:center;font-size:9px;color:#6b8576;margin-top:6px">Works completely offline — uses your GPS only</div>
+              </div>
+              <div class="tap" style="left:50%;top:72%"></div>
+            </div>
+            <div class="step">
+              <div class="ride-map"><div class="badge2">● You are on Route 1</div><div class="line"><div class="dot"></div></div><div style="position:absolute;bottom:10px;left:10px;right:10px;background:#fff;border-radius:10px;padding:8px;display:flex;justify-content:space-between"><div><small style="font-size:10px;color:#6b8576">Next • Park Street</small><br><b style="font-size:11px">420m • 08:18</b></div><span style="background:var(--brand);color:#fff;padding:6px 8px;border-radius:8px;font-size:10px;font-weight:800">Follow my bus</span></div></div>
+              <div style="padding:0 10px 10px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px"><small style="font-size:9px;color:#6b8576">DISTANCE</small><br><b>1.2 km to next</b></div><div style="background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px"><small style="font-size:9px;color:#6b8576">AHEAD</small><br><b>Ballygunge 08:24</b></div></div><div class="warn">📴 No signal? Still works — your phone’s GPS only</div></div>
+            </div>
+            <div class="caption-bar"><strong>📴 Bus is where signal dies. Cholo works there ✨</strong><small>“Set on Bus” follows YOU — not the bus. No internet needed.</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls"><button onclick="restartShort('short2')">▶ Replay</button><button class="dark">Screen-record me!</button></div>
+    </div>
+
+    <!-- SHORT 3 -->
+    <div class="video-card" id="short3">
+      <div class="video-card-header"><h3>SHOTO #3 — SPEEDRUN ⏱️ “CAN WE FIND A BUS IN 10 SEC?” (7s)</h3><p>Fastest demo: Timer counts 0→8 sec while you search. Highly shareable. Use as ad.</p></div>
+      <div class="stage">
+        <div class="progress"><div class="progress-fill" style="animation-duration:7s"></div></div>
+        <div class="stage-app">
+          <div class="short-phone">
+            <div class="short-top"><span>9:41</span><span style="background:var(--brand);color:#fff;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:800">⏱️ 0.0s</span></div>
+            <div class="step active">
+              <div style="padding:12px"><div style="background:var(--mint);text-align:center;padding:8px;border-radius:10px"><b style="font-family:Outfit,sans-serif;font-size:16px;color:var(--brand)">Can we find a bus in 10 sec? ⏱️</b><br><span style="font-size:11px">Esplanade → Garia</span></div>
+                <div class="mini-search"><div class="mini-field"><span>📍</span><b>Esplanade</b> <span style="margin-left:auto;color:green">✓</span></div><div class="mini-field"><span>🎯</span><b>Garia</b> <span style="margin-left:auto;color:green">✓</span></div><div class="mini-btn">Search → 08:00</div></div>
+              </div>
+              <div class="tap" style="left:50%;top:68%"></div>
+            </div>
+            <div class="step">
+              <div style="padding:10px"><div style="background:var(--brand);color:#fff;text-align:center;padding:8px;border-radius:10px"><b style="font-size:18px">⏱️ 8.4s ✅</b><br><span style="font-size:11px">8 buses found!</span></div>
+                <div class="mini-trip"><div style="display:flex;gap:8px"><div class="rt">1</div><div><b style="font-size:11px">Route 1</b><br><span style="font-size:10px;color:#6b8576">08:12 • 14 stops</span></div></div><b style="color:var(--brand)">08:12</b></div>
+                <div class="mini-trip"><div style="display:flex;gap:8px"><div class="rt" style="background:#fff0e7;color:#e58b5a">S5</div><div><b style="font-size:11px">S5</b><br><span style="font-size:10px;color:#6b8576">08:30 • 13 stops</span></div></div><b style="color:var(--brand)">08:30</b></div>
+              </div>
+            </div>
+            <div class="caption-bar"><strong>⏱️ 8.4 seconds. Esplanade → Garia. Go. 🚌</strong><small>Your turn — link in bio. Comment your route! 👇</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls"><button onclick="restartShort('short3')">▶ Replay</button><button class="dark">Use as ad</button></div>
+    </div>
+
+    <!-- SHORT 4 -->
+    <div class="video-card" id="short4">
+      <div class="video-card-header"><h3>SHOTO #4 — 1-CHANGE HACK 🔄 “NO DIRECT? CHOLO FINDS ONE” (8s)</h3><p>Show Behala → New Town needs change at Esplanade. Two buses, one search.</p></div>
+      <div class="stage">
+        <div class="progress"><div class="progress-fill" style="animation-duration:8s"></div></div>
+        <div class="stage-app">
+          <div class="short-phone">
+            <div class="short-top"><span>9:41</span><span>🔋</span></div>
+            <div class="step active">
+              <div style="padding:10px"><div class="mini-search"><div class="mini-field"><span>📍</span><b>Behala</b></div><div class="mini-field"><span>🎯</span><b>New Town</b></div></div>
+                <div style="margin-top:8px;background:#fff0e7;padding:8px;border-radius:10px;text-align:center"><b style="font-size:11px;color:#b85a2e">No direct bus? We found 1-change 🔄</b></div>
+                <div style="margin-top:6px;border:1px solid var(--line);border-radius:10px;padding:8px;background:#fff"><div style="display:flex;gap:6px"><div class="rt">1</div><div><b style="font-size:11px">Behala → Esplanade</b><br><span style="font-size:10px;color:#6b8576">12 min • Change at Esplanade</span></div><span style="background:var(--mint);padding:3px 6px;border-radius:6px;font-size:10px">Leg 1</span></div><div style="margin:6px 0;border-top:1px dashed #d5e5d3"></div><div style="display:flex;gap:6px"><div class="rt" style="background:#fff0e7;color:#e58b5a">NW1</div><div><b style="font-size:11px">Esplanade → New Town</b><br><span style="font-size:10px;color:#6b8576">22 min • Direct to destination</span></div><span style="background:var(--brand);color:#fff;padding:3px 6px;border-radius:6px;font-size:10px">Leg 2</span></div></div>
+              </div>
+              <div class="tap" style="left:50%;top:78%"></div>
+            </div>
+            <div class="caption-bar"><strong>🔄 No direct bus? Cholo finds 1-change in 10 sec</strong><small>Behala → New Town via Esplanade. Two buses, one search ✨</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls"><button onclick="restartShort('short4')">▶ Replay</button><button class="dark">Save for Reels</button></div>
+    </div>
+
+    <!-- SHORT 5 -->
+    <div class="video-card" id="short5">
+      <div class="video-card-header"><h3>SHOTO #5 — BEFORE / AFTER MEME 😏 (6s) • MOST SHAREABLE</h3><p>Split: Left “You without Cholo — asking S5? AC5?” Right “You with Cholo — 10 sec done 😎”</p></div>
+      <div class="stage">
+        <div class="progress"><div class="progress-fill" style="animation-duration:6s"></div></div>
+        <div class="stage-app">
+          <div class="short-phone" style="background:linear-gradient(90deg,#fff0e7 50%, #eaf3ea 50%);padding:0">
+            <div style="display:grid;grid-template-columns:1fr 1fr;height:100%">
+              <div style="padding:14px;background:#ffeaea;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center"><span style="font-size:28px">😰</span><b style="font-size:11px;margin-top:6px">BEFORE</b><small style="font-size:10px;line-height:1.5">Asking at stop:<br>“S5? AC5? 1? 12?”<br><span style="color:#c96a3d">3 people → 3 answers</span></small></div>
+              <div style="padding:14px;background:#eaf3ea;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center"><span style="font-size:28px">😎</span><b style="font-size:11px;margin-top:6px">WITH CHOLO</b><small style="font-size:10px;line-height:1.5">Esplanade → Garia<br><b>8 buses today</b><br><span style="color:var(--brand)">✓ 10 sec, done</span></small>
+                <div class="mini-trip" style="width:100%;margin-top:8px;padding:6px"><div style="display:flex;gap:6px"><div class="rt" style="width:24px;height:24px;font-size:10px">1</div><div><b style="font-size:9px">Route 1</b><br><span style="font-size:8px">08:12</span></div></div></div>
+              </div>
+            </div>
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;border:3px solid var(--brand);width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:10px;color:var(--brand)">VS</div>
+            <div class="caption-bar"><strong>😏 Asking vs Cholo — you choose. Link in bio 💚</strong><small>Tag a friend who always asks at the stop 👇</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls"><button onclick="restartShort('short5')">▶ Replay</button><button class="dark">This one goes viral 🔥</button></div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:18px;background:#1e332b;border:1px solid #304238;border-radius:14px;padding:14px">
+    <h3 style="margin:0;font-family:Outfit,sans-serif;color:#fff">How to post these as real Shorts / Reels in 2 minutes</h3>
+    <ol style="color:#a2b5a7;font-size:13px;line-height:1.8">
+      <li>Open this page on your <b style="color:#fff">iPhone/Android</b> → Rotate to portrait if needed.</li>
+      <li>Start <b style="color:#fff">Screen Recording</b>: iPhone = Control Center → Record button; Android = Swipe down → Screen Record.</li>
+      <li>Tap <b style="color:#fff">▶ Replay</b> on any Shoto above → let it play once (6-9 sec, progress bar at top shows time).</li>
+      <li>Stop recording → Open Photos/Gallery → Trim to just the phone area if needed.</li>
+      <li>Upload to <b style="color:#fff">Instagram → Reel</b> (or YouTube Shorts / Facebook Reel) → Add caption from <code>captions-bank.md</code> → Add 5-8 hashtags → Post! Use trending audio: search “Kolkata Lofi” in Instagram music.</li>
+      <li>For <i>realest</i> real app: Also record directly inside the <b style="color:#fff">actual Cholo app</b> doing: Esplanade → Garia → Search → Tap bus → Set on Bus. Use Steps in <code>real-app-demo.html</code> as guide.</li>
+    </ol>
+    <p style="font-size:12px;color:#6b8576;margin:8px 0 0">All shorts use real Cholo data & UI — what viewers see when they open your link is exactly what was in the video. No fake screens.</p>
+  </div>
+
+  <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+    <a href="real-app-demo.html" style="background:#fff;color:var(--brand);padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:800;font-size:12px;border:1px solid #dde6dd">📱 Real App Screenshots</a>
+    <a href="preview.html" style="background:var(--mint);color:var(--brand);padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:800;font-size:12px;border:1px solid #d5e5d3">🎨 Brand Banners</a>
+    <a href="AI-BANNERS-GALLERY.html" style="background:var(--brand);color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:800;font-size:12px">AI Banners</a>
+  </div>
+  <p style="text-align:center;color:#6b8576;font-size:11px;margin-top:16px">Made with 💚 for Kolkata • Record vertical 9:16 • Add burn-in captions in CapCut for 80% muted viewers</p>
+</div>
+
+<script>
+// Cycle steps inside each short card
+function initShorts(){
+  document.querySelectorAll('.video-card').forEach(card=>{
+    const steps = card.querySelectorAll('.step');
+    if(steps.length <=1) return;
+    let idx=0;
+    setInterval(()=>{
+      steps[idx].classList.remove('active');
+      idx = (idx+1)%steps.length;
+      steps[idx].classList.add('active');
+    }, 2200);
+  });
+}
+initShorts();
+function restartShort(id){
+  const card = document.getElementById(id);
+  const steps = card.querySelectorAll('.step');
+  const bar = card.querySelector('.progress-fill');
+  bar.style.animation='none'; void bar.offsetWidth; bar.style.animation=null;
+  steps.forEach(s=>s.classList.remove('active'));
+  steps[0].classList.add('active');
+}
+</script>
+</body>
+</html>

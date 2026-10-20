@@ -142,7 +142,7 @@ B.Garden,0,22.55718,88.30104,high,calcutta-transport:data/bus/stops.csv,osm_stop
 B.K.Paul Ave,0,,,unresolved,,,,,,,
 B.K.Paul More,0,,,unresolved,,,,,,,
 B.N.R. Hospital,0,22.54611,88.31025,high,calcutta-transport:data/bus/stops.csv,osm_landmark,B.N.R. Hospital,b n r hospital,1.0,,
-B.T. College,0,,,rejected,,,,,,,"rejected_geometry: 59.6 km off its corridor (1.4 km median leg), 31 routes against 0 for"
+B.T. College,0,22.67972,88.45194,review,manual: wikimapia.org,manual_osm_websearch,B T College Bus Stop,manual verification,,,"manually added; replaces the dataset's own match, which was rejected as 59.6km off-corridor (wrong place) -- community-sourced map, please double-check"
 Babanpur,0,,,unresolved,,,,,,,
 Bablatala,0,,,unresolved,,,,,,,
 Babubazar,0,22.53809,88.3191,high,calcutta-transport:data/bus/stops.csv,osm_landmark,Babubazar,babubazar,1.0,,
@@ -192,7 +192,7 @@ Bakkhali,0,21.56077,88.26732,high,calcutta-transport:data/bus/stops.csv,osm_plac
 Bakrakpur College,0,,,unresolved,,,,,,,
 Baksara,0,22.57724,88.29041,high,calcutta-transport:data/bus/stops.csv,nominatim,Baksara,baksara,1.0,,
 Bakshi,0,22.52594,87.89619,medium,calcutta-transport:data/bus/stops.csv,wikidata,Bakshi,bakshi,1.0,,
-Bakultala,0,,,rejected,,,,,,,"rejected_geometry: 8.8 km off its corridor (1.0 km median leg), 9 routes against 8 for"
+Bakultala,0,22.564168,88.28618,medium,"manual: justdial.com (Andul Road, Howrah)",manual_osm_websearch,Bakultala (Howrah),manual verification,,,"manually added; replaces the dataset's own match, which was rejected as 8.8km off-corridor (wrong Bakultala)"
 Balaka Housing (EcoPark),0,,,unresolved,,,,,,,
 Balakhali,0,22.35834,88.33923,medium,calcutta-transport:data/bus/stops.csv,osm_place,Balakhali,balakhali,1.0,,
 Balia,0,22.45917,88.3913,medium,calcutta-transport:data/bus/stops.csv,osm_place,Balia,balia,1.0,"Balia@calcutta-transport/docs/data/places.json:22.8667,88.0856; Balia@calcutta-transport/docs/data/places.json:23.0808,88.671",
@@ -451,7 +451,7 @@ Bongaon 1 No. Railgate Bazar,0,,,unresolved,,,,,,,
 Bongaon 78E Bus Stand,0,,,unresolved,,,,,,,
 Bongaon Motigunge Bus Stand,0,,,unresolved,,,,,,,
 Bongaon Paikpara,0,,,unresolved,,,,,,,
-Bonhooghly,1,,,unresolved,,,,,,,
+Bonhooghly,1,22.6489896,88.3809758,review,manual: indiamapia.com + Wikimedia Commons geotag,manual_osm_websearch,Bonhooghly,manual verification,,,"manually added, locality centroid not a stop node -- please double-check"
 Bonhooghly Tobin Road,0,22.63834,88.37591,review,calcutta-transport:data/bus/stops.csv,nominatim,Tobin Road,~Tobin Road,0.667,,
 Bonhoogly (ISI),0,,,unresolved,,,,,,,
 Boralighat,0,,,unresolved,,,,,,,
@@ -534,7 +534,7 @@ Chanditala,0,22.68902,88.26292,high,calcutta-transport:data/bus/stops.csv,osm_pl
 Chandkhali,0,,,rejected,,,,,,,"rejected_geometry: 29.8 km off its corridor (2.0 km median leg), 1 routes against 0 for"
 Chandmari,0,22.4399,88.43866,medium,calcutta-transport:data/bus/stops.csv,osm_any,Chandmari,chandmari,1.0,,
 Chandni Chowk,0,22.56552,88.35749,high,calcutta-transport:data/bus/stops.csv,osm_place,Chandni Chowk,chandni chowk,1.0,"Chandni Chowk@calcutta-transport/gtfs/stops.txt:22.567,88.3542; Chandni Chowk@calcutta-transport/data/metro/stops.csv:22.567,88.3542",
-Chandni Market,0,,,unresolved,,,,,,,
+Chandni Market,0,22.5654255,88.3545975,medium,manual: tripopola.com + justdial.com,manual_osm_websearch,Chandni Chowk Market,manual verification,,,manually added; see data/stop_coordinates.json note
 Chandpara B.D.O. Office,0,,,unresolved,,,,,,,
 Chandpara Bazar,0,,,unresolved,,,,,,,
 Chandpur,0,22.61353,88.51882,medium,calcutta-transport:data/bus/stops.csv,wikidata,Chandpur,chandpur,1.0,"Chandpur@calcutta-transport/docs/data/places.json:22.4496,88.4504; Chandpur@calcutta-transport/docs/data/places.json:22.4908,88.627",
@@ -691,7 +691,7 @@ Dholahat More,0,,,unresolved,,,,,,,
 Dhopagachi,0,22.3663,88.40513,medium,calcutta-transport:data/bus/stops.csv,osm_place,Dhopagachi,dhopagachi,1.0,,
 Dhruba Bazar,0,,,unresolved,,,,,,,
 Dhukrijhara,0,22.26245,88.14536,high,calcutta-transport:data/bus/stops.csv,osm_place,Dhukrijhara,dhukrijhara,1.0,,
-Dhulagarh,0,,,unresolved,,,,,,,
+Dhulagarh,0,22.57634,88.19244,review,manual: mapquest.com,manual_osm_websearch,Dhulagarh More,manual verification,,,"manually added, single source only -- please double-check"
 Dhulagarh Bazar,0,,,unresolved,,,,,,,
 Dhulagarh Toll Plaza,0,,,unresolved,,,,,,,
 Dhulasimla,0,22.41474,88.09367,high,calcutta-transport:data/bus/stops.csv,nominatim,Dhulasimla,dhulasimla,1.0,,
@@ -828,10 +828,10 @@ Garfa Road,0,22.49966,88.38057,high,calcutta-transport:data/bus/stops.csv,nomina
 Garh Bhawanipur,0,22.64555,87.96443,high,calcutta-transport:data/bus/stops.csv,nominatim,Garh Bhawanipur,garh bhawanipur,1.0,,
 Garia,1,22.46602,88.39285,high,calcutta-transport:data/bus/stops.csv,osm_place,Garia,garia,1.0,,
 Garia 5no. Bus Stand,0,22.46643,88.37844,high,calcutta-transport:data/bus/stops.csv,nominatim,Garia 5no. Bus Stand,garia 5no bus stand,1.0,,
-Garia 6 No.,1,22.46514,88.37724,review,calcutta-transport/docs/data/places.json,gazetteer,Garia 6 no. bus terminus,garia 6 no bus terminus,1.0,,
+Garia 6 No.,1,22.46514,88.37724,high,calcutta-transport/docs/data/places.json,gazetteer,Garia 6 no. bus terminus,garia 6 no bus terminus,1.0,,"confirmed by 4 independent sources (latlong.net, mapcarta/OSM, Wikimapia, maps.me) within 20m of the existing coordinate -- confidence raised from review to high"
 Garia 6no. Bus stand,0,,,unresolved,,,,,,,
 Garia Bazar,0,,,unresolved,,,,,,,
-Garia Depot,1,,,unresolved,,,,,,,
+Garia Depot,1,22.4735,88.3748,review,manual: justdial.com (CSTC Garia depot office),manual_osm_websearch,"Calcutta State Transport Corporation, Garia",manual verification,,,"manually added, LOW CONFIDENCE: may not be the exact facility the stop name means -- please double-check"
 Garia Dhalai Bridge,1,22.46528,88.38611,high,calcutta-transport:data/bus/stops.csv,wikidata,Dhalai Bridge,dhalai bridge,1.0,,
 Garia Metro,0,22.47068,88.39855,high,calcutta-transport:data/bus/stops.csv,nominatim,Garia Metro,garia metro,1.0,,
 Garia Station,1,22.46602,88.39285,high,calcutta-transport:data/bus/stops.csv,osm_place,Garia,garia,1.0,,
@@ -1096,7 +1096,7 @@ Kachhi sarab,0,,,unresolved,,,,,,,
 Kachua More,0,,,unresolved,,,,,,,
 Kachuberia,0,,,unresolved,,,,,,,
 Kadambagachi,0,22.70908,88.53991,high,calcutta-transport:data/bus/stops.csv,nominatim,Kadambagachi,kadambagachi,1.0,,
-Kadamtala,1,,,rejected,,,,,,,"rejected_geometry: 70.5 km off its corridor (2.1 km median leg), 10 routes against 0 for"
+Kadamtala,1,22.591157,88.319979,medium,"manual: yappe.in (OSM bus stop, Bantra, Howrah)",manual_osm_websearch,Kadamtala,manual verification,,,"manually added; replaces the dataset's own match, which was rejected as 70.5km off-corridor (wrong Kadamtala)"
 Kadapara,0,,,unresolved,,,,,,,
 Kahankia,0,22.94214,88.84667,medium,calcutta-transport:data/bus/stops.csv,wikidata,Kahankia,kahankia,1.0,,
 Kaijuri Bazar,0,,,unresolved,,,,,,,
@@ -1224,7 +1224,7 @@ Khalore More,0,22.45807,87.97285,high,calcutta-transport:data/bus/stops.csv,nomi
 Khalpol,0,,,unresolved,,,,,,,
 Khandalia,0,22.25895,88.10776,medium,calcutta-transport:data/bus/stops.csv,osm_place,Khandalia,khandalia,1.0,,
 Khanna,0,,,unresolved,,,,,,,
-Khanna Cinema,0,,,unresolved,,,,,,,
+Khanna Cinema,0,22.59504,88.375268,medium,manual: yappe.in (OSM bus stop),manual_osm_websearch,Khanna Cinema,manual verification,,,manually added; see data/stop_coordinates.json note
 Kharagpur Chowrangee,0,,,unresolved,,,,,,,
 Kharampur,0,22.52765,88.84047,medium,calcutta-transport:data/bus/stops.csv,wikidata,Kharampur,kharampur,1.0,,
 Khardah,1,22.72529,88.37282,high,calcutta-transport:data/bus/stops.csv,osm_any,Khardah,khardah,1.0,,
@@ -1483,7 +1483,7 @@ Morshal,0,,,unresolved,,,,,,,
 Mosat,0,,,rejected,,,,,,,"rejected_geometry: 56.5 km off its corridor (11.4 km median leg), 4 routes against 2 for"
 Motigunge,0,,,unresolved,,,,,,,
 Moulai,0,,,unresolved,,,,,,,
-Moulali,1,,,unresolved,,,,,,,
+Moulali,1,22.5618,88.3671,medium,manual: yappe.in (OSM bus stop),manual_osm_websearch,Moulali,manual verification,,,manually added; see data/stop_coordinates.json note
 Mourigram,0,22.58027,88.25603,medium,calcutta-transport/gtfs/stops.txt,gtfs,Mourigram,mourigram,1.0,,
 Moyna,0,,,unresolved,,,,,,,
 Moyna Checkpost,0,,,unresolved,,,,,,,
@@ -1676,7 +1676,7 @@ Park Circus 7-Point,1,22.54332,88.36613,high,calcutta-transport:data/bus/stops.c
 Park Circus tram Depot,0,22.54191,88.36667,high,calcutta-transport:data/bus/stops.csv,osm_any,Park Circus tram Depot,park circus tram depot,1.0,,
 Park Circus WBTC Depot,0,,,unresolved,,,,,,,
 Park Street,1,22.55489,88.35022,high,calcutta-transport:data/bus/stops.csv,osm_stop,Park Street,park street,1.0,"Park Street@calcutta-transport/gtfs/stops.txt:22.5551,88.35; Park Street@calcutta-transport/data/metro/stops.csv:22.5551,88.35",
-Parnasree,1,22.50648,88.30154,review,calcutta-transport/docs/data/places.json,gazetteer,Parnasree Pally,parnasree pally,1.0,,
+Parnasree,1,22.50648,88.30154,high,calcutta-transport/docs/data/places.json,gazetteer,Parnasree Pally,parnasree pally,1.0,,confirmed by GeoNames (identical coordinate) and Wikipedia/Wikidata (~300m away) -- confidence raised from review to high
 Parthapur,0,,,unresolved,,,,,,,
 Paschim Chowbhaga,0,,,unresolved,,,,,,,
 Paschim Gazipur,0,,,unresolved,,,,,,,
@@ -1794,7 +1794,7 @@ Rajarhat,0,,,rejected,,,,,,,"rejected_geometry: 36.2 km off its corridor (2.8 km
 Rajarhat bazar,0,,,unresolved,,,,,,,
 Rajarhat Bishnupur,0,,,unresolved,,,,,,,
 Rajarhat Chowmatha,0,22.62669,88.48898,high,calcutta-transport:data/bus/stops.csv,osm_stop,Rajarhat Chowmatha,rajarhat chowmatha,1.0,"Rajarhat Chowmatha@calcutta-transport/docs/data/places.json:22.6238,88.4923",
-Rajballavpara,0,,,unresolved,,,,,,,
+Rajballavpara,0,22.599969,88.367505,medium,manual: yappe.in (OSM bus stop),manual_osm_websearch,Raj Ballabh Para,manual verification,,,manually added; see data/stop_coordinates.json note
 Rajbari,0,22.40729,88.79476,review,calcutta-transport/docs/data/places.json,gazetteer,Rajbari,rajbari,1.0,"Rajbari@calcutta-transport/docs/data/places.json:22.5832,88.2356; Rajbari@calcutta-transport/docs/data/places.json:22.5861,88.9285",
 Rajberia,0,22.8644,88.62208,medium,calcutta-transport:data/bus/stops.csv,nominatim,Rajberia,rajberia,1.0,,
 Rajchandrapur,0,22.65291,88.32131,high,calcutta-transport:data/bus/stops.csv,osm_place,Rajchandrapur,rajchandrapur,1.0,,
@@ -1836,7 +1836,7 @@ Rashbihari,0,22.51717,88.34556,medium,calcutta-transport:data/bus/stops.csv,stop
 Rashbihari Crossing,0,22.51717,88.34556,medium,calcutta-transport:data/bus/stops.csv,stop_variant,Rashbihari Crossing,rashbihari crossing,1.0,,
 Rashmoni Bazar,0,22.56366,88.39219,high,calcutta-transport:data/bus/stops.csv,osm_stop,Rashmoni Bazar,rashmoni bazar,1.0,,
 Rashmoni More,0,,,unresolved,,,,,,,
-Rathtala,1,,,rejected,,,,,,,"rejected_geometry: 15.5 km off its corridor (1.5 km median leg), 22 routes against 2 for"
+Rathtala,1,22.66458,88.37688,review,manual: justdial.com (business address at Rathtala Mor),manual_osm_websearch,"Belgharia Service Station (near Kamarhati Municipality, Rathtala)",manual verification,,,"manually added, LOW CONFIDENCE (proxy address, not the stop itself); replaces the dataset's own match, which was rejected as 15.5km off-corridor (wrong Rathtala) -- please double-check"
 Ratneshwarpur,0,,,unresolved,,,,,,,
 Reckjuani,0,22.6318,88.4832,high,calcutta-transport:data/bus/stops.csv,osm_stop,Reckjuani,reckjuani,1.0,,
 Regentpark,0,22.48845,88.35601,medium,calcutta-transport:data/bus/stops.csv,osm_place,Regentpark,regentpark,1.0,,
@@ -1934,7 +1934,7 @@ Science City,1,22.53967,88.39757,high,calcutta-transport:data/bus/stops.csv,osm_
 Science City Milan Mela Ground Stoppage,0,,,unresolved,,,,,,,
 Science City/Chowbagha,0,22.53967,88.39757,medium,calcutta-transport:data/bus/stops.csv,osm_route,Science City,science city,1.0,,
 SDF,0,22.5691,88.4307,high,calcutta-transport:data/bus/stops.csv,osm_route,SDF,sdf,1.0,,
-SDF Building,1,22.56888,88.43105,review,calcutta-transport/docs/data/places.json,gazetteer,SDF Building,sdf building,1.0,,
+SDF Building,1,22.56888,88.43105,medium,calcutta-transport/docs/data/places.json,gazetteer,SDF Building,sdf building,1.0,,"confirmed by magicbricks.com and an Airtel store listing, both within ~100m of the existing gazetteer coordinate -- confidence raised from review to medium"
 Sealdah,1,22.57002,88.36941,high,calcutta-transport:data/bus/stops.csv,osm_stop,Sealdah,sealdah,1.0,"Sealdah@calcutta-transport/gtfs/stops.txt:22.5664,88.37; Sealdah@calcutta-transport/gtfs/stops.txt:22.568,88.3711",
 Sealdah (Rajabazar T.D. ),0,22.56623,88.36861,medium,calcutta-transport:data/bus/stops.csv,wikidata,Sealdah (Rajabazar T.D. ),sealdah rajabazar t d,1.0,,
 Sealdah Court,0,22.56555,88.36968,high,calcutta-transport:data/bus/stops.csv,osm_stop,Sealdah Court,sealdah court,1.0,,
@@ -1982,7 +1982,7 @@ Shibtala,0,22.57211,88.32244,review,calcutta-transport/docs/data/places.json,gaz
 Shibtala Math,0,22.54505,88.37805,medium,calcutta-transport:data/bus/stops.csv,osm_landmark,Shibtala Math,shibtala math,1.0,,
 Shikharpur,0,22.59878,88.52866,high,calcutta-transport:data/bus/stops.csv,wikidata,Shikharpur,shikharpur,1.0,,
 Shikra More,0,22.86867,88.51089,medium,calcutta-transport:data/bus/stops.csv,wikidata,Shikra More,shikra more,1.0,,
-Shilpara,1,,,unresolved,,,,,,,
+Shilpara,1,22.47242,88.31007,medium,manual: mappls.com bus stop POI,manual_osm_websearch,Silpara bus stop,manual verification,,,manually added; see data/stop_coordinates.json note
 Shimulpur Senbari,0,,,unresolved,,,,,,,
 Shimultala,0,22.44428,88.40983,medium,calcutta-transport:data/bus/stops.csv,osm_place,Shimultala,shimultala,1.0,,
 Shipping Corporation,0,,,unresolved,,,,,,,

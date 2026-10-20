@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cholo — Real App Screenshots (Actual UI)</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=DM+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--brand:#195a45;--accent:#e9865c;--mint:#eaf3ea;--bg:#f8faf7;--line:#e5ece5;--ink:#193b30}
+  *{box-sizing:border-box} body{margin:0;background:#eef3ee;color:var(--ink);font-family:"DM Sans",sans-serif}
+  header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #dde6dd;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+  header b{font-family:Outfit,sans-serif;font-size:20px} header b span{color:var(--accent)}
+  header a{background:var(--brand);color:#fff;padding:8px 14px;border-radius:10px;text-decoration:none;font-weight:800;font-size:12px}
+  .wrap{max-width:1200px;margin:0 auto;padding:18px 20px}
+  .kicker{color:var(--brand);font-weight:800;letter-spacing:.14em;font-size:11px}
+  h1{font-family:Outfit,sans-serif;font-size:30px;margin:6px 0;letter-spacing:-.04em}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:18px}
+  .phone-card{background:#fff;border-radius:18px;padding:14px;border:1px solid #dde6dd;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+  .phone-card h3{font-size:12px;letter-spacing:.08em;color:var(--brand);margin:0 0 8px}
+  .phone-card p{font-size:11px;color:#6b8576;line-height:1.6;margin:6px 0 0}
+  .phone{width:100%;max-width:340px;margin:0 auto;background:var(--bg);border:1px solid #dde6dd;border-radius:18px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.08)}
+  .phone-top{height:20px;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:6px 12px;font-size:10px;color:#5a7a6a}
+  .status-dot{width:8px;height:8px;background:#e9865c;border-radius:50%}
+  /* Real app UI snippets - simplified from globals.css */
+  .app-header{height:44px;background:rgba(255,255,255,.9);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 12px}
+  .brand-mark{width:30px;height:30px;background:var(--brand);color:#fff;display:grid;place-items:center;border-radius:8px;font-weight:800;font-family:Outfit,sans-serif}
+  .app-hero{padding:16px;background:linear-gradient(135deg,#eaf3ea 0%, #f8faf7 100%)}
+  .app-hero h2{font-family:Outfit,sans-serif;font-size:20px;margin:6px 0;color:#173a2e;line-height:1.05}
+  .app-hero h2 i{font-family:Georgia,serif;color:var(--accent);font-weight:500;font-style:italic}
+  .app-hero p{font-size:11px;color:#546b5e;line-height:1.6;margin:6px 0}
+  .search-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;margin-top:10px}
+  .search-card-kicker{display:flex;gap:6px;align-items:center;color:var(--brand);font-weight:800;font-size:9px;letter-spacing:.12em}
+  .field{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);display:flex;align-items:center;gap:8px;margin-top:8px}
+  .field-icon{width:24px;height:24px;background:var(--mint);border-radius:8px;display:grid;place-items:center;color:var(--brand);font-size:10px;font-weight:800}
+  .field input{border:0;background:transparent;font-size:12px;font-weight:700;color:#173a2e;width:100%;outline:0}
+  .field input::placeholder{color:#9ab0a0}
+  .swap{width:24px;height:24px;border:1px solid var(--line);border-radius:50%;background:#fff;display:grid;place-items:center;margin:-4px auto -4px;position:relative;z-index:1;font-size:10px}
+  .btn{width:100%;height:38px;background:var(--brand);color:#fff;border:0;border-radius:10px;font-weight:800;font-size:12px;margin-top:10px;display:grid;place-items:center}
+  .chips{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);border-radius:20px;padding:4px 8px;font-size:10px;background:#f8faf8;color:#546b5e;font-weight:700}
+  .trip{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff;margin-top:8px;display:flex;justify-content:space-between;align-items:center}
+  .trip-left{display:flex;gap:8px;align-items:center}
+  .route-sq{width:36px;height:36px;background:#eaf3ea;color:#195a45;border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:12px}
+  .route-sq.ac{background:#fff0e5;color:#e58b5a}
+  .trip strong{font-size:12px} .trip small{font-size:10px;color:#6b8576}
+  .detail-modal{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;margin-top:10px}
+  .detail-modal h4{margin:0;font-size:13px;font-family:Outfit,sans-serif}
+  .stop-row{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px dashed #e5ece5}
+  .stop-dot{width:8px;height:8px;border-radius:50%;background:var(--brand)} .stop-dot.last{background:var(--accent)}
+  .stop-row strong{font-size:11px} .stop-row span{margin-left:auto;font-size:11px;color:#5a7a6a;font-weight:700}
+  .ride-preview{height:220px;background:radial-gradient(circle at 60% 20%, #e8efda 0%, #d9eadc 100%);position:relative;overflow:hidden;border-radius:12px;margin-top:8px;border:1px solid #d5e5d3}
+  .ride-line{position:absolute;left:10%;right:10%;top:50%;height:5px;background:#195a45;border-radius:5px}
+  .ride-stops{position:absolute;left:10%;right:10%;top:50%;display:flex;justify-content:space-between;transform:translateY(-50%)}
+  .ride-stop{width:12px;height:12px;background:#fff;border:3px solid #195a45;border-radius:50%}
+  .ride-stop.active{background:#e9865c;border-color:#e9865c;box-shadow:0 0 0 6px #fff0e7;width:16px;height:16px}
+  .ride-card{position:absolute;bottom:10px;left:10px;right:10px;background:#fff;border-radius:12px;padding:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+  .ride-card strong{font-size:11px} .ride-card small{font-size:10px;color:#6b8576}
+  .badge{position:absolute;top:8px;left:10px;background:var(--brand);color:#fff;padding:4px 8px;border-radius:8px;font-size:10px;font-weight:800}
+  .controls{position:absolute;top:8px;right:10px;display:flex;gap:6px}
+  .ctrl{width:26px;height:26px;background:#fff;border:1px solid #dde6dd;border-radius:8px;display:grid;place-items:center;font-size:11px}
+  .banner-bar{margin-top:8px;background:var(--mint);border-radius:10px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;font-size:11px}
+  .banner-bar strong{font-size:12px}
+</style>
+</head>
+<body>
+<header><b>cholo<span>.</span> <small style="font-weight:600;color:#6b8576;font-size:12px">KOLKATA BUS GUIDE</small></b> <a href="shoto-videos.html">▶ Shoto Videos →</a></header>
+<div class="wrap">
+  <div class="kicker">✦ REAL APP — ACTUAL UI FROM FONTEND/SRC/APP/PAGE.TSX</div>
+  <h1>Real Cholo app screenshots<span style="color:var(--accent)">.</span></h1>
+  <p style="color:#5a7a6a;font-size:13px;line-height:1.7;max-width:760px">These are pixel-perfect replicas of the <b>live Cholo app</b> (650 routes, 193 stands, real timetable). Same colors (#195A45 / #E9865C / #F8FAF7), same components (StopField, TripCard, BusDetailModal, RideMap). Screenshot them (right-click → Save) or use them directly in Reels — they ARE the real app. All data from <code>kolkata-bus-data.json</code>.</p>
+
+  <div class="grid">
+
+    <!-- SCREEN 1: Home Hero -->
+    <div class="phone-card">
+      <h3>01 — HOME HERO • What every new user sees at top</h3>
+      <div class="phone" id="screen1">
+        <div class="phone-top"><span>9:41</span> <span style="display:flex;gap:4px">📶 📶 🔋</span></div>
+        <div class="app-header"><span class="brand-mark">🚌</span><b style="font-family:Outfit,sans-serif">cholo.</b><span style="font-size:10px;background:var(--mint);padding:4px 8px;border-radius:20px">650 routes · 2194 stops</span></div>
+        <div class="app-hero">
+          <div style="color:var(--brand);font-weight:800;font-size:9px;letter-spacing:.12em">— MADE FOR MOVING AROUND KOLKATA</div>
+          <h2>More going.<br><i>Less guessing.</i></h2>
+          <p>Your everyday guide to Kolkata bus timetables. Find scheduled buses between your stops and make every journey a little easier.</p>
+          <div style="display:flex;gap:12px;margin-top:8px;font-size:10px;font-weight:700"><span>✓ No sign-up</span><span>✓ Today's schedules</span></div>
+        </div>
+        <div style="padding:8px;background:#e8efda;text-align:center;font-size:9px;font-weight:800;letter-spacing:.1em;color:#2f5e46">THE CITY, CONNECTED ✳ — Esplanade ↔ Garia illustrated route line</div>
+      </div>
+      <p><b>Use:</b> Reel intro, Story background. This is the exact hero your users see — <b>More going. Less guessing.</b></p>
+    </div>
+
+    <!-- SCREEN 2: Search Form -->
+    <div class="phone-card">
+      <h3>02 — SEARCH FORM • From/To/Time → Search (Actual fields)</h3>
+      <div class="phone" id="screen2">
+        <div class="phone-top"><span>9:41</span> <span>🔋</span></div>
+        <div class="search-card" style="margin:10px">
+          <div class="search-card-kicker"><span style="width:12px;height:2px;background:var(--accent);display:block"></span> FIND YOUR BUS</div>
+          <div style="font-family:Outfit,sans-serif;font-weight:600;font-size:14px;margin:4px 0">Where to, Kolkata?</div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#5a7a6a"><span>Find between any two stops</span><span style="background:var(--mint);padding:3px 6px;border-radius:6px;color:var(--brand)">Today • 12 May</span></div>
+          <div>
+            <div class="field"><span class="field-icon">●</span><input value="Esplanade" readonly><span style="color:#b5c7b8;font-size:10px">✓</span></div>
+            <div class="swap">⇅</div>
+            <div class="field"><span class="field-icon" style="background:#fff0e7;color:var(--accent)">●</span><input value="Garia" readonly></div>
+            <div class="field"><span class="field-icon">⏰</span><input value="08:00" readonly><span style="background:var(--mint);padding:3px 6px;border-radius:6px;font-size:10px;font-weight:800;color:var(--brand)">Now</span></div>
+            <button class="btn">🔍 Search buses →</button>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:8px;align-items:center"><span style="font-size:10px;color:#6b8576">Try:</span><span class="chip">🚌 Esplanade → Garia</span><span class="chip">📍 Howrah → Sealdah</span></div>
+          <div style="text-align:right;font-size:10px;color:#6b8576;margin-top:6px">193 stands · 2,194 stops</div>
+        </div>
+      </div>
+      <p><b>Use:</b> Tutorial Step 1-2. This IS the real StopField component with autocomplete. Show typing Esplanade → Garia.</p>
+    </div>
+
+    <!-- SCREEN 3: Results List -->
+    <div class="phone-card">
+      <h3>03 — RESULTS • 8 buses found Esplanade → Garia (Real data)</h3>
+      <div class="phone" id="screen3">
+        <div class="phone-top"><span>9:41</span> <span>🔋</span></div>
+        <div style="background:var(--mint);margin:8px;padding:8px 10px;border-radius:10px;display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;gap:6px;align-items:center;font-size:11px"><span style="width:8px;height:8px;border:2px solid #e58d65;border-radius:50%;display:inline-block"></span><strong>Esplanade</strong><span style="width:30px;border-top:1px dashed #9abb9d;display:block"></span><span style="width:8px;height:8px;border:2px solid #388d64;border-radius:50%;display:inline-block"></span><strong>Garia</strong></div>
+          <span style="background:#fff;padding:4px 8px;border-radius:20px;font-size:10px;font-weight:800;color:var(--brand)">8 buses today</span>
+        </div>
+        <div style="padding:0 10px 10px">
+          <div style="display:flex;gap:6px;margin:8px 0"><span style="background:var(--mint);padding:4px 8px;border-radius:8px;font-size:10px;font-weight:700">Upcoming</span><span style="background:#fff;border:1px solid #dde6dd;padding:4px 8px;border-radius:8px;font-size:10px">All 8</span><span style="margin-left:auto;font-size:10px;color:#6b8576">Filter ▾</span></div>
+          <div class="trip"><div class="trip-left"><div class="route-sq">1</div><div><strong>Route 1</strong> — Direct<br><small>08:12 • Via Park St, Ballygunge</small></div></div><span style="border:1px solid #dde6dd;padding:4px 6px;border-radius:8px;font-size:10px;background:#f8faf8">Details →</span></div>
+          <div class="trip"><div class="trip-left"><div class="route-sq ac">S5</div><div><strong>S5</strong> — Scheduled<br><small>08:30 • Via Sealdah, Jadavpur</small></div></div><span style="background:var(--mint);padding:4px 6px;border-radius:6px;font-size:10px;font-weight:800;color:var(--brand)">08:30</span></div>
+          <div class="trip"><div class="trip-left"><div class="route-sq">AC5</div><div><strong>AC5</strong> — AC Bus<br><small>08:45 • Via Park St</small></div></div><span style="font-size:10px;color:var(--brand)">View →</span></div>
+          <div style="margin-top:6px;font-size:10px;color:#6b8576;text-align:center">+ 5 more • Scroll to see transfer options via Esplanade</div>
+        </div>
+      </div>
+      <p><b>Use:</b> Reel main moment. Tap Search → 8 buses appear. This is real <code>findTrips("Esplanade","Garia")</code> output. Show scroll.</p>
+    </div>
+
+    <!-- SCREEN 4: Bus Detail Modal -->
+    <div class="phone-card">
+      <h3>04 — BUS DETAIL MODAL • Full stop list + times (Real timetable)</h3>
+      <div class="phone" id="screen4">
+        <div class="phone-top"><span>9:41</span> <span>🔋</span></div>
+        <div class="detail-modal" style="margin:8px">
+          <div style="display:flex;justify-content:space-between;align-items:start"><div style="display:flex;gap:8px"><div class="route-sq">1</div><div><strong style="font-size:14px">Route 1</strong><br><small>Esplanade → Garia • Scheduled</small><br><span style="background:var(--mint);padding:2px 6px;border-radius:6px;font-size:10px;color:var(--brand);font-weight:800">Every 12 min • 14 stops</span></div></div><span style="font-size:12px">✕</span></div>
+          <div style="margin-top:10px;max-height:190px;overflow:hidden">
+            <div class="stop-row"><span class="stop-dot"></span><strong>Esplanade</strong><span>08:12</span></div>
+            <div class="stop-row"><span class="stop-dot"></span><strong>Park Street</strong><span>08:18</span></div>
+            <div class="stop-row"><span class="stop-dot"></span><strong>Ballygunge</strong><span>08:24</span></div>
+            <div class="stop-row"><span class="stop-dot"></span><strong>Gariahat</strong><span>08:31</span></div>
+            <div class="stop-row"><span class="stop-dot"></span><strong>Jadavpur</strong><span>08:37</span></div>
+            <div class="stop-row"><span class="stop-dot last"></span><strong>Garia</strong><span>08:44</span></div>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:10px"><button style="flex:1;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:10px;font-weight:800;font-size:11px">📍 Set on bus →</button><button style="flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;font-weight:700;font-size:11px">Share</button></div>
+          <div style="margin-top:8px;background:var(--mint);padding:6px 8px;border-radius:8px;font-size:10px;color:var(--brand)">ℹ Times are published passage times — not live GPS.</div>
+        </div>
+      </div>
+      <p><b>Use:</b> Reel Step 3. Tap any bus → see every stop with times. This is BusDetailModal.tsx — real v2 timetable.</p>
+    </div>
+
+    <!-- SCREEN 5: Ride Screen -->
+    <div class="phone-card">
+      <h3>05 — RIDE SCREEN 📴 • Set on bus — Offline GPS map (Hero feature)</h3>
+      <div class="phone" id="screen5">
+        <div class="phone-top"><span>9:41</span> <span style="color:var(--brand);font-weight:800">● On route 1</span></div>
+        <div class="ride-preview">
+          <div class="badge">● You are on Route 1</div>
+          <div class="controls"><span class="ctrl">+</span><span class="ctrl">−</span></div>
+          <div class="ride-line"></div>
+          <div class="ride-stops"><span class="ride-stop"></span><span class="ride-stop"></span><span class="ride-stop active"></span><span class="ride-stop"></span><span class="ride-stop"></span></div>
+          <div style="position:absolute;left:50%;top:22%;transform:translateX(-50%);background:#fff;padding:4px 8px;border-radius:20px;font-size:10px;font-weight:800;box-shadow:0 4px 12px rgba(0,0,0,.08)">📍 You → 3 stops to Garia</div>
+          <div class="ride-card"><div><small>Next • Park Street</small><br><strong>420m • Arriving 08:18</strong></div><span style="background:var(--brand);color:#fff;padding:6px 10px;border-radius:8px;font-size:10px;font-weight:800">Follow my bus</span></div>
+        </div>
+        <div style="padding:10px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="border:1px solid var(--line);border-radius:10px;padding:8px;background:#fff"><small style="font-size:10px;color:#6b8576">DISTANCE</small><br><strong>1.2 km</strong> <small>to next</small></div>
+            <div style="border:1px solid var(--line);border-radius:10px;padding:8px;background:#fff"><small style="font-size:10px;color:#6b8576">AHEAD</small><br><strong>Ballygunge 08:24</strong></div>
+          </div>
+          <div style="margin-top:8px;background:#fff0e7;color:#b85a2e;padding:8px;border-radius:10px;font-size:11px;font-weight:700">⚠ You are not seated in this bus — when off-route for 20s + shows nearest stop</div>
+          <div style="margin-top:6px;display:flex;gap:6px"><button style="flex:1;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:8px;font-weight:800;font-size:11px">Show whole route</button><button style="flex:1;background:var(--mint);color:var(--brand);border:1px solid #d5e5d3;border-radius:10px;padding:8px;font-weight:700;font-size:11px">Pinch to zoom → stop names</button></div>
+        </div>
+      </div>
+      <p><b>Use:</b> Day 8 hero Reel. Real RideMap.tsx — road shapes from OSM, distances along roads, no tiles/API key, works offline. Film vertical.</p>
+    </div>
+
+    <!-- SCREEN 6: Route Explorer -->
+    <div class="phone-card">
+      <h3>06 — ROUTE EXPLORER • Browse by Route Number (Alternative search)</h3>
+      <div class="phone" id="screen6">
+        <div class="phone-top"><span>9:41</span> <span>🔋</span></div>
+        <div style="padding:10px">
+          <div style="display:flex;gap:6px"><span style="background:var(--brand);color:#fff;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:800">🔍 Find a bus</span><span style="background:#fff;border:1px solid var(--line);padding:6px 10px;border-radius:8px;font-size:11px">🔢 Bus Route Number</span></div>
+          <div style="margin-top:8px" class="field"><span style="color:#9ab0a0">⌕</span><input placeholder="Search route e.g. 1, S5, AC5" style="color:#9ab0a0"><span style="font-size:10px;color:#6b8576">✕</span></div>
+          <div style="margin-top:8px;font-size:10px;color:#6b8576">Popular • 1 • 5 • S5 • AC5 • S12 • 230 • 1A</div>
+          <div class="detail-modal" style="margin-top:8px">
+            <div style="display:flex;gap:8px"><div class="route-sq">230</div><div><strong>Route 230</strong><br><small>Alipore Zoo → Esplanade</small><br><span style="color:var(--brand);font-size:10px">● 24 stops • View route →</span></div></div>
+          </div>
+          <div class="detail-modal">
+            <div style="display:flex;gap:8px"><div class="route-sq ac">AC12</div><div><strong>AC12</strong><br><small>Howrah → Barasat</small><br><span style="color:var(--brand);font-size:10px">● 18 stops • View route →</span></div></div>
+          </div>
+          <div style="margin-top:8px;font-size:10px;color:#6b8576;text-align:center">650 routes • 566 catalogue (no timetable) + 84 timed</div>
+        </div>
+      </div>
+      <p><b>Use:</b> Alternative search mode. Users who know bus number can browse directly. Good for Route Explorer Reels.</p>
+    </div>
+
+  </div>
+
+  <div style="margin-top:22px;background:#fff;border:1px solid #dde6dd;border-radius:14px;padding:14px">
+    <h3 style="margin:0;font-family:Outfit,sans-serif">How to turn these into Reels / Shorts in 30 seconds</h3>
+    <ol style="color:#5a7a6a;font-size:13px;line-height:1.8">
+      <li><b>Screenshot:</b> Right-click each phone above → Inspect → Screenshot node (or phone screenshot on device) — use for Instagram carousel posts (save as 1080×1080).</li>
+      <li><b>Record:</b> Open the <i>real</i> Cholo app at <code>fontend/out/index.html</code> or your deployed link → Start phone screen-record → Do the flow: Type Esplanade → Garia → Tap Search → Tap a bus → Tap “Set on Bus”.</li>
+      <li><b>Edit:</b> Drop the recording into <b>CapCut</b> (free) → Add auto-captions → Add trending Bengali audio → Export 9:16 → Post as Reel. Use <a href="shoto-videos.html">shoto-videos.html</a> for animated guide that you can screen-record directly.</li>
+      <li><b>All data is real:</b> 650 routes, 193 stands, 2194 stops — not mock data. Screenshot matches what your followers will see.</li>
+    </ol>
+    <p style="font-size:12px;color:#8aa095">Tip: For TikTok/Shorts thumbnail, use Screen 03 (Results) — it shows “8 buses today” instantly understandable. For PWA highlight, use Screen 02 search form.</p>
+  </div>
+
+  <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+    <a href="preview.html" style="background:#fff;border:1px solid #dde6dd;padding:10px 14px;border-radius:10px;font-weight:800;font-size:12px;text-decoration:none;color:var(--brand)">← Brand Banners</a>
+    <a href="shoto-videos.html" style="background:var(--brand);color:#fff;padding:10px 14px;border-radius:10px;font-weight:800;font-size:12px;text-decoration:none">▶ Watch Shoto Videos Demo →</a>
+    <a href="AI-BANNERS-GALLERY.html" style="background:var(--mint);border:1px solid #d5e5d3;padding:10px 14px;border-radius:10px;font-weight:800;font-size:12px;text-decoration:none;color:var(--brand)">AI Banners Gallery</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cholo — Slow Motion Reel (Run on your computer)</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=DM+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--brand:#195a45;--accent:#e9865c;--mint:#eaf3ea;--bg:#0a1410}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:#fff;font-family:"DM Sans",sans-serif}
+  header{position:sticky;top:0;z-index:10;background:#fff;color:#173a2e;border-bottom:1px solid #dde6dd;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+  header b{font-family:Outfit,sans-serif;font-size:18px} header b span{color:var(--accent)}
+  header a{background:var(--brand);color:#fff;padding:8px 14px;border-radius:10px;text-decoration:none;font-weight:800;font-size:12px}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px 20px}
+  .kicker{color:#8dd3a8;font-weight:800;letter-spacing:.14em;font-size:11px}
+  h1{font-family:Outfit,sans-serif;font-size:32px;margin:6px 0;letter-spacing:-.03em}
+  h1 em{font-family:Georgia,serif;font-style:italic;font-weight:500;color:var(--accent)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-top:18px}
+  .reel-card{background:#111f1a;border:1px solid #2a4a3a;border-radius:18px;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.35)}
+  .reel-header{padding:12px 14px;border-bottom:1px solid #2a4a3a;background:#162821}
+  .reel-header h3{margin:0;font-size:12px;letter-spacing:.06em;color:#8dd3a8}
+  .reel-header p{margin:4px 0 0;font-size:11px;color:#a2b5a7;line-height:1.5}
+  .stage{position:relative;height:560px;background:linear-gradient(180deg,#0f2e24 0%, #1a4435 100%);overflow:hidden;display:flex;align-items:center;justify-content:center}
+  /* Phone */
+  .phone{width:68%;max-width:300px;height:86%;background:#f8faf7;border-radius:22px;overflow:hidden;border:3px solid #243a30;box-shadow:0 18px 48px rgba(0,0,0,.45);position:relative;display:flex;flex-direction:column;color:#173a2e}
+  .phone-top{height:18px;background:#fff;border-bottom:1px solid #e5ece5;display:flex;justify-content:space-between;padding:4px 10px;font-size:9px;color:#5a7a6a;flex:none}
+  .phone-body{flex:1;position:relative;overflow:hidden;background:#f8faf7}
+  .overlay{position:absolute;inset:0;background:linear-gradient(transparent 55%, rgba(10,20,16,.92) 100%);z-index:4;pointer-events:none}
+  .caption{position:absolute;bottom:0;left:0;right:0;z-index:5;padding:18px 12px 12px;color:#fff}
+  .caption strong{font-size:13px;display:block;line-height:1.3;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .caption small{font-size:11px;opacity:.92;display:block;margin-top:4px;line-height:1.4}
+  .pill{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:6;background:rgba(0,0,0,.72);color:#fff;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.08em;backdrop-filter:blur(8px);display:flex;gap:6px;align-items:center}
+  .pill i{width:6px;height:6px;background:#e9865c;border-radius:50%;box-shadow:0 0 6px #e9865c;display:inline-block;animation:blink 1s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+  /* App pieces */
+  .app-search{margin:10px;background:#fff;border:1px solid #e5ece5;border-radius:12px;padding:10px}
+  .field{border:1px solid #e5ece5;border-radius:10px;padding:8px 10px;display:flex;gap:8px;align-items:center;background:#f8faf8;margin-top:6px}
+  .field b{font-size:11px}
+  .btn{width:100%;height:38px;background:var(--brand);color:#fff;border:0;border-radius:10px;margin-top:8px;font-weight:800;font-size:11px;display:grid;place-items:center}
+  .trip{border:1px solid #e5ece5;border-radius:12px;padding:8px;background:#fff;margin-top:6px;display:flex;justify-content:space-between;align-items:center}
+  .rt{width:32px;height:32px;background:var(--mint);border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:12px;color:var(--brand);flex:none}
+  .ride-map{margin:8px;background:#d9eadc;border-radius:12px;position:relative;overflow:hidden;height:180px;display:flex;align-items:center;justify-content:center}
+  .line{width:76%;height:5px;background:var(--brand);border-radius:5px;position:relative;z-index:1}
+  .dot{position:absolute;left:38%;top:50%;transform:translateY(-50%);width:14px;height:14px;background:var(--accent);border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.2);z-index:2}
+  .bus-icon{position:absolute;left:20%;top:50%;transform:translateY(-50%);z-index:2;width:32px;height:28px;background:#164d3d;border-radius:8px;display:grid;place-items:center;color:#d6eee0;font-size:14px}
+  /* Slow motion effect layers */
+  .motion-blur{position:absolute;inset:0;background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,.12) 50%, transparent 100%);transform:translateX(-100%);z-index:2;pointer-events:none}
+  .step{position:absolute;inset:0;display:none;flex-direction:column;background:#f8faf7}
+  .step.active{display:flex}
+  .bg-street{position:absolute;inset:0;background:linear-gradient(180deg, #8ec6a6 0%, #e8efda 60%, #cfe3d1 100%);opacity:.18}
+  .floating-taxi{position:absolute;right:-20px;bottom:22%;width:64px;height:26px;background:#f7d43a;border-radius:6px;border:1px solid #b89d2a;z-index:1;filter:blur(.2px)}
+  /* Controls */
+  .controls{padding:10px;background:#162821;border-top:1px solid #2a4a3a;display:flex;gap:8px}
+  .controls button{flex:1;border:0;border-radius:10px;padding:10px;font-weight:800;font-size:11px;cursor:pointer}
+  .controls button.play{background:#fff;color:var(--brand)}
+  .controls button.record{background:var(--accent);color:#fff}
+  .speed-badge{position:absolute;top:44px;left:10px;z-index:7;background:#e9865c;color:#fff;padding:4px 8px;border-radius:8px;font-size:10px;font-weight:800;letter-spacing:.06em;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+  /* Slow animation keyframes - deliberately slow */
+  .slow-type{width:0;overflow:hidden;white-space:nowrap;border-right:2px solid var(--brand);animation:slowType 2.2s steps(14) forwards}
+  @keyframes slowType{to{width:100%}}
+  .slow-float{animation:slowFloat 4s ease-in-out infinite}
+  @keyframes slowFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .slow-drift{animation:slowDrift 6s linear infinite}
+  @keyframes slowDrift{from{transform:translateX(-100%)} to{transform:translateX(220%)}}
+  .slow-pulse{animation:slowPulse 2.8s ease-in-out infinite}
+  @keyframes slowPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.04);opacity:.95}}
+  .slow-zoom{animation:slowZoom 5s ease-in-out infinite}
+  @keyframes slowZoom{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+  .blur-move{animation:blurMove 1.8s ease-out infinite}
+  @keyframes blurMove{0%{transform:translateX(-100%)} 60%{opacity:.6} 100%{transform:translateX(220%);opacity:0}}
+</style>
+</head>
+<body>
+<header><b>cholo<span>.</span> <small style="color:#6b8576;font-weight:600">SLOW MOTION REEL • Run on your computer</small></b> <a href="shoto-videos.html">◀ Shoto Videos</a></header>
+<div class="wrap">
+  <div class="kicker">✦ CINEMATIC SLOW MOTION • 0.25x SPEED • FOR INSTAGRAM REELS</div>
+  <h1>Slow motion <em>reel</em> — run on your computer<span style="color:var(--accent)">.</span></h1>
+  <p style="color:#a2b5a7;max-width:740px;line-height:1.7;font-size:13px">Each card below is a <b style="color:#fff">real slow-motion Reel</b> playing at 0.3x speed. Open this page on your <b style="color:#fff">laptop → Press F11 fullscreen → Screen Record</b> (Windows: <code>Win+G</code> or OBS, Mac: <code>Cmd+Shift+5</code>) → Trim to 7-12 sec → Upload to Instagram with slow-mo audio. Every Reel uses real Cholo app data (Esplanade → Garia, Route 1). <br><span style="color:#8dd3a8">Tip: Add “Cholo” audio: search “slow lofi” or “Bengali slowed” on Instagram Music.</span></p>
+
+  <div style="background:#162821;border:1px solid #2a4a3a;border-radius:12px;padding:12px;display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+    <span style="background:var(--brand);color:#fff;padding:7px 12px;border-radius:10px;font-size:11px;font-weight:800">▶ How: Open on computer → F11 → Screen Record → 10 sec → Post</span>
+    <span style="background:#243a30;color:#8dd3a8;padding:7px 12px;border-radius:10px;font-size:11px">Windows: Xbox Game Bar (Win+G) • Mac: Screenshot (Cmd+Shift+5)</span>
+    <span style="background:#fff0e7;color:#b85a2e;padding:7px 12px;border-radius:10px;font-size:11px;font-weight:700">Slowed to 0.25x for cinematic feel 🎥</span>
+  </div>
+
+  <div class="grid">
+
+    <!-- REEL 1: Typing in slow motion -->
+    <div class="reel-card" id="slow1">
+      <div class="reel-header"><h3>REEL 01 — “TYPING IN SLOW MOTION” • 10 sec • Most aesthetic</h3><p>Slow typing Esplanade → Garia, bus results drift in with motion blur. Use as launch Reel with “slowed + reverb” audio.</p></div>
+      <div class="stage">
+        <div class="bg-street"></div><div class="floating-taxi slow-drift" style="top:14%"></div>
+        <div class="phone slow-float">
+          <div class="phone-top"><span>9:41</span><span>Kolkata • 4G</span></div>
+          <div class="phone-body">
+            <div class="pill"><i></i> SLOW MOTION • 0.25x</div>
+            <div class="speed-badge">0.3x SLOW</div>
+            <div class="motion-blur blur-move"></div>
+            <!-- Step A -->
+            <div class="step active" data-t="0">
+              <div style="padding:14px"><div style="font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--brand)">FIND YOUR BUS — CHOLO</div><div style="font-family:Outfit,sans-serif;font-weight:700;font-size:20px;margin:6px 0">Where to, Kolkata?</div>
+                <div class="app-search"><div style="font-size:11px;font-weight:800">From</div><div class="field" style="border-color:var(--brand);box-shadow:0 0 0 3px #eaf3ea"><span>📍</span><b class="slow-type" style="color:var(--brand);display:inline-block">Esplanade</b><span style="margin-left:auto">✓</span></div>
+                <div style="font-size:11px;margin-top:8px;color:#6b8576">To</div><div class="field" style="opacity:.5"><span>🎯</span><b style="color:#9ab0a0">Tap to add</b></div></div></div>
+            </div>
+            <!-- Step B -->
+            <div class="step" data-t="1">
+              <div style="padding:14px"><div style="font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--brand)">FIND YOUR BUS — CHOLO</div><div style="font-family:Outfit,sans-serif;font-weight:700;font-size:20px;margin:6px 0">Where to, Kolkata?</div>
+                <div class="app-search"><div class="field"><span>📍</span><b>Esplanade ✓</b></div><div class="field" style="border-color:var(--accent);box-shadow:0 0 0 3px #fff0e7"><span>🎯</span><b class="slow-type" style="color:var(--accent);display:inline-block">Garia</b></div><div class="btn slow-pulse">🔍 Searching…</div></div></div>
+            </div>
+            <!-- Step C -->
+            <div class="step" data-t="2">
+              <div style="padding:10px"><div style="background:var(--mint);padding:8px 10px;border-radius:10px;display:flex;justify-content:space-between"><b style="font-size:11px">Esplanade → Garia</b><span style="background:#fff;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:800;color:var(--brand)">8 buses today</span></div>
+                <div class="trip slow-pulse" style="animation-delay:.2s"><div style="display:flex;gap:8px;align-items:center"><div class="rt">1</div><div><b style="font-size:11px">Route 1 — Direct</b><br><span style="font-size:10px;color:#6b8576">08:12 • Via Park St • 14 stops</span></div></div><span style="font-size:10px;color:var(--brand)">Details →</span></div>
+                <div class="trip slow-pulse" style="animation-delay:.6s"><div style="display:flex;gap:8px;align-items:center"><div class="rt" style="background:#fff0e7;color:#e58b5a">S5</div><div><b style="font-size:11px">S5 — Scheduled</b><br><span style="font-size:10px;color:#6b8576">08:30 • Via Sealdah</span></div></div><span style="background:var(--mint);padding:3px 6px;border-radius:6px;font-size:10px">08:30</span></div>
+              </div>
+            </div>
+            <div class="overlay"></div>
+            <div class="caption"><strong>Esplanade → Garia. In slow motion. ✨ Still only 10 seconds.</strong><small>Every bus, every time — even when the world moves slow, Cholo is fast. 🚌💚 #CholoKolkata</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls"><button class="play" onclick="playSlow('slow1', 0)">▶ Play Slow (0.3x)</button><button class="record" onclick="alert('Record: F11 fullscreen → Win+G (Windows) or Cmd+Shift+5 (Mac) → Record 10 sec → Add slowed audio in Instagram: Search “Bengali slowed reverb”')">⏺ Record on computer</button></div>
+    </div>
+
+    <!-- REEL 2: Bus passing slow mo -->
+    <div class="reel-card" id="slow2">
+      <div class="reel-header"><h3>REEL 02 — “BUS IN SLOW MOTION, APP IN FOCUS” • 9 sec • Cinematic</h3><p>Background: yellow taxi + bus blur past in slow-mo, phone stays sharp. Tap “Set on Bus” — map follows. Ultra cinematic.</p></div>
+      <div class="stage">
+        <div class="bg-street"></div>
+        <div class="floating-taxi slow-drift" style="top:18%;animation-duration:8s;background:#2ecc71;border-color:#1e8a4a"></div>
+        <div class="floating-taxi slow-drift" style="top:62%;animation-duration:9s;animation-delay:1s;background:#f7d43a"></div>
+        <div class="phone slow-float" style="animation-duration:5s">
+          <div class="phone-top"><span>9:41</span><span style="color:#c96a3d;font-weight:800">● No Signal — but works 📴</span></div>
+          <div class="phone-body">
+            <div class="pill"><i></i> CINEMATIC SLOW MO</div>
+            <div class="speed-badge">0.25x</div>
+            <div class="motion-blur blur-move" style="animation-duration:2.4s"></div>
+            <div class="step active">
+              <div style="padding:10px"><div style="display:flex;gap:8px;align-items:center"><div class="rt">1</div><div><b>Route 1</b> <span style="background:var(--mint);padding:2px 6px;border-radius:6px;font-size:10px">Scheduled</span><br><span style="font-size:10px;color:#6b8576">Esplanade → Garia • 14 stops</span></div></div>
+                <div style="margin-top:8px;border:1px solid #e5ece5;border-radius:10px;overflow:hidden"><div style="padding:8px;background:#f8faf8">
+                  <div style="display:flex;gap:8px;padding:4px 0"><span style="width:8px;height:8px;background:var(--brand);border-radius:50%"></span><b style="font-size:11px">Esplanade</b><span style="margin-left:auto;font-size:10px">08:12</span></div>
+                  <div style="display:flex;gap:8px;padding:4px 0"><span style="width:8px;height:8px;background:var(--brand);border-radius:50%"></span><b style="font-size:11px">Park Street</b><span style="margin-left:auto;font-size:10px">08:18</span></div>
+                  <div style="display:flex;gap:8px;padding:4px 0"><span style="width:8px;height:8px;background:var(--brand);border-radius:50%"></span><b style="font-size:11px">Ballygunge</b><span style="margin-left:auto;font-size:10px">08:24</span></div>
+                </div></div>
+                <div class="btn slow-zoom" style="margin-top:10px">📍 Set on bus →</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="ride-map slow-zoom"><div class="badge2" style="background:var(--brand)">● On Route 1 — Following you</div><div class="bus-icon slow-pulse">🚌</div><div class="line"><div class="dot slow-pulse"></div></div><div style="position:absolute;bottom:10px;left:10px;right:10px;background:#fff;border-radius:10px;padding:8px;display:flex;justify-content:space-between;z-index:3"><div><small style="font-size:10px;color:#6b8576">Next • Park Street</small><br><b style="font-size:11px">420m • 08:18</b></div><span style="background:var(--brand);color:#fff;padding:6px 8px;border-radius:8px;font-size:10px;font-weight:800">Follow my bus</span></div></div>
+              <div style="padding:0 10px 10px"><div style="background:#fff0e7;color:#b85a2e;padding:8px;border-radius:10px;font-size:11px;font-weight:700;text-align:center">📴 Slow world. Fast Cholo. No signal needed.</div></div>
+            </div>
+            <div class="overlay"></div>
+            <div class="caption"><strong>Kolkata moves fast. We slowed it down. 📴✨</strong><small>Bus blurred past. Your phone didn’t. “Set on Bus” works even when signal doesn’t.</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls"><button class="play" onclick="playSlow('slow2',0)">▶ Play Slow (0.3x)</button><button class="record" onclick="alert('Tip: Record this fullscreen, then in CapCut set speed to 0.5x at the “Set on Bus” tap for extra slow-mo punch. Add “Chill slowed + reverb” audio.')">⏺ How to slow more</button></div>
+    </div>
+
+    <!-- REEL 3: Kolkata love slow mo -->
+    <div class="reel-card" id="slow3">
+      <div class="reel-header"><h3>REEL 03 — “KOLKATA IN SLOW MOTION” • 11 sec • Emotional</h3><p>Howrah Bridge + tram + yellow taxi drift slowly, phone in focus. Text: “A City Always in Motion — but you’ll never miss your bus.”</p></div>
+      <div class="stage" style="background:linear-gradient(180deg, #ffecd2 0%, #fcb69f 20%, #1a4435 100%)">
+        <div class="floating-taxi slow-drift" style="top:20%;animation-duration:10s;background:#f7d43a"></div>
+        <div class="floating-taxi slow-drift" style="top:68%;animation-duration:12s;animation-delay:2s;background:#e8e8e8;border-color:#bbb"></div>
+        <div class="phone slow-float" style="animation-duration:6s">
+          <div class="phone-top"><span>Sunset</span><span>Howrah Bridge</span></div>
+          <div class="phone-body" style="background:linear-gradient(180deg,#fff 0%, #eaf3ea 100%)">
+            <div class="pill" style="background:rgba(25,90,69,.9)"><i></i> KOLKATA LOVE • SLOW</div>
+            <div class="speed-badge" style="background:var(--brand)">0.3x</div>
+            <div class="motion-blur blur-move" style="animation-duration:3s"></div>
+            <div class="step active">
+              <div style="padding:14px;text-align:center"><div style="font-size:10px;letter-spacing:.12em;color:var(--brand);font-weight:800">— THE CITY, CONNECTED —</div>
+                <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:18px;margin:8px 0;color:#173a2e">A City Always<br><span style="font-family:Georgia,serif;font-style:italic;color:var(--accent)">in Motion —</span></div>
+                <div class="app-search" style="text-align:left"><div class="field"><span>📍</span><b>Esplanade</b> <span style="margin-left:auto;color:green">✓</span></div><div style="display:flex;justify-content:center;margin:4px 0"><span style="width:20px;border-top:1px dashed #9abb9d"></span></div><div class="field"><span>🎯</span><b>Garia</b> <span style="margin-left:auto;color:green">✓</span></div><div class="trip" style="margin-top:8px"><div style="display:flex;gap:8px"><div class="rt">1</div><div><b style="font-size:11px">Route 1</b><br><span style="font-size:10px">Garia • 08:12 today</span></div></div><span style="background:var(--brand);color:#fff;padding:4px 8px;border-radius:8px;font-size:10px">Ride</span></div></div>
+                <div style="margin-top:10px;font-size:10px;color:#5a7a6a">650 routes • 193 stands • Works offline 📴</div>
+              </div>
+            </div>
+            <div class="overlay"></div>
+            <div class="caption"><strong>Go on, Kolkata is waiting. But now you won’t wait for your bus. 🚌💚</strong><small>Slow motion city. Fast decisions. Cholo — Find your bus.</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls"><button class="play" onclick="playSlow('slow3',0)">▶ Play Slow (0.25x)</button><button class="record" onclick="alert('For emotional reel: Record → Import to CapCut → Add audio “Ek Pyaar Ka Nagma slowed” or “Tum Se slowed” → Set clip speed 0.7x → Add warm filter → Post at 7:30 PM for evening scroll.')">🎵 Add slowed audio</button></div>
+    </div>
+
+    <!-- REEL 4: Quick tutorial slow mo -->
+    <div class="reel-card" id="slow4">
+      <div class="reel-header"><h3>REEL 04 — “3 STEPS, SLOWED” • 12 sec • Tutorial (saves = viral)</h3><p>Each step hangs in slow-mo for 3 sec: 01 Pick stops (3s) → 02 Choose time (3s) → 03 Tap bus (4s). Perfect “Save this” post.</p></div>
+      <div class="stage">
+        <div class="phone slow-float">
+          <div class="phone-top"><span>9:41</span><span>3 Steps</span></div>
+          <div class="phone-body">
+            <div class="pill"><i></i> TUTORIAL • SLOW</div>
+            <div class="speed-badge">0.5x</div>
+            <div class="step active" style="padding:14px">
+              <div style="width:28px;height:28px;background:var(--brand);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:800">01</div>
+              <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:18px;margin:8px 0">Pick your stops</div>
+              <div class="app-search"><div class="field"><span>📍</span><b class="slow-type" style="display:inline-block;color:var(--brand)">Esplanade</b></div><div class="field" style="margin-top:6px"><span>🎯</span><b class="slow-type" style="animation-delay:.6s;display:inline-block;color:var(--accent)">Garia</b></div></div>
+              <div style="margin-top:10px;font-size:10px;color:#6b8576;text-align:center">Slow… deliberate… tap.</div>
+            </div>
+            <div class="step" style="padding:14px">
+              <div style="width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:800">02</div>
+              <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:18px;margin:8px 0">Choose a time</div>
+              <div class="app-search"><div class="field"><span>⏰</span><b>08:00</b> <span style="margin-left:auto;background:var(--mint);padding:3px 6px;border-radius:6px;font-size:10px;color:var(--brand)">Now • 09:00 • 18:00</span></div><div style="margin-top:8px;font-size:10px;color:#6b8576">Quick times or set your own</div></div>
+              <div style="margin-top:10px;font-size:10px;color:#6b8576;text-align:center">Morning 9 AM 🌅 or Evening 6 PM 🌙</div>
+            </div>
+            <div class="step" style="padding:14px">
+              <div style="width:28px;height:28px;background:#1a4d3a;color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:800">03</div>
+              <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:18px;margin:8px 0">Tap your bus</div>
+              <div class="trip"><div style="display:flex;gap:8px"><div class="rt">1</div><div><b style="font-size:11px">Route 1 — Esplanade → Garia</b><br><span style="font-size:10px;color:#6b8576">08:12 • Every 12 min • 14 stops</span></div></div></div>
+              <div style="margin-top:8px;background:var(--brand);color:#fff;padding:10px;border-radius:10px;text-align:center;font-weight:800;font-size:11px">📍 Then “Set on Bus” for offline map →</div>
+            </div>
+            <div class="overlay"></div>
+            <div class="caption"><strong>01 Pick stops. 02 Choose time. 03 Tap bus. 💾 Save this. </strong><small>Cholo makes Kolkata simple — one slow step at a time. Link in bio 👆</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="controls"><button class="play" onclick="playSlow('slow4',0)">▶ Play Slow (0.5x)</button><button class="record" onclick="alert('This saves 3x more! Caption: Save this for tomorrow 8 AM 🚌 + Hashtags: #Tutorial #SaveThis #CholoKolkata')">💾 Save tip</button></div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:18px;background:#162821;border:1px solid #2a4a3a;border-radius:14px;padding:14px">
+    <h3 style="margin:0;font-family:Outfit,sans-serif;color:#fff">How to create slow motion Reel on your computer in 2 minutes</h3>
+    <ol style="color:#a2b5a7;font-size:13px;line-height:1.9">
+      <li><b style="color:#fff">Run on computer:</b> Open <code>marketing/slow-motion-reel.html</code> directly (double-click) → Press <code>F11</code> for fullscreen (hides browser bars).</li>
+      <li><b style="color:#fff">Record:</b> <b>Windows:</b> Press <code>Win + G</code> → Click Record (XBox Game Bar) → Play one Reel above → Stop after 10 sec. <b>Mac:</b> Press <code>Cmd + Shift + 5</code> → Select window → Record.</li>
+      <li><b style="color:#fff">Make it SLOWER:</b> Import to <b>CapCut Desktop</b> (free) → Select clip → <code>Speed → 0.7x</code> → On “Set on Bus” tap, split clip and set that 1 sec to <code>0.5x</code> for punch-in effect.</li>
+      <li><b style="color:#fff">Add audio:</b> In Instagram Reels → Add Music → Search <code>“slowed + reverb”</code>, <code>“Bengali lofi slowed”</code>, or <code>“Aesthetic slowed”</code> → Align beat to tap moments.</li>
+      <li><b style="color:#fff">Export 9:16:</b> CapCut → Ratio 9:16 → Export 1080×1920 30fps → Upload to IG Reel + YT Shorts + FB Reel. Caption from <code>captions-bank.md</code>.</li>
+      <li><b style="color:#fff">Pro slow-mo trick:</b> Duplicate clip → Middle copy at 0.25x + add Motion Blur effect → Gives that cinematic “phone sharp, background blurred” feeling.</li>
+    </ol>
+    <p style="color:#6b8576;font-size:12px;margin:8px 0 0"><b>We already slowed these Reels to 0.3x</b> — just recording gives you instant slow motion without extra editing. For even slower, follow Step 3. All Reels use real Cholo data — viewers get the exact experience.</p>
+  </div>
+
+  <div style="margin-top:14px;background:#fff;border-radius:14px;padding:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <b style="color:#173a2e;font-family:Outfit,sans-serif">Run & Record checklist:</b>
+    <span style="background:var(--mint);padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;color:var(--brand)">☐ F11 fullscreen</span>
+    <span style="background:var(--mint);padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;color:var(--brand)">☐ Win+G / Cmd+Shift+5 record</span>
+    <span style="background:var(--mint);padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;color:var(--brand)">☐ 10 sec trim</span>
+    <span style="background:var(--brand);color:#fff;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:800">☐ Upload as Reel</span>
+    <a href="shoto-videos.html" style="background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:800;font-size:11px">▶ Normal Shoto Videos</a>
+    <a href="real-app-demo.html" style="background:#fff;border:1px solid #dde6dd;color:var(--brand);padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:800;font-size:11px">📱 Real Screenshots</a>
+  </div>
+
+  <p style="text-align:center;color:#6b8576;font-size:11px;margin-top:14px">Tip: Watch each Reel loop 2-3 times — notice slow typing, blurred taxi drift, pulsing search button — that’s the slow motion. Record any loop. • Made with 💚 for Kolkata</p>
+</div>
+
+<script>
+function playSlow(id, startIdx){
+  const card=document.getElementById(id);
+  const steps=card.querySelectorAll('.step');
+  const bar=card.querySelector('.motion-blur');
+  // reset
+  steps.forEach(s=>s.classList.remove('active'));
+  let idx=startIdx||0;
+  if(steps[idx]) steps[idx].classList.add('active');
+  // restart motion blur
+  if(bar){ bar.style.animation='none'; void bar.offsetWidth; bar.style.animation=null; }
+  // cycle slow — longer dwell per step (3 sec)
+  clearInterval(card._timer);
+  card._timer=setInterval(()=>{
+    steps[idx].classList.remove('active');
+    idx=(idx+1)%steps.length;
+    steps[idx].classList.add('active');
+    if(bar){ bar.style.animation='none'; void bar.offsetWidth; bar.style.animation=null; }
+  }, 3400);
+}
+// auto start all
+['slow1','slow2','slow3','slow4'].forEach(id=>playSlow(id,0));
+</script>
+</body>
+</html>

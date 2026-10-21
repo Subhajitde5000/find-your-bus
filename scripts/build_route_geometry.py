@@ -41,6 +41,7 @@ Run from the repository root::
     .venv/bin/pip install pyshp                # once; osmium as well for .osm.pbf
     .venv/bin/python scripts/build_route_geometry.py
     .venv/bin/python scripts/build_route_geometry.py --osm kolkata.osm.pbf
+    .venv/bin/python scripts/build_route_geometry.py --all-routes     # every route, not only timed ones
 
 Re-run it whenever the routes, their stops or the stop coordinates change, then rebuild
 the site. The output is ordered and rounded, so an unchanged input produces no diff.
@@ -130,8 +131,11 @@ Point = tuple[float, float]
 # --------------------------------------------------------------------------- sources
 
 
-def timed_legs(dataset: dict) -> dict[str, list[str]]:
+def timed_legs(dataset: dict, all_routes: bool = False) -> dict[str, list[str]]:
     """Every stop pair the ride screen measures between, for every timed route.
+
+    With ``all_routes`` the routes that have no timetable are included too, so the ride
+    map follows streets on every route that has two or more located stops.
 
     The ride engine drops a stop with no coordinate and measures straight from the
     located stop before it to the located stop after it, so those are the pairs that
@@ -143,7 +147,7 @@ def timed_legs(dataset: dict) -> dict[str, list[str]]:
 
     legs: dict[str, list[str]] = collections.defaultdict(list)
     for route in dataset.get("routes", []):
-        if not (route.get("runs") or route.get("frequency")):
+        if not all_routes and not (route.get("runs") or route.get("frequency")):
             continue
         names = route.get("stops", [])
         for chain in (names, list(reversed(names))):
@@ -733,6 +737,12 @@ def main() -> int:
         help="a road network file to use instead of the pinned download "
         "(.osm/.osm.xml/.osm.pbf/.shp, or a zip containing a shapefile)",
     )
+    parser.add_argument(
+        "--all-routes",
+        action="store_true",
+        help="route every route that has located stops, not only the ones with a timetable "
+        "(more legs, a bigger output file, and a longer run)",
+    )
     parser.add_argument("--max-snap-metres", type=float, default=MAX_SNAP_METRES)
     parser.add_argument("--simplify-metres", type=float, default=SIMPLIFY_METRES)
     args = parser.parse_args()
@@ -746,15 +756,15 @@ def main() -> int:
     if any("|" in name for name in stop_points):
         raise SystemExit("A stop name contains '|', which is this file's leg separator.")
 
-    legs_by_route = timed_legs(dataset)
+    legs_by_route = timed_legs(dataset, all_routes=args.all_routes)
     wanted: list[tuple[str, str]] = sorted(
         {(leg.split("|")[0], leg.split("|")[1]) for route_legs in legs_by_route.values() for leg in route_legs}
     )
     if not wanted:
-        raise SystemExit("No timed routes found; nothing to route.")
+        raise SystemExit("No routes found to route; nothing to do.")
     used_stops = sorted({name for leg in wanted for name in leg})
     print(
-        f"{len(legs_by_route)} timed routes, {len(wanted)} distinct legs, "
+        f"{len(legs_by_route)} {'routes' if args.all_routes else 'timed routes'}, {len(wanted)} distinct legs, "
         f"{len(used_stops)} stops to place."
     )
 

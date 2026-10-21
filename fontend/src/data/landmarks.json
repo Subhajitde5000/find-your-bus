@@ -1,0 +1,863 @@
+{
+ "meta": {
+  "description": "Landmarks drawn as an optional map layer. Points with source 'stop' are placed at the published position of a bus stop whose name says what it is; they mark a place near the landmark, not its outline. Shapes with source 'osm' are real outlines from OpenStreetMap.",
+  "sources": [
+   "Reviewed stop names and positions in kolkata-bus-data.json"
+  ],
+  "licence": "OpenStreetMap features: (c) OpenStreetMap contributors, ODbL 1.0. Stop-derived points come from this site's own reviewed stop dataset.",
+  "generatedBy": "scripts/build_landmarks.py",
+  "points": 106,
+  "shapes": 0
+ },
+ "points": [
+  {
+   "id": "stop:Airport",
+   "name": "Airport",
+   "kind": "airport",
+   "lat": 22.64351,
+   "lng": 88.43122,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Airport 1 No.",
+   "name": "Airport 1 No.",
+   "kind": "airport",
+   "lat": 22.64169,
+   "lng": 88.4314,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Airport Gate",
+   "name": "Airport Gate",
+   "kind": "airport",
+   "lat": 22.6437,
+   "lng": 88.4332,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Airport Gate 1",
+   "name": "Airport Gate 1",
+   "kind": "airport",
+   "lat": 22.64169,
+   "lng": 88.4314,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Airport Terminal",
+   "name": "Airport Terminal",
+   "kind": "airport",
+   "lat": 22.64351,
+   "lng": 88.43122,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Behala Airport",
+   "name": "Behala Airport",
+   "kind": "airport",
+   "lat": 22.50584,
+   "lng": 88.29341,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Bally bridge",
+   "name": "Bally bridge",
+   "kind": "bridge",
+   "lat": 22.65495,
+   "lng": 88.3476,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Bijan Setu (Ballygunge Station)",
+   "name": "Bijan Setu (Ballygunge Station)",
+   "kind": "bridge",
+   "lat": 22.52089,
+   "lng": 88.37223,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Brace Bridge",
+   "name": "Brace Bridge",
+   "kind": "bridge",
+   "lat": 22.51792,
+   "lng": 88.30114,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Chitpur Bridge",
+   "name": "Chitpur Bridge",
+   "kind": "bridge",
+   "lat": 22.60734,
+   "lng": 88.36968,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Dhalai Bridge",
+   "name": "Dhalai Bridge",
+   "kind": "bridge",
+   "lat": 22.46528,
+   "lng": 88.38611,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Garia Dhalai Bridge",
+   "name": "Garia Dhalai Bridge",
+   "kind": "bridge",
+   "lat": 22.46528,
+   "lng": 88.38611,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Howrah Bridge",
+   "name": "Howrah Bridge",
+   "kind": "bridge",
+   "lat": 22.58507,
+   "lng": 88.34689,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Howrah Bridge East",
+   "name": "Howrah Bridge East",
+   "kind": "bridge",
+   "lat": 22.58507,
+   "lng": 88.34689,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Matla Bridge",
+   "name": "Matla Bridge",
+   "kind": "bridge",
+   "lat": 22.30559,
+   "lng": 88.67934,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Sukanta Setu",
+   "name": "Sukanta Setu",
+   "kind": "bridge",
+   "lat": 22.49123,
+   "lng": 88.37231,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Tala bridge",
+   "name": "Tala bridge",
+   "kind": "bridge",
+   "lat": 22.60871,
+   "lng": 88.3757,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Vidyasagar Setu",
+   "name": "Vidyasagar Setu",
+   "kind": "bridge",
+   "lat": 22.55694,
+   "lng": 88.32778,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Vivekananda Bridge",
+   "name": "Vivekananda Bridge",
+   "kind": "bridge",
+   "lat": 22.65297,
+   "lng": 88.35386,
+   "source": "stop"
+  },
+  {
+   "id": "stop:A.P.C. college",
+   "name": "A.P.C. college",
+   "kind": "education",
+   "lat": 22.69738,
+   "lng": 88.43839,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Aliah University",
+   "name": "Aliah University",
+   "kind": "education",
+   "lat": 22.59047,
+   "lng": 88.48587,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Amity University (Ecospace)",
+   "name": "Amity University (Ecospace)",
+   "kind": "education",
+   "lat": 22.59587,
+   "lng": 88.48545,
+   "source": "stop"
+  },
+  {
+   "id": "stop:B.E. College",
+   "name": "B.E. College",
+   "kind": "education",
+   "lat": 22.55755,
+   "lng": 88.30682,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Bidhan Nagar College",
+   "name": "Bidhan Nagar College",
+   "kind": "education",
+   "lat": 22.58447,
+   "lng": 88.40543,
+   "source": "stop"
+  },
+  {
+   "id": "stop:College More",
+   "name": "College More",
+   "kind": "education",
+   "lat": 22.57476,
+   "lng": 88.43375,
+   "source": "stop"
+  },
+  {
+   "id": "stop:College Street",
+   "name": "College Street",
+   "kind": "education",
+   "lat": 22.57711,
+   "lng": 88.36403,
+   "source": "stop"
+  },
+  {
+   "id": "stop:College Street Xing",
+   "name": "College Street Xing",
+   "kind": "education",
+   "lat": 22.57258,
+   "lng": 88.36217,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Derozio College",
+   "name": "Derozio College",
+   "kind": "education",
+   "lat": 22.63345,
+   "lng": 88.4583,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Dinabandhu Andrews College",
+   "name": "Dinabandhu Andrews College",
+   "kind": "education",
+   "lat": 22.46856,
+   "lng": 88.37587,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Indian Statistical Institute",
+   "name": "Indian Statistical Institute",
+   "kind": "education",
+   "lat": 22.64907,
+   "lng": 88.37659,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Jadavpur University",
+   "name": "Jadavpur University",
+   "kind": "education",
+   "lat": 22.50021,
+   "lng": 88.36959,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Jogesh Chandra College",
+   "name": "Jogesh Chandra College",
+   "kind": "education",
+   "lat": 22.5013,
+   "lng": 88.3503,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Lalbaba College",
+   "name": "Lalbaba College",
+   "kind": "education",
+   "lat": 22.63649,
+   "lng": 88.35177,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Panchur College",
+   "name": "Panchur College",
+   "kind": "education",
+   "lat": 22.53418,
+   "lng": 88.27066,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Rabindra Bharati University",
+   "name": "Rabindra Bharati University",
+   "kind": "education",
+   "lat": 22.62708,
+   "lng": 88.38052,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Rajabazar Science College",
+   "name": "Rajabazar Science College",
+   "kind": "education",
+   "lat": 22.57911,
+   "lng": 88.37285,
+   "source": "stop"
+  },
+  {
+   "id": "stop:State University",
+   "name": "State University",
+   "kind": "education",
+   "lat": 22.98223,
+   "lng": 88.43917,
+   "source": "stop"
+  },
+  {
+   "id": "stop:AMRI Hospital",
+   "name": "AMRI Hospital",
+   "kind": "hospital",
+   "lat": 22.56833,
+   "lng": 88.41166,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Apollo Hospital",
+   "name": "Apollo Hospital",
+   "kind": "hospital",
+   "lat": 22.57457,
+   "lng": 88.4016,
+   "source": "stop"
+  },
+  {
+   "id": "stop:B.N.R. Hospital",
+   "name": "B.N.R. Hospital",
+   "kind": "hospital",
+   "lat": 22.54611,
+   "lng": 88.31025,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Bangur hospital",
+   "name": "Bangur hospital",
+   "kind": "hospital",
+   "lat": 22.49944,
+   "lng": 88.34646,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Barasat District Hospital",
+   "name": "Barasat District Hospital",
+   "kind": "hospital",
+   "lat": 22.72176,
+   "lng": 88.49252,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Baruipur Hospital",
+   "name": "Baruipur Hospital",
+   "kind": "hospital",
+   "lat": 22.36123,
+   "lng": 88.43329,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Bharat Sevashram Hospital",
+   "name": "Bharat Sevashram Hospital",
+   "kind": "hospital",
+   "lat": 22.43987,
+   "lng": 88.29345,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Charnock Hospital",
+   "name": "Charnock Hospital",
+   "kind": "hospital",
+   "lat": 22.62577,
+   "lng": 88.43508,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Domjur hospital more",
+   "name": "Domjur hospital more",
+   "kind": "hospital",
+   "lat": 22.63295,
+   "lng": 88.22452,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Fortis hospital",
+   "name": "Fortis hospital",
+   "kind": "hospital",
+   "lat": 22.52032,
+   "lng": 88.40095,
+   "source": "stop"
+  },
+  {
+   "id": "stop:ID Hospital",
+   "name": "ID Hospital",
+   "kind": "hospital",
+   "lat": 22.56498,
+   "lng": 88.39727,
+   "source": "stop"
+  },
+  {
+   "id": "stop:M.R Bangur Hospital",
+   "name": "M.R Bangur Hospital",
+   "kind": "hospital",
+   "lat": 22.49923,
+   "lng": 88.34645,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Medica Hospital",
+   "name": "Medica Hospital",
+   "kind": "hospital",
+   "lat": 22.4941,
+   "lng": 88.401,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Medical College",
+   "name": "Medical College",
+   "kind": "hospital",
+   "lat": 22.57222,
+   "lng": 88.36144,
+   "source": "stop"
+  },
+  {
+   "id": "stop:NRS Hospital",
+   "name": "NRS Hospital",
+   "kind": "hospital",
+   "lat": 22.5649,
+   "lng": 88.36844,
+   "source": "stop"
+  },
+  {
+   "id": "stop:PG Hospital",
+   "name": "PG Hospital",
+   "kind": "hospital",
+   "lat": 22.53995,
+   "lng": 88.34235,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Padmerhat Hospital",
+   "name": "Padmerhat Hospital",
+   "kind": "hospital",
+   "lat": 22.24487,
+   "lng": 88.44739,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Park Circus (Ruby Hospital)",
+   "name": "Park Circus (Ruby Hospital)",
+   "kind": "hospital",
+   "lat": 22.53933,
+   "lng": 88.37106,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Peerless Hospital",
+   "name": "Peerless Hospital",
+   "kind": "hospital",
+   "lat": 22.48098,
+   "lng": 88.39376,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Seva Hospital",
+   "name": "Seva Hospital",
+   "kind": "hospital",
+   "lat": 22.591,
+   "lng": 88.41082,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Sushrut Eye hospital",
+   "name": "Sushrut Eye hospital",
+   "kind": "hospital",
+   "lat": 22.57576,
+   "lng": 88.41792,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Tata Cancer Hospital",
+   "name": "Tata Cancer Hospital",
+   "kind": "hospital",
+   "lat": 22.57635,
+   "lng": 88.47911,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Thakurpukur Hospital",
+   "name": "Thakurpukur Hospital",
+   "kind": "hospital",
+   "lat": 22.45902,
+   "lng": 88.3195,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Thakurpukur cancer hospital",
+   "name": "Thakurpukur cancer hospital",
+   "kind": "hospital",
+   "lat": 22.45902,
+   "lng": 88.3195,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Acropolis Mall",
+   "name": "Acropolis Mall",
+   "kind": "mall",
+   "lat": 22.51532,
+   "lng": 88.39324,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Avani Mall",
+   "name": "Avani Mall",
+   "kind": "mall",
+   "lat": 22.5632,
+   "lng": 88.3236,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Axis Mall",
+   "name": "Axis Mall",
+   "kind": "mall",
+   "lat": 22.57956,
+   "lng": 88.45992,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Diamond plaza Mall",
+   "name": "Diamond plaza Mall",
+   "kind": "mall",
+   "lat": 22.61549,
+   "lng": 88.41247,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Lake Mall",
+   "name": "Lake Mall",
+   "kind": "mall",
+   "lat": 22.51646,
+   "lng": 88.34885,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Quest Mall",
+   "name": "Quest Mall",
+   "kind": "mall",
+   "lat": 22.53905,
+   "lng": 88.36573,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Alipore Zoo",
+   "name": "Alipore Zoo",
+   "kind": "museum",
+   "lat": 22.53684,
+   "lng": 88.33183,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Howrah Maidan",
+   "name": "Howrah Maidan",
+   "kind": "stadium",
+   "lat": 22.58292,
+   "lng": 88.33365,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Howrah Maidan (Amtala Phari)",
+   "name": "Howrah Maidan (Amtala Phari)",
+   "kind": "stadium",
+   "lat": 22.58292,
+   "lng": 88.33365,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Maidan",
+   "name": "Maidan",
+   "kind": "stadium",
+   "lat": 22.55001,
+   "lng": 88.34513,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Maidan Metro",
+   "name": "Maidan Metro",
+   "kind": "stadium",
+   "lat": 22.54944,
+   "lng": 88.34889,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Rabindra Sarobar Stadium",
+   "name": "Rabindra Sarobar Stadium",
+   "kind": "stadium",
+   "lat": 22.51165,
+   "lng": 88.35225,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Saltlake Stadium",
+   "name": "Saltlake Stadium",
+   "kind": "stadium",
+   "lat": 22.56899,
+   "lng": 88.41152,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Stadium Island",
+   "name": "Stadium Island",
+   "kind": "stadium",
+   "lat": 22.5709,
+   "lng": 88.41206,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Agarpara Station",
+   "name": "Agarpara Station",
+   "kind": "station",
+   "lat": 22.68288,
+   "lng": 88.38536,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Akra Station",
+   "name": "Akra Station",
+   "kind": "station",
+   "lat": 22.51474,
+   "lng": 88.24928,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Ashoknagar Station",
+   "name": "Ashoknagar Station",
+   "kind": "station",
+   "lat": 22.84117,
+   "lng": 88.62459,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Bally halt station",
+   "name": "Bally halt station",
+   "kind": "station",
+   "lat": 22.65145,
+   "lng": 88.34082,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Ballygaunj Station",
+   "name": "Ballygaunj Station",
+   "kind": "station",
+   "lat": 22.52803,
+   "lng": 88.36591,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Ballygunge Station",
+   "name": "Ballygunge Station",
+   "kind": "station",
+   "lat": 22.52803,
+   "lng": 88.36591,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Baranagar Road Station",
+   "name": "Baranagar Road Station",
+   "kind": "station",
+   "lat": 22.65349,
+   "lng": 88.37886,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Belgharia Station",
+   "name": "Belgharia Station",
+   "kind": "station",
+   "lat": 22.66136,
+   "lng": 88.38921,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Bhyabla Halt",
+   "name": "Bhyabla Halt",
+   "kind": "station",
+   "lat": 22.65534,
+   "lng": 88.85375,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Bidhannagar Road Station",
+   "name": "Bidhannagar Road Station",
+   "kind": "station",
+   "lat": 22.59126,
+   "lng": 88.39096,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Bidhannagar Station",
+   "name": "Bidhannagar Station",
+   "kind": "station",
+   "lat": 22.59115,
+   "lng": 88.39126,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Canning Station",
+   "name": "Canning Station",
+   "kind": "station",
+   "lat": 22.31362,
+   "lng": 88.66869,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Dumdum Station",
+   "name": "Dumdum Station",
+   "kind": "station",
+   "lat": 22.61994,
+   "lng": 88.39407,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Dunlop (Baranagar road Station)",
+   "name": "Dunlop (Baranagar road Station)",
+   "kind": "station",
+   "lat": 22.6525,
+   "lng": 88.3773,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Garia Station",
+   "name": "Garia Station",
+   "kind": "station",
+   "lat": 22.46602,
+   "lng": 88.39285,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Garia Station (Naktala)",
+   "name": "Garia Station (Naktala)",
+   "kind": "station",
+   "lat": 22.4629,
+   "lng": 88.3968,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Habra Rail station",
+   "name": "Habra Rail station",
+   "kind": "station",
+   "lat": 22.84087,
+   "lng": 88.65758,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Hasnabad Station",
+   "name": "Hasnabad Station",
+   "kind": "station",
+   "lat": 22.56641,
+   "lng": 88.91087,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Howrah Railway Station",
+   "name": "Howrah Railway Station",
+   "kind": "station",
+   "lat": 22.58336,
+   "lng": 88.34035,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Howrah Station/Esplanade",
+   "name": "Howrah Station/Esplanade",
+   "kind": "station",
+   "lat": 22.58336,
+   "lng": 88.34035,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Liluah Station",
+   "name": "Liluah Station",
+   "kind": "station",
+   "lat": 22.6209,
+   "lng": 88.3394,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Mathurapur Station",
+   "name": "Mathurapur Station",
+   "kind": "station",
+   "lat": 22.42691,
+   "lng": 88.44419,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Naihati Station",
+   "name": "Naihati Station",
+   "kind": "station",
+   "lat": 22.88661,
+   "lng": 88.4242,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Namkhana Station",
+   "name": "Namkhana Station",
+   "kind": "station",
+   "lat": 21.77177,
+   "lng": 88.23899,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Santoshpur Rail Station",
+   "name": "Santoshpur Rail Station",
+   "kind": "station",
+   "lat": 22.52408,
+   "lng": 88.27106,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Santoshpur Station",
+   "name": "Santoshpur Station",
+   "kind": "station",
+   "lat": 22.52406,
+   "lng": 88.27107,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Santragachi Station",
+   "name": "Santragachi Station",
+   "kind": "station",
+   "lat": 22.58547,
+   "lng": 88.28294,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Shalimar Station",
+   "name": "Shalimar Station",
+   "kind": "station",
+   "lat": 22.56235,
+   "lng": 88.31004,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Sodepur Station",
+   "name": "Sodepur Station",
+   "kind": "station",
+   "lat": 22.69718,
+   "lng": 88.38056,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Sondalia Station",
+   "name": "Sondalia Station",
+   "kind": "station",
+   "lat": 22.68182,
+   "lng": 88.5823,
+   "source": "stop"
+  },
+  {
+   "id": "stop:Bhasa Swami Narayan Temple",
+   "name": "Bhasa Swami Narayan Temple",
+   "kind": "worship",
+   "lat": 22.4142,
+   "lng": 88.2821,
+   "source": "stop"
+  }
+ ],
+ "shapes": []
+}

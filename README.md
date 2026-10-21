@@ -279,3 +279,10 @@ See [`data/DIRECTION_BUG_AUDIT.md`](data/DIRECTION_BUG_AUDIT.md) for the directi
 the v2 migration checks and the remaining risks, and
 [`data/ROUTE_EXPANSION_AUDIT.md`](data/ROUTE_EXPANSION_AUDIT.md) for the 566 added catalogue routes,
 the de-duplication rules and the sources checked for city timetables.
+
+## Stop map, alerts and landmarks
+
+- **/map** — every stop with a published position on one offline map. Search a stop, tap a stop to see which buses call there (and draw a bus's route), "Nearest stop to me" (reads the GPS once, no tracking), day / night / automatic map style, and switches for roads and landmarks. The same tools (stop tap, stop search, nearest stop of the route, landmarks, night style) are on the ride screen's route map.
+- **Ride alerts** — on the ride screen: "Get ready: 2 stops left", "Your stop is next", "You are at …", "You have passed …", and a wrong-direction warning that offers to switch direction. A short vibration is used where the browser allows it (not iPhone Safari). Logic and its rules: `fontend/src/lib/alerts.ts`.
+- **Road paths for every route** — `python scripts/build_route_geometry.py --all-routes` routes every route with located stops (about 5,000 legs) instead of only the timetabled ones. Run it on a computer with internet; it rewrites `fontend/src/data/route-geometry.json`.
+- **Landmarks** — `python scripts/build_landmarks.py --from-stops` (offline) marks stops whose names say what they are (bridges, stations, hospitals, colleges…) at the stop's own published position. `python scripts/build_landmarks.py --overpass` (needs internet) adds real OpenStreetMap rivers, canals, bridges and building outlines. Nothing is added by hand; each feature records its `source`.

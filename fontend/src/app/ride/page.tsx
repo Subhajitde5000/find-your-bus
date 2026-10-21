@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
+  BellRing,
   BusFront,
   Compass,
   Crosshair,
@@ -13,6 +14,7 @@ import {
   Gauge,
   Info,
   LocateFixed,
+  Map as MapIcon,
   MapPinOff,
   Navigation2,
   PersonStanding,
@@ -26,6 +28,14 @@ import {
 import { RideProgress, RideStopList } from "@/components/RideMap";
 import { RideRouteMap } from "@/components/RideRouteMap";
 import { formatClock, type Direction } from "@/lib/timetables";
+import {
+  directionWarning,
+  isEscalation,
+  stopAlert,
+  vibrationFor,
+  type DirectionWarningLevel,
+  type StopAlertLevel,
+} from "@/lib/alerts";
 import {
   advanceTracker,
   buildRide,
@@ -93,7 +103,9 @@ function RideScreen() {
   const [permission, setPermission] = useState<Permission>("idle");
   const [tracker, setTracker] = useState<TrackerState>(initTracker);
   const [online, setOnline] = useState(true);
-  const [dismissedHint, setDismissedHint] = useState(false);
+  const [dismissedDirection, setDismissedDirection] = useState<DirectionWarningLevel>("none");
+  const [dismissedAlert, setDismissedAlert] = useState<StopAlertLevel>("none");
+  const announced = useRef<{ stop: StopAlertLevel; direction: DirectionWarningLevel }>({ stop: "none", direction: "none" });
   const [ended, setEnded] = useState(false);
   const watchId = useRef<number | null>(null);
 
@@ -142,7 +154,8 @@ function RideScreen() {
   if (trackedRide !== ride) {
     setTrackedRide(ride);
     setTracker(initTracker());
-    setDismissedHint(false);
+    setDismissedDirection("none");
+    setDismissedAlert("none");
   }
 
   useEffect(
@@ -213,7 +226,45 @@ function RideScreen() {
     [ready, ride, onBus, match, nowMinutes],
   );
   const evidence = useMemo(() => directionEvidence(tracker.progress), [tracker.progress]);
-  const showHint = !dismissedHint && evidence.hint === "backward" && onBus;
+  const warning = useMemo(
+    () => (onBus && ride ? directionWarning(evidence, ride.origin) : directionWarning({ hint: "unclear", metres: 0, spanMillis: 0 }, "")),
+    [evidence, onBus, ride],
+  );
+  const alert = useMemo(
+    () =>
+      onBus && ride && match && match.state === "on-bus"
+        ? stopAlert({
+            stopIndex: match.stopIndex,
+            atStop: match.atStop,
+            destinationIndex: destination,
+            destinationName: ride.stops[destination]?.name ?? ride.destination,
+            // along the road to the passenger's own stop, not to the terminus the summary card measures to
+            metresToDestination:
+              ride.stops[destination]?.distanceAlongMetres != null && match.metresAlong !== null
+                ? Math.max(0, (ride.stops[destination].distanceAlongMetres as number) - match.metresAlong)
+                : null,
+          })
+        : stopAlert(null),
+    [onBus, ride, match, destination],
+  );
+  const showWarning = warning.level !== "none" && !(warning.level === dismissedDirection || (warning.level === "check" && dismissedDirection === "wrong"));
+  const showAlert = alert.level !== "none" && alert.level !== dismissedAlert;
+
+  // A short buzz when a warning gets more urgent, once per level, so a passenger with the phone
+  // in a pocket still notices. Browsers that cannot vibrate (iPhone Safari) simply skip it.
+  useEffect(() => {
+    const buzz = (pattern: number[]) => {
+      try {
+        if (pattern.length && typeof navigator !== "undefined" && typeof navigator.vibrate === "function") navigator.vibrate(pattern);
+      } catch {
+        /* vibration is a courtesy, never an error */
+      }
+    };
+    if (isEscalation(announced.current.stop, alert.level)) buzz(vibrationFor(alert.level));
+    announced.current.stop = alert.level === "none" ? "none" : alert.level;
+    if (warning.level === "wrong" && announced.current.direction !== "wrong") buzz([300, 150, 300]);
+    announced.current.direction = warning.level;
+  }, [alert.level, warning.level]);
 
   // ------------------------------------------------------------------ failure states
 
@@ -325,12 +376,30 @@ function RideScreen() {
           )}
         </section>
 
-        {showHint && (
-          <div className="ride-hint" role="status">
-            <TriangleAlert size={16} aria-hidden="true" />
-            <span>You look like you are travelling the other way, towards {ride.origin}.</span>
-            <button type="button" onClick={switchDirection}>Switch direction</button>
-            <button type="button" className="ride-hint-dismiss" onClick={() => setDismissedHint(true)} aria-label="Dismiss this">
+        {showAlert && (
+          <div className="ride-alert" data-level={alert.level} role={alert.level === "soon" ? "status" : "alert"}>
+            <BellRing size={18} aria-hidden="true" />
+            <div className="ride-alert-body">
+              <strong>{alert.title}</strong>
+              <span>{alert.detail}</span>
+            </div>
+            <button type="button" className="ride-alert-close" onClick={() => setDismissedAlert(alert.level)} aria-label="Dismiss this alert">
+              <X size={14} />
+            </button>
+          </div>
+        )}
+
+        {showWarning && (
+          <div className="ride-alert" data-level={warning.level} role={warning.level === "wrong" ? "alert" : "status"}>
+            <TriangleAlert size={18} aria-hidden="true" />
+            <div className="ride-alert-body">
+              <strong>{warning.title}</strong>
+              <span>{warning.detail}</span>
+              <div className="ride-alert-actions">
+                <button type="button" onClick={switchDirection}>Switch direction</button>
+              </div>
+            </div>
+            <button type="button" className="ride-alert-close" onClick={() => setDismissedDirection(warning.level)} aria-label="Dismiss this warning">
               <X size={14} />
             </button>
           </div>
@@ -404,6 +473,7 @@ function RideScreen() {
             destinationIndex={destination}
             nextStopIndex={nextStopIndex}
             passed={passedStops}
+            userPosition={tracker.smoothed ?? tracker.fixes[tracker.fixes.length - 1] ?? null}
           />
         </section>
 
@@ -414,6 +484,7 @@ function RideScreen() {
             <Compass size={14} aria-hidden="true" />
             Travelling towards {ride.direction === "outbound" ? ride.origin : ride.destination} instead
           </button>
+          <Link className="ride-map-link" href="/map"><MapIcon size={14} aria-hidden="true" /> All stops map</Link>
           <span className="ride-run">
             {ride.runCode ? `Run ${ride.runCode}` : ride.kind === "sample" ? "Sample frequency" : "No run recorded"}
             {ride.headway ? ` · every ${ride.headway} min` : ""}

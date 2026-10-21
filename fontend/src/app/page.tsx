@@ -415,6 +415,7 @@ export default function HomePage() {
             >
               Bus Route Number
             </a>
+            <a href="/map">Stop map</a>
             <a href="#how-it-works">How it works</a>
             <a href="#about">About</a>
           </nav>

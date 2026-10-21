@@ -359,6 +359,91 @@ describe("the /ride page, in a DOM", () => {
     }
   });
 
+  it("says get ready two stops before the passenger's stop, then that it is next, then that they are there", () => {
+    const built = buildRide({ number: "1", direction: "outbound" });
+    if (!built.ok) assert.fail("route 1 should build");
+    const stops = built.ride.stops;
+    // three neighbouring stops that all have a position, so the stop count is exact
+    const at = stops.findIndex((stop, i) => i + 2 < stops.length && stop.position && stops[i + 1].position && stops[i + 2].position);
+    assert.ok(at >= 0, "route 1 has three neighbouring located stops");
+    captured.watchers.length = 0;
+    const page = mount(`route=1&dir=outbound&to=${encodeURIComponent(stops[at + 2].name)}`);
+    try {
+      page.click("Set on bus");
+      settle(page, stops[at].position as { lat: number; lng: number });
+      assert.ok(page.text().includes("Get ready: 2 stops left"), page.text().slice(0, 500));
+      assert.ok(page.container.querySelector('.ride-alert[data-level="soon"]'));
+
+      // Drive to the next stop in 100 m steps, 5 s apart, the way a real bus would.
+      let clock = 10;
+      let metres = stops[at].distanceAlongMetres as number;
+      const driveTo = (target: number) => {
+        while (metres < target) {
+          metres = Math.min(target, metres + 100);
+          const point = pointAtMetres(built.ride, metres);
+          if (!point) assert.fail("the corridor has a point here");
+          page.sendFix(point.lat, point.lng, clock);
+          clock += 5;
+        }
+      };
+      // The bus then waits at the stop long enough for the smoothing window to catch up.
+      const dwell = (index: number) => {
+        const position = stops[index].position as { lat: number; lng: number };
+        for (let i = 0; i < 5; i += 1) {
+          page.sendFix(position.lat, position.lng, clock);
+          clock += 2;
+        }
+      };
+      driveTo(stops[at + 1].distanceAlongMetres as number);
+      dwell(at + 1);
+      assert.ok(page.text().includes("Your stop is next"), page.text().slice(0, 500));
+
+      driveTo(stops[at + 2].distanceAlongMetres as number);
+      dwell(at + 2);
+      assert.ok(page.text().includes(`You are at ${stops[at + 2].name}`), page.text().slice(0, 500));
+
+      const close = page.container.querySelector(".ride-alert-close") as HTMLElement | null;
+      assert.ok(close, "the alert can be dismissed");
+      React.act(() => {
+        close.dispatchEvent(new win.MouseEvent("click", { bubbles: true, cancelable: true }));
+      });
+      assert.equal(page.container.querySelectorAll(".ride-alert").length, 0, "a dismissed alert goes away");
+    } finally {
+      page.unmount();
+    }
+  });
+
+  it("raises no stop alert when the passenger is not on the bus", () => {
+    captured.watchers.length = 0;
+    const page = mount("route=1&dir=outbound");
+    try {
+      page.click("Set on bus");
+      const first = stopCoordinates("1");
+      settle(page, { lat: first.lat, lng: first.lng + 3 / (111.194 * Math.cos((first.lat * Math.PI) / 180)) });
+      assert.equal(page.container.querySelectorAll(".ride-alert").length, 0);
+    } finally {
+      page.unmount();
+    }
+  });
+
+  it("warns when the bus is going the wrong way, and the passenger can switch direction", () => {
+    captured.watchers.length = 0;
+    const page = mount("route=1&dir=outbound");
+    try {
+      page.click("Set on bus");
+      // travelling from 60% of the way back towards the start: 5 s per fix, about 150 m each
+      for (let step = 0; step <= 12; step += 1) {
+        const point = pointAlong("1", 0.6 - step * 0.01);
+        page.sendFix(point.lat, point.lng, step * 5);
+      }
+      assert.ok(page.container.querySelector('.ride-alert[data-level="wrong"], .ride-alert[data-level="check"]'), page.text().slice(0, 600));
+      page.click("Switch direction");
+      assert.ok(page.text().includes("Ready when you are") || page.text().includes("Finding you"), "switching starts afresh");
+    } finally {
+      page.unmount();
+    }
+  });
+
   it("carries the run through from the timetable link", () => {
     const page = mount("route=1&dir=outbound&run=RUN-1-OUT-01");
     try {

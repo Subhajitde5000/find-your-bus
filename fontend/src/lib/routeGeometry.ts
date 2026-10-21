@@ -53,3 +53,20 @@ for (const [key, leg] of Object.entries((geometry as { legs?: Record<string, Raw
 export function legGeometry(from: string, to: string): Position[] | null {
   return LEGS.get(`${from}|${to}`) ?? null;
 }
+
+/**
+ * Every bundled road shape once, for drawing the road network under the map.
+ *
+ * "A|B" and "B|A" are separate legs because a divided road or a one-way street sends the
+ * bus round a different way, but when both exist and run along the same road the map
+ * only needs one of them, so the reverse of a leg already listed is skipped.
+ */
+export function allRoadLegs(): { key: string; points: Position[] }[] {
+  const legs: { key: string; points: Position[] }[] = [];
+  for (const [key, points] of LEGS) {
+    const [from, to] = key.split("|");
+    if (from > to && LEGS.has(`${to}|${from}`)) continue;
+    legs.push({ key, points });
+  }
+  return legs;
+}

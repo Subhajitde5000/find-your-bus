@@ -227,7 +227,8 @@ describe("RideRouteMap", () => {
   it("keeps every stop and the marker inside the drawing", () => {
     const ride = rideOrFail("1");
     const markup = renderMap(ride, ride.totalMetres * 0.5, true);
-    const viewBox = /viewBox="0 0 ([\d.]+) ([\d.]+)"/.exec(markup);
+    // the map's own <svg>: the search box and the controls carry icons with a viewBox of their own
+    const viewBox = /<svg viewBox="0 0 ([\d.]+) ([\d.]+)" class="ride-map-svg/.exec(markup);
     assert.ok(viewBox);
     const width = Number(viewBox[1]);
     const height = Number(viewBox[2]);

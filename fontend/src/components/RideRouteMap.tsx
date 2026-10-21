@@ -1,8 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import { LocateFixed, Maximize2, Minus, Plus } from "lucide-react";
-import { corridorUpTo, pointAtMetres, type RideRoute } from "@/lib/ride";
+import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { Landmark, LocateFixed, Maximize2, Minus, Plus } from "lucide-react";
+import { LandmarkLayer, type DrawnPoint, type DrawnShape } from "@/components/LandmarkLayer";
+import { MapStyleToggle, useMapStyle } from "@/components/MapStyleToggle";
+import { StopBusesPanel } from "@/components/StopBusesPanel";
+import { StopSearchBox } from "@/components/StopSearchBox";
+import { KIND_LABEL, LANDMARK_POINTS, LANDMARK_SHAPES } from "@/lib/landmarks";
+import { corridorUpTo, nearestStop, pointAtMetres, type RideRoute } from "@/lib/ride";
 import { formatDistance, type Position } from "@/lib/geo";
 import {
   centreOn,
@@ -168,6 +173,8 @@ interface Props {
   /** Index of the next stop ahead. */
   nextStopIndex: number | null;
   passed: Set<number>;
+  /** The phone's last good position, so the nearest stop can be highlighted before boarding. */
+  userPosition?: Position | null;
 }
 
 /** Where a screen point falls in the drawing, allowing for the letterboxing "meet" adds. */
@@ -184,6 +191,12 @@ function clientToDrawing(svg: SVGSVGElement, rect: Rect, clientX: number, client
 const BUTTON_ZOOM = 1.6;
 /** Names are printed for every stop from this zoom up, as far as they fit. */
 const ALL_LABELS_ZOOM = 2.5;
+/** Landmark names are printed from this zoom. */
+const LANDMARK_LABEL_ZOOM = 3;
+/** A finger that moves less than this between touching and lifting is a tap, not a drag. */
+const TAP_SLOP_PX = 5;
+/** Beyond this, "nearest stop" is not near enough to be worth naming. */
+const NEAREST_MAX_METRES = 3000;
 
 interface MapState {
   /** Which route and direction this state belongs to, so a new route starts fitted. */
@@ -202,8 +215,15 @@ export function RideRouteMap({
   destinationIndex,
   nextStopIndex,
   passed,
+  userPosition = null,
 }: Props) {
-  const built = project(ride);
+  const built = useMemo(() => project(ride), [ride]);
+  const mapStyle = useMapStyle();
+  const [picked, setPicked] = useState<string | null>(null);
+  const [showLandmarks, setShowLandmarks] = useState(false);
+  const [landmarkId, setLandmarkId] = useState<string | null>(null);
+  const dragged = useRef(false);
+  const origin = useRef<Point | null>(null);
   const key = `${ride.number}|${ride.direction}`;
   const [stored, setStored] = useState<MapState>({ key, zoom: 1, centre: null, follow: false });
   const state: MapState = stored.key === key ? stored : { key, zoom: 1, centre: null, follow: false };
@@ -251,6 +271,40 @@ export function RideRouteMap({
   if (!built) return null;
   const { projection, stops, corridor } = built;
 
+  // Landmarks that fall inside this drawing, projected with the same transform as the stops.
+  const margin = 12;
+  const inDrawing = (point: { x: number; y: number }) =>
+    point.x >= -margin && point.x <= projection.width + margin && point.y >= -margin && point.y <= projection.height + margin;
+  const landmarkPoints: DrawnPoint[] = showLandmarks
+    ? LANDMARK_POINTS.map((p) => ({ id: p.id, name: p.name, kind: p.kind, ...toXY(projection, p) })).filter(inDrawing)
+    : [];
+  const landmarkShapes: DrawnShape[] = showLandmarks
+    ? LANDMARK_SHAPES.map((shape) => ({ shape, xy: shape.points.map((point) => toXY(projection, point)) }))
+        .filter(({ xy }) => xy.some(inDrawing))
+        .map(({ shape, xy }) => ({ id: shape.id, name: shape.name, kind: shape.kind, closed: shape.closed, d: toPath(xy) + (shape.closed ? "Z" : "") }))
+    : [];
+  const landmark = landmarkId
+    ? (LANDMARK_POINTS.find((p) => p.id === landmarkId) ?? LANDMARK_SHAPES.find((s) => s.id === landmarkId) ?? null)
+    : null;
+
+  // Before boarding, the phone's position finds the stop on this route that is nearest to it.
+  const nearest = userPosition && !onBus ? nearestStop(ride, userPosition) : null;
+  const nearestNear = nearest && nearest.metres <= NEAREST_MAX_METRES ? nearest : null;
+  const nearestXY = nearestNear ? (stops.find((stop) => stop.index === nearestNear.index && stop.at !== null) ?? null) : null;
+  const youXY = userPosition && !onBus ? toXY(projection, userPosition) : null;
+  const routeStopNames = new Set(stops.filter((stop) => stop.at !== null).map((stop) => stop.name));
+
+  const choose = (name: string) => {
+    setPicked(name);
+    setLandmarkId(null);
+    const target = stops.find((stop) => stop.name === name && stop.at !== null);
+    if (target) setStored({ key, zoom: Math.max(view.zoom, 4), centre: { x: target.x, y: target.y }, follow: false });
+  };
+  /** A drag must not pick the stop the finger happened to end on. */
+  const tap = (action: () => void) => () => {
+    if (!dragged.current) action();
+  };
+
   const commit = (next: View, follow = false) =>
     setStored({ key, zoom: next.zoom, centre: { x: next.cx, y: next.cy }, follow });
 
@@ -270,9 +324,10 @@ export function RideRouteMap({
   };
 
   const onPointerDown = (event: ReactPointerEvent<SVGSVGElement>) => {
+    dragged.current = false;
     if (view.zoom <= 1) return; // nothing to drag at full view; leave the touch to page scroll
-    event.currentTarget.setPointerCapture?.(event.pointerId);
     pointers.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    origin.current = { x: event.clientX, y: event.clientY };
     gesture.current = null;
   };
   const onPointerMove = (event: ReactPointerEvent<SVGSVGElement>) => {
@@ -280,6 +335,13 @@ export function RideRouteMap({
     const previous = pointers.current.get(event.pointerId);
     if (!svg || !previous) return;
     const next = { x: event.clientX, y: event.clientY };
+    if (!dragged.current) {
+      // Capture only once the finger has really moved, so a tap still reaches the stop under it.
+      const start = origin.current;
+      if (start && Math.hypot(next.x - start.x, next.y - start.y) <= TAP_SLOP_PX) return;
+      dragged.current = true;
+      svg.setPointerCapture?.(event.pointerId);
+    }
     pointers.current.set(event.pointerId, next);
     const box = svg.getBoundingClientRect();
     if (box.width <= 0 || box.height <= 0) return;
@@ -332,7 +394,15 @@ export function RideRouteMap({
   const zoomed = view.zoom > 1.001;
 
   return (
-    <figure className="ride-route-map">
+    <figure className="ride-route-map" data-map-style={mapStyle.style}>
+      <div className="ride-map-tools">
+        <StopSearchBox
+          onPick={choose}
+          only={routeStopNames}
+          placeholder="Find a stop on this route"
+          label="Find a stop on this route"
+        />
+      </div>
       <div className="ride-map-frame">
         <svg
           ref={svgRef}
@@ -355,6 +425,22 @@ export function RideRouteMap({
             </marker>
           </defs>
 
+          {showLandmarks && (
+            <LandmarkLayer
+              points={landmarkPoints}
+              shapes={landmarkShapes}
+              k={k}
+              rect={rect}
+              showLabels={view.zoom >= LANDMARK_LABEL_ZOOM}
+              selectedId={landmarkId}
+              onSelect={(id) => {
+                if (dragged.current) return;
+                setLandmarkId(id);
+                setPicked(null);
+              }}
+            />
+          )}
+
           <path className="ride-map-line" d={toPath(corridor.map((point) => toXY(projection, point)))} />
 
           {done && <path className="ride-map-done" d={toPath(done)} />}
@@ -370,6 +456,18 @@ export function RideRouteMap({
               <title>{`${stop.name}${passed.has(stop.index) ? " (passed)" : ""}`}</title>
             </circle>
           ))}
+
+          {located.map((stop) => (
+            <circle key={`hit-${stop.index}`} className="ride-map-hit" cx={stop.x} cy={stop.y} r={9 * k} onClick={tap(() => choose(stop.name))} />
+          ))}
+
+          {picked && (() => {
+            const target = located.find((stop) => stop.name === picked);
+            return target ? <circle className="ride-map-picked" cx={target.x} cy={target.y} r={8 * k} fill="none" stroke="var(--accent)" strokeWidth={2 * k} /> : null;
+          })()}
+
+          {nearestXY && <circle className="ride-map-nearest" cx={nearestXY.x} cy={nearestXY.y} r={10 * k} />}
+          {youXY && inDrawing(youXY) && <circle className="ride-map-you" cx={youXY.x} cy={youXY.y} r={4.5 * k} />}
 
           {marker && (
             <g className="ride-map-marker" transform={`translate(${marker.x.toFixed(1)} ${marker.y.toFixed(1)})`}>
@@ -430,8 +528,32 @@ export function RideRouteMap({
           >
             <LocateFixed size={16} aria-hidden="true" />
           </button>
+          <button
+            type="button"
+            onClick={() => setShowLandmarks((value) => !value)}
+            aria-label="Landmarks"
+            aria-pressed={showLandmarks}
+            className={showLandmarks ? "active" : ""}
+            title="Rivers, bridges, stations and other landmarks"
+          >
+            <Landmark size={16} aria-hidden="true" />
+          </button>
+          <MapStyleToggle preference={mapStyle.preference} onCycle={mapStyle.cycle} />
         </div>
       </div>
+
+      {picked && (
+        <StopBusesPanel stopName={picked} currentRoute={ride.number} onClose={() => setPicked(null)} />
+      )}
+
+      {landmark && (
+        <p className="ride-map-note">
+          <strong>{landmark.name}</strong> · {KIND_LABEL[landmark.kind]}.{" "}
+          {landmark.source === "stop"
+            ? "Marked at the published position of a bus stop with this name: a place near the landmark, not its outline."
+            : "Outline from OpenStreetMap contributors."}
+        </p>
+      )}
 
       <figcaption>
         <span className="ride-map-legend">
@@ -439,7 +561,12 @@ export function RideRouteMap({
           <span className="legend-item"><span className="legend-dot next" /> next</span>
           <span className="legend-item"><span className="legend-dot destination" /> your stop</span>
         </span>
-        <span className="ride-map-note ride-map-hint">Pinch or use + / − to zoom, drag to move.</span>
+        <span className="ride-map-note ride-map-hint">Pinch or use + / − to zoom, drag to move, tap a stop to see its buses.</span>
+        {nearestNear && (
+          <span className="ride-map-note">
+            Nearest stop to you on this route: <strong>{nearestNear.name}</strong>, {formatDistance(nearestNear.metres)} away in a straight line.
+          </span>
+        )}
         {unlocated > 0 && (
           <span className="ride-map-note">
             {unlocated} stop{unlocated === 1 ? "" : "s"} on this route {unlocated === 1 ? "has" : "have"} no published

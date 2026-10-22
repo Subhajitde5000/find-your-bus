@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { PwaBridge } from "@/components/PwaBridge";
-import { ThemeSync } from "@/components/ThemeSync";
-import { THEME_BOOTSTRAP } from "@/lib/theme";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -43,10 +41,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    // data-theme is set by the bootstrap script below, before hydration.
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* App Router root layout applies to every page, so this warning does not apply. */}
@@ -63,7 +59,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       {/* Browser extensions (for example Grammarly) can add data attributes before hydration. */}
       <body suppressHydrationWarning>
         {children}
-        <ThemeSync />
         <PwaBridge />
       </body>
     </html>

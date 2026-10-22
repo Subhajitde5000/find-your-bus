@@ -1,13 +1,17 @@
 {
  "meta": {
-  "description": "Landmarks drawn as an optional map layer. Points with source 'stop' are placed at the published position of a bus stop whose name says what it is; they mark a place near the landmark, not its outline. Shapes with source 'osm' are real outlines from OpenStreetMap.",
+  "description": "Landmarks drawn as an optional map layer. Points with source 'stop' are placed at the published position of a bus stop whose name says what it is; they mark a place near the landmark, not its outline. Points and shapes with source 'osm' are real features from OpenStreetMap: rivers, canals and named lake outlines (clipped to the map window), the footprints of station buildings, and named stations and places.",
   "sources": [
+   "OpenStreetMap, via the kolkata-rivers.geojson layer",
+   "OpenStreetMap, via the kolkata_major_canals.geojson layer",
+   "OpenStreetMap, via the wb-current.geojson layer",
+   "OpenStreetMap station and station-building export (HOT raw-data-api)",
    "Reviewed stop names and positions in kolkata-bus-data.json"
   ],
   "licence": "OpenStreetMap features: (c) OpenStreetMap contributors, ODbL 1.0. Stop-derived points come from this site's own reviewed stop dataset.",
   "generatedBy": "scripts/build_landmarks.py",
-  "points": 106,
-  "shapes": 0
+  "points": 247,
+  "shapes": 190
  },
  "points": [
   {
@@ -75,14 +79,6 @@
    "source": "stop"
   },
   {
-   "id": "stop:Brace Bridge",
-   "name": "Brace Bridge",
-   "kind": "bridge",
-   "lat": 22.51792,
-   "lng": 88.30114,
-   "source": "stop"
-  },
-  {
    "id": "stop:Chitpur Bridge",
    "name": "Chitpur Bridge",
    "kind": "bridge",
@@ -136,14 +132,6 @@
    "kind": "bridge",
    "lat": 22.49123,
    "lng": 88.37231,
-   "source": "stop"
-  },
-  {
-   "id": "stop:Tala bridge",
-   "name": "Tala bridge",
-   "kind": "bridge",
-   "lat": 22.60871,
-   "lng": 88.3757,
    "source": "stop"
   },
   {
@@ -443,14 +431,6 @@
    "source": "stop"
   },
   {
-   "id": "stop:Park Circus (Ruby Hospital)",
-   "name": "Park Circus (Ruby Hospital)",
-   "kind": "hospital",
-   "lat": 22.53933,
-   "lng": 88.37106,
-   "source": "stop"
-  },
-  {
    "id": "stop:Peerless Hospital",
    "name": "Peerless Hospital",
    "kind": "hospital",
@@ -547,43 +527,419 @@
    "source": "stop"
   },
   {
+   "id": "osm:node/8475640176",
+   "name": "Baranagar",
+   "kind": "metro",
+   "lat": 22.65308,
+   "lng": 88.3806,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/13088485701",
+   "name": "Barun Sengupta",
+   "kind": "metro",
+   "lat": 22.54381,
+   "lng": 88.39928,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/9321290815",
+   "name": "Behala Bazar",
+   "kind": "metro",
+   "lat": 22.49876,
+   "lng": 88.31739,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/9321292345",
+   "name": "Behala Chowrasta",
+   "kind": "metro",
+   "lat": 22.48735,
+   "lng": 88.31338,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/13088458999",
+   "name": "Beleghata",
+   "kind": "metro",
+   "lat": 22.55071,
+   "lng": 88.40399,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421548359",
+   "name": "Belgachia",
+   "kind": "metro",
+   "lat": 22.60592,
+   "lng": 88.38639,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421528426",
+   "name": "Central",
+   "kind": "metro",
+   "lat": 22.57249,
+   "lng": 88.35874,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/7976140060",
+   "name": "Central Park",
+   "kind": "metro",
+   "lat": 22.59047,
+   "lng": 88.41562,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421543316",
+   "name": "Chandni Chowk",
+   "kind": "metro",
+   "lat": 22.56701,
+   "lng": 88.35416,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/7976140063",
+   "name": "City Centre",
+   "kind": "metro",
+   "lat": 22.5871,
+   "lng": 88.40789,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/10036655361",
+   "name": "Dakshineshwar",
+   "kind": "metro",
+   "lat": 22.65403,
+   "lng": 88.36375,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421537963",
+   "name": "Dum Dum",
+   "kind": "metro",
+   "lat": 22.62111,
+   "lng": 88.3929,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/13088491874",
+   "name": "Dum Dum Cantonment",
+   "kind": "metro",
+   "lat": 22.63759,
+   "lng": 88.41216,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421545051",
+   "name": "Esplanade (Line 1)",
+   "kind": "metro",
+   "lat": 22.56361,
+   "lng": 88.35121,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11703282685",
+   "name": "Esplanade (Line 2)",
+   "kind": "metro",
+   "lat": 22.56413,
+   "lng": 88.35028,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421546475",
+   "name": "Girish Park",
+   "kind": "metro",
+   "lat": 22.58714,
+   "lng": 88.36294,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11447425091",
+   "name": "Hemanta Mukhopadhyay",
+   "kind": "metro",
+   "lat": 22.51485,
+   "lng": 88.40143,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11699268224",
+   "name": "Howrah",
+   "kind": "metro",
+   "lat": 22.58336,
+   "lng": 88.34035,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11699268225",
+   "name": "Howrah Maidan",
+   "kind": "metro",
+   "lat": 22.58386,
+   "lng": 88.334,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/13088491840",
+   "name": "Jai Hind",
+   "kind": "metro",
+   "lat": 22.64731,
+   "lng": 88.4373,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421540159",
+   "name": "Jatin Das Park",
+   "kind": "metro",
+   "lat": 22.52415,
+   "lng": 88.34647,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/13088491871",
+   "name": "Jessore Road",
+   "kind": "metro",
+   "lat": 22.63926,
+   "lng": 88.42977,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/10296539478",
+   "name": "Joka",
+   "kind": "metro",
+   "lat": 22.45235,
+   "lng": 88.30182,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11447425095",
+   "name": "Jyotirindra Nandi",
+   "kind": "metro",
+   "lat": 22.49563,
+   "lng": 88.39845,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421539684",
+   "name": "Kalighat",
+   "kind": "metro",
+   "lat": 22.51688,
+   "lng": 88.34584,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/7976140059",
+   "name": "Karunamoyee",
+   "kind": "metro",
+   "lat": 22.58638,
+   "lng": 88.42153,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421533465",
+   "name": "Kavi Nazrul",
+   "kind": "metro",
+   "lat": 22.46425,
+   "lng": 88.38046,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11703389776",
+   "name": "Kavi Subhash",
+   "kind": "metro",
+   "lat": 22.47111,
+   "lng": 88.3981,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421533467",
+   "name": "Kavi Subhash (Blue Line)",
+   "kind": "metro",
+   "lat": 22.47217,
+   "lng": 88.39796,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11447425092",
+   "name": "Kavi Sukanta",
+   "kind": "metro",
+   "lat": 22.5053,
+   "lng": 88.401,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11699268223",
+   "name": "Mahakaran",
+   "kind": "metro",
+   "lat": 22.57208,
+   "lng": 88.35053,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421536497",
+   "name": "Mahanayak Uttam Kumar",
+   "kind": "metro",
+   "lat": 22.49477,
+   "lng": 88.34509,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421545390",
+   "name": "Mahatma Gandhi Road",
+   "kind": "metro",
+   "lat": 22.58092,
+   "lng": 88.36133,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421543288",
+   "name": "Maidan",
+   "kind": "metro",
+   "lat": 22.54947,
+   "lng": 88.34879,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11699268226",
+   "name": "Majerhat",
+   "kind": "metro",
+   "lat": 22.51915,
+   "lng": 88.32366,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421533468",
+   "name": "Netaji",
+   "kind": "metro",
+   "lat": 22.48099,
+   "lng": 88.346,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421541284",
+   "name": "Netaji Bhavan",
+   "kind": "metro",
+   "lat": 22.53318,
+   "lng": 88.34593,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421551283",
+   "name": "Noapara",
+   "kind": "metro",
+   "lat": 22.63984,
+   "lng": 88.39413,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421528503",
+   "name": "Park Street",
+   "kind": "metro",
+   "lat": 22.55516,
+   "lng": 88.35012,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421542551",
+   "name": "Rabindra Sadan",
+   "kind": "metro",
+   "lat": 22.54149,
+   "lng": 88.34735,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421538365",
+   "name": "Rabindra Sarobar",
+   "kind": "metro",
+   "lat": 22.50722,
+   "lng": 88.34549,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/13088485704",
+   "name": "Ritwik Ghatak",
+   "kind": "metro",
+   "lat": 22.533,
+   "lng": 88.39642,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/10296539474",
+   "name": "Sakher Bazar",
+   "kind": "metro",
+   "lat": 22.47485,
+   "lng": 88.30996,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/7976140073",
+   "name": "Salt Lake Sector V",
+   "kind": "metro",
+   "lat": 22.58094,
+   "lng": 88.42909,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11447425096",
+   "name": "Satyajit Ray",
+   "kind": "metro",
+   "lat": 22.48468,
+   "lng": 88.39264,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421533466",
+   "name": "Shahid Khudiram",
+   "kind": "metro",
+   "lat": 22.46598,
+   "lng": 88.39154,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421546940",
+   "name": "Shobhabazar Sutanuti",
+   "kind": "metro",
+   "lat": 22.59588,
+   "lng": 88.3652,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5421546974",
+   "name": "Shyambazar",
+   "kind": "metro",
+   "lat": 22.60133,
+   "lng": 88.3725,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/10296539476",
+   "name": "Taratala",
+   "kind": "metro",
+   "lat": 22.50769,
+   "lng": 88.32038,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/10296539469",
+   "name": "Thakurpukur",
+   "kind": "metro",
+   "lat": 22.46437,
+   "lng": 88.30753,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/13088485707",
+   "name": "VIP Bazar",
+   "kind": "metro",
+   "lat": 22.52468,
+   "lng": 88.39623,
+   "source": "osm"
+  },
+  {
    "id": "stop:Alipore Zoo",
    "name": "Alipore Zoo",
    "kind": "museum",
    "lat": 22.53684,
    "lng": 88.33183,
-   "source": "stop"
-  },
-  {
-   "id": "stop:Howrah Maidan",
-   "name": "Howrah Maidan",
-   "kind": "stadium",
-   "lat": 22.58292,
-   "lng": 88.33365,
-   "source": "stop"
-  },
-  {
-   "id": "stop:Howrah Maidan (Amtala Phari)",
-   "name": "Howrah Maidan (Amtala Phari)",
-   "kind": "stadium",
-   "lat": 22.58292,
-   "lng": 88.33365,
-   "source": "stop"
-  },
-  {
-   "id": "stop:Maidan",
-   "name": "Maidan",
-   "kind": "stadium",
-   "lat": 22.55001,
-   "lng": 88.34513,
-   "source": "stop"
-  },
-  {
-   "id": "stop:Maidan Metro",
-   "name": "Maidan Metro",
-   "kind": "stadium",
-   "lat": 22.54944,
-   "lng": 88.34889,
    "source": "stop"
   },
   {
@@ -611,20 +967,36 @@
    "source": "stop"
   },
   {
-   "id": "stop:Agarpara Station",
-   "name": "Agarpara Station",
+   "id": "osm:node/665115614",
+   "name": "Abada",
+   "kind": "station",
+   "lat": 22.54787,
+   "lng": 88.19952,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1935597017",
+   "name": "Agarpara",
    "kind": "station",
    "lat": 22.68288,
    "lng": 88.38536,
-   "source": "stop"
+   "source": "osm"
   },
   {
-   "id": "stop:Akra Station",
-   "name": "Akra Station",
+   "id": "osm:node/2430738645",
+   "name": "Akra",
    "kind": "station",
    "lat": 22.51474,
    "lng": 88.24928,
-   "source": "stop"
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/3704174675",
+   "name": "Andul",
+   "kind": "station",
+   "lat": 22.5757,
+   "lng": 88.23945,
+   "source": "osm"
   },
   {
    "id": "stop:Ashoknagar Station",
@@ -635,12 +1007,60 @@
    "source": "stop"
   },
   {
-   "id": "stop:Bally halt station",
-   "name": "Bally halt station",
+   "id": "osm:node/1187133856",
+   "name": "BBD Bagh",
    "kind": "station",
-   "lat": 22.65145,
-   "lng": 88.34082,
-   "source": "stop"
+   "lat": 22.57684,
+   "lng": 88.34663,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/651800191",
+   "name": "Baghajatin",
+   "kind": "station",
+   "lat": 22.48285,
+   "lng": 88.38666,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1765897125",
+   "name": "Baidyabati",
+   "kind": "station",
+   "lat": 22.79491,
+   "lng": 88.33177,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/3818732494",
+   "name": "Balarambati",
+   "kind": "station",
+   "lat": 22.80805,
+   "lng": 88.21168,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/664467737",
+   "name": "Bally",
+   "kind": "station",
+   "lat": 22.65506,
+   "lng": 88.3403,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/7717075781",
+   "name": "Bally Ghat",
+   "kind": "station",
+   "lat": 22.65243,
+   "lng": 88.34791,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/8507085275",
+   "name": "Bally Halt",
+   "kind": "station",
+   "lat": 22.65233,
+   "lng": 88.33854,
+   "source": "osm"
   },
   {
    "id": "stop:Ballygaunj Station",
@@ -651,6 +1071,14 @@
    "source": "stop"
   },
   {
+   "id": "osm:node/651805730",
+   "name": "Ballygunge Junction",
+   "kind": "station",
+   "lat": 22.51916,
+   "lng": 88.37219,
+   "source": "osm"
+  },
+  {
    "id": "stop:Ballygunge Station",
    "name": "Ballygunge Station",
    "kind": "station",
@@ -659,20 +1087,140 @@
    "source": "stop"
   },
   {
-   "id": "stop:Baranagar Road Station",
-   "name": "Baranagar Road Station",
+   "id": "osm:node/8999697060",
+   "name": "Bamangachi",
+   "kind": "station",
+   "lat": 22.74901,
+   "lng": 88.50998,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/3846421890",
+   "name": "Banka Nayabaz",
+   "kind": "station",
+   "lat": 22.59542,
+   "lng": 88.27756,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1074604698",
+   "name": "Baranagar Road",
    "kind": "station",
    "lat": 22.65349,
    "lng": 88.37886,
-   "source": "stop"
+   "source": "osm"
   },
   {
-   "id": "stop:Belgharia Station",
-   "name": "Belgharia Station",
+   "id": "osm:node/1765884856",
+   "name": "Barasat Junction",
+   "kind": "station",
+   "lat": 22.72419,
+   "lng": 88.48378,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/9001302716",
+   "name": "Barra Bazar",
+   "kind": "station",
+   "lat": 22.59016,
+   "lng": 88.35118,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/3818727733",
+   "name": "Baruipara",
+   "kind": "station",
+   "lat": 22.7669,
+   "lng": 88.23705,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2337700691",
+   "name": "Baruipur Junction",
+   "kind": "station",
+   "lat": 22.36583,
+   "lng": 88.43108,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/665115034",
+   "name": "Bauria",
+   "kind": "station",
+   "lat": 22.50252,
+   "lng": 88.16329,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/3818719563",
+   "name": "Begampur",
+   "kind": "station",
+   "lat": 22.73841,
+   "lng": 88.25511,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/6954276376",
+   "name": "Belanagar",
+   "kind": "station",
+   "lat": 22.66123,
+   "lng": 88.31708,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1765884993",
+   "name": "Belgharia",
    "kind": "station",
    "lat": 22.66136,
    "lng": 88.38921,
-   "source": "stop"
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/664468001",
+   "name": "Belur",
+   "kind": "station",
+   "lat": 22.63573,
+   "lng": 88.33982,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11584548979",
+   "name": "Belur Math",
+   "kind": "station",
+   "lat": 22.6313,
+   "lng": 88.35058,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/7976140066",
+   "name": "Bengal Chemical",
+   "kind": "station",
+   "lat": 22.58007,
+   "lng": 88.4013,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/8468061286",
+   "name": "Betberia Ghola",
+   "kind": "station",
+   "lat": 22.35076,
+   "lng": 88.57473,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1765897140",
+   "name": "Bhadreshwar",
+   "kind": "station",
+   "lat": 22.8282,
+   "lng": 88.34149,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/6814083487",
+   "name": "Bhattanagar",
+   "kind": "station",
+   "lat": 22.63275,
+   "lng": 88.30548,
+   "source": "osm"
   },
   {
    "id": "stop:Bhyabla Halt",
@@ -683,12 +1231,12 @@
    "source": "stop"
   },
   {
-   "id": "stop:Bidhannagar Road Station",
-   "name": "Bidhannagar Road Station",
+   "id": "osm:node/2323761292",
+   "name": "Bidhannagar Road",
    "kind": "station",
    "lat": 22.59126,
    "lng": 88.39096,
-   "source": "stop"
+   "source": "osm"
   },
   {
    "id": "stop:Bidhannagar Station",
@@ -699,12 +1247,108 @@
    "source": "stop"
   },
   {
+   "id": "osm:node/2365704683",
+   "name": "Bidyadharpur",
+   "kind": "station",
+   "lat": 22.4247,
+   "lng": 88.45401,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2378510543",
+   "name": "Birati",
+   "kind": "station",
+   "lat": 22.66432,
+   "lng": 88.4275,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2378514765",
+   "name": "Bisharpara Kodalia",
+   "kind": "station",
+   "lat": 22.67668,
+   "lng": 88.43495,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2430771841",
+   "name": "Brace Bridge",
+   "kind": "station",
+   "lat": 22.51792,
+   "lng": 88.30114,
+   "source": "osm"
+  },
+  {
    "id": "stop:Canning Station",
    "name": "Canning Station",
    "kind": "station",
    "lat": 22.31362,
    "lng": 88.66869,
    "source": "stop"
+  },
+  {
+   "id": "osm:node/2365714186",
+   "name": "Champahati",
+   "kind": "station",
+   "lat": 22.40188,
+   "lng": 88.49364,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/663839267",
+   "name": "Dakshineswar",
+   "kind": "station",
+   "lat": 22.65385,
+   "lng": 88.36376,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/252584717",
+   "name": "Dankuni",
+   "kind": "station",
+   "lat": 22.67796,
+   "lng": 88.29076,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/664455551",
+   "name": "Dashnagar",
+   "kind": "station",
+   "lat": 22.598,
+   "lng": 88.3084,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1341614569",
+   "name": "Dhakuria",
+   "kind": "station",
+   "lat": 22.50941,
+   "lng": 88.37118,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2364769605",
+   "name": "Dhapdhapi",
+   "kind": "station",
+   "lat": 22.31597,
+   "lng": 88.46036,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1620918714",
+   "name": "Diara",
+   "kind": "station",
+   "lat": 22.79853,
+   "lng": 88.28117,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1420381935",
+   "name": "Domjur",
+   "kind": "station",
+   "lat": 22.64316,
+   "lng": 88.20955,
+   "source": "osm"
   },
   {
    "id": "stop:Dumdum Station",
@@ -715,12 +1359,28 @@
    "source": "stop"
   },
   {
-   "id": "stop:Dunlop (Baranagar road Station)",
-   "name": "Dunlop (Baranagar road Station)",
+   "id": "osm:node/2378503814",
+   "name": "Durganagar",
    "kind": "station",
-   "lat": 22.6525,
-   "lng": 88.3773,
-   "source": "stop"
+   "lat": 22.6505,
+   "lng": 88.41922,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1187083591",
+   "name": "Eden Gardens",
+   "kind": "station",
+   "lat": 22.56392,
+   "lng": 88.33832,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2339753229",
+   "name": "Garia",
+   "kind": "station",
+   "lat": 22.46624,
+   "lng": 88.40502,
+   "source": "osm"
   },
   {
    "id": "stop:Garia Station",
@@ -739,6 +1399,30 @@
    "source": "stop"
   },
   {
+   "id": "osm:node/2365741229",
+   "name": "Ghutiari Sharif",
+   "kind": "station",
+   "lat": 22.3679,
+   "lng": 88.55277,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/7717383980",
+   "name": "Gobra",
+   "kind": "station",
+   "lat": 22.69612,
+   "lng": 88.27939,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5768054791",
+   "name": "Gourdaha Halt",
+   "kind": "station",
+   "lat": 22.3783,
+   "lng": 88.53477,
+   "source": "osm"
+  },
+  {
    "id": "stop:Habra Rail station",
    "name": "Habra Rail station",
    "kind": "station",
@@ -755,28 +1439,164 @@
    "source": "stop"
   },
   {
-   "id": "stop:Howrah Railway Station",
-   "name": "Howrah Railway Station",
+   "id": "osm:node/664468968",
+   "name": "Hind Motor",
    "kind": "station",
-   "lat": 22.58336,
-   "lng": 88.34035,
-   "source": "stop"
+   "lat": 22.68365,
+   "lng": 88.3418,
+   "source": "osm"
   },
   {
-   "id": "stop:Howrah Station/Esplanade",
-   "name": "Howrah Station/Esplanade",
+   "id": "osm:node/3321321335",
+   "name": "Howrah Junction",
    "kind": "station",
-   "lat": 22.58336,
-   "lng": 88.34035,
-   "source": "stop"
+   "lat": 22.58287,
+   "lng": 88.34281,
+   "source": "osm"
   },
   {
-   "id": "stop:Liluah Station",
-   "name": "Liluah Station",
+   "id": "osm:node/2378547439",
+   "name": "Hridaypur",
+   "kind": "station",
+   "lat": 22.711,
+   "lng": 88.47,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5768054688",
+   "name": "Jadavpur",
+   "kind": "station",
+   "lat": 22.49511,
+   "lng": 88.37498,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/6954347302",
+   "name": "Janai Road",
+   "kind": "station",
+   "lat": 22.72144,
+   "lng": 88.2653,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2365711966",
+   "name": "Kalikapur",
+   "kind": "station",
+   "lat": 22.41205,
+   "lng": 88.47603,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11259469248",
+   "name": "Kalikapur Railway Station",
+   "kind": "station",
+   "lat": 22.41194,
+   "lng": 88.476,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1175349049",
+   "name": "Kamarkundu",
+   "kind": "station",
+   "lat": 22.82168,
+   "lng": 88.20473,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/3884538872",
+   "name": "Karea Kadambagachhi",
+   "kind": "station",
+   "lat": 22.70464,
+   "lng": 88.53499,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/310996032",
+   "name": "Kazipara",
+   "kind": "station",
+   "lat": 22.72265,
+   "lng": 88.50837,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1691423701",
+   "name": "Khardaha",
+   "kind": "station",
+   "lat": 22.72485,
+   "lng": 88.37771,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/4284367432",
+   "name": "Khidirpur",
+   "kind": "station",
+   "lat": 22.53762,
+   "lng": 88.31582,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/7630434398",
+   "name": "Kolkata",
+   "kind": "station",
+   "lat": 22.60128,
+   "lng": 88.38415,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2430734474",
+   "name": "Komagata Maru Budge Budge",
+   "kind": "station",
+   "lat": 22.49289,
+   "lng": 88.19486,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/664469183",
+   "name": "Konnagar",
+   "kind": "station",
+   "lat": 22.70126,
+   "lng": 88.34251,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2364759364",
+   "name": "Krishnamohan Halt",
+   "kind": "station",
+   "lat": 22.33008,
+   "lng": 88.45021,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/6955697648",
+   "name": "Lake Gardens",
+   "kind": "station",
+   "lat": 22.50805,
+   "lng": 88.35333,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/664468000",
+   "name": "Liluah",
    "kind": "station",
    "lat": 22.6209,
    "lng": 88.3394,
-   "source": "stop"
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2378546217",
+   "name": "Madhyamgram",
+   "kind": "station",
+   "lat": 22.69478,
+   "lng": 88.45302,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/6186215510",
+   "name": "Majherhat",
+   "kind": "station",
+   "lat": 22.51905,
+   "lng": 88.32213,
+   "source": "osm"
   },
   {
    "id": "stop:Mathurapur Station",
@@ -787,12 +1607,44 @@
    "source": "stop"
   },
   {
+   "id": "osm:node/3818730980",
+   "name": "Mirzapur Bankipur",
+   "kind": "station",
+   "lat": 22.7908,
+   "lng": 88.22244,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1499489039",
+   "name": "Mourigram",
+   "kind": "station",
+   "lat": 22.58027,
+   "lng": 88.25603,
+   "source": "osm"
+  },
+  {
    "id": "stop:Naihati Station",
    "name": "Naihati Station",
    "kind": "station",
    "lat": 22.88661,
    "lng": 88.4242,
    "source": "stop"
+  },
+  {
+   "id": "osm:node/4359528390",
+   "name": "Nalikul",
+   "kind": "station",
+   "lat": 22.83047,
+   "lng": 88.16682,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/665115542",
+   "name": "Nalpur",
+   "kind": "station",
+   "lat": 22.5291,
+   "lng": 88.18606,
+   "source": "osm"
   },
   {
    "id": "stop:Namkhana Station",
@@ -803,20 +1655,164 @@
    "source": "stop"
   },
   {
-   "id": "stop:Santoshpur Rail Station",
-   "name": "Santoshpur Rail Station",
+   "id": "osm:node/2430737240",
+   "name": "Nangi",
    "kind": "station",
-   "lat": 22.52408,
-   "lng": 88.27106,
-   "source": "stop"
+   "lat": 22.50021,
+   "lng": 88.22335,
+   "source": "osm"
   },
   {
-   "id": "stop:Santoshpur Station",
-   "name": "Santoshpur Station",
+   "id": "osm:node/5873264670",
+   "name": "Narendrapur",
+   "kind": "station",
+   "lat": 22.45417,
+   "lng": 88.41838,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/310992938",
+   "name": "Nasibpur",
+   "kind": "station",
+   "lat": 22.80464,
+   "lng": 88.26367,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/6955697629",
+   "name": "New Alipore",
+   "kind": "station",
+   "lat": 22.51053,
+   "lng": 88.33543,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2378518670",
+   "name": "New Barrackpore",
+   "kind": "station",
+   "lat": 22.68676,
+   "lng": 88.44462,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5768054702",
+   "name": "New Garia",
+   "kind": "station",
+   "lat": 22.47271,
+   "lng": 88.3978,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1274128857",
+   "name": "Park Circus",
+   "kind": "station",
+   "lat": 22.54057,
+   "lng": 88.37386,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/8999697038",
+   "name": "Patipukur",
+   "kind": "station",
+   "lat": 22.60655,
+   "lng": 88.39525,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/7976140072",
+   "name": "Phoolbagan",
+   "kind": "station",
+   "lat": 22.57213,
+   "lng": 88.39024,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1865813382",
+   "name": "Piali",
+   "kind": "station",
+   "lat": 22.38731,
+   "lng": 88.51889,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1074604649",
+   "name": "Prinsep Ghat",
+   "kind": "station",
+   "lat": 22.55659,
+   "lng": 88.33141,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/8999697061",
+   "name": "Rajchandrapur",
+   "kind": "station",
+   "lat": 22.65291,
+   "lng": 88.32131,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/664455694",
+   "name": "Ramrajatala",
+   "kind": "station",
+   "lat": 22.58866,
+   "lng": 88.29667,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/6186215071",
+   "name": "Remount Road",
+   "kind": "station",
+   "lat": 22.52599,
+   "lng": 88.31671,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/664469184",
+   "name": "Rishra",
+   "kind": "station",
+   "lat": 22.72471,
+   "lng": 88.34344,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/11425570800",
+   "name": "Rishra Railway Station",
+   "kind": "station",
+   "lat": 22.72519,
+   "lng": 88.34336,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/7976140069",
+   "name": "Salt Lake Stadium",
+   "kind": "station",
+   "lat": 22.57311,
+   "lng": 88.40309,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/665115755",
+   "name": "Sankrail",
+   "kind": "station",
+   "lat": 22.56234,
+   "lng": 88.21045,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2430763548",
+   "name": "Santoshpur",
    "kind": "station",
    "lat": 22.52406,
    "lng": 88.27107,
-   "source": "stop"
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/600756813",
+   "name": "Santragachi Junction",
+   "kind": "station",
+   "lat": 22.5847,
+   "lng": 88.28307,
+   "source": "osm"
   },
   {
    "id": "stop:Santragachi Station",
@@ -827,12 +1823,68 @@
    "source": "stop"
   },
   {
+   "id": "osm:node/5587888046",
+   "name": "Sealdah",
+   "kind": "station",
+   "lat": 22.56566,
+   "lng": 88.37239,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1765885549",
+   "name": "Seoraphuli Jn",
+   "kind": "station",
+   "lat": 22.7748,
+   "lng": 88.32836,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/664459003",
+   "name": "Serampore",
+   "kind": "station",
+   "lat": 22.75458,
+   "lng": 88.33831,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/3322735363",
+   "name": "Shalimar",
+   "kind": "station",
+   "lat": 22.55515,
+   "lng": 88.31539,
+   "source": "osm"
+  },
+  {
    "id": "stop:Shalimar Station",
    "name": "Shalimar Station",
    "kind": "station",
    "lat": 22.56235,
    "lng": 88.31004,
    "source": "stop"
+  },
+  {
+   "id": "osm:node/2364768081",
+   "name": "Shasan Road",
+   "kind": "station",
+   "lat": 22.34702,
+   "lng": 88.43509,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/664469613",
+   "name": "Singur",
+   "kind": "station",
+   "lat": 22.81457,
+   "lng": 88.22907,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5253354261",
+   "name": "Sir Gurudas Banerjee Halt",
+   "kind": "station",
+   "lat": 22.57418,
+   "lng": 88.38505,
+   "source": "osm"
   },
   {
    "id": "stop:Sodepur Station",
@@ -843,12 +1895,92 @@
    "source": "stop"
   },
   {
-   "id": "stop:Sondalia Station",
-   "name": "Sondalia Station",
+   "id": "osm:node/1691412915",
+   "name": "Sodpur",
+   "kind": "station",
+   "lat": 22.69964,
+   "lng": 88.3823,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/10146620696",
+   "name": "Sonarpur Junction",
+   "kind": "station",
+   "lat": 22.44306,
+   "lng": 88.43042,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/3320346690",
+   "name": "Sondalia",
    "kind": "station",
    "lat": 22.68182,
    "lng": 88.5823,
-   "source": "stop"
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/1177499034",
+   "name": "Sovabazar Ahiritola",
+   "kind": "station",
+   "lat": 22.59753,
+   "lng": 88.35493,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/2339803458",
+   "name": "Subhas Gram",
+   "kind": "station",
+   "lat": 22.412,
+   "lng": 88.43424,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/5244225850",
+   "name": "Tala",
+   "kind": "station",
+   "lat": 22.60635,
+   "lng": 88.37843,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/3860624901",
+   "name": "Tikiapara",
+   "kind": "station",
+   "lat": 22.59858,
+   "lng": 88.32403,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/310988176",
+   "name": "Titagarh",
+   "kind": "station",
+   "lat": 22.74113,
+   "lng": 88.37458,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/6955697644",
+   "name": "Tollygunge",
+   "kind": "station",
+   "lat": 22.50775,
+   "lng": 88.34772,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/310993110",
+   "name": "Uttarpara",
+   "kind": "station",
+   "lat": 22.66705,
+   "lng": 88.34115,
+   "source": "osm"
+  },
+  {
+   "id": "osm:node/10960407391",
+   "name": "birati railway station",
+   "kind": "station",
+   "lat": 22.67662,
+   "lng": 88.435,
+   "source": "osm"
   },
   {
    "id": "stop:Bhasa Swami Narayan Temple",
@@ -859,5 +1991,11528 @@
    "source": "stop"
   }
  ],
- "shapes": []
+ "shapes": [
+  {
+   "id": "osm:canal/bagjola-canal-1",
+   "name": "Bagjola Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.61071,
+     88.41023
+    ],
+    [
+     22.60755,
+     88.41495
+    ],
+    [
+     22.60428,
+     88.4179
+    ],
+    [
+     22.60371,
+     88.41861
+    ],
+    [
+     22.60354,
+     88.41917
+    ],
+    [
+     22.60319,
+     88.42124
+    ],
+    [
+     22.60358,
+     88.42314
+    ],
+    [
+     22.60405,
+     88.42415
+    ],
+    [
+     22.60446,
+     88.42568
+    ],
+    [
+     22.60374,
+     88.4317
+    ],
+    [
+     22.60379,
+     88.43238
+    ],
+    [
+     22.60472,
+     88.43452
+    ],
+    [
+     22.60453,
+     88.435
+    ],
+    [
+     22.60396,
+     88.43606
+    ],
+    [
+     22.59538,
+     88.4468
+    ],
+    [
+     22.58774,
+     88.45841
+    ],
+    [
+     22.5819,
+     88.48155
+    ],
+    [
+     22.57953,
+     88.48425
+    ],
+    [
+     22.56862,
+     88.49454
+    ],
+    [
+     22.56331,
+     88.50003
+    ],
+    [
+     22.55783,
+     88.51599
+    ],
+    [
+     22.5573,
+     88.51781
+    ],
+    [
+     22.55703,
+     88.51971
+    ],
+    [
+     22.55471,
+     88.52363
+    ],
+    [
+     22.54981,
+     88.5282
+    ],
+    [
+     22.5491,
+     88.53035
+    ],
+    [
+     22.54911,
+     88.5318
+    ],
+    [
+     22.54944,
+     88.53446
+    ],
+    [
+     22.54586,
+     88.54417
+    ],
+    [
+     22.54614,
+     88.54603
+    ],
+    [
+     22.54607,
+     88.55102
+    ],
+    [
+     22.54694,
+     88.55302
+    ],
+    [
+     22.55065,
+     88.56014
+    ],
+    [
+     22.55115,
+     88.56157
+    ],
+    [
+     22.54942,
+     88.56992
+    ],
+    [
+     22.54885,
+     88.57178
+    ],
+    [
+     22.54955,
+     88.57886
+    ],
+    [
+     22.55018,
+     88.58287
+    ],
+    [
+     22.54992,
+     88.58398
+    ],
+    [
+     22.54875,
+     88.58706
+    ],
+    [
+     22.54627,
+     88.59269
+    ],
+    [
+     22.54636,
+     88.59541
+    ],
+    [
+     22.54674,
+     88.59838
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/bagjola-canal-2",
+   "name": "Bagjola Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.63484,
+     88.39555
+    ],
+    [
+     22.63481,
+     88.39693
+    ],
+    [
+     22.63104,
+     88.40473
+    ],
+    [
+     22.62942,
+     88.40501
+    ],
+    [
+     22.62319,
+     88.40143
+    ],
+    [
+     22.62284,
+     88.4014
+    ],
+    [
+     22.62176,
+     88.40273
+    ],
+    [
+     22.62098,
+     88.40311
+    ],
+    [
+     22.61863,
+     88.40372
+    ],
+    [
+     22.61706,
+     88.40471
+    ],
+    [
+     22.61509,
+     88.40504
+    ],
+    [
+     22.61157,
+     88.4097
+    ],
+    [
+     22.61071,
+     88.41023
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/beli-gh-ta-canal",
+   "name": "Beliāghāta Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.59253,
+     88.38022
+    ],
+    [
+     22.59607,
+     88.38034
+    ],
+    [
+     22.59733,
+     88.38007
+    ],
+    [
+     22.60124,
+     88.37846
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/bidyadhari-1",
+   "name": "Bidyadhari",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.77022,
+     88.59963
+    ],
+    [
+     22.77003,
+     88.59831
+    ],
+    [
+     22.76866,
+     88.59668
+    ],
+    [
+     22.76818,
+     88.595
+    ],
+    [
+     22.76673,
+     88.59437
+    ],
+    [
+     22.7665,
+     88.59395
+    ],
+    [
+     22.76617,
+     88.59232
+    ],
+    [
+     22.76629,
+     88.59119
+    ],
+    [
+     22.76648,
+     88.59085
+    ],
+    [
+     22.76692,
+     88.59071
+    ],
+    [
+     22.76898,
+     88.59046
+    ],
+    [
+     22.77104,
+     88.59154
+    ],
+    [
+     22.77154,
+     88.59156
+    ],
+    [
+     22.77236,
+     88.5913
+    ],
+    [
+     22.77271,
+     88.59097
+    ],
+    [
+     22.77335,
+     88.58979
+    ],
+    [
+     22.77334,
+     88.58935
+    ],
+    [
+     22.77294,
+     88.58857
+    ],
+    [
+     22.77118,
+     88.58649
+    ],
+    [
+     22.77037,
+     88.58516
+    ],
+    [
+     22.76966,
+     88.58464
+    ],
+    [
+     22.76856,
+     88.58434
+    ],
+    [
+     22.76749,
+     88.58486
+    ],
+    [
+     22.76465,
+     88.5874
+    ],
+    [
+     22.76369,
+     88.58795
+    ],
+    [
+     22.76197,
+     88.58847
+    ],
+    [
+     22.76115,
+     88.58846
+    ],
+    [
+     22.76024,
+     88.58759
+    ],
+    [
+     22.75957,
+     88.58747
+    ],
+    [
+     22.75917,
+     88.58771
+    ],
+    [
+     22.75861,
+     88.58842
+    ],
+    [
+     22.75784,
+     88.58891
+    ],
+    [
+     22.75437,
+     88.58818
+    ],
+    [
+     22.75306,
+     88.58851
+    ],
+    [
+     22.75119,
+     88.58845
+    ],
+    [
+     22.7499,
+     88.5889
+    ],
+    [
+     22.74888,
+     88.59002
+    ],
+    [
+     22.74779,
+     88.59085
+    ],
+    [
+     22.74771,
+     88.59144
+    ],
+    [
+     22.74798,
+     88.59278
+    ],
+    [
+     22.74756,
+     88.59391
+    ],
+    [
+     22.74712,
+     88.59444
+    ],
+    [
+     22.74638,
+     88.5947
+    ],
+    [
+     22.74436,
+     88.59404
+    ],
+    [
+     22.74336,
+     88.59418
+    ],
+    [
+     22.74308,
+     88.59451
+    ],
+    [
+     22.74279,
+     88.59585
+    ],
+    [
+     22.74255,
+     88.59624
+    ],
+    [
+     22.74113,
+     88.59663
+    ],
+    [
+     22.73976,
+     88.5974
+    ],
+    [
+     22.73851,
+     88.59716
+    ],
+    [
+     22.73741,
+     88.59662
+    ],
+    [
+     22.73597,
+     88.5969
+    ],
+    [
+     22.73545,
+     88.59665
+    ],
+    [
+     22.73489,
+     88.59294
+    ],
+    [
+     22.73461,
+     88.59207
+    ],
+    [
+     22.73413,
+     88.59158
+    ],
+    [
+     22.7327,
+     88.59083
+    ],
+    [
+     22.73072,
+     88.59095
+    ],
+    [
+     22.72784,
+     88.59245
+    ],
+    [
+     22.72703,
+     88.59256
+    ],
+    [
+     22.72664,
+     88.59189
+    ],
+    [
+     22.72616,
+     88.59017
+    ],
+    [
+     22.72585,
+     88.58979
+    ],
+    [
+     22.7254,
+     88.58972
+    ],
+    [
+     22.7249,
+     88.58997
+    ],
+    [
+     22.72433,
+     88.59067
+    ],
+    [
+     22.723,
+     88.59291
+    ],
+    [
+     22.72216,
+     88.59317
+    ],
+    [
+     22.721,
+     88.59312
+    ],
+    [
+     22.71938,
+     88.59345
+    ],
+    [
+     22.71875,
+     88.59399
+    ],
+    [
+     22.71731,
+     88.59589
+    ],
+    [
+     22.71623,
+     88.59646
+    ],
+    [
+     22.71411,
+     88.59603
+    ],
+    [
+     22.7133,
+     88.5954
+    ],
+    [
+     22.71249,
+     88.5943
+    ],
+    [
+     22.71185,
+     88.59384
+    ],
+    [
+     22.71028,
+     88.5937
+    ],
+    [
+     22.7094,
+     88.59437
+    ],
+    [
+     22.70798,
+     88.59826
+    ],
+    [
+     22.70759,
+     88.59902
+    ],
+    [
+     22.70676,
+     88.59981
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/bidyadhari-2",
+   "name": "Bidyadhari",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.83824,
+     88.59974
+    ],
+    [
+     22.83793,
+     88.59917
+    ],
+    [
+     22.83726,
+     88.59873
+    ],
+    [
+     22.83647,
+     88.59774
+    ],
+    [
+     22.83606,
+     88.5968
+    ],
+    [
+     22.83559,
+     88.59487
+    ],
+    [
+     22.83456,
+     88.59426
+    ],
+    [
+     22.834,
+     88.5944
+    ],
+    [
+     22.83332,
+     88.59565
+    ],
+    [
+     22.83204,
+     88.59674
+    ],
+    [
+     22.83142,
+     88.59827
+    ],
+    [
+     22.83083,
+     88.5981
+    ],
+    [
+     22.82957,
+     88.59873
+    ],
+    [
+     22.82851,
+     88.59774
+    ],
+    [
+     22.8254,
+     88.59759
+    ],
+    [
+     22.82527,
+     88.59858
+    ],
+    [
+     22.82482,
+     88.59917
+    ],
+    [
+     22.825,
+     88.59993
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/bidyadhari-3",
+   "name": "Bidyadhari",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.82121,
+     88.59999
+    ],
+    [
+     22.82075,
+     88.59922
+    ],
+    [
+     22.81973,
+     88.59891
+    ],
+    [
+     22.81933,
+     88.59905
+    ],
+    [
+     22.81927,
+     88.59989
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/circular-canal-1",
+   "name": "Circular Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.60124,
+     88.37846
+    ],
+    [
+     22.60343,
+     88.37657
+    ],
+    [
+     22.60557,
+     88.37383
+    ],
+    [
+     22.60653,
+     88.37178
+    ],
+    [
+     22.60766,
+     88.36859
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/circular-canal-2",
+   "name": "Circular Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.60766,
+     88.36859
+    ],
+    [
+     22.60783,
+     88.36811
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/circular-canal-3",
+   "name": "Circular Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.60905,
+     88.36117
+    ],
+    [
+     22.60818,
+     88.3673
+    ],
+    [
+     22.60783,
+     88.36811
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/krishnapur-canal-1",
+   "name": "Krishnapur Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.51343,
+     88.49318
+    ],
+    [
+     22.51445,
+     88.49017
+    ],
+    [
+     22.51524,
+     88.49002
+    ],
+    [
+     22.5324,
+     88.49595
+    ],
+    [
+     22.53337,
+     88.49579
+    ],
+    [
+     22.53434,
+     88.49524
+    ],
+    [
+     22.54374,
+     88.48916
+    ],
+    [
+     22.55557,
+     88.47077
+    ],
+    [
+     22.5776,
+     88.44745
+    ],
+    [
+     22.58322,
+     88.44037
+    ],
+    [
+     22.58598,
+     88.43498
+    ],
+    [
+     22.6006,
+     88.42517
+    ],
+    [
+     22.60121,
+     88.42443
+    ],
+    [
+     22.60188,
+     88.42255
+    ],
+    [
+     22.60322,
+     88.41426
+    ],
+    [
+     22.603,
+     88.41298
+    ],
+    [
+     22.59212,
+     88.39535
+    ],
+    [
+     22.5922,
+     88.39511
+    ],
+    [
+     22.59455,
+     88.39323
+    ],
+    [
+     22.59607,
+     88.3915
+    ],
+    [
+     22.59985,
+     88.38528
+    ],
+    [
+     22.60034,
+     88.38421
+    ],
+    [
+     22.60117,
+     88.37892
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/krishnapur-canal-2",
+   "name": "Krishnapur Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.60118,
+     88.37884
+    ],
+    [
+     22.60124,
+     88.37846
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/krishnapur-canal-3",
+   "name": "Krishnapur Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.60117,
+     88.37892
+    ],
+    [
+     22.60118,
+     88.37884
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/lead-canal",
+   "name": "Lead Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.52591,
+     88.41434
+    ],
+    [
+     22.52524,
+     88.41299
+    ],
+    [
+     22.5253,
+     88.40601
+    ],
+    [
+     22.52704,
+     88.39575
+    ],
+    [
+     22.5274,
+     88.39461
+    ],
+    [
+     22.52815,
+     88.39348
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/panchanangram-canal",
+   "name": "Panchanangram Canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.49112,
+     88.37283
+    ],
+    [
+     22.49051,
+     88.37421
+    ],
+    [
+     22.49018,
+     88.37564
+    ],
+    [
+     22.49024,
+     88.37617
+    ],
+    [
+     22.48993,
+     88.37716
+    ],
+    [
+     22.48929,
+     88.3784
+    ],
+    [
+     22.48928,
+     88.37884
+    ],
+    [
+     22.48957,
+     88.37944
+    ],
+    [
+     22.48875,
+     88.38068
+    ],
+    [
+     22.48816,
+     88.38248
+    ],
+    [
+     22.48706,
+     88.38403
+    ],
+    [
+     22.48704,
+     88.38641
+    ],
+    [
+     22.4873,
+     88.38734
+    ],
+    [
+     22.49105,
+     88.38977
+    ],
+    [
+     22.49319,
+     88.39008
+    ],
+    [
+     22.49464,
+     88.39052
+    ],
+    [
+     22.49777,
+     88.3957
+    ],
+    [
+     22.49826,
+     88.39609
+    ],
+    [
+     22.50101,
+     88.39693
+    ],
+    [
+     22.50439,
+     88.40143
+    ],
+    [
+     22.51677,
+     88.41396
+    ],
+    [
+     22.51834,
+     88.41516
+    ],
+    [
+     22.51931,
+     88.41563
+    ],
+    [
+     22.52062,
+     88.41589
+    ],
+    [
+     22.52198,
+     88.41562
+    ],
+    [
+     22.52473,
+     88.41459
+    ],
+    [
+     22.52616,
+     88.41432
+    ],
+    [
+     22.52928,
+     88.41488
+    ],
+    [
+     22.52993,
+     88.4156
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:canal/south-purbachal-canal",
+   "name": "south purbachal canal",
+   "kind": "canal",
+   "closed": false,
+   "points": [
+    [
+     22.49912,
+     88.38746
+    ],
+    [
+     22.50016,
+     88.38817
+    ],
+    [
+     22.5017,
+     88.38878
+    ],
+    [
+     22.50254,
+     88.38994
+    ],
+    [
+     22.50275,
+     88.39075
+    ],
+    [
+     22.50347,
+     88.39218
+    ],
+    [
+     22.50346,
+     88.39325
+    ],
+    [
+     22.50406,
+     88.39489
+    ],
+    [
+     22.5053,
+     88.39524
+    ],
+    [
+     22.50657,
+     88.39627
+    ],
+    [
+     22.50858,
+     88.39612
+    ],
+    [
+     22.50901,
+     88.3959
+    ],
+    [
+     22.50971,
+     88.39606
+    ],
+    [
+     22.51056,
+     88.39598
+    ],
+    [
+     22.51156,
+     88.39562
+    ],
+    [
+     22.51355,
+     88.39656
+    ],
+    [
+     22.51602,
+     88.39826
+    ],
+    [
+     22.51661,
+     88.39843
+    ],
+    [
+     22.51874,
+     88.39848
+    ],
+    [
+     22.52287,
+     88.39998
+    ],
+    [
+     22.52426,
+     88.39726
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/218996388",
+   "name": "Dum Dum",
+   "kind": "metro",
+   "closed": true,
+   "points": [
+    [
+     22.62199,
+     88.39271
+    ],
+    [
+     22.622,
+     88.39297
+    ],
+    [
+     22.62035,
+     88.39308
+    ],
+    [
+     22.62034,
+     88.39282
+    ],
+    [
+     22.62199,
+     88.39271
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333554",
+   "name": "Gitanjali",
+   "kind": "metro",
+   "closed": true,
+   "points": [
+    [
+     22.46944,
+     88.3692
+    ],
+    [
+     22.46967,
+     88.36923
+    ],
+    [
+     22.46949,
+     88.37083
+    ],
+    [
+     22.46927,
+     88.3708
+    ],
+    [
+     22.46944,
+     88.3692
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/469357608",
+   "name": "Masterda Surya Sen",
+   "kind": "metro",
+   "closed": true,
+   "points": [
+    [
+     22.4738,
+     88.36015
+    ],
+    [
+     22.47397,
+     88.36028
+    ],
+    [
+     22.47309,
+     88.36165
+    ],
+    [
+     22.47291,
+     88.36151
+    ],
+    [
+     22.4738,
+     88.36015
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-1",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.5506,
+     88.32467
+    ],
+    [
+     22.55005,
+     88.32502
+    ],
+    [
+     22.54941,
+     88.32507
+    ],
+    [
+     22.54876,
+     88.32496
+    ],
+    [
+     22.54791,
+     88.32453
+    ],
+    [
+     22.5473,
+     88.32462
+    ],
+    [
+     22.54605,
+     88.32569
+    ],
+    [
+     22.54412,
+     88.32677
+    ],
+    [
+     22.54219,
+     88.32814
+    ],
+    [
+     22.54124,
+     88.32944
+    ],
+    [
+     22.54119,
+     88.33157
+    ],
+    [
+     22.54093,
+     88.33228
+    ],
+    [
+     22.53956,
+     88.33336
+    ],
+    [
+     22.5384,
+     88.33487
+    ],
+    [
+     22.53779,
+     88.33505
+    ],
+    [
+     22.53588,
+     88.33496
+    ],
+    [
+     22.53487,
+     88.33529
+    ],
+    [
+     22.53437,
+     88.33664
+    ],
+    [
+     22.53357,
+     88.33727
+    ],
+    [
+     22.53263,
+     88.33772
+    ],
+    [
+     22.53235,
+     88.33807
+    ],
+    [
+     22.53192,
+     88.33901
+    ],
+    [
+     22.53152,
+     88.3407
+    ],
+    [
+     22.53054,
+     88.34145
+    ],
+    [
+     22.52844,
+     88.34113
+    ],
+    [
+     22.52685,
+     88.34131
+    ],
+    [
+     22.52292,
+     88.34026
+    ],
+    [
+     22.52112,
+     88.34029
+    ],
+    [
+     22.51971,
+     88.33993
+    ],
+    [
+     22.51787,
+     88.34023
+    ],
+    [
+     22.51632,
+     88.34016
+    ],
+    [
+     22.51273,
+     88.34074
+    ],
+    [
+     22.51074,
+     88.34006
+    ],
+    [
+     22.50892,
+     88.34086
+    ],
+    [
+     22.50705,
+     88.34104
+    ],
+    [
+     22.50513,
+     88.34159
+    ],
+    [
+     22.50393,
+     88.34219
+    ],
+    [
+     22.50131,
+     88.34213
+    ],
+    [
+     22.49917,
+     88.34278
+    ],
+    [
+     22.49836,
+     88.34271
+    ],
+    [
+     22.49591,
+     88.34136
+    ],
+    [
+     22.4948,
+     88.34106
+    ],
+    [
+     22.49337,
+     88.34197
+    ],
+    [
+     22.49274,
+     88.34189
+    ],
+    [
+     22.49153,
+     88.34049
+    ],
+    [
+     22.49068,
+     88.34018
+    ],
+    [
+     22.48898,
+     88.33895
+    ],
+    [
+     22.4881,
+     88.33896
+    ],
+    [
+     22.48633,
+     88.34065
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-10",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.42761,
+     88.40175
+    ],
+    [
+     22.42769,
+     88.40165
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-11",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.47583,
+     88.35537
+    ],
+    [
+     22.47534,
+     88.3566
+    ],
+    [
+     22.47521,
+     88.35776
+    ],
+    [
+     22.47496,
+     88.35844
+    ],
+    [
+     22.47193,
+     88.36316
+    ],
+    [
+     22.47036,
+     88.36629
+    ],
+    [
+     22.46961,
+     88.36854
+    ],
+    [
+     22.46924,
+     88.371
+    ],
+    [
+     22.4688,
+     88.37204
+    ],
+    [
+     22.46732,
+     88.3736
+    ],
+    [
+     22.46635,
+     88.37532
+    ],
+    [
+     22.4646,
+     88.37686
+    ],
+    [
+     22.46397,
+     88.37849
+    ],
+    [
+     22.46426,
+     88.38121
+    ],
+    [
+     22.46517,
+     88.38368
+    ],
+    [
+     22.46533,
+     88.38463
+    ],
+    [
+     22.46486,
+     88.38763
+    ],
+    [
+     22.4658,
+     88.39085
+    ],
+    [
+     22.46718,
+     88.40116
+    ],
+    [
+     22.46756,
+     88.40646
+    ],
+    [
+     22.46733,
+     88.40733
+    ],
+    [
+     22.46731,
+     88.4083
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-12",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.47587,
+     88.35527
+    ],
+    [
+     22.47583,
+     88.35537
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-13",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.48625,
+     88.34073
+    ],
+    [
+     22.48391,
+     88.34386
+    ],
+    [
+     22.48335,
+     88.3443
+    ],
+    [
+     22.48192,
+     88.34485
+    ],
+    [
+     22.48008,
+     88.34706
+    ],
+    [
+     22.47911,
+     88.34887
+    ],
+    [
+     22.4782,
+     88.35161
+    ],
+    [
+     22.47645,
+     88.35402
+    ],
+    [
+     22.47587,
+     88.35527
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-14",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.48633,
+     88.34065
+    ],
+    [
+     22.48625,
+     88.34073
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-15",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.3298,
+     88.4483
+    ],
+    [
+     22.32975,
+     88.44834
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-16",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.32123,
+     88.44187
+    ],
+    [
+     22.31998,
+     88.44112
+    ],
+    [
+     22.31946,
+     88.44102
+    ],
+    [
+     22.31772,
+     88.44126
+    ],
+    [
+     22.31638,
+     88.44227
+    ],
+    [
+     22.31539,
+     88.4436
+    ],
+    [
+     22.31501,
+     88.44432
+    ],
+    [
+     22.31441,
+     88.44681
+    ],
+    [
+     22.31415,
+     88.44939
+    ],
+    [
+     22.31415,
+     88.45064
+    ],
+    [
+     22.31459,
+     88.45342
+    ],
+    [
+     22.31428,
+     88.45428
+    ],
+    [
+     22.31192,
+     88.45682
+    ],
+    [
+     22.31109,
+     88.45743
+    ],
+    [
+     22.30993,
+     88.45779
+    ],
+    [
+     22.30848,
+     88.45788
+    ],
+    [
+     22.3077,
+     88.45812
+    ],
+    [
+     22.30553,
+     88.46002
+    ],
+    [
+     22.30494,
+     88.46105
+    ],
+    [
+     22.30466,
+     88.46119
+    ],
+    [
+     22.30389,
+     88.46019
+    ],
+    [
+     22.30344,
+     88.46024
+    ],
+    [
+     22.30285,
+     88.46105
+    ],
+    [
+     22.30105,
+     88.46219
+    ],
+    [
+     22.30003,
+     88.46247
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-17",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.32975,
+     88.44834
+    ],
+    [
+     22.32872,
+     88.44902
+    ],
+    [
+     22.32798,
+     88.44902
+    ],
+    [
+     22.32677,
+     88.44849
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-18",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.32135,
+     88.44188
+    ],
+    [
+     22.32123,
+     88.44187
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-19",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.33239,
+     88.44783
+    ],
+    [
+     22.3314,
+     88.44761
+    ],
+    [
+     22.33084,
+     88.4477
+    ],
+    [
+     22.3298,
+     88.4483
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-2",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.3959,
+     88.41649
+    ],
+    [
+     22.39554,
+     88.41753
+    ],
+    [
+     22.39512,
+     88.41781
+    ],
+    [
+     22.3935,
+     88.41797
+    ],
+    [
+     22.38784,
+     88.41772
+    ],
+    [
+     22.38364,
+     88.41817
+    ],
+    [
+     22.38131,
+     88.41897
+    ],
+    [
+     22.37792,
+     88.41937
+    ],
+    [
+     22.37349,
+     88.42055
+    ],
+    [
+     22.36982,
+     88.42215
+    ],
+    [
+     22.36671,
+     88.42296
+    ],
+    [
+     22.36563,
+     88.42303
+    ],
+    [
+     22.36209,
+     88.42259
+    ],
+    [
+     22.36103,
+     88.42226
+    ],
+    [
+     22.35978,
+     88.42152
+    ],
+    [
+     22.3591,
+     88.42141
+    ],
+    [
+     22.35831,
+     88.42168
+    ],
+    [
+     22.35747,
+     88.42228
+    ],
+    [
+     22.35599,
+     88.42382
+    ],
+    [
+     22.35528,
+     88.42487
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-20",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.32677,
+     88.44849
+    ],
+    [
+     22.32674,
+     88.44847
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-21",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.32674,
+     88.44847
+    ],
+    [
+     22.3255,
+     88.44821
+    ],
+    [
+     22.32394,
+     88.44831
+    ],
+    [
+     22.32306,
+     88.44803
+    ],
+    [
+     22.32321,
+     88.44669
+    ],
+    [
+     22.32424,
+     88.44264
+    ],
+    [
+     22.32325,
+     88.44203
+    ],
+    [
+     22.32135,
+     88.44188
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-22",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.5506,
+     88.32467
+    ],
+    [
+     22.55005,
+     88.32502
+    ],
+    [
+     22.54941,
+     88.32507
+    ],
+    [
+     22.54876,
+     88.32496
+    ],
+    [
+     22.54791,
+     88.32453
+    ],
+    [
+     22.5473,
+     88.32462
+    ],
+    [
+     22.54605,
+     88.32569
+    ],
+    [
+     22.54412,
+     88.32677
+    ],
+    [
+     22.54219,
+     88.32814
+    ],
+    [
+     22.54124,
+     88.32944
+    ],
+    [
+     22.54119,
+     88.33157
+    ],
+    [
+     22.54093,
+     88.33228
+    ],
+    [
+     22.53956,
+     88.33336
+    ],
+    [
+     22.5384,
+     88.33487
+    ],
+    [
+     22.53779,
+     88.33505
+    ],
+    [
+     22.53588,
+     88.33496
+    ],
+    [
+     22.53487,
+     88.33529
+    ],
+    [
+     22.53437,
+     88.33664
+    ],
+    [
+     22.53357,
+     88.33727
+    ],
+    [
+     22.53263,
+     88.33772
+    ],
+    [
+     22.53235,
+     88.33807
+    ],
+    [
+     22.53192,
+     88.33901
+    ],
+    [
+     22.53152,
+     88.3407
+    ],
+    [
+     22.53054,
+     88.34145
+    ],
+    [
+     22.52844,
+     88.34113
+    ],
+    [
+     22.52685,
+     88.34131
+    ],
+    [
+     22.52292,
+     88.34026
+    ],
+    [
+     22.52112,
+     88.34029
+    ],
+    [
+     22.51971,
+     88.33993
+    ],
+    [
+     22.51787,
+     88.34023
+    ],
+    [
+     22.51632,
+     88.34016
+    ],
+    [
+     22.51273,
+     88.34074
+    ],
+    [
+     22.51074,
+     88.34006
+    ],
+    [
+     22.50892,
+     88.34086
+    ],
+    [
+     22.50705,
+     88.34104
+    ],
+    [
+     22.50513,
+     88.34159
+    ],
+    [
+     22.50393,
+     88.34219
+    ],
+    [
+     22.50131,
+     88.34213
+    ],
+    [
+     22.49917,
+     88.34278
+    ],
+    [
+     22.49836,
+     88.34271
+    ],
+    [
+     22.49591,
+     88.34136
+    ],
+    [
+     22.4948,
+     88.34106
+    ],
+    [
+     22.49337,
+     88.34197
+    ],
+    [
+     22.49274,
+     88.34189
+    ],
+    [
+     22.49153,
+     88.34049
+    ],
+    [
+     22.49068,
+     88.34018
+    ],
+    [
+     22.48898,
+     88.33895
+    ],
+    [
+     22.4881,
+     88.33896
+    ],
+    [
+     22.48633,
+     88.34065
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-23",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.47583,
+     88.35537
+    ],
+    [
+     22.47534,
+     88.3566
+    ],
+    [
+     22.47521,
+     88.35776
+    ],
+    [
+     22.47496,
+     88.35844
+    ],
+    [
+     22.47193,
+     88.36316
+    ],
+    [
+     22.47036,
+     88.36629
+    ],
+    [
+     22.46961,
+     88.36854
+    ],
+    [
+     22.46924,
+     88.371
+    ],
+    [
+     22.4688,
+     88.37204
+    ],
+    [
+     22.46732,
+     88.3736
+    ],
+    [
+     22.46635,
+     88.37532
+    ],
+    [
+     22.4646,
+     88.37686
+    ],
+    [
+     22.46397,
+     88.37849
+    ],
+    [
+     22.46426,
+     88.38121
+    ],
+    [
+     22.46517,
+     88.38368
+    ],
+    [
+     22.46533,
+     88.38463
+    ],
+    [
+     22.46486,
+     88.38763
+    ],
+    [
+     22.4658,
+     88.39085
+    ],
+    [
+     22.46718,
+     88.40116
+    ],
+    [
+     22.46756,
+     88.40646
+    ],
+    [
+     22.46733,
+     88.40733
+    ],
+    [
+     22.46731,
+     88.4083
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-24",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.47587,
+     88.35527
+    ],
+    [
+     22.47583,
+     88.35537
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-25",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.48625,
+     88.34073
+    ],
+    [
+     22.48391,
+     88.34386
+    ],
+    [
+     22.48335,
+     88.3443
+    ],
+    [
+     22.48192,
+     88.34485
+    ],
+    [
+     22.48008,
+     88.34706
+    ],
+    [
+     22.47911,
+     88.34887
+    ],
+    [
+     22.4782,
+     88.35161
+    ],
+    [
+     22.47645,
+     88.35402
+    ],
+    [
+     22.47587,
+     88.35527
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-26",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.48633,
+     88.34065
+    ],
+    [
+     22.48625,
+     88.34073
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-3",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.35528,
+     88.42487
+    ],
+    [
+     22.35519,
+     88.42499
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-4",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.35519,
+     88.42499
+    ],
+    [
+     22.35307,
+     88.42667
+    ],
+    [
+     22.35166,
+     88.42808
+    ],
+    [
+     22.34995,
+     88.43006
+    ],
+    [
+     22.34772,
+     88.43362
+    ],
+    [
+     22.3445,
+     88.43622
+    ],
+    [
+     22.34406,
+     88.4367
+    ],
+    [
+     22.34407,
+     88.43712
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-5",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.34417,
+     88.43724
+    ],
+    [
+     22.34425,
+     88.43745
+    ],
+    [
+     22.34391,
+     88.43837
+    ],
+    [
+     22.34418,
+     88.43993
+    ],
+    [
+     22.34414,
+     88.44057
+    ],
+    [
+     22.34375,
+     88.44144
+    ],
+    [
+     22.34085,
+     88.44579
+    ],
+    [
+     22.33975,
+     88.44644
+    ],
+    [
+     22.3367,
+     88.44634
+    ],
+    [
+     22.3353,
+     88.44664
+    ],
+    [
+     22.33313,
+     88.44807
+    ],
+    [
+     22.33267,
+     88.44814
+    ],
+    [
+     22.33251,
+     88.44798
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-6",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.33242,
+     88.44787
+    ],
+    [
+     22.33239,
+     88.44783
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-7",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.33251,
+     88.44798
+    ],
+    [
+     22.33242,
+     88.44787
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-8",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.3959,
+     88.41649
+    ],
+    [
+     22.39677,
+     88.41518
+    ],
+    [
+     22.39934,
+     88.41506
+    ],
+    [
+     22.40311,
+     88.41374
+    ],
+    [
+     22.40645,
+     88.41283
+    ],
+    [
+     22.40846,
+     88.41194
+    ],
+    [
+     22.41532,
+     88.40833
+    ],
+    [
+     22.41679,
+     88.40798
+    ],
+    [
+     22.42021,
+     88.40561
+    ],
+    [
+     22.4231,
+     88.40636
+    ],
+    [
+     22.42675,
+     88.40282
+    ],
+    [
+     22.42761,
+     88.40175
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/adi-ganga-9",
+   "name": "Adi Ganga",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.42769,
+     88.40165
+    ],
+    [
+     22.431,
+     88.39747
+    ],
+    [
+     22.4331,
+     88.39571
+    ],
+    [
+     22.43558,
+     88.3945
+    ],
+    [
+     22.44269,
+     88.39314
+    ],
+    [
+     22.4438,
+     88.39266
+    ],
+    [
+     22.44678,
+     88.39068
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-1",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.84987,
+     88.37164
+    ],
+    [
+     22.83864,
+     88.37645
+    ],
+    [
+     22.83168,
+     88.37627
+    ],
+    [
+     22.82867,
+     88.37044
+    ],
+    [
+     22.82867,
+     88.36357
+    ],
+    [
+     22.82488,
+     88.35842
+    ],
+    [
+     22.81997,
+     88.3555
+    ],
+    [
+     22.80779,
+     88.35722
+    ],
+    [
+     22.80051,
+     88.35567
+    ],
+    [
+     22.79244,
+     88.34829
+    ],
+    [
+     22.7859,
+     88.33551
+    ],
+    [
+     22.78358,
+     88.33372
+    ],
+    [
+     22.7812,
+     88.33233
+    ],
+    [
+     22.77688,
+     88.33228
+    ],
+    [
+     22.77281,
+     88.33353
+    ],
+    [
+     22.76474,
+     88.33954
+    ],
+    [
+     22.75493,
+     88.35413
+    ],
+    [
+     22.74988,
+     88.35932
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-10",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.64105,
+     88.35775
+    ],
+    [
+     22.63625,
+     88.35849
+    ],
+    [
+     22.63116,
+     88.36126
+    ],
+    [
+     22.61839,
+     88.36512
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-11",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.74988,
+     88.35932
+    ],
+    [
+     22.74258,
+     88.36134
+    ],
+    [
+     22.72231,
+     88.35894
+    ],
+    [
+     22.69262,
+     88.36357
+    ],
+    [
+     22.68237,
+     88.36154
+    ],
+    [
+     22.67202,
+     88.35667
+    ],
+    [
+     22.66439,
+     88.35381
+    ],
+    [
+     22.65326,
+     88.35344
+    ],
+    [
+     22.64105,
+     88.35775
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-12",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.60905,
+     88.36117
+    ],
+    [
+     22.59653,
+     88.35052
+    ],
+    [
+     22.58516,
+     88.34791
+    ],
+    [
+     22.57924,
+     88.34518
+    ],
+    [
+     22.57219,
+     88.34118
+    ],
+    [
+     22.55465,
+     88.32408
+    ],
+    [
+     22.55083,
+     88.31867
+    ],
+    [
+     22.54966,
+     88.31298
+    ],
+    [
+     22.54928,
+     88.30853
+    ],
+    [
+     22.5495,
+     88.30474
+    ],
+    [
+     22.55215,
+     88.29569
+    ],
+    [
+     22.55222,
+     88.29367
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-13",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.61839,
+     88.36512
+    ],
+    [
+     22.60905,
+     88.36117
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-14",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.64105,
+     88.35775
+    ],
+    [
+     22.63625,
+     88.35849
+    ],
+    [
+     22.63116,
+     88.36126
+    ],
+    [
+     22.61839,
+     88.36512
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-2",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.74988,
+     88.35932
+    ],
+    [
+     22.74258,
+     88.36134
+    ],
+    [
+     22.72231,
+     88.35894
+    ],
+    [
+     22.69262,
+     88.36357
+    ],
+    [
+     22.68237,
+     88.36154
+    ],
+    [
+     22.67202,
+     88.35667
+    ],
+    [
+     22.66439,
+     88.35381
+    ],
+    [
+     22.65326,
+     88.35344
+    ],
+    [
+     22.64105,
+     88.35775
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-3",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.60905,
+     88.36117
+    ],
+    [
+     22.59653,
+     88.35052
+    ],
+    [
+     22.58516,
+     88.34791
+    ],
+    [
+     22.57924,
+     88.34518
+    ],
+    [
+     22.57219,
+     88.34118
+    ],
+    [
+     22.55465,
+     88.32408
+    ],
+    [
+     22.55083,
+     88.31867
+    ],
+    [
+     22.54966,
+     88.31298
+    ],
+    [
+     22.54928,
+     88.30853
+    ],
+    [
+     22.5495,
+     88.30474
+    ],
+    [
+     22.55215,
+     88.29569
+    ],
+    [
+     22.55222,
+     88.29367
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-4",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.55555,
+     88.27282
+    ],
+    [
+     22.55895,
+     88.25659
+    ],
+    [
+     22.56154,
+     88.24806
+    ],
+    [
+     22.5617,
+     88.24429
+    ],
+    [
+     22.56097,
+     88.24047
+    ],
+    [
+     22.55774,
+     88.237
+    ],
+    [
+     22.54916,
+     88.23363
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-5",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.54916,
+     88.23363
+    ],
+    [
+     22.54685,
+     88.2341
+    ],
+    [
+     22.53517,
+     88.24118
+    ],
+    [
+     22.52928,
+     88.2422
+    ],
+    [
+     22.52504,
+     88.23912
+    ],
+    [
+     22.51997,
+     88.23105
+    ],
+    [
+     22.5177,
+     88.21112
+    ],
+    [
+     22.51395,
+     88.20432
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-6",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.5049,
+     88.19252
+    ],
+    [
+     22.48296,
+     88.17025
+    ],
+    [
+     22.48,
+     88.16187
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-7",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.51395,
+     88.20432
+    ],
+    [
+     22.51177,
+     88.20034
+    ],
+    [
+     22.50696,
+     88.19466
+    ],
+    [
+     22.5049,
+     88.19252
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-8",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.61839,
+     88.36512
+    ],
+    [
+     22.60905,
+     88.36117
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/hooghly-9",
+   "name": "Hooghly",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.55222,
+     88.29367
+    ],
+    [
+     22.55481,
+     88.27635
+    ],
+    [
+     22.55555,
+     88.27282
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/saraswati-1",
+   "name": "Saraswati",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.64623,
+     88.25414
+    ],
+    [
+     22.64553,
+     88.25212
+    ],
+    [
+     22.64175,
+     88.24521
+    ],
+    [
+     22.64142,
+     88.24259
+    ],
+    [
+     22.64156,
+     88.2393
+    ],
+    [
+     22.64178,
+     88.23804
+    ],
+    [
+     22.64157,
+     88.23678
+    ],
+    [
+     22.64077,
+     88.23583
+    ],
+    [
+     22.63993,
+     88.23533
+    ],
+    [
+     22.63834,
+     88.23453
+    ],
+    [
+     22.63675,
+     88.23399
+    ],
+    [
+     22.63588,
+     88.23291
+    ],
+    [
+     22.63548,
+     88.23191
+    ],
+    [
+     22.6352,
+     88.22902
+    ],
+    [
+     22.6353,
+     88.22823
+    ],
+    [
+     22.63603,
+     88.22685
+    ],
+    [
+     22.63665,
+     88.22626
+    ],
+    [
+     22.63726,
+     88.2253
+    ],
+    [
+     22.6388,
+     88.22379
+    ],
+    [
+     22.63978,
+     88.22351
+    ],
+    [
+     22.64001,
+     88.22256
+    ],
+    [
+     22.63939,
+     88.22131
+    ],
+    [
+     22.63844,
+     88.21997
+    ],
+    [
+     22.63815,
+     88.21997
+    ],
+    [
+     22.63721,
+     88.22097
+    ],
+    [
+     22.63668,
+     88.22098
+    ],
+    [
+     22.63489,
+     88.21929
+    ],
+    [
+     22.63338,
+     88.2187
+    ],
+    [
+     22.63258,
+     88.21873
+    ],
+    [
+     22.6312,
+     88.21924
+    ],
+    [
+     22.62996,
+     88.21944
+    ],
+    [
+     22.6276,
+     88.21962
+    ],
+    [
+     22.62672,
+     88.22006
+    ],
+    [
+     22.62606,
+     88.2209
+    ],
+    [
+     22.62519,
+     88.22142
+    ],
+    [
+     22.62327,
+     88.22148
+    ],
+    [
+     22.62216,
+     88.22225
+    ],
+    [
+     22.62136,
+     88.22236
+    ],
+    [
+     22.62064,
+     88.22292
+    ],
+    [
+     22.61962,
+     88.22321
+    ],
+    [
+     22.61565,
+     88.22368
+    ],
+    [
+     22.61403,
+     88.22406
+    ],
+    [
+     22.61371,
+     88.22534
+    ],
+    [
+     22.6131,
+     88.22621
+    ],
+    [
+     22.61182,
+     88.22727
+    ],
+    [
+     22.61186,
+     88.22764
+    ],
+    [
+     22.61165,
+     88.22811
+    ],
+    [
+     22.6105,
+     88.22828
+    ],
+    [
+     22.60997,
+     88.22875
+    ],
+    [
+     22.60889,
+     88.22885
+    ],
+    [
+     22.60745,
+     88.22931
+    ],
+    [
+     22.60617,
+     88.23017
+    ],
+    [
+     22.60532,
+     88.23036
+    ],
+    [
+     22.60289,
+     88.23169
+    ],
+    [
+     22.59942,
+     88.23324
+    ],
+    [
+     22.59799,
+     88.23428
+    ],
+    [
+     22.59758,
+     88.23557
+    ],
+    [
+     22.59625,
+     88.23797
+    ],
+    [
+     22.59501,
+     88.24163
+    ],
+    [
+     22.59405,
+     88.24311
+    ],
+    [
+     22.5938,
+     88.24442
+    ],
+    [
+     22.59306,
+     88.24475
+    ],
+    [
+     22.59172,
+     88.2446
+    ],
+    [
+     22.59128,
+     88.24532
+    ],
+    [
+     22.59058,
+     88.24515
+    ],
+    [
+     22.59041,
+     88.24396
+    ],
+    [
+     22.59004,
+     88.24345
+    ],
+    [
+     22.5883,
+     88.24298
+    ],
+    [
+     22.58727,
+     88.24196
+    ],
+    [
+     22.5862,
+     88.2419
+    ],
+    [
+     22.58499,
+     88.24103
+    ],
+    [
+     22.58386,
+     88.24101
+    ],
+    [
+     22.58287,
+     88.24064
+    ],
+    [
+     22.58123,
+     88.23951
+    ],
+    [
+     22.57968,
+     88.23884
+    ],
+    [
+     22.57951,
+     88.23841
+    ],
+    [
+     22.58008,
+     88.23705
+    ],
+    [
+     22.58076,
+     88.23639
+    ],
+    [
+     22.58165,
+     88.236
+    ],
+    [
+     22.5827,
+     88.23468
+    ],
+    [
+     22.58278,
+     88.23437
+    ],
+    [
+     22.5824,
+     88.23377
+    ],
+    [
+     22.58151,
+     88.23366
+    ],
+    [
+     22.58062,
+     88.23205
+    ],
+    [
+     22.57991,
+     88.23144
+    ],
+    [
+     22.57968,
+     88.23101
+    ],
+    [
+     22.5786,
+     88.23076
+    ],
+    [
+     22.57797,
+     88.23009
+    ],
+    [
+     22.57702,
+     88.23019
+    ],
+    [
+     22.57644,
+     88.2307
+    ],
+    [
+     22.57618,
+     88.23135
+    ],
+    [
+     22.57558,
+     88.23144
+    ],
+    [
+     22.57412,
+     88.23104
+    ],
+    [
+     22.57358,
+     88.23064
+    ],
+    [
+     22.57281,
+     88.23042
+    ],
+    [
+     22.57107,
+     88.23038
+    ],
+    [
+     22.56936,
+     88.23065
+    ],
+    [
+     22.56812,
+     88.23052
+    ],
+    [
+     22.56724,
+     88.23025
+    ],
+    [
+     22.56663,
+     88.22931
+    ],
+    [
+     22.56627,
+     88.22909
+    ],
+    [
+     22.56526,
+     88.22924
+    ],
+    [
+     22.56457,
+     88.23069
+    ],
+    [
+     22.56398,
+     88.2306
+    ],
+    [
+     22.56343,
+     88.2301
+    ],
+    [
+     22.56137,
+     88.22926
+    ],
+    [
+     22.5599,
+     88.22898
+    ],
+    [
+     22.55868,
+     88.22914
+    ],
+    [
+     22.55805,
+     88.22959
+    ],
+    [
+     22.55799,
+     88.23022
+    ],
+    [
+     22.55887,
+     88.2312
+    ],
+    [
+     22.55903,
+     88.23235
+    ],
+    [
+     22.55888,
+     88.23318
+    ],
+    [
+     22.55858,
+     88.23347
+    ],
+    [
+     22.55774,
+     88.237
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/saraswati-2",
+   "name": "Saraswati",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.65197,
+     88.26905
+    ],
+    [
+     22.65177,
+     88.26585
+    ],
+    [
+     22.65153,
+     88.26493
+    ],
+    [
+     22.65128,
+     88.26442
+    ],
+    [
+     22.64884,
+     88.26211
+    ],
+    [
+     22.64794,
+     88.26083
+    ],
+    [
+     22.64715,
+     88.25888
+    ],
+    [
+     22.64675,
+     88.25595
+    ],
+    [
+     22.64627,
+     88.25425
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/saraswati-3",
+   "name": "Saraswati",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.64627,
+     88.25425
+    ],
+    [
+     22.64623,
+     88.25414
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/saraswati-4",
+   "name": "Saraswati",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.84966,
+     88.2983
+    ],
+    [
+     22.84864,
+     88.29855
+    ],
+    [
+     22.84566,
+     88.29818
+    ],
+    [
+     22.84498,
+     88.29798
+    ],
+    [
+     22.84418,
+     88.29731
+    ],
+    [
+     22.84139,
+     88.29328
+    ],
+    [
+     22.84001,
+     88.29246
+    ],
+    [
+     22.83962,
+     88.29092
+    ],
+    [
+     22.83984,
+     88.28921
+    ],
+    [
+     22.83971,
+     88.28794
+    ],
+    [
+     22.83916,
+     88.28566
+    ],
+    [
+     22.8387,
+     88.28489
+    ],
+    [
+     22.83801,
+     88.28404
+    ],
+    [
+     22.83432,
+     88.28066
+    ],
+    [
+     22.83239,
+     88.27843
+    ],
+    [
+     22.83092,
+     88.27724
+    ],
+    [
+     22.8296,
+     88.27666
+    ],
+    [
+     22.82824,
+     88.27689
+    ],
+    [
+     22.8255,
+     88.27696
+    ],
+    [
+     22.82465,
+     88.27655
+    ],
+    [
+     22.82303,
+     88.27523
+    ],
+    [
+     22.82181,
+     88.27266
+    ],
+    [
+     22.82173,
+     88.27203
+    ],
+    [
+     22.82204,
+     88.26929
+    ],
+    [
+     22.82144,
+     88.26684
+    ],
+    [
+     22.82109,
+     88.26634
+    ],
+    [
+     22.81997,
+     88.26558
+    ],
+    [
+     22.81847,
+     88.26419
+    ],
+    [
+     22.81826,
+     88.26261
+    ],
+    [
+     22.81781,
+     88.26236
+    ],
+    [
+     22.81662,
+     88.26215
+    ],
+    [
+     22.81409,
+     88.25999
+    ],
+    [
+     22.81372,
+     88.25906
+    ],
+    [
+     22.81409,
+     88.25857
+    ],
+    [
+     22.81349,
+     88.2583
+    ],
+    [
+     22.81299,
+     88.25665
+    ],
+    [
+     22.81174,
+     88.25452
+    ],
+    [
+     22.81127,
+     88.25422
+    ],
+    [
+     22.80945,
+     88.25359
+    ],
+    [
+     22.80563,
+     88.25442
+    ],
+    [
+     22.80505,
+     88.25483
+    ],
+    [
+     22.80465,
+     88.25541
+    ],
+    [
+     22.80406,
+     88.25713
+    ],
+    [
+     22.80298,
+     88.25913
+    ],
+    [
+     22.80136,
+     88.26126
+    ],
+    [
+     22.80028,
+     88.26216
+    ],
+    [
+     22.79867,
+     88.26299
+    ],
+    [
+     22.7967,
+     88.26348
+    ],
+    [
+     22.79463,
+     88.26457
+    ],
+    [
+     22.79266,
+     88.26504
+    ],
+    [
+     22.78848,
+     88.2655
+    ],
+    [
+     22.78727,
+     88.26522
+    ],
+    [
+     22.78461,
+     88.26345
+    ],
+    [
+     22.78395,
+     88.26323
+    ],
+    [
+     22.78165,
+     88.26073
+    ],
+    [
+     22.77997,
+     88.25799
+    ],
+    [
+     22.77915,
+     88.25611
+    ],
+    [
+     22.77894,
+     88.25605
+    ],
+    [
+     22.77816,
+     88.2548
+    ],
+    [
+     22.77793,
+     88.25394
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/saraswati-5",
+   "name": "Saraswati",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.77793,
+     88.25394
+    ],
+    [
+     22.77752,
+     88.25181
+    ],
+    [
+     22.7769,
+     88.25068
+    ],
+    [
+     22.77517,
+     88.24927
+    ],
+    [
+     22.77297,
+     88.24631
+    ],
+    [
+     22.77146,
+     88.24479
+    ],
+    [
+     22.76805,
+     88.24289
+    ],
+    [
+     22.76592,
+     88.24244
+    ],
+    [
+     22.76439,
+     88.24243
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:river/saraswati-6",
+   "name": "Saraswati",
+   "kind": "river",
+   "closed": false,
+   "points": [
+    [
+     22.67502,
+     88.27952
+    ],
+    [
+     22.67199,
+     88.27843
+    ],
+    [
+     22.67027,
+     88.27729
+    ],
+    [
+     22.66935,
+     88.27695
+    ],
+    [
+     22.66716,
+     88.27494
+    ],
+    [
+     22.66446,
+     88.27179
+    ],
+    [
+     22.6636,
+     88.27144
+    ],
+    [
+     22.66315,
+     88.27142
+    ],
+    [
+     22.66223,
+     88.27187
+    ],
+    [
+     22.65993,
+     88.27477
+    ],
+    [
+     22.65779,
+     88.27676
+    ],
+    [
+     22.65672,
+     88.27725
+    ],
+    [
+     22.65507,
+     88.27714
+    ],
+    [
+     22.65455,
+     88.27695
+    ],
+    [
+     22.65301,
+     88.27441
+    ],
+    [
+     22.65239,
+     88.27291
+    ],
+    [
+     22.65197,
+     88.26905
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333499",
+   "name": "Barun Sengupta (Science City)",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.54306,
+     88.39896
+    ],
+    [
+     22.5446,
+     88.3994
+    ],
+    [
+     22.54458,
+     88.39959
+    ],
+    [
+     22.54302,
+     88.39921
+    ],
+    [
+     22.54306,
+     88.39896
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333458",
+   "name": "Behala Chourasta",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.48665,
+     88.31299
+    ],
+    [
+     22.48812,
+     88.31357
+    ],
+    [
+     22.48806,
+     88.31374
+    ],
+    [
+     22.4866,
+     88.31315
+    ],
+    [
+     22.48665,
+     88.31299
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333484",
+   "name": "Beliaghata",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.5502,
+     88.40309
+    ],
+    [
+     22.55133,
+     88.40453
+    ],
+    [
+     22.55111,
+     88.40474
+    ],
+    [
+     22.54998,
+     88.4033
+    ],
+    [
+     22.5502,
+     88.40309
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333523",
+   "name": "Bengal Chemical",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.5802,
+     88.40094
+    ],
+    [
+     22.58021,
+     88.40098
+    ],
+    [
+     22.58033,
+     88.40095
+    ],
+    [
+     22.58035,
+     88.40103
+    ],
+    [
+     22.58062,
+     88.40096
+    ],
+    [
+     22.58066,
+     88.40117
+    ],
+    [
+     22.5804,
+     88.40125
+    ],
+    [
+     22.58042,
+     88.40133
+    ],
+    [
+     22.57975,
+     88.40153
+    ],
+    [
+     22.57972,
+     88.40141
+    ],
+    [
+     22.57941,
+     88.4015
+    ],
+    [
+     22.57936,
+     88.40127
+    ],
+    [
+     22.57966,
+     88.4012
+    ],
+    [
+     22.57965,
+     88.40111
+    ],
+    [
+     22.57973,
+     88.40109
+    ],
+    [
+     22.57972,
+     88.40106
+    ],
+    [
+     22.5802,
+     88.40094
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333520",
+   "name": "Central Park",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.59039,
+     88.41489
+    ],
+    [
+     22.59073,
+     88.41496
+    ],
+    [
+     22.59046,
+     88.41636
+    ],
+    [
+     22.59013,
+     88.41628
+    ],
+    [
+     22.59039,
+     88.41489
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333533",
+   "name": "City Centre",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.58684,
+     88.4073
+    ],
+    [
+     22.587,
+     88.40757
+    ],
+    [
+     22.58705,
+     88.40754
+    ],
+    [
+     22.5874,
+     88.40814
+    ],
+    [
+     22.58735,
+     88.40818
+    ],
+    [
+     22.58752,
+     88.40845
+    ],
+    [
+     22.58738,
+     88.40854
+    ],
+    [
+     22.58721,
+     88.40827
+    ],
+    [
+     22.58717,
+     88.40829
+    ],
+    [
+     22.5868,
+     88.40772
+    ],
+    [
+     22.58687,
+     88.40767
+    ],
+    [
+     22.58671,
+     88.40739
+    ],
+    [
+     22.58684,
+     88.4073
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333478",
+   "name": "Dum Dum Cantt.",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.63686,
+     88.4117
+    ],
+    [
+     22.6384,
+     88.41241
+    ],
+    [
+     22.6383,
+     88.41262
+    ],
+    [
+     22.63678,
+     88.41191
+    ],
+    [
+     22.63686,
+     88.4117
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333504",
+   "name": "Hemanta Mukherjee (Ruby)",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.51564,
+     88.4011
+    ],
+    [
+     22.51571,
+     88.40135
+    ],
+    [
+     22.51464,
+     88.40165
+    ],
+    [
+     22.514,
+     88.40179
+    ],
+    [
+     22.51396,
+     88.40152
+    ],
+    [
+     22.5146,
+     88.40139
+    ],
+    [
+     22.51564,
+     88.4011
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/52153075",
+   "name": "Howrah Junction",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.58213,
+     88.34116
+    ],
+    [
+     22.58334,
+     88.34176
+    ],
+    [
+     22.58312,
+     88.34228
+    ],
+    [
+     22.58439,
+     88.34288
+    ],
+    [
+     22.58472,
+     88.34212
+    ],
+    [
+     22.58478,
+     88.34215
+    ],
+    [
+     22.58445,
+     88.34291
+    ],
+    [
+     22.5845,
+     88.34294
+    ],
+    [
+     22.58418,
+     88.34371
+    ],
+    [
+     22.5811,
+     88.34215
+    ],
+    [
+     22.58133,
+     88.34162
+    ],
+    [
+     22.58184,
+     88.34188
+    ],
+    [
+     22.58213,
+     88.34116
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/915848205",
+   "name": "Jessore Road",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.63888,
+     88.4289
+    ],
+    [
+     22.63893,
+     88.42895
+    ],
+    [
+     22.63888,
+     88.42901
+    ],
+    [
+     22.63935,
+     88.42951
+    ],
+    [
+     22.63948,
+     88.42937
+    ],
+    [
+     22.63983,
+     88.42974
+    ],
+    [
+     22.63971,
+     88.42987
+    ],
+    [
+     22.6399,
+     88.43003
+    ],
+    [
+     22.63987,
+     88.43006
+    ],
+    [
+     22.63993,
+     88.43012
+    ],
+    [
+     22.63984,
+     88.43022
+    ],
+    [
+     22.6399,
+     88.43028
+    ],
+    [
+     22.63974,
+     88.43046
+    ],
+    [
+     22.6396,
+     88.43035
+    ],
+    [
+     22.63962,
+     88.43033
+    ],
+    [
+     22.63955,
+     88.43026
+    ],
+    [
+     22.63957,
+     88.43024
+    ],
+    [
+     22.63929,
+     88.42995
+    ],
+    [
+     22.63927,
+     88.42997
+    ],
+    [
+     22.63923,
+     88.42993
+    ],
+    [
+     22.63925,
+     88.42991
+    ],
+    [
+     22.63886,
+     88.4295
+    ],
+    [
+     22.63884,
+     88.42952
+    ],
+    [
+     22.6388,
+     88.42948
+    ],
+    [
+     22.63882,
+     88.42946
+    ],
+    [
+     22.63859,
+     88.42922
+    ],
+    [
+     22.63888,
+     88.4289
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333454",
+   "name": "Joka Metro Station",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.45189,
+     88.30137
+    ],
+    [
+     22.45293,
+     88.30205
+    ],
+    [
+     22.4528,
+     88.30229
+    ],
+    [
+     22.45176,
+     88.30161
+    ],
+    [
+     22.45189,
+     88.30137
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/1319217050",
+   "name": "Karunamoyee",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.58693,
+     88.42102
+    ],
+    [
+     22.58703,
+     88.4212
+    ],
+    [
+     22.58677,
+     88.42139
+    ],
+    [
+     22.58679,
+     88.42141
+    ],
+    [
+     22.58706,
+     88.4212
+    ],
+    [
+     22.58709,
+     88.42125
+    ],
+    [
+     22.58673,
+     88.42153
+    ],
+    [
+     22.58668,
+     88.42157
+    ],
+    [
+     22.58666,
+     88.42153
+    ],
+    [
+     22.58641,
+     88.4217
+    ],
+    [
+     22.58642,
+     88.42173
+    ],
+    [
+     22.58605,
+     88.42197
+    ],
+    [
+     22.58602,
+     88.42193
+    ],
+    [
+     22.58622,
+     88.42179
+    ],
+    [
+     22.5862,
+     88.42177
+    ],
+    [
+     22.58594,
+     88.42195
+    ],
+    [
+     22.58584,
+     88.42177
+    ],
+    [
+     22.5861,
+     88.42159
+    ],
+    [
+     22.58608,
+     88.42156
+    ],
+    [
+     22.5858,
+     88.42175
+    ],
+    [
+     22.58575,
+     88.42167
+    ],
+    [
+     22.58658,
+     88.42113
+    ],
+    [
+     22.5866,
+     88.42116
+    ],
+    [
+     22.58663,
+     88.42114
+    ],
+    [
+     22.58666,
+     88.4212
+    ],
+    [
+     22.58693,
+     88.42102
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333502",
+   "name": "Kavi Subhash",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.4725,
+     88.39723
+    ],
+    [
+     22.47276,
+     88.3975
+    ],
+    [
+     22.47163,
+     88.39875
+    ],
+    [
+     22.47137,
+     88.39847
+    ],
+    [
+     22.4725,
+     88.39723
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333487",
+   "name": "Kavi Sukanta (Kalikapur)",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.5045,
+     88.40065
+    ],
+    [
+     22.50613,
+     88.40097
+    ],
+    [
+     22.50608,
+     88.4013
+    ],
+    [
+     22.50444,
+     88.40098
+    ],
+    [
+     22.5045,
+     88.40065
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333525",
+   "name": "Phoolbagan",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.57207,
+     88.3889
+    ],
+    [
+     22.57227,
+     88.38892
+    ],
+    [
+     22.57216,
+     88.3904
+    ],
+    [
+     22.57195,
+     88.39038
+    ],
+    [
+     22.57207,
+     88.3889
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333509",
+   "name": "Ritwik Ghatak",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.53235,
+     88.39621
+    ],
+    [
+     22.53356,
+     88.39652
+    ],
+    [
+     22.53355,
+     88.39655
+    ],
+    [
+     22.53365,
+     88.39658
+    ],
+    [
+     22.53365,
+     88.3966
+    ],
+    [
+     22.53428,
+     88.39676
+    ],
+    [
+     22.53426,
+     88.39686
+    ],
+    [
+     22.53362,
+     88.39669
+    ],
+    [
+     22.53361,
+     88.39674
+    ],
+    [
+     22.53352,
+     88.39671
+    ],
+    [
+     22.53351,
+     88.39675
+    ],
+    [
+     22.53236,
+     88.39645
+    ],
+    [
+     22.5324,
+     88.39629
+    ],
+    [
+     22.53233,
+     88.39627
+    ],
+    [
+     22.53235,
+     88.39621
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333512",
+   "name": "Salt Lake Sector V",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.58063,
+     88.42841
+    ],
+    [
+     22.58129,
+     88.42956
+    ],
+    [
+     22.58118,
+     88.42963
+    ],
+    [
+     22.58052,
+     88.42848
+    ],
+    [
+     22.58063,
+     88.42841
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333534",
+   "name": "Salt Lake Stadium",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.57366,
+     88.40272
+    ],
+    [
+     22.57375,
+     88.40315
+    ],
+    [
+     22.57247,
+     88.40346
+    ],
+    [
+     22.57239,
+     88.40303
+    ],
+    [
+     22.57366,
+     88.40272
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/52155406",
+   "name": "Sealdah (শিয়ালদহ)",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.56852,
+     88.37032
+    ],
+    [
+     22.56862,
+     88.37058
+    ],
+    [
+     22.56879,
+     88.3705
+    ],
+    [
+     22.56897,
+     88.37055
+    ],
+    [
+     22.56885,
+     88.37062
+    ],
+    [
+     22.56886,
+     88.37067
+    ],
+    [
+     22.56869,
+     88.37074
+    ],
+    [
+     22.56921,
+     88.37204
+    ],
+    [
+     22.56915,
+     88.37207
+    ],
+    [
+     22.56895,
+     88.3715
+    ],
+    [
+     22.5689,
+     88.37152
+    ],
+    [
+     22.56911,
+     88.37207
+    ],
+    [
+     22.56921,
+     88.37252
+    ],
+    [
+     22.56916,
+     88.37253
+    ],
+    [
+     22.5691,
+     88.37226
+    ],
+    [
+     22.56884,
+     88.37156
+    ],
+    [
+     22.56876,
+     88.37159
+    ],
+    [
+     22.56902,
+     88.37228
+    ],
+    [
+     22.56908,
+     88.37254
+    ],
+    [
+     22.56902,
+     88.37256
+    ],
+    [
+     22.56869,
+     88.37163
+    ],
+    [
+     22.56865,
+     88.37164
+    ],
+    [
+     22.56886,
+     88.37219
+    ],
+    [
+     22.56882,
+     88.37221
+    ],
+    [
+     22.56827,
+     88.37078
+    ],
+    [
+     22.56802,
+     88.37089
+    ],
+    [
+     22.56914,
+     88.37336
+    ],
+    [
+     22.56909,
+     88.37339
+    ],
+    [
+     22.56796,
+     88.37091
+    ],
+    [
+     22.56781,
+     88.37098
+    ],
+    [
+     22.56913,
+     88.37374
+    ],
+    [
+     22.56905,
+     88.37378
+    ],
+    [
+     22.56788,
+     88.37126
+    ],
+    [
+     22.56784,
+     88.37128
+    ],
+    [
+     22.56852,
+     88.37272
+    ],
+    [
+     22.56845,
+     88.37276
+    ],
+    [
+     22.56912,
+     88.3742
+    ],
+    [
+     22.56907,
+     88.37425
+    ],
+    [
+     22.56839,
+     88.37281
+    ],
+    [
+     22.56835,
+     88.37281
+    ],
+    [
+     22.56814,
+     88.37235
+    ],
+    [
+     22.56807,
+     88.37239
+    ],
+    [
+     22.56775,
+     88.3717
+    ],
+    [
+     22.56782,
+     88.37166
+    ],
+    [
+     22.56758,
+     88.37114
+    ],
+    [
+     22.56742,
+     88.37121
+    ],
+    [
+     22.56953,
+     88.37573
+    ],
+    [
+     22.56947,
+     88.37579
+    ],
+    [
+     22.56735,
+     88.37123
+    ],
+    [
+     22.56727,
+     88.37128
+    ],
+    [
+     22.5681,
+     88.37304
+    ],
+    [
+     22.56804,
+     88.37308
+    ],
+    [
+     22.56822,
+     88.37347
+    ],
+    [
+     22.56808,
+     88.37356
+    ],
+    [
+     22.56703,
+     88.37126
+    ],
+    [
+     22.56732,
+     88.37113
+    ],
+    [
+     22.56729,
+     88.37105
+    ],
+    [
+     22.5667,
+     88.37129
+    ],
+    [
+     22.56699,
+     88.37189
+    ],
+    [
+     22.56665,
+     88.37209
+    ],
+    [
+     22.56633,
+     88.37139
+    ],
+    [
+     22.56643,
+     88.37134
+    ],
+    [
+     22.56636,
+     88.37114
+    ],
+    [
+     22.56852,
+     88.37032
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/1173721199",
+   "name": "Shalimar",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.55673,
+     88.31387
+    ],
+    [
+     22.55688,
+     88.31409
+    ],
+    [
+     22.55542,
+     88.31528
+    ],
+    [
+     22.55528,
+     88.31507
+    ],
+    [
+     22.55673,
+     88.31387
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333452",
+   "name": "Sokher Bazar",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.47414,
+     88.30977
+    ],
+    [
+     22.47558,
+     88.30986
+    ],
+    [
+     22.47557,
+     88.31014
+    ],
+    [
+     22.47413,
+     88.31005
+    ],
+    [
+     22.47414,
+     88.30977
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333460",
+   "name": "Taratala",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.50701,
+     88.31999
+    ],
+    [
+     22.50844,
+     88.32056
+    ],
+    [
+     22.50837,
+     88.32078
+    ],
+    [
+     22.50694,
+     88.32021
+    ],
+    [
+     22.50701,
+     88.31999
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/535333451",
+   "name": "Thakurpukur",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.46385,
+     88.30725
+    ],
+    [
+     22.46494,
+     88.30757
+    ],
+    [
+     22.46488,
+     88.30781
+    ],
+    [
+     22.46379,
+     88.30749
+    ],
+    [
+     22.46385,
+     88.30725
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/859533108",
+   "name": "Tollygunge Rail Station",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.50815,
+     88.34564
+    ],
+    [
+     22.50821,
+     88.34568
+    ],
+    [
+     22.50814,
+     88.34581
+    ],
+    [
+     22.50809,
+     88.34577
+    ],
+    [
+     22.50815,
+     88.34564
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:way/1388766951",
+   "name": "VIP Bazar",
+   "kind": "station",
+   "closed": true,
+   "points": [
+    [
+     22.52557,
+     88.3956
+    ],
+    [
+     22.52566,
+     88.39574
+    ],
+    [
+     22.52423,
+     88.3966
+    ],
+    [
+     22.52413,
+     88.39643
+    ],
+    [
+     22.52557,
+     88.3956
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/1-no-bengal-chemical-water-pond",
+   "name": "1 no. Bengal Chemical Water Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.70863,
+     88.46501
+    ],
+    [
+     22.70854,
+     88.46561
+    ],
+    [
+     22.70756,
+     88.46538
+    ],
+    [
+     22.70768,
+     88.46481
+    ],
+    [
+     22.70863,
+     88.46501
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/army-public-school-pond",
+   "name": "Army Public School Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.53162,
+     88.36079
+    ],
+    [
+     22.53159,
+     88.36045
+    ],
+    [
+     22.53131,
+     88.36008
+    ],
+    [
+     22.53113,
+     88.36049
+    ],
+    [
+     22.531,
+     88.36115
+    ],
+    [
+     22.53133,
+     88.3613
+    ],
+    [
+     22.53154,
+     88.36127
+    ],
+    [
+     22.53162,
+     88.36079
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/boro-pukur",
+   "name": "BORO PUKUR.",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.67906,
+     88.28597
+    ],
+    [
+     22.67937,
+     88.28594
+    ],
+    [
+     22.67933,
+     88.28642
+    ],
+    [
+     22.67907,
+     88.28647
+    ],
+    [
+     22.67869,
+     88.28633
+    ],
+    [
+     22.6786,
+     88.28589
+    ],
+    [
+     22.67888,
+     88.2858
+    ],
+    [
+     22.67906,
+     88.28597
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/bejpukur-pond",
+   "name": "Bejpukur pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.57538,
+     88.31517
+    ],
+    [
+     22.57539,
+     88.31502
+    ],
+    [
+     22.57562,
+     88.31489
+    ],
+    [
+     22.57589,
+     88.31499
+    ],
+    [
+     22.57617,
+     88.31522
+    ],
+    [
+     22.57592,
+     88.31562
+    ],
+    [
+     22.57536,
+     88.31535
+    ],
+    [
+     22.57538,
+     88.31517
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/bengal-lamp-pukur",
+   "name": "Bengal Lamp Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.49994,
+     88.36747
+    ],
+    [
+     22.49983,
+     88.36684
+    ],
+    [
+     22.4996,
+     88.36689
+    ],
+    [
+     22.4995,
+     88.36723
+    ],
+    [
+     22.49963,
+     88.36796
+    ],
+    [
+     22.49945,
+     88.36859
+    ],
+    [
+     22.49942,
+     88.36902
+    ],
+    [
+     22.49975,
+     88.36891
+    ],
+    [
+     22.49995,
+     88.36785
+    ],
+    [
+     22.49994,
+     88.36747
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/bharat-co-operative-boro-pukur-jheel",
+   "name": "Bharat Co-Operative Boro Pukur Jheel",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.57085,
+     88.21846
+    ],
+    [
+     22.57013,
+     88.21757
+    ],
+    [
+     22.56968,
+     88.21882
+    ],
+    [
+     22.57072,
+     88.21917
+    ],
+    [
+     22.57085,
+     88.21846
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/bidisha-lake",
+   "name": "Bidisha Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.55605,
+     88.30538
+    ],
+    [
+     22.55592,
+     88.30604
+    ],
+    [
+     22.55425,
+     88.30576
+    ],
+    [
+     22.55428,
+     88.30547
+    ],
+    [
+     22.55446,
+     88.30514
+    ],
+    [
+     22.55548,
+     88.30514
+    ],
+    [
+     22.55605,
+     88.30538
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/bosepukur-jheel",
+   "name": "Bosepukur Jheel",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.43392,
+     88.41441
+    ],
+    [
+     22.43544,
+     88.41494
+    ],
+    [
+     22.43522,
+     88.41581
+    ],
+    [
+     22.43399,
+     88.4155
+    ],
+    [
+     22.43378,
+     88.41528
+    ],
+    [
+     22.4337,
+     88.41496
+    ],
+    [
+     22.43381,
+     88.41455
+    ],
+    [
+     22.43392,
+     88.41441
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/captain-bherry",
+   "name": "Captain Bherry",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.55393,
+     88.40975
+    ],
+    [
+     22.55485,
+     88.40969
+    ],
+    [
+     22.55668,
+     88.40925
+    ],
+    [
+     22.5571,
+     88.40938
+    ],
+    [
+     22.55721,
+     88.40961
+    ],
+    [
+     22.55706,
+     88.41006
+    ],
+    [
+     22.55653,
+     88.41045
+    ],
+    [
+     22.5563,
+     88.41044
+    ],
+    [
+     22.5562,
+     88.41053
+    ],
+    [
+     22.55614,
+     88.41081
+    ],
+    [
+     22.55473,
+     88.41027
+    ],
+    [
+     22.55393,
+     88.40975
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/captain-bherry",
+   "name": "Captain Bherry",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.55613,
+     88.411
+    ],
+    [
+     22.55613,
+     88.41114
+    ],
+    [
+     22.55564,
+     88.41169
+    ],
+    [
+     22.55533,
+     88.41147
+    ],
+    [
+     22.55437,
+     88.41041
+    ],
+    [
+     22.55562,
+     88.41094
+    ],
+    [
+     22.55613,
+     88.411
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/central-park-lake",
+   "name": "Central Park Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.58857,
+     88.41541
+    ],
+    [
+     22.58864,
+     88.41581
+    ],
+    [
+     22.58841,
+     88.41585
+    ],
+    [
+     22.58843,
+     88.41627
+    ],
+    [
+     22.5883,
+     88.4164
+    ],
+    [
+     22.58784,
+     88.41651
+    ],
+    [
+     22.5876,
+     88.41673
+    ],
+    [
+     22.58745,
+     88.41702
+    ],
+    [
+     22.58762,
+     88.4177
+    ],
+    [
+     22.58802,
+     88.41816
+    ],
+    [
+     22.58804,
+     88.41859
+    ],
+    [
+     22.58779,
+     88.41904
+    ],
+    [
+     22.58714,
+     88.41947
+    ],
+    [
+     22.58682,
+     88.41943
+    ],
+    [
+     22.58656,
+     88.41888
+    ],
+    [
+     22.58651,
+     88.41855
+    ],
+    [
+     22.58635,
+     88.41839
+    ],
+    [
+     22.58588,
+     88.41836
+    ],
+    [
+     22.58549,
+     88.41798
+    ],
+    [
+     22.58549,
+     88.41785
+    ],
+    [
+     22.58534,
+     88.41778
+    ],
+    [
+     22.58529,
+     88.4189
+    ],
+    [
+     22.58471,
+     88.4186
+    ],
+    [
+     22.58464,
+     88.41841
+    ],
+    [
+     22.58447,
+     88.41835
+    ],
+    [
+     22.58435,
+     88.41789
+    ],
+    [
+     22.5841,
+     88.41778
+    ],
+    [
+     22.58408,
+     88.41734
+    ],
+    [
+     22.58422,
+     88.41719
+    ],
+    [
+     22.58424,
+     88.41691
+    ],
+    [
+     22.58441,
+     88.41675
+    ],
+    [
+     22.58487,
+     88.41698
+    ],
+    [
+     22.58497,
+     88.41719
+    ],
+    [
+     22.58489,
+     88.41738
+    ],
+    [
+     22.58498,
+     88.41759
+    ],
+    [
+     22.58529,
+     88.41759
+    ],
+    [
+     22.58554,
+     88.41723
+    ],
+    [
+     22.58585,
+     88.417
+    ],
+    [
+     22.58686,
+     88.41691
+    ],
+    [
+     22.58696,
+     88.41711
+    ],
+    [
+     22.5873,
+     88.41671
+    ],
+    [
+     22.5873,
+     88.41634
+    ],
+    [
+     22.58756,
+     88.41606
+    ],
+    [
+     22.58799,
+     88.41571
+    ],
+    [
+     22.58842,
+     88.41556
+    ],
+    [
+     22.58857,
+     88.41541
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/chandmari-lake",
+   "name": "Chandmari Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.76008,
+     88.3776
+    ],
+    [
+     22.76018,
+     88.37776
+    ],
+    [
+     22.7601,
+     88.37834
+    ],
+    [
+     22.75966,
+     88.37887
+    ],
+    [
+     22.75953,
+     88.3789
+    ],
+    [
+     22.75873,
+     88.37818
+    ],
+    [
+     22.75886,
+     88.3779
+    ],
+    [
+     22.75937,
+     88.37732
+    ],
+    [
+     22.75951,
+     88.37729
+    ],
+    [
+     22.7598,
+     88.37744
+    ],
+    [
+     22.76,
+     88.37739
+    ],
+    [
+     22.76008,
+     88.3776
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/charubabur-jheel",
+   "name": "Charubabur Jheel",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.50302,
+     88.33609
+    ],
+    [
+     22.50297,
+     88.33652
+    ],
+    [
+     22.50309,
+     88.33652
+    ],
+    [
+     22.50313,
+     88.33669
+    ],
+    [
+     22.50303,
+     88.33675
+    ],
+    [
+     22.50289,
+     88.33718
+    ],
+    [
+     22.5028,
+     88.33728
+    ],
+    [
+     22.50263,
+     88.33724
+    ],
+    [
+     22.5026,
+     88.33737
+    ],
+    [
+     22.50241,
+     88.33742
+    ],
+    [
+     22.50213,
+     88.33732
+    ],
+    [
+     22.50201,
+     88.33739
+    ],
+    [
+     22.50196,
+     88.33731
+    ],
+    [
+     22.50158,
+     88.33731
+    ],
+    [
+     22.50128,
+     88.3378
+    ],
+    [
+     22.50116,
+     88.33779
+    ],
+    [
+     22.50086,
+     88.33799
+    ],
+    [
+     22.5006,
+     88.33786
+    ],
+    [
+     22.5005,
+     88.33789
+    ],
+    [
+     22.50044,
+     88.33827
+    ],
+    [
+     22.50109,
+     88.33843
+    ],
+    [
+     22.50108,
+     88.33874
+    ],
+    [
+     22.5004,
+     88.33878
+    ],
+    [
+     22.50013,
+     88.33806
+    ],
+    [
+     22.49986,
+     88.33795
+    ],
+    [
+     22.49998,
+     88.33777
+    ],
+    [
+     22.50019,
+     88.33777
+    ],
+    [
+     22.50046,
+     88.33755
+    ],
+    [
+     22.5006,
+     88.33731
+    ],
+    [
+     22.50078,
+     88.33731
+    ],
+    [
+     22.5008,
+     88.3368
+    ],
+    [
+     22.50125,
+     88.3367
+    ],
+    [
+     22.50109,
+     88.33648
+    ],
+    [
+     22.50086,
+     88.33646
+    ],
+    [
+     22.50092,
+     88.33613
+    ],
+    [
+     22.50127,
+     88.3362
+    ],
+    [
+     22.50122,
+     88.33602
+    ],
+    [
+     22.50135,
+     88.33587
+    ],
+    [
+     22.50177,
+     88.33578
+    ],
+    [
+     22.50209,
+     88.33598
+    ],
+    [
+     22.50211,
+     88.33586
+    ],
+    [
+     22.50235,
+     88.33584
+    ],
+    [
+     22.5029,
+     88.33595
+    ],
+    [
+     22.50302,
+     88.33609
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/chingrighata-fishing-lake",
+   "name": "Chingrighata Fishing Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.55325,
+     88.41001
+    ],
+    [
+     22.55467,
+     88.41162
+    ],
+    [
+     22.55536,
+     88.4121
+    ],
+    [
+     22.55527,
+     88.41223
+    ],
+    [
+     22.55518,
+     88.41214
+    ],
+    [
+     22.5549,
+     88.41221
+    ],
+    [
+     22.55475,
+     88.41243
+    ],
+    [
+     22.55483,
+     88.41253
+    ],
+    [
+     22.55476,
+     88.41277
+    ],
+    [
+     22.55414,
+     88.41344
+    ],
+    [
+     22.5538,
+     88.41325
+    ],
+    [
+     22.55325,
+     88.41321
+    ],
+    [
+     22.55289,
+     88.414
+    ],
+    [
+     22.55283,
+     88.41364
+    ],
+    [
+     22.55242,
+     88.41354
+    ],
+    [
+     22.55196,
+     88.41373
+    ],
+    [
+     22.55162,
+     88.41252
+    ],
+    [
+     22.55089,
+     88.41181
+    ],
+    [
+     22.55077,
+     88.41117
+    ],
+    [
+     22.55154,
+     88.41111
+    ],
+    [
+     22.5519,
+     88.41066
+    ],
+    [
+     22.55227,
+     88.40982
+    ],
+    [
+     22.55311,
+     88.4098
+    ],
+    [
+     22.55325,
+     88.41001
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/dalalpukur-pond",
+   "name": "Dalalpukur Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.58348,
+     88.31121
+    ],
+    [
+     22.58345,
+     88.31146
+    ],
+    [
+     22.58323,
+     88.3117
+    ],
+    [
+     22.58261,
+     88.31175
+    ],
+    [
+     22.58239,
+     88.31159
+    ],
+    [
+     22.58242,
+     88.31146
+    ],
+    [
+     22.58259,
+     88.31146
+    ],
+    [
+     22.58267,
+     88.31129
+    ],
+    [
+     22.58303,
+     88.31107
+    ],
+    [
+     22.58339,
+     88.31109
+    ],
+    [
+     22.58348,
+     88.31121
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/dhakuria-lake",
+   "name": "Dhakuria Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.50982,
+     88.35411
+    ],
+    [
+     22.50979,
+     88.35389
+    ],
+    [
+     22.50957,
+     88.35358
+    ],
+    [
+     22.50859,
+     88.35119
+    ],
+    [
+     22.50845,
+     88.34932
+    ],
+    [
+     22.50852,
+     88.34867
+    ],
+    [
+     22.50846,
+     88.34819
+    ],
+    [
+     22.50852,
+     88.34798
+    ],
+    [
+     22.50867,
+     88.34789
+    ],
+    [
+     22.50905,
+     88.34808
+    ],
+    [
+     22.50935,
+     88.34852
+    ],
+    [
+     22.50989,
+     88.35028
+    ],
+    [
+     22.50983,
+     88.35198
+    ],
+    [
+     22.50993,
+     88.35208
+    ],
+    [
+     22.51001,
+     88.35259
+    ],
+    [
+     22.50995,
+     88.35272
+    ],
+    [
+     22.51018,
+     88.35324
+    ],
+    [
+     22.51,
+     88.35386
+    ],
+    [
+     22.51001,
+     88.3541
+    ],
+    [
+     22.51036,
+     88.35464
+    ],
+    [
+     22.51087,
+     88.35477
+    ],
+    [
+     22.51094,
+     88.3552
+    ],
+    [
+     22.51106,
+     88.35511
+    ],
+    [
+     22.51112,
+     88.35487
+    ],
+    [
+     22.51123,
+     88.35482
+    ],
+    [
+     22.5117,
+     88.35488
+    ],
+    [
+     22.51193,
+     88.35475
+    ],
+    [
+     22.51204,
+     88.35494
+    ],
+    [
+     22.51199,
+     88.35616
+    ],
+    [
+     22.51157,
+     88.35737
+    ],
+    [
+     22.51154,
+     88.35871
+    ],
+    [
+     22.51183,
+     88.3596
+    ],
+    [
+     22.51225,
+     88.36033
+    ],
+    [
+     22.51215,
+     88.36072
+    ],
+    [
+     22.51122,
+     88.36273
+    ],
+    [
+     22.51094,
+     88.36374
+    ],
+    [
+     22.51087,
+     88.36444
+    ],
+    [
+     22.51074,
+     88.3646
+    ],
+    [
+     22.51057,
+     88.36456
+    ],
+    [
+     22.5104,
+     88.36436
+    ],
+    [
+     22.51034,
+     88.36389
+    ],
+    [
+     22.51055,
+     88.36238
+    ],
+    [
+     22.51043,
+     88.36132
+    ],
+    [
+     22.51058,
+     88.361
+    ],
+    [
+     22.51038,
+     88.36074
+    ],
+    [
+     22.51015,
+     88.35973
+    ],
+    [
+     22.51008,
+     88.35878
+    ],
+    [
+     22.50958,
+     88.35673
+    ],
+    [
+     22.50961,
+     88.35585
+    ],
+    [
+     22.50968,
+     88.35564
+    ],
+    [
+     22.50978,
+     88.35563
+    ],
+    [
+     22.50989,
+     88.35498
+    ],
+    [
+     22.50982,
+     88.35411
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/dhoba-pukur",
+   "name": "Dhoba Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.63488,
+     88.4157
+    ],
+    [
+     22.63564,
+     88.41615
+    ],
+    [
+     22.63526,
+     88.41704
+    ],
+    [
+     22.63447,
+     88.41662
+    ],
+    [
+     22.63488,
+     88.4157
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/dhobia-talao",
+   "name": "Dhobia Talao",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.77476,
+     88.34556
+    ],
+    [
+     22.77465,
+     88.34531
+    ],
+    [
+     22.77479,
+     88.34491
+    ],
+    [
+     22.77467,
+     88.34466
+    ],
+    [
+     22.77385,
+     88.3441
+    ],
+    [
+     22.77377,
+     88.34414
+    ],
+    [
+     22.77372,
+     88.34436
+    ],
+    [
+     22.77388,
+     88.34517
+    ],
+    [
+     22.77404,
+     88.34544
+    ],
+    [
+     22.7746,
+     88.34574
+    ],
+    [
+     22.77476,
+     88.34556
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/dhopar-pukur",
+   "name": "Dhopar Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.53368,
+     88.39493
+    ],
+    [
+     22.53336,
+     88.39556
+    ],
+    [
+     22.533,
+     88.39549
+    ],
+    [
+     22.53291,
+     88.39576
+    ],
+    [
+     22.53194,
+     88.39547
+    ],
+    [
+     22.532,
+     88.39502
+    ],
+    [
+     22.53219,
+     88.39455
+    ],
+    [
+     22.53237,
+     88.39456
+    ],
+    [
+     22.5326,
+     88.3948
+    ],
+    [
+     22.53273,
+     88.39448
+    ],
+    [
+     22.53305,
+     88.39415
+    ],
+    [
+     22.53354,
+     88.39302
+    ],
+    [
+     22.53377,
+     88.393
+    ],
+    [
+     22.53437,
+     88.39327
+    ],
+    [
+     22.53464,
+     88.39327
+    ],
+    [
+     22.53474,
+     88.39339
+    ],
+    [
+     22.53464,
+     88.39366
+    ],
+    [
+     22.53468,
+     88.39385
+    ],
+    [
+     22.53447,
+     88.39419
+    ],
+    [
+     22.53472,
+     88.39433
+    ],
+    [
+     22.53476,
+     88.39445
+    ],
+    [
+     22.53457,
+     88.39474
+    ],
+    [
+     22.53463,
+     88.39486
+    ],
+    [
+     22.53457,
+     88.39502
+    ],
+    [
+     22.53415,
+     88.39508
+    ],
+    [
+     22.53368,
+     88.39493
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/diamond-park-lake",
+   "name": "Diamond Park Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.45263,
+     88.30423
+    ],
+    [
+     22.45226,
+     88.30407
+    ],
+    [
+     22.45212,
+     88.30412
+    ],
+    [
+     22.45189,
+     88.30482
+    ],
+    [
+     22.45242,
+     88.30497
+    ],
+    [
+     22.45263,
+     88.30423
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/didhirpar-lake",
+   "name": "Didhirpar Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.62073,
+     88.38334
+    ],
+    [
+     22.62064,
+     88.38369
+    ],
+    [
+     22.62043,
+     88.38372
+    ],
+    [
+     22.6198,
+     88.3835
+    ],
+    [
+     22.61978,
+     88.38335
+    ],
+    [
+     22.61984,
+     88.38323
+    ],
+    [
+     22.6201,
+     88.38315
+    ],
+    [
+     22.62051,
+     88.38317
+    ],
+    [
+     22.62073,
+     88.38334
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/dighi-pond",
+   "name": "Dighi Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.72982,
+     88.38121
+    ],
+    [
+     22.72962,
+     88.38196
+    ],
+    [
+     22.72843,
+     88.38163
+    ],
+    [
+     22.72864,
+     88.38078
+    ],
+    [
+     22.72982,
+     88.38121
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/dumurjola-lake",
+   "name": "Dumurjola Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.58936,
+     88.30792
+    ],
+    [
+     22.58949,
+     88.30784
+    ],
+    [
+     22.5896,
+     88.30792
+    ],
+    [
+     22.59006,
+     88.30786
+    ],
+    [
+     22.59022,
+     88.30807
+    ],
+    [
+     22.59018,
+     88.30842
+    ],
+    [
+     22.58958,
+     88.3086
+    ],
+    [
+     22.58906,
+     88.30863
+    ],
+    [
+     22.58847,
+     88.30979
+    ],
+    [
+     22.58745,
+     88.30917
+    ],
+    [
+     22.58739,
+     88.30894
+    ],
+    [
+     22.58752,
+     88.30847
+    ],
+    [
+     22.58791,
+     88.30764
+    ],
+    [
+     22.58808,
+     88.30765
+    ],
+    [
+     22.5882,
+     88.30753
+    ],
+    [
+     22.58936,
+     88.30792
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/eco-park",
+   "name": "Eco Park",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.60198,
+     88.46947
+    ],
+    [
+     22.60084,
+     88.46978
+    ],
+    [
+     22.60012,
+     88.46962
+    ],
+    [
+     22.59964,
+     88.46968
+    ],
+    [
+     22.59928,
+     88.46987
+    ],
+    [
+     22.59851,
+     88.47058
+    ],
+    [
+     22.59779,
+     88.47092
+    ],
+    [
+     22.59707,
+     88.47089
+    ],
+    [
+     22.59712,
+     88.47062
+    ],
+    [
+     22.59692,
+     88.47074
+    ],
+    [
+     22.59647,
+     88.47051
+    ],
+    [
+     22.59634,
+     88.47069
+    ],
+    [
+     22.59608,
+     88.47047
+    ],
+    [
+     22.59538,
+     88.46936
+    ],
+    [
+     22.59537,
+     88.46923
+    ],
+    [
+     22.59551,
+     88.46909
+    ],
+    [
+     22.59542,
+     88.46871
+    ],
+    [
+     22.59525,
+     88.46854
+    ],
+    [
+     22.59478,
+     88.46738
+    ],
+    [
+     22.59478,
+     88.46684
+    ],
+    [
+     22.59532,
+     88.46607
+    ],
+    [
+     22.5956,
+     88.46582
+    ],
+    [
+     22.59657,
+     88.46519
+    ],
+    [
+     22.59766,
+     88.46495
+    ],
+    [
+     22.59761,
+     88.46483
+    ],
+    [
+     22.59702,
+     88.46501
+    ],
+    [
+     22.59698,
+     88.46481
+    ],
+    [
+     22.59832,
+     88.46291
+    ],
+    [
+     22.59922,
+     88.46232
+    ],
+    [
+     22.60028,
+     88.46227
+    ],
+    [
+     22.60154,
+     88.46255
+    ],
+    [
+     22.60178,
+     88.46264
+    ],
+    [
+     22.60184,
+     88.46276
+    ],
+    [
+     22.6018,
+     88.46393
+    ],
+    [
+     22.60105,
+     88.46404
+    ],
+    [
+     22.60103,
+     88.46416
+    ],
+    [
+     22.60132,
+     88.46458
+    ],
+    [
+     22.60188,
+     88.46607
+    ],
+    [
+     22.60253,
+     88.46696
+    ],
+    [
+     22.60278,
+     88.46712
+    ],
+    [
+     22.60294,
+     88.46741
+    ],
+    [
+     22.60283,
+     88.46798
+    ],
+    [
+     22.60198,
+     88.46947
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/fd-park",
+   "name": "FD Park",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.58365,
+     88.41282
+    ],
+    [
+     22.58463,
+     88.41214
+    ],
+    [
+     22.58465,
+     88.41192
+    ],
+    [
+     22.58433,
+     88.41135
+    ],
+    [
+     22.58319,
+     88.41204
+    ],
+    [
+     22.58365,
+     88.41282
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/gol-talab",
+   "name": "Gol Talab",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.5573,
+     88.3578
+    ],
+    [
+     22.55659,
+     88.35765
+    ],
+    [
+     22.55645,
+     88.35842
+    ],
+    [
+     22.55716,
+     88.35856
+    ],
+    [
+     22.5573,
+     88.3578
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/itkhola-pond",
+   "name": "Itkhola Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.79559,
+     88.32656
+    ],
+    [
+     22.79539,
+     88.32715
+    ],
+    [
+     22.79476,
+     88.327
+    ],
+    [
+     22.79499,
+     88.32635
+    ],
+    [
+     22.79456,
+     88.3262
+    ],
+    [
+     22.79453,
+     88.32605
+    ],
+    [
+     22.79469,
+     88.3256
+    ],
+    [
+     22.79551,
+     88.32577
+    ],
+    [
+     22.79563,
+     88.32592
+    ],
+    [
+     22.79559,
+     88.32656
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/jadavpur-university-main-hostel-pond",
+   "name": "Jadavpur University Main Hostel Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.50258,
+     88.36677
+    ],
+    [
+     22.50236,
+     88.36556
+    ],
+    [
+     22.50187,
+     88.36565
+    ],
+    [
+     22.50179,
+     88.36592
+    ],
+    [
+     22.50202,
+     88.36688
+    ],
+    [
+     22.5023,
+     88.36695
+    ],
+    [
+     22.50258,
+     88.36677
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/janardan-lake",
+   "name": "Janardan Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.55891,
+     88.29195
+    ],
+    [
+     22.5589,
+     88.29214
+    ],
+    [
+     22.55876,
+     88.29222
+    ],
+    [
+     22.55847,
+     88.29158
+    ],
+    [
+     22.55724,
+     88.29126
+    ],
+    [
+     22.55715,
+     88.29104
+    ],
+    [
+     22.55868,
+     88.29147
+    ],
+    [
+     22.55891,
+     88.29195
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/kajir-pukur",
+   "name": "Kajir Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.48512,
+     88.37428
+    ],
+    [
+     22.4851,
+     88.37375
+    ],
+    [
+     22.48497,
+     88.3736
+    ],
+    [
+     22.48469,
+     88.37352
+    ],
+    [
+     22.48427,
+     88.37436
+    ],
+    [
+     22.48439,
+     88.37448
+    ],
+    [
+     22.48475,
+     88.37456
+    ],
+    [
+     22.48483,
+     88.37443
+    ],
+    [
+     22.48508,
+     88.37436
+    ],
+    [
+     22.48512,
+     88.37428
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/kalibari",
+   "name": "Kalibari",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.63284,
+     88.4881
+    ],
+    [
+     22.6333,
+     88.48808
+    ],
+    [
+     22.63376,
+     88.48849
+    ],
+    [
+     22.63355,
+     88.4891
+    ],
+    [
+     22.63292,
+     88.48899
+    ],
+    [
+     22.63265,
+     88.48883
+    ],
+    [
+     22.63284,
+     88.4881
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/kalpukur",
+   "name": "Kalpukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.76736,
+     88.53845
+    ],
+    [
+     22.76718,
+     88.53844
+    ],
+    [
+     22.76682,
+     88.53877
+    ],
+    [
+     22.76714,
+     88.53928
+    ],
+    [
+     22.76737,
+     88.53954
+    ],
+    [
+     22.76754,
+     88.53957
+    ],
+    [
+     22.76763,
+     88.53989
+    ],
+    [
+     22.76788,
+     88.54014
+    ],
+    [
+     22.76816,
+     88.5398
+    ],
+    [
+     22.76736,
+     88.53845
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/kamalapur-jheel",
+   "name": "Kamalapur Jheel",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.63843,
+     88.42126
+    ],
+    [
+     22.63881,
+     88.42133
+    ],
+    [
+     22.63897,
+     88.4216
+    ],
+    [
+     22.63906,
+     88.42188
+    ],
+    [
+     22.63885,
+     88.42258
+    ],
+    [
+     22.63917,
+     88.42295
+    ],
+    [
+     22.63939,
+     88.42297
+    ],
+    [
+     22.63962,
+     88.42248
+    ],
+    [
+     22.63979,
+     88.42243
+    ],
+    [
+     22.64027,
+     88.42251
+    ],
+    [
+     22.64044,
+     88.42279
+    ],
+    [
+     22.64003,
+     88.42401
+    ],
+    [
+     22.63927,
+     88.42465
+    ],
+    [
+     22.63904,
+     88.42451
+    ],
+    [
+     22.63771,
+     88.42291
+    ],
+    [
+     22.63769,
+     88.42246
+    ],
+    [
+     22.63778,
+     88.42221
+    ],
+    [
+     22.63813,
+     88.42159
+    ],
+    [
+     22.63843,
+     88.42126
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/khalsa-pukur",
+   "name": "Khalsa Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.80794,
+     88.37053
+    ],
+    [
+     22.80799,
+     88.37018
+    ],
+    [
+     22.80784,
+     88.37002
+    ],
+    [
+     22.80721,
+     88.3701
+    ],
+    [
+     22.80715,
+     88.37021
+    ],
+    [
+     22.80712,
+     88.37058
+    ],
+    [
+     22.80725,
+     88.37066
+    ],
+    [
+     22.80777,
+     88.37067
+    ],
+    [
+     22.80794,
+     88.37053
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/kings-lake",
+   "name": "Kings Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.55913,
+     88.2898
+    ],
+    [
+     22.55898,
+     88.28982
+    ],
+    [
+     22.55897,
+     88.28941
+    ],
+    [
+     22.55884,
+     88.28917
+    ],
+    [
+     22.55844,
+     88.28925
+    ],
+    [
+     22.55849,
+     88.28902
+    ],
+    [
+     22.55839,
+     88.28885
+    ],
+    [
+     22.558,
+     88.28876
+    ],
+    [
+     22.55786,
+     88.2893
+    ],
+    [
+     22.55778,
+     88.28934
+    ],
+    [
+     22.55759,
+     88.28917
+    ],
+    [
+     22.55766,
+     88.28896
+    ],
+    [
+     22.5579,
+     88.28872
+    ],
+    [
+     22.55829,
+     88.2886
+    ],
+    [
+     22.55925,
+     88.288
+    ],
+    [
+     22.55946,
+     88.28766
+    ],
+    [
+     22.55969,
+     88.28781
+    ],
+    [
+     22.55993,
+     88.28769
+    ],
+    [
+     22.56026,
+     88.28714
+    ],
+    [
+     22.56038,
+     88.28725
+    ],
+    [
+     22.56012,
+     88.28768
+    ],
+    [
+     22.56004,
+     88.28812
+    ],
+    [
+     22.55999,
+     88.28858
+    ],
+    [
+     22.5601,
+     88.28875
+    ],
+    [
+     22.56009,
+     88.28895
+    ],
+    [
+     22.56019,
+     88.28906
+    ],
+    [
+     22.56055,
+     88.28913
+    ],
+    [
+     22.56073,
+     88.28842
+    ],
+    [
+     22.56073,
+     88.28778
+    ],
+    [
+     22.56084,
+     88.28775
+    ],
+    [
+     22.56104,
+     88.28856
+    ],
+    [
+     22.56072,
+     88.28874
+    ],
+    [
+     22.56064,
+     88.2892
+    ],
+    [
+     22.56097,
+     88.28918
+    ],
+    [
+     22.56109,
+     88.28939
+    ],
+    [
+     22.56053,
+     88.28934
+    ],
+    [
+     22.55937,
+     88.2889
+    ],
+    [
+     22.5592,
+     88.28909
+    ],
+    [
+     22.55913,
+     88.2898
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/koi-pukur",
+   "name": "Koi Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.57318,
+     88.31871
+    ],
+    [
+     22.57307,
+     88.31892
+    ],
+    [
+     22.57333,
+     88.31915
+    ],
+    [
+     22.5737,
+     88.31912
+    ],
+    [
+     22.57394,
+     88.31935
+    ],
+    [
+     22.5743,
+     88.31921
+    ],
+    [
+     22.57429,
+     88.31896
+    ],
+    [
+     22.57318,
+     88.31871
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/koylar-pukur",
+   "name": "Koylar Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.53376,
+     88.25088
+    ],
+    [
+     22.53053,
+     88.25007
+    ],
+    [
+     22.52919,
+     88.24986
+    ],
+    [
+     22.5291,
+     88.24942
+    ],
+    [
+     22.52916,
+     88.24895
+    ],
+    [
+     22.52901,
+     88.2481
+    ],
+    [
+     22.52956,
+     88.24818
+    ],
+    [
+     22.53056,
+     88.24856
+    ],
+    [
+     22.53239,
+     88.24862
+    ],
+    [
+     22.53408,
+     88.24887
+    ],
+    [
+     22.53422,
+     88.24883
+    ],
+    [
+     22.5342,
+     88.24864
+    ],
+    [
+     22.53397,
+     88.24815
+    ],
+    [
+     22.53404,
+     88.2478
+    ],
+    [
+     22.53418,
+     88.24773
+    ],
+    [
+     22.53442,
+     88.2482
+    ],
+    [
+     22.5347,
+     88.24834
+    ],
+    [
+     22.5345,
+     88.25075
+    ],
+    [
+     22.53432,
+     88.25089
+    ],
+    [
+     22.53376,
+     88.25088
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/kunstier-lake",
+   "name": "Kunstier Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.56009,
+     88.28984
+    ],
+    [
+     22.55997,
+     88.28974
+    ],
+    [
+     22.55966,
+     88.28971
+    ],
+    [
+     22.55949,
+     88.2899
+    ],
+    [
+     22.55956,
+     88.29026
+    ],
+    [
+     22.55975,
+     88.29034
+    ],
+    [
+     22.56021,
+     88.28997
+    ],
+    [
+     22.5606,
+     88.29008
+    ],
+    [
+     22.56064,
+     88.29001
+    ],
+    [
+     22.56037,
+     88.28985
+    ],
+    [
+     22.56009,
+     88.28984
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/lakhi-pukur",
+   "name": "Lakhi Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.77025,
+     88.22473
+    ],
+    [
+     22.77033,
+     88.22494
+    ],
+    [
+     22.77029,
+     88.22516
+    ],
+    [
+     22.77011,
+     88.22541
+    ],
+    [
+     22.7693,
+     88.22522
+    ],
+    [
+     22.76937,
+     88.22473
+    ],
+    [
+     22.76947,
+     88.22455
+    ],
+    [
+     22.76971,
+     88.2246
+    ],
+    [
+     22.76994,
+     88.22449
+    ],
+    [
+     22.77001,
+     88.2247
+    ],
+    [
+     22.77025,
+     88.22473
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/lal-dighi",
+   "name": "Lal Dighi",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.57163,
+     88.34815
+    ],
+    [
+     22.57123,
+     88.34974
+    ],
+    [
+     22.57228,
+     88.35006
+    ],
+    [
+     22.57268,
+     88.34854
+    ],
+    [
+     22.57163,
+     88.34815
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/layalka-pond",
+   "name": "Layalka Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.48587,
+     88.36979
+    ],
+    [
+     22.48591,
+     88.36931
+    ],
+    [
+     22.48556,
+     88.3692
+    ],
+    [
+     22.48531,
+     88.36926
+    ],
+    [
+     22.48518,
+     88.36969
+    ],
+    [
+     22.4854,
+     88.36995
+    ],
+    [
+     22.48567,
+     88.37005
+    ],
+    [
+     22.48584,
+     88.36999
+    ],
+    [
+     22.48587,
+     88.36979
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/leram-lake",
+   "name": "Leram Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.55639,
+     88.29957
+    ],
+    [
+     22.55623,
+     88.29961
+    ],
+    [
+     22.55591,
+     88.29932
+    ],
+    [
+     22.5559,
+     88.29873
+    ],
+    [
+     22.55608,
+     88.29864
+    ],
+    [
+     22.55586,
+     88.29826
+    ],
+    [
+     22.55553,
+     88.29831
+    ],
+    [
+     22.5552,
+     88.29851
+    ],
+    [
+     22.55511,
+     88.29841
+    ],
+    [
+     22.55531,
+     88.29725
+    ],
+    [
+     22.55522,
+     88.29712
+    ],
+    [
+     22.55505,
+     88.29713
+    ],
+    [
+     22.55489,
+     88.2983
+    ],
+    [
+     22.55521,
+     88.29862
+    ],
+    [
+     22.5553,
+     88.299
+    ],
+    [
+     22.55511,
+     88.2996
+    ],
+    [
+     22.55488,
+     88.29981
+    ],
+    [
+     22.5554,
+     88.2999
+    ],
+    [
+     22.55569,
+     88.29957
+    ],
+    [
+     22.55634,
+     88.29967
+    ],
+    [
+     22.55661,
+     88.29991
+    ],
+    [
+     22.55673,
+     88.29986
+    ],
+    [
+     22.55671,
+     88.29948
+    ],
+    [
+     22.55639,
+     88.29957
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/lotus-pond",
+   "name": "Lotus Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.51323,
+     88.3608
+    ],
+    [
+     22.51317,
+     88.36055
+    ],
+    [
+     22.513,
+     88.36037
+    ],
+    [
+     22.51261,
+     88.36044
+    ],
+    [
+     22.51179,
+     88.36214
+    ],
+    [
+     22.51181,
+     88.36247
+    ],
+    [
+     22.51266,
+     88.36235
+    ],
+    [
+     22.51308,
+     88.36195
+    ],
+    [
+     22.51317,
+     88.36176
+    ],
+    [
+     22.51323,
+     88.3608
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/madhumurali-lake",
+   "name": "Madhumurali Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.71099,
+     88.4976
+    ],
+    [
+     22.71334,
+     88.49797
+    ],
+    [
+     22.71313,
+     88.4991
+    ],
+    [
+     22.71298,
+     88.49922
+    ],
+    [
+     22.71079,
+     88.49886
+    ],
+    [
+     22.71081,
+     88.49831
+    ],
+    [
+     22.71099,
+     88.4976
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/malipkur",
+   "name": "Malipkur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.7646,
+     88.21554
+    ],
+    [
+     22.76499,
+     88.21569
+    ],
+    [
+     22.76506,
+     88.21559
+    ],
+    [
+     22.76509,
+     88.21499
+    ],
+    [
+     22.76475,
+     88.21477
+    ],
+    [
+     22.76453,
+     88.21478
+    ],
+    [
+     22.76437,
+     88.21528
+    ],
+    [
+     22.7644,
+     88.21541
+    ],
+    [
+     22.7646,
+     88.21554
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/manohar-das-tarag",
+   "name": "Manohar Das Tarag",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.56041,
+     88.3498
+    ],
+    [
+     22.56033,
+     88.34963
+    ],
+    [
+     22.55952,
+     88.34956
+    ],
+    [
+     22.55939,
+     88.34968
+    ],
+    [
+     22.55935,
+     88.35014
+    ],
+    [
+     22.55945,
+     88.35027
+    ],
+    [
+     22.56024,
+     88.35037
+    ],
+    [
+     22.56037,
+     88.35028
+    ],
+    [
+     22.56041,
+     88.3498
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/milan-mandir-jheel",
+   "name": "Milan Mandir Jheel",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.68358,
+     88.45134
+    ],
+    [
+     22.68451,
+     88.45125
+    ],
+    [
+     22.68455,
+     88.45183
+    ],
+    [
+     22.6837,
+     88.45193
+    ],
+    [
+     22.68358,
+     88.45134
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/mirania-lake",
+   "name": "Mirania Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.53324,
+     88.39278
+    ],
+    [
+     22.53337,
+     88.39296
+    ],
+    [
+     22.53368,
+     88.39293
+    ],
+    [
+     22.53374,
+     88.39281
+    ],
+    [
+     22.53434,
+     88.39294
+    ],
+    [
+     22.53441,
+     88.39313
+    ],
+    [
+     22.53481,
+     88.39323
+    ],
+    [
+     22.53501,
+     88.39294
+    ],
+    [
+     22.53511,
+     88.39243
+    ],
+    [
+     22.53489,
+     88.39199
+    ],
+    [
+     22.53473,
+     88.39185
+    ],
+    [
+     22.53385,
+     88.39169
+    ],
+    [
+     22.53336,
+     88.39245
+    ],
+    [
+     22.53324,
+     88.39278
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/muktapukur",
+   "name": "Muktapukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.75043,
+     88.3805
+    ],
+    [
+     22.75031,
+     88.38052
+    ],
+    [
+     22.7501,
+     88.38083
+    ],
+    [
+     22.75011,
+     88.38113
+    ],
+    [
+     22.75057,
+     88.38132
+    ],
+    [
+     22.75088,
+     88.38102
+    ],
+    [
+     22.75088,
+     88.38073
+    ],
+    [
+     22.75079,
+     88.38062
+    ],
+    [
+     22.75043,
+     88.3805
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/nabagram-jhil",
+   "name": "Nabagram Jhil",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.46661,
+     88.405
+    ],
+    [
+     22.46672,
+     88.40519
+    ],
+    [
+     22.46664,
+     88.40565
+    ],
+    [
+     22.46593,
+     88.40633
+    ],
+    [
+     22.4656,
+     88.40626
+    ],
+    [
+     22.46559,
+     88.4061
+    ],
+    [
+     22.46661,
+     88.405
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/nandan-nagar-jheel",
+   "name": "Nandan Nagar Jheel",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.67246,
+     88.39702
+    ],
+    [
+     22.6725,
+     88.39719
+    ],
+    [
+     22.67211,
+     88.39812
+    ],
+    [
+     22.6717,
+     88.39819
+    ],
+    [
+     22.67127,
+     88.39788
+    ],
+    [
+     22.67085,
+     88.39778
+    ],
+    [
+     22.67028,
+     88.39741
+    ],
+    [
+     22.66852,
+     88.39664
+    ],
+    [
+     22.66805,
+     88.39628
+    ],
+    [
+     22.6678,
+     88.39584
+    ],
+    [
+     22.66809,
+     88.39531
+    ],
+    [
+     22.66829,
+     88.39543
+    ],
+    [
+     22.66826,
+     88.39565
+    ],
+    [
+     22.66869,
+     88.39588
+    ],
+    [
+     22.66886,
+     88.39552
+    ],
+    [
+     22.66898,
+     88.39556
+    ],
+    [
+     22.66927,
+     88.39575
+    ],
+    [
+     22.6694,
+     88.39569
+    ],
+    [
+     22.66979,
+     88.39594
+    ],
+    [
+     22.67027,
+     88.39602
+    ],
+    [
+     22.67111,
+     88.39648
+    ],
+    [
+     22.67124,
+     88.39645
+    ],
+    [
+     22.67246,
+     88.39702
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/nandan-nagar-jheel",
+   "name": "Nandan Nagar Jheel",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.67454,
+     88.39861
+    ],
+    [
+     22.67476,
+     88.39838
+    ],
+    [
+     22.67457,
+     88.39797
+    ],
+    [
+     22.67262,
+     88.39711
+    ],
+    [
+     22.67245,
+     88.3977
+    ],
+    [
+     22.67454,
+     88.39861
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/neem-banani",
+   "name": "Neem Banani",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.61075,
+     88.47098
+    ],
+    [
+     22.61065,
+     88.47091
+    ],
+    [
+     22.61014,
+     88.47108
+    ],
+    [
+     22.61009,
+     88.47119
+    ],
+    [
+     22.61022,
+     88.47166
+    ],
+    [
+     22.61036,
+     88.47177
+    ],
+    [
+     22.61085,
+     88.47159
+    ],
+    [
+     22.6109,
+     88.47149
+    ],
+    [
+     22.61075,
+     88.47098
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/neem-lake",
+   "name": "Neem Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.55612,
+     88.30139
+    ],
+    [
+     22.55589,
+     88.30135
+    ],
+    [
+     22.55554,
+     88.30186
+    ],
+    [
+     22.55541,
+     88.30259
+    ],
+    [
+     22.55549,
+     88.30293
+    ],
+    [
+     22.55578,
+     88.30292
+    ],
+    [
+     22.55603,
+     88.30259
+    ],
+    [
+     22.55599,
+     88.3025
+    ],
+    [
+     22.55609,
+     88.30244
+    ],
+    [
+     22.5562,
+     88.3018
+    ],
+    [
+     22.55612,
+     88.30139
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/new-garia-lake",
+   "name": "New Garia Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.476,
+     88.40343
+    ],
+    [
+     22.47588,
+     88.40426
+    ],
+    [
+     22.47539,
+     88.40417
+    ],
+    [
+     22.47552,
+     88.40334
+    ],
+    [
+     22.476,
+     88.40343
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/piali-khal",
+   "name": "PIALI KHAL",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.3776,
+     88.51318
+    ],
+    [
+     22.37773,
+     88.51324
+    ],
+    [
+     22.37486,
+     88.51396
+    ],
+    [
+     22.37189,
+     88.51602
+    ],
+    [
+     22.37051,
+     88.5171
+    ],
+    [
+     22.36736,
+     88.51787
+    ],
+    [
+     22.36702,
+     88.51828
+    ],
+    [
+     22.36692,
+     88.51817
+    ],
+    [
+     22.36737,
+     88.5177
+    ],
+    [
+     22.37032,
+     88.51698
+    ],
+    [
+     22.37459,
+     88.5139
+    ],
+    [
+     22.37681,
+     88.51324
+    ],
+    [
+     22.3776,
+     88.51318
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/piali-khal",
+   "name": "PIALI KHAL",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.35512,
+     88.52018
+    ],
+    [
+     22.35512,
+     88.52037
+    ],
+    [
+     22.35455,
+     88.52043
+    ],
+    [
+     22.35381,
+     88.52014
+    ],
+    [
+     22.35339,
+     88.51947
+    ],
+    [
+     22.3531,
+     88.51833
+    ],
+    [
+     22.35351,
+     88.51716
+    ],
+    [
+     22.35387,
+     88.51652
+    ],
+    [
+     22.3537,
+     88.51559
+    ],
+    [
+     22.35327,
+     88.51489
+    ],
+    [
+     22.35255,
+     88.51462
+    ],
+    [
+     22.3518,
+     88.5147
+    ],
+    [
+     22.35053,
+     88.51575
+    ],
+    [
+     22.34977,
+     88.516
+    ],
+    [
+     22.34838,
+     88.51606
+    ],
+    [
+     22.34748,
+     88.51572
+    ],
+    [
+     22.34706,
+     88.51548
+    ],
+    [
+     22.34549,
+     88.51533
+    ],
+    [
+     22.34524,
+     88.51523
+    ],
+    [
+     22.34521,
+     88.5151
+    ],
+    [
+     22.34568,
+     88.51524
+    ],
+    [
+     22.34716,
+     88.5154
+    ],
+    [
+     22.34776,
+     88.51573
+    ],
+    [
+     22.34833,
+     88.51592
+    ],
+    [
+     22.34889,
+     88.51595
+    ],
+    [
+     22.34997,
+     88.51585
+    ],
+    [
+     22.35038,
+     88.5157
+    ],
+    [
+     22.3517,
+     88.51464
+    ],
+    [
+     22.35238,
+     88.51451
+    ],
+    [
+     22.35271,
+     88.51454
+    ],
+    [
+     22.35313,
+     88.51474
+    ],
+    [
+     22.35353,
+     88.51498
+    ],
+    [
+     22.35376,
+     88.51543
+    ],
+    [
+     22.35396,
+     88.51638
+    ],
+    [
+     22.35386,
+     88.51685
+    ],
+    [
+     22.35332,
+     88.51795
+    ],
+    [
+     22.35324,
+     88.5185
+    ],
+    [
+     22.35343,
+     88.51923
+    ],
+    [
+     22.35379,
+     88.51992
+    ],
+    [
+     22.35445,
+     88.52025
+    ],
+    [
+     22.35512,
+     88.52018
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/piali-khal",
+   "name": "PIALI KHAL",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.36673,
+     88.51837
+    ],
+    [
+     22.3668,
+     88.51845
+    ],
+    [
+     22.36437,
+     88.52118
+    ],
+    [
+     22.36395,
+     88.52132
+    ],
+    [
+     22.36338,
+     88.52134
+    ],
+    [
+     22.36216,
+     88.52114
+    ],
+    [
+     22.3614,
+     88.52116
+    ],
+    [
+     22.35912,
+     88.52174
+    ],
+    [
+     22.35749,
+     88.52178
+    ],
+    [
+     22.35706,
+     88.52161
+    ],
+    [
+     22.35659,
+     88.52082
+    ],
+    [
+     22.35623,
+     88.52052
+    ],
+    [
+     22.35582,
+     88.52031
+    ],
+    [
+     22.35512,
+     88.52037
+    ],
+    [
+     22.35512,
+     88.52018
+    ],
+    [
+     22.3558,
+     88.52011
+    ],
+    [
+     22.35621,
+     88.52028
+    ],
+    [
+     22.35659,
+     88.52064
+    ],
+    [
+     22.35707,
+     88.52138
+    ],
+    [
+     22.35749,
+     88.52167
+    ],
+    [
+     22.35947,
+     88.52157
+    ],
+    [
+     22.36103,
+     88.5211
+    ],
+    [
+     22.3621,
+     88.52098
+    ],
+    [
+     22.36285,
+     88.52112
+    ],
+    [
+     22.36426,
+     88.52114
+    ],
+    [
+     22.36673,
+     88.51837
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/piali-khal",
+   "name": "PIALI KHAL",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.3847,
+     88.51064
+    ],
+    [
+     22.3846,
+     88.51071
+    ],
+    [
+     22.38351,
+     88.51052
+    ],
+    [
+     22.38299,
+     88.51055
+    ],
+    [
+     22.38253,
+     88.5107
+    ],
+    [
+     22.38146,
+     88.51158
+    ],
+    [
+     22.3808,
+     88.51246
+    ],
+    [
+     22.37999,
+     88.51325
+    ],
+    [
+     22.37793,
+     88.51331
+    ],
+    [
+     22.37763,
+     88.51321
+    ],
+    [
+     22.37993,
+     88.5131
+    ],
+    [
+     22.38166,
+     88.51121
+    ],
+    [
+     22.38278,
+     88.51049
+    ],
+    [
+     22.3838,
+     88.5104
+    ],
+    [
+     22.3847,
+     88.51064
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/piali-khal",
+   "name": "PIALI KHAL",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.389,
+     88.51507
+    ],
+    [
+     22.38892,
+     88.51516
+    ],
+    [
+     22.38456,
+     88.51059
+    ],
+    [
+     22.389,
+     88.51507
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/paddapukur",
+   "name": "Paddapukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.54438,
+     88.32069
+    ],
+    [
+     22.54352,
+     88.32047
+    ],
+    [
+     22.54341,
+     88.32053
+    ],
+    [
+     22.54331,
+     88.32115
+    ],
+    [
+     22.5434,
+     88.32125
+    ],
+    [
+     22.54429,
+     88.32134
+    ],
+    [
+     22.54438,
+     88.32069
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/palte-pukur",
+   "name": "Palte Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.6726,
+     88.3477
+    ],
+    [
+     22.6727,
+     88.34715
+    ],
+    [
+     22.67199,
+     88.34708
+    ],
+    [
+     22.67194,
+     88.34757
+    ],
+    [
+     22.6726,
+     88.3477
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/pana-pukur",
+   "name": "Pana Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.61126,
+     88.38561
+    ],
+    [
+     22.61103,
+     88.38548
+    ],
+    [
+     22.61038,
+     88.38582
+    ],
+    [
+     22.61047,
+     88.38603
+    ],
+    [
+     22.61079,
+     88.38605
+    ],
+    [
+     22.61094,
+     88.38624
+    ],
+    [
+     22.61107,
+     88.3862
+    ],
+    [
+     22.61126,
+     88.38561
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/panchasayar-lake-no-1",
+   "name": "Panchasayar Lake No. 1",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.47903,
+     88.39539
+    ],
+    [
+     22.47954,
+     88.39593
+    ],
+    [
+     22.47862,
+     88.39695
+    ],
+    [
+     22.47811,
+     88.3964
+    ],
+    [
+     22.47903,
+     88.39539
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/panchasayar-lake-no-2",
+   "name": "Panchasayar Lake No. 2",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.47793,
+     88.39654
+    ],
+    [
+     22.47847,
+     88.39708
+    ],
+    [
+     22.47758,
+     88.39812
+    ],
+    [
+     22.47704,
+     88.39759
+    ],
+    [
+     22.47793,
+     88.39654
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/panchasayar-lake-no-4",
+   "name": "Panchasayar Lake No. 4",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.47638,
+     88.39834
+    ],
+    [
+     22.47687,
+     88.39885
+    ],
+    [
+     22.47577,
+     88.40008
+    ],
+    [
+     22.47528,
+     88.39958
+    ],
+    [
+     22.47638,
+     88.39834
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/panchasayar-lake-no-5",
+   "name": "Panchasayar Lake No. 5",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.47695,
+     88.39532
+    ],
+    [
+     22.4766,
+     88.39501
+    ],
+    [
+     22.47602,
+     88.39561
+    ],
+    [
+     22.47636,
+     88.39596
+    ],
+    [
+     22.47695,
+     88.39532
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/panchasayar-pond-no-4",
+   "name": "Panchasayar Pond No. 4",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.47418,
+     88.39751
+    ],
+    [
+     22.47464,
+     88.39803
+    ],
+    [
+     22.47359,
+     88.39913
+    ],
+    [
+     22.47313,
+     88.39861
+    ],
+    [
+     22.47418,
+     88.39751
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/parnasree-lake",
+   "name": "Parnasree Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.51142,
+     88.30519
+    ],
+    [
+     22.51119,
+     88.30693
+    ],
+    [
+     22.50939,
+     88.30662
+    ],
+    [
+     22.50953,
+     88.30619
+    ],
+    [
+     22.51085,
+     88.305
+    ],
+    [
+     22.51142,
+     88.30519
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/pearl-pond",
+   "name": "Pearl Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.47608,
+     88.37044
+    ],
+    [
+     22.47597,
+     88.37094
+    ],
+    [
+     22.47577,
+     88.37099
+    ],
+    [
+     22.47537,
+     88.37088
+    ],
+    [
+     22.47554,
+     88.37031
+    ],
+    [
+     22.47588,
+     88.37022
+    ],
+    [
+     22.47608,
+     88.37044
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/pioneer-pond",
+   "name": "Pioneer pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.72479,
+     88.48096
+    ],
+    [
+     22.72463,
+     88.48137
+    ],
+    [
+     22.72451,
+     88.48144
+    ],
+    [
+     22.72382,
+     88.48112
+    ],
+    [
+     22.72407,
+     88.48057
+    ],
+    [
+     22.72477,
+     88.48084
+    ],
+    [
+     22.72479,
+     88.48096
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/poddar-nagar-pukur",
+   "name": "Poddar Nagar Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.49986,
+     88.36316
+    ],
+    [
+     22.49964,
+     88.36267
+    ],
+    [
+     22.49939,
+     88.36268
+    ],
+    [
+     22.49931,
+     88.36306
+    ],
+    [
+     22.49958,
+     88.36365
+    ],
+    [
+     22.49958,
+     88.36394
+    ],
+    [
+     22.49972,
+     88.36421
+    ],
+    [
+     22.49999,
+     88.3643
+    ],
+    [
+     22.50011,
+     88.36427
+    ],
+    [
+     22.50016,
+     88.36407
+    ],
+    [
+     22.49987,
+     88.36358
+    ],
+    [
+     22.49986,
+     88.36316
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/pond-no-10",
+   "name": "Pond No. 10",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.4883,
+     88.3665
+    ],
+    [
+     22.48802,
+     88.36632
+    ],
+    [
+     22.48768,
+     88.3663
+    ],
+    [
+     22.4876,
+     88.36688
+    ],
+    [
+     22.48765,
+     88.36716
+    ],
+    [
+     22.48794,
+     88.3672
+    ],
+    [
+     22.4883,
+     88.3665
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/prain-lake",
+   "name": "Prain Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.5587,
+     88.2874
+    ],
+    [
+     22.55824,
+     88.28728
+    ],
+    [
+     22.55779,
+     88.28797
+    ],
+    [
+     22.5577,
+     88.28797
+    ],
+    [
+     22.55768,
+     88.28781
+    ],
+    [
+     22.55782,
+     88.28772
+    ],
+    [
+     22.55804,
+     88.28722
+    ],
+    [
+     22.55738,
+     88.28703
+    ],
+    [
+     22.55727,
+     88.2869
+    ],
+    [
+     22.55814,
+     88.28709
+    ],
+    [
+     22.5584,
+     88.28678
+    ],
+    [
+     22.55804,
+     88.28614
+    ],
+    [
+     22.5574,
+     88.28585
+    ],
+    [
+     22.55741,
+     88.28557
+    ],
+    [
+     22.55754,
+     88.28547
+    ],
+    [
+     22.55771,
+     88.28545
+    ],
+    [
+     22.55792,
+     88.28566
+    ],
+    [
+     22.55814,
+     88.28573
+    ],
+    [
+     22.55821,
+     88.28595
+    ],
+    [
+     22.55859,
+     88.28618
+    ],
+    [
+     22.55903,
+     88.28557
+    ],
+    [
+     22.5591,
+     88.28567
+    ],
+    [
+     22.55889,
+     88.28618
+    ],
+    [
+     22.55897,
+     88.2863
+    ],
+    [
+     22.55962,
+     88.28648
+    ],
+    [
+     22.55968,
+     88.2866
+    ],
+    [
+     22.55957,
+     88.28678
+    ],
+    [
+     22.55907,
+     88.2865
+    ],
+    [
+     22.55883,
+     88.28645
+    ],
+    [
+     22.55863,
+     88.28653
+    ],
+    [
+     22.55876,
+     88.28695
+    ],
+    [
+     22.559,
+     88.28724
+    ],
+    [
+     22.55935,
+     88.28747
+    ],
+    [
+     22.55929,
+     88.28757
+    ],
+    [
+     22.55886,
+     88.28763
+    ],
+    [
+     22.5587,
+     88.2874
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/rabindra-sarobar",
+   "name": "Rabindra Sarobar",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.513,
+     88.36368
+    ],
+    [
+     22.51267,
+     88.3634
+    ],
+    [
+     22.51259,
+     88.36327
+    ],
+    [
+     22.5126,
+     88.363
+    ],
+    [
+     22.51248,
+     88.3629
+    ],
+    [
+     22.51157,
+     88.36308
+    ],
+    [
+     22.51136,
+     88.36403
+    ],
+    [
+     22.51138,
+     88.36454
+    ],
+    [
+     22.51151,
+     88.36471
+    ],
+    [
+     22.51193,
+     88.36485
+    ],
+    [
+     22.51205,
+     88.36471
+    ],
+    [
+     22.51263,
+     88.36478
+    ],
+    [
+     22.51268,
+     88.36498
+    ],
+    [
+     22.51314,
+     88.36492
+    ],
+    [
+     22.51316,
+     88.3647
+    ],
+    [
+     22.51289,
+     88.36446
+    ],
+    [
+     22.513,
+     88.36368
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/ramgarh-lake",
+   "name": "Ramgarh Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.47575,
+     88.37417
+    ],
+    [
+     22.47552,
+     88.37417
+    ],
+    [
+     22.47551,
+     88.37485
+    ],
+    [
+     22.4756,
+     88.37485
+    ],
+    [
+     22.47551,
+     88.3755
+    ],
+    [
+     22.47554,
+     88.37567
+    ],
+    [
+     22.47586,
+     88.37572
+    ],
+    [
+     22.47592,
+     88.3754
+    ],
+    [
+     22.47576,
+     88.37536
+    ],
+    [
+     22.47575,
+     88.37417
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/rani-dighi",
+   "name": "Rani Dighi",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.48302,
+     88.35585
+    ],
+    [
+     22.48213,
+     88.35629
+    ],
+    [
+     22.48191,
+     88.35579
+    ],
+    [
+     22.48277,
+     88.35533
+    ],
+    [
+     22.48302,
+     88.35585
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/rishra-jhil",
+   "name": "Rishra Jhil",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.72653,
+     88.34292
+    ],
+    [
+     22.72657,
+     88.34314
+    ],
+    [
+     22.72635,
+     88.3432
+    ],
+    [
+     22.72542,
+     88.34321
+    ],
+    [
+     22.72514,
+     88.3431
+    ],
+    [
+     22.72514,
+     88.34297
+    ],
+    [
+     22.72527,
+     88.34286
+    ],
+    [
+     22.72653,
+     88.34292
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/sajirhat-jheel",
+   "name": "Sajirhat Jheel",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.69676,
+     88.43885
+    ],
+    [
+     22.69668,
+     88.43932
+    ],
+    [
+     22.69654,
+     88.43932
+    ],
+    [
+     22.69616,
+     88.44037
+    ],
+    [
+     22.69592,
+     88.44025
+    ],
+    [
+     22.69588,
+     88.43868
+    ],
+    [
+     22.69676,
+     88.43885
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/sankrail-fish-pond",
+   "name": "Sankrail Fish Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.56659,
+     88.2135
+    ],
+    [
+     22.56651,
+     88.21361
+    ],
+    [
+     22.56656,
+     88.21368
+    ],
+    [
+     22.56684,
+     88.21387
+    ],
+    [
+     22.56694,
+     88.21384
+    ],
+    [
+     22.56721,
+     88.21418
+    ],
+    [
+     22.56836,
+     88.21518
+    ],
+    [
+     22.56852,
+     88.215
+    ],
+    [
+     22.56835,
+     88.21476
+    ],
+    [
+     22.56724,
+     88.21381
+    ],
+    [
+     22.56692,
+     88.21358
+    ],
+    [
+     22.5668,
+     88.21361
+    ],
+    [
+     22.56659,
+     88.2135
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/santoshpur-lake",
+   "name": "Santoshpur Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.49166,
+     88.38289
+    ],
+    [
+     22.49133,
+     88.38281
+    ],
+    [
+     22.49129,
+     88.38288
+    ],
+    [
+     22.49126,
+     88.38451
+    ],
+    [
+     22.49154,
+     88.38457
+    ],
+    [
+     22.49166,
+     88.38289
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/santragachhi-jheel",
+   "name": "Santragachhi Jheel",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.58394,
+     88.29123
+    ],
+    [
+     22.58451,
+     88.29256
+    ],
+    [
+     22.58564,
+     88.29425
+    ],
+    [
+     22.58488,
+     88.29408
+    ],
+    [
+     22.58424,
+     88.29405
+    ],
+    [
+     22.58261,
+     88.29435
+    ],
+    [
+     22.58295,
+     88.29383
+    ],
+    [
+     22.58336,
+     88.29293
+    ],
+    [
+     22.58394,
+     88.29123
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/santragachi-lake",
+   "name": "Santragachi Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.5805,
+     88.28192
+    ],
+    [
+     22.58057,
+     88.28527
+    ],
+    [
+     22.58082,
+     88.2856
+    ],
+    [
+     22.5809,
+     88.28552
+    ],
+    [
+     22.58106,
+     88.28555
+    ],
+    [
+     22.58103,
+     88.28574
+    ],
+    [
+     22.58112,
+     88.28584
+    ],
+    [
+     22.58118,
+     88.28639
+    ],
+    [
+     22.58096,
+     88.28652
+    ],
+    [
+     22.58101,
+     88.2866
+    ],
+    [
+     22.58135,
+     88.28671
+    ],
+    [
+     22.58143,
+     88.28656
+    ],
+    [
+     22.58177,
+     88.28675
+    ],
+    [
+     22.58213,
+     88.28639
+    ],
+    [
+     22.58226,
+     88.28609
+    ],
+    [
+     22.58214,
+     88.28558
+    ],
+    [
+     22.58238,
+     88.28458
+    ],
+    [
+     22.58233,
+     88.2843
+    ],
+    [
+     22.58241,
+     88.28329
+    ],
+    [
+     22.58235,
+     88.28254
+    ],
+    [
+     22.58222,
+     88.28251
+    ],
+    [
+     22.58222,
+     88.28191
+    ],
+    [
+     22.58248,
+     88.2816
+    ],
+    [
+     22.58244,
+     88.28104
+    ],
+    [
+     22.58192,
+     88.28033
+    ],
+    [
+     22.58056,
+     88.27977
+    ],
+    [
+     22.58044,
+     88.28106
+    ],
+    [
+     22.5805,
+     88.28192
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/santragachi-lake",
+   "name": "Santragachi Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.58236,
+     88.2789
+    ],
+    [
+     22.58199,
+     88.27931
+    ],
+    [
+     22.58145,
+     88.27957
+    ],
+    [
+     22.58108,
+     88.2796
+    ],
+    [
+     22.5804,
+     88.27934
+    ],
+    [
+     22.58025,
+     88.2773
+    ],
+    [
+     22.58013,
+     88.27727
+    ],
+    [
+     22.58028,
+     88.27669
+    ],
+    [
+     22.58023,
+     88.27627
+    ],
+    [
+     22.58048,
+     88.27621
+    ],
+    [
+     22.58057,
+     88.27768
+    ],
+    [
+     22.58092,
+     88.27801
+    ],
+    [
+     22.58101,
+     88.27841
+    ],
+    [
+     22.58112,
+     88.27828
+    ],
+    [
+     22.58106,
+     88.2763
+    ],
+    [
+     22.58128,
+     88.27616
+    ],
+    [
+     22.58133,
+     88.27625
+    ],
+    [
+     22.58121,
+     88.27655
+    ],
+    [
+     22.58146,
+     88.27759
+    ],
+    [
+     22.58143,
+     88.2764
+    ],
+    [
+     22.58188,
+     88.27622
+    ],
+    [
+     22.58201,
+     88.27646
+    ],
+    [
+     22.58222,
+     88.27645
+    ],
+    [
+     22.58231,
+     88.27656
+    ],
+    [
+     22.58225,
+     88.27682
+    ],
+    [
+     22.58236,
+     88.2789
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/sethpukur",
+   "name": "Sethpukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.71627,
+     88.48175
+    ],
+    [
+     22.71551,
+     88.48158
+    ],
+    [
+     22.71539,
+     88.48168
+    ],
+    [
+     22.71539,
+     88.48204
+    ],
+    [
+     22.71548,
+     88.48219
+    ],
+    [
+     22.71618,
+     88.48234
+    ],
+    [
+     22.71642,
+     88.48211
+    ],
+    [
+     22.71638,
+     88.48186
+    ],
+    [
+     22.71627,
+     88.48175
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/shadir-lake",
+   "name": "Shadir Lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.55493,
+     88.29287
+    ],
+    [
+     22.55486,
+     88.29318
+    ],
+    [
+     22.55508,
+     88.29336
+    ],
+    [
+     22.55578,
+     88.29339
+    ],
+    [
+     22.55629,
+     88.29322
+    ],
+    [
+     22.55648,
+     88.2933
+    ],
+    [
+     22.55635,
+     88.29417
+    ],
+    [
+     22.55648,
+     88.29454
+    ],
+    [
+     22.55665,
+     88.2947
+    ],
+    [
+     22.5567,
+     88.29457
+    ],
+    [
+     22.55658,
+     88.29403
+    ],
+    [
+     22.5569,
+     88.29343
+    ],
+    [
+     22.55702,
+     88.29336
+    ],
+    [
+     22.55744,
+     88.29358
+    ],
+    [
+     22.55772,
+     88.29356
+    ],
+    [
+     22.55778,
+     88.29348
+    ],
+    [
+     22.55747,
+     88.29349
+    ],
+    [
+     22.55702,
+     88.29316
+    ],
+    [
+     22.55586,
+     88.2931
+    ],
+    [
+     22.55558,
+     88.29295
+    ],
+    [
+     22.55493,
+     88.29287
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/shiv-ganga-talab",
+   "name": "Shiv Ganga Talab",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.53521,
+     88.31742
+    ],
+    [
+     22.53443,
+     88.31724
+    ],
+    [
+     22.53434,
+     88.31783
+    ],
+    [
+     22.53494,
+     88.31799
+    ],
+    [
+     22.53512,
+     88.31794
+    ],
+    [
+     22.53521,
+     88.31742
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/sodla-pukur",
+   "name": "Sodla Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.81422,
+     88.37243
+    ],
+    [
+     22.81423,
+     88.37257
+    ],
+    [
+     22.81452,
+     88.37278
+    ],
+    [
+     22.81522,
+     88.37311
+    ],
+    [
+     22.81545,
+     88.37279
+    ],
+    [
+     22.81557,
+     88.37222
+    ],
+    [
+     22.81546,
+     88.37211
+    ],
+    [
+     22.81514,
+     88.37212
+    ],
+    [
+     22.81464,
+     88.3719
+    ],
+    [
+     22.81436,
+     88.37209
+    ],
+    [
+     22.81422,
+     88.37243
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/subhash-sarobar",
+   "name": "Subhash Sarobar",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.57008,
+     88.3993
+    ],
+    [
+     22.57016,
+     88.39956
+    ],
+    [
+     22.57008,
+     88.40011
+    ],
+    [
+     22.57013,
+     88.40062
+    ],
+    [
+     22.57,
+     88.40144
+    ],
+    [
+     22.57013,
+     88.4017
+    ],
+    [
+     22.57013,
+     88.40214
+    ],
+    [
+     22.57,
+     88.40235
+    ],
+    [
+     22.56992,
+     88.40306
+    ],
+    [
+     22.56966,
+     88.40355
+    ],
+    [
+     22.56943,
+     88.4037
+    ],
+    [
+     22.56892,
+     88.40373
+    ],
+    [
+     22.56826,
+     88.40347
+    ],
+    [
+     22.56768,
+     88.4037
+    ],
+    [
+     22.56732,
+     88.40362
+    ],
+    [
+     22.5668,
+     88.40329
+    ],
+    [
+     22.56658,
+     88.40296
+    ],
+    [
+     22.56661,
+     88.4027
+    ],
+    [
+     22.56677,
+     88.40256
+    ],
+    [
+     22.56719,
+     88.40269
+    ],
+    [
+     22.56729,
+     88.40261
+    ],
+    [
+     22.56734,
+     88.40242
+    ],
+    [
+     22.56719,
+     88.40208
+    ],
+    [
+     22.56754,
+     88.40155
+    ],
+    [
+     22.5676,
+     88.4013
+    ],
+    [
+     22.56757,
+     88.40092
+    ],
+    [
+     22.5674,
+     88.40053
+    ],
+    [
+     22.56739,
+     88.40011
+    ],
+    [
+     22.56684,
+     88.39934
+    ],
+    [
+     22.56696,
+     88.39854
+    ],
+    [
+     22.56712,
+     88.39827
+    ],
+    [
+     22.56735,
+     88.39805
+    ],
+    [
+     22.56759,
+     88.39805
+    ],
+    [
+     22.56958,
+     88.39881
+    ],
+    [
+     22.57008,
+     88.3993
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/tala-pond",
+   "name": "Tala pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.61154,
+     88.38413
+    ],
+    [
+     22.61131,
+     88.38465
+    ],
+    [
+     22.61102,
+     88.38463
+    ],
+    [
+     22.61084,
+     88.38448
+    ],
+    [
+     22.61079,
+     88.38406
+    ],
+    [
+     22.61086,
+     88.38386
+    ],
+    [
+     22.61125,
+     88.38387
+    ],
+    [
+     22.61154,
+     88.38413
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/telir-pukur",
+   "name": "Telir Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.74583,
+     88.38195
+    ],
+    [
+     22.74602,
+     88.3822
+    ],
+    [
+     22.74594,
+     88.38242
+    ],
+    [
+     22.74566,
+     88.38247
+    ],
+    [
+     22.74545,
+     88.38236
+    ],
+    [
+     22.74538,
+     88.38221
+    ],
+    [
+     22.74538,
+     88.38137
+    ],
+    [
+     22.74544,
+     88.3813
+    ],
+    [
+     22.74576,
+     88.38133
+    ],
+    [
+     22.74574,
+     88.38107
+    ],
+    [
+     22.74586,
+     88.3811
+    ],
+    [
+     22.746,
+     88.3813
+    ],
+    [
+     22.74583,
+     88.38195
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/tentultala-pukur",
+   "name": "Tentultala Pukur",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.54182,
+     88.37866
+    ],
+    [
+     22.54267,
+     88.37886
+    ],
+    [
+     22.54252,
+     88.37942
+    ],
+    [
+     22.54166,
+     88.37919
+    ],
+    [
+     22.54182,
+     88.37866
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/victoria-memorial-eastern-pond",
+   "name": "Victoria Memorial Eastern Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.54621,
+     88.34298
+    ],
+    [
+     22.54606,
+     88.34386
+    ],
+    [
+     22.54652,
+     88.34396
+    ],
+    [
+     22.54646,
+     88.3443
+    ],
+    [
+     22.54661,
+     88.34447
+    ],
+    [
+     22.54657,
+     88.34462
+    ],
+    [
+     22.54639,
+     88.3447
+    ],
+    [
+     22.54632,
+     88.34506
+    ],
+    [
+     22.54513,
+     88.34484
+    ],
+    [
+     22.54519,
+     88.34449
+    ],
+    [
+     22.54505,
+     88.34433
+    ],
+    [
+     22.54507,
+     88.34417
+    ],
+    [
+     22.54528,
+     88.34408
+    ],
+    [
+     22.54535,
+     88.34373
+    ],
+    [
+     22.54577,
+     88.34381
+    ],
+    [
+     22.54592,
+     88.34293
+    ],
+    [
+     22.54621,
+     88.34298
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/victoria-memorial-western-pond",
+   "name": "Victoria Memorial Western Pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.54642,
+     88.34177
+    ],
+    [
+     22.5469,
+     88.34187
+    ],
+    [
+     22.54692,
+     88.34168
+    ],
+    [
+     22.54707,
+     88.34158
+    ],
+    [
+     22.54696,
+     88.34142
+    ],
+    [
+     22.547,
+     88.3412
+    ],
+    [
+     22.54583,
+     88.34099
+    ],
+    [
+     22.54579,
+     88.3412
+    ],
+    [
+     22.54566,
+     88.34122
+    ],
+    [
+     22.54564,
+     88.34138
+    ],
+    [
+     22.54574,
+     88.34143
+    ],
+    [
+     22.5457,
+     88.34168
+    ],
+    [
+     22.54609,
+     88.34176
+    ],
+    [
+     22.54595,
+     88.34262
+    ],
+    [
+     22.54626,
+     88.34268
+    ],
+    [
+     22.54642,
+     88.34177
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/viveknagar-jheel",
+   "name": "Viveknagar Jheel",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.49922,
+     88.37403
+    ],
+    [
+     22.49926,
+     88.37433
+    ],
+    [
+     22.49933,
+     88.37433
+    ],
+    [
+     22.49932,
+     88.37466
+    ],
+    [
+     22.49818,
+     88.37442
+    ],
+    [
+     22.49824,
+     88.37389
+    ],
+    [
+     22.49922,
+     88.37403
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/dasnagar-wet-lands",
+   "name": "dasnagar wet lands",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.59769,
+     88.303
+    ],
+    [
+     22.59765,
+     88.30292
+    ],
+    [
+     22.59749,
+     88.30308
+    ],
+    [
+     22.59783,
+     88.30389
+    ],
+    [
+     22.598,
+     88.30467
+    ],
+    [
+     22.59825,
+     88.30884
+    ],
+    [
+     22.59844,
+     88.30875
+    ],
+    [
+     22.59834,
+     88.30589
+    ],
+    [
+     22.59879,
+     88.30587
+    ],
+    [
+     22.59871,
+     88.30487
+    ],
+    [
+     22.59863,
+     88.30476
+    ],
+    [
+     22.59863,
+     88.30429
+    ],
+    [
+     22.59855,
+     88.30418
+    ],
+    [
+     22.59856,
+     88.30375
+    ],
+    [
+     22.5984,
+     88.30351
+    ],
+    [
+     22.59769,
+     88.303
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/jagacha-lake",
+   "name": "jagacha lake",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.59291,
+     88.28116
+    ],
+    [
+     22.59295,
+     88.28091
+    ],
+    [
+     22.59286,
+     88.28081
+    ],
+    [
+     22.59277,
+     88.28087
+    ],
+    [
+     22.59263,
+     88.28073
+    ],
+    [
+     22.59266,
+     88.28064
+    ],
+    [
+     22.59241,
+     88.28051
+    ],
+    [
+     22.59228,
+     88.2806
+    ],
+    [
+     22.59245,
+     88.28065
+    ],
+    [
+     22.59243,
+     88.28075
+    ],
+    [
+     22.59231,
+     88.28081
+    ],
+    [
+     22.59223,
+     88.28107
+    ],
+    [
+     22.59207,
+     88.28114
+    ],
+    [
+     22.59192,
+     88.28107
+    ],
+    [
+     22.59193,
+     88.28088
+    ],
+    [
+     22.59153,
+     88.28083
+    ],
+    [
+     22.59132,
+     88.28095
+    ],
+    [
+     22.59088,
+     88.28086
+    ],
+    [
+     22.59057,
+     88.28094
+    ],
+    [
+     22.59046,
+     88.28168
+    ],
+    [
+     22.59069,
+     88.2826
+    ],
+    [
+     22.59179,
+     88.28356
+    ],
+    [
+     22.5919,
+     88.28343
+    ],
+    [
+     22.59241,
+     88.28374
+    ],
+    [
+     22.59307,
+     88.28363
+    ],
+    [
+     22.59328,
+     88.28329
+    ],
+    [
+     22.59324,
+     88.28312
+    ],
+    [
+     22.59237,
+     88.28301
+    ],
+    [
+     22.59186,
+     88.28283
+    ],
+    [
+     22.59177,
+     88.2826
+    ],
+    [
+     22.59195,
+     88.28213
+    ],
+    [
+     22.592,
+     88.28165
+    ],
+    [
+     22.5921,
+     88.28156
+    ],
+    [
+     22.59206,
+     88.28134
+    ],
+    [
+     22.59247,
+     88.28115
+    ],
+    [
+     22.59291,
+     88.28116
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/padma",
+   "name": "padma",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.82751,
+     88.39363
+    ],
+    [
+     22.82745,
+     88.3942
+    ],
+    [
+     22.8276,
+     88.39563
+    ],
+    [
+     22.82799,
+     88.39607
+    ],
+    [
+     22.82856,
+     88.39642
+    ],
+    [
+     22.82913,
+     88.39654
+    ],
+    [
+     22.82935,
+     88.39642
+    ],
+    [
+     22.82953,
+     88.39568
+    ],
+    [
+     22.82955,
+     88.39462
+    ],
+    [
+     22.82945,
+     88.39404
+    ],
+    [
+     22.82914,
+     88.39336
+    ],
+    [
+     22.82883,
+     88.39333
+    ],
+    [
+     22.82853,
+     88.39349
+    ],
+    [
+     22.82751,
+     88.39363
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/sahaidbpara-pond",
+   "name": "sahaidbpara pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.58151,
+     88.27217
+    ],
+    [
+     22.58086,
+     88.27218
+    ],
+    [
+     22.58079,
+     88.27235
+    ],
+    [
+     22.58081,
+     88.27334
+    ],
+    [
+     22.58091,
+     88.27347
+    ],
+    [
+     22.5816,
+     88.27347
+    ],
+    [
+     22.58165,
+     88.27254
+    ],
+    [
+     22.58162,
+     88.27227
+    ],
+    [
+     22.58151,
+     88.27217
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/shivaji-pond",
+   "name": "shivaji pond",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.5955,
+     88.29288
+    ],
+    [
+     22.59526,
+     88.29286
+    ],
+    [
+     22.59496,
+     88.29301
+    ],
+    [
+     22.59497,
+     88.29349
+    ],
+    [
+     22.59512,
+     88.29375
+    ],
+    [
+     22.59537,
+     88.2938
+    ],
+    [
+     22.59565,
+     88.29371
+    ],
+    [
+     22.59561,
+     88.29321
+    ],
+    [
+     22.5955,
+     88.29288
+    ]
+   ],
+   "source": "osm"
+  },
+  {
+   "id": "osm:water/feature",
+   "name": "বড়পুকুর",
+   "kind": "water",
+   "closed": true,
+   "points": [
+    [
+     22.76058,
+     88.33155
+    ],
+    [
+     22.7605,
+     88.332
+    ],
+    [
+     22.76035,
+     88.33218
+    ],
+    [
+     22.75957,
+     88.33199
+    ],
+    [
+     22.75955,
+     88.33177
+    ],
+    [
+     22.75968,
+     88.33143
+    ],
+    [
+     22.75988,
+     88.33152
+    ],
+    [
+     22.76018,
+     88.33147
+    ],
+    [
+     22.76058,
+     88.33155
+    ]
+   ],
+   "source": "osm"
+  }
+ ]
 }

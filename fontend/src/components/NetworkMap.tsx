@@ -7,7 +7,7 @@ import { MapStyleToggle, useMapStyle } from "@/components/MapStyleToggle";
 import { StopBusesPanel } from "@/components/StopBusesPanel";
 import { StopSearchBox } from "@/components/StopSearchBox";
 import { formatDistance, type Position } from "@/lib/geo";
-import { KIND_LABEL, LANDMARK_POINTS, LANDMARK_SHAPES } from "@/lib/landmarks";
+import { isMajorWater, KIND_LABEL, LANDMARK_POINTS, LANDMARK_SHAPES, shapeAnchor, shapeLength } from "@/lib/landmarks";
 import { clampView, MAX_ZOOM, MIN_ZOOM, panBy, placeLabels, viewBoxOf, viewRect, zoomAt, type Point, type Rect, type View } from "@/lib/mapView";
 import { inCityWindow, NETWORK_SIZE, networkXY, pathOf, routeLine, UNITS_PER_KM } from "@/lib/networkMap";
 import { allRoadLegs } from "@/lib/routeGeometry";
@@ -85,11 +85,23 @@ export function NetworkMap() {
       LANDMARK_POINTS.filter(inCityWindow).map((p) => ({ id: p.id, name: p.name, kind: p.kind, ...networkXY(p) })),
     [],
   );
+
   const landmarkShapes: DrawnShape[] = useMemo(
     () =>
-      LANDMARK_SHAPES.map((s) => ({ id: s.id, name: s.name, kind: s.kind, closed: s.closed, d: pathOf([s.points]) })).filter(
-        (s) => s.d,
-      ),
+      LANDMARK_SHAPES.map((s) => {
+        const anchor = networkXY(shapeAnchor(s));
+        return {
+          id: s.id,
+          name: s.name,
+          kind: s.kind,
+          closed: s.closed,
+          d: pathOf([s.points]),
+          labelX: anchor.x,
+          labelY: anchor.y,
+          weight: shapeLength(s),
+          major: isMajorWater(s),
+        };
+      }).filter((s) => s.d),
     [],
   );
   const route = useMemo(() => (shownRoute ? routeLine(ROUTE_STOPS.get(shownRoute) ?? []) : null), [shownRoute]);
@@ -383,7 +395,10 @@ export function NetworkMap() {
         {stops.length} stops are on this map
         {outside > 0 ? `; ${outside} intercity stops outside it are searchable but not drawn` : ""}.{" "}
         {STOP_INDEX.stops.length - STOP_INDEX.located.length} stops have no published position yet and are left off rather than guessed.
-        Roads and rivers: ©{" "}
+        The rivers, canals, {LANDMARK_SHAPES.filter((s) => s.kind === "water").length} named lakes and the station
+        buildings drawn around them come from OpenStreetMap too, as do {" "}
+        {LANDMARK_POINTS.filter((p) => p.source === "osm").length} of the landmark places.
+        Roads, water and buildings: ©{" "}
         <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>, ODbL. Stop positions are
         street-accurate, not surveyed; times are not live.
       </p>

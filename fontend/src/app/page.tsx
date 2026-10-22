@@ -18,6 +18,7 @@ import {
   Lightbulb,
   MapPin,
   LocateFixed,
+  Menu,
   Navigation,
   PersonStanding,
   Route,
@@ -27,11 +28,13 @@ import {
 } from "lucide-react";
 import { BusDetailModal } from "@/components/BusDetailModal";
 import { HeroMap } from "@/components/HeroMap";
+import { SiteSidebar } from "@/components/SiteSidebar";
 import { StopField } from "@/components/StopField";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { RouteLinks } from "@/components/RouteLinks";
 import { TripCard } from "@/components/TripCard";
 import { RouteExplorer } from "@/components/RouteExplorer";
+import styles from "./HomeShell.module.css";
 import {
   DATA_COUNTS,
   findRouteLinks,
@@ -180,6 +183,17 @@ export default function HomePage() {
   const [showTopButton, setShowTopButton] = useState(false);
   const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "failed">("idle");
   const [searchMode, setSearchMode] = useState<"journey" | "route">("journey");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 1100px)");
+    const closeOnDesktop = () => {
+      if (!media.matches) setSidebarOpen(false);
+    };
+    closeOnDesktop();
+    media.addEventListener("change", closeOnDesktop);
+    return () => media.removeEventListener("change", closeOnDesktop);
+  }, []);
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
@@ -376,45 +390,64 @@ export default function HomePage() {
   return (
     <div className="site-shell" id="top">
       <header className="site-header">
-        <div className="header-inner page-container">
-          <a href="#top" className="brand" aria-label="Cholo home">
-            <span className="brand-mark"><BusFront size={23} strokeWidth={2.1} /></span>
-            <span className="brand-words"><strong>cholo<span>.</span></strong><small>KOLKATA BUS GUIDE</small></span>
-          </a>
-          <nav className="header-nav" aria-label="Main navigation">
+        <div className={`header-inner page-container ${styles.headerInner}`}>
+          <div className={styles.headerBrandGroup}>
+            <button
+              className={styles.navigationToggle}
+              type="button"
+              aria-label={sidebarOpen ? "Close navigation" : "Open navigation"}
+              aria-controls="site-sidebar"
+              aria-expanded={sidebarOpen}
+              onClick={() => setSidebarOpen((open) => !open)}
+            >
+              <Menu size={19} aria-hidden="true" />
+            </button>
+            <a href="#top" className="brand" aria-label="Cholo home">
+              <span className="brand-mark"><BusFront size={23} strokeWidth={2.1} /></span>
+              <span className="brand-words"><strong>cholo<span>.</span></strong><small>KOLKATA BUS GUIDE</small></span>
+            </a>
+          </div>
+          <nav className={styles.headerNav} aria-label="Main navigation">
             <a
-              className={searchMode === "journey" ? "nav-active" : ""}
+              className={`${styles.navLink} ${searchMode === "journey" ? styles.navActive : ""}`}
               href="#search"
               onClick={() => setSearchMode("journey")}
             >
               Find a bus
             </a>
             <a
-              className={searchMode === "route" ? "nav-active" : ""}
+              className={`${styles.navLink} ${searchMode === "route" ? styles.navActive : ""}`}
               href="#search"
               onClick={() => setSearchMode("route")}
             >
-              Bus Route Number
+              Bus route number
             </a>
-            <a href="/map">Stop map</a>
-            <a href="#how-it-works">How it works</a>
-            <a href="#about">About</a>
+            <a className={styles.navLink} href="/map">Stop map</a>
+            <a className={styles.navLink} href="#how-it-works">How it works</a>
+            <a className={styles.navLink} href="#about">About</a>
           </nav>
           <div className="header-actions">
             <span
-              className="city-chip"
+              className="city-chip network-chip"
               title="Timetables are bundled with this site. They are not live tracking."
             >
               <span className="city-pulse" aria-hidden="true" />
               <span>{DATA_COUNTS.routes} routes · {DATA_COUNTS.stops} stops · {DATA_COUNTS.stands} stands</span>
             </span>
-            <span className="city-chip"><span className="city-pulse" /><span>Kolkata, WB</span></span>
+            <span className="city-chip location-chip"><span className="city-pulse" /><span>Kolkata, WB</span></span>
             <ThemeToggle />
           </div>
         </div>
       </header>
 
-      <main>
+      <div className={styles.layout}>
+        <SiteSidebar
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          searchMode={searchMode}
+          onSetSearchMode={setSearchMode}
+        />
+        <main className={styles.content}>
         <section className="hero page-container" aria-labelledby="hero-title">
           <div className="hero-copy">
             <div className="eyebrow"><span className="eyebrow-mark" /> MADE FOR MOVING AROUND KOLKATA</div>
@@ -638,7 +671,8 @@ export default function HomePage() {
 </div></section>
         <section className="ride-promo page-container" aria-labelledby="ride-promo-title"><div className="ride-promo-inner"><span className="ride-promo-icon"><LocateFixed size={26} /></span><div className="ride-promo-copy"><div className="section-kicker"><span className="kicker-dash" /> ON THE BUS, OFFLINE</div><h2 id="ride-promo-title">Set on bus<span className="accent-period">.</span></h2><p>Open any bus and tap <strong>Set on bus</strong>. A full-page route map follows you along it with no signal at all: how far the next stop is, and how long to every stop still ahead. It uses your phone&apos;s own GPS, so it works where a bus is most likely to lose reception — and it tells you plainly if you are not on the route.</p><ul><li><Check size={14} strokeWidth={3} /> Works completely offline</li><li><Check size={14} strokeWidth={3} /> Distances and times to every stop ahead</li><li><Check size={14} strokeWidth={3} /> Says &ldquo;you are not seated in this bus&rdquo; when you are not</li></ul></div><a className="ride-promo-action" href="#search"><span>Find a bus to ride</span><ArrowRight size={17} /></a></div></section>
         <BusDetailModal trip={detailTrip} onClose={() => setDetailTrip(null)} />
-      </main>
+        </main>
+      </div>
 
       {showTopButton && (
         <button type="button" className="to-top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>

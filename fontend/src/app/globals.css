@@ -61,10 +61,6 @@ html[data-theme="dark"] .site-header { background: rgba(22, 36, 29, .9); }
 .brand-words strong, .footer-brand strong { font-family: "Outfit", "Segoe UI", sans-serif; font-size: 27px; font-weight: 700; letter-spacing: -.07em; line-height: .95; }
 .brand-words strong span, .footer-brand strong span { color: var(--accent); }
 .brand-words small { margin-top: 6px; color: var(--muted); font-size: 11px; letter-spacing: .18em; font-weight: 800; white-space: nowrap; }
-.header-nav { align-self: stretch; display: flex; align-items: center; gap: 37px; margin-left: 95px; }
-.header-nav a { height: 100%; display: inline-flex; align-items: center; position: relative; color: var(--soft-text); font-size: 12.5px; font-weight: 700; white-space: nowrap; transition: color .2s ease; }
-.header-nav a:hover, .header-nav .nav-active { color: var(--heading); }
-.header-nav .nav-active::after { content: ""; position: absolute; height: 3px; border-radius: 3px 3px 0 0; background: var(--accent); left: 0; right: 0; bottom: 0; }
 .header-actions { display: flex; align-items: center; gap: 12px; }
 .city-chip { height: 37px; display: inline-flex; align-items: center; gap: 9px; padding: 0 14px; background: var(--chip); border: 1px solid var(--line); border-radius: 30px; color: var(--heading); font-size: 12.5px; font-weight: 700; white-space: nowrap; }
 .city-pulse { width: 7px; height: 7px; border-radius: 50%; background: #62af76; box-shadow: 0 0 0 3px rgba(98, 175, 118, .16); }
@@ -383,7 +379,6 @@ html[data-theme="dark"] .how-number { color: #3c5241; }
 .footer-inner > a:hover { color: #ffba91; }
 
 @media (max-width: 1100px) {
-  .header-nav { margin-left: 10px; gap: 24px; }
   .hero { gap: 35px; }
   .hero h1 { font-size: clamp(50px, 5.3vw, 64px); }
   .journey-form { grid-template-columns: minmax(0, 1fr) 185px 155px; }
@@ -396,7 +391,6 @@ html[data-theme="dark"] .how-number { color: #3c5241; }
 
 @media (max-width: 900px) {
   .page-container { padding-inline: 24px; }
-  .header-nav { display: none; }
   .hero { gap: 23px; padding-top: 42px; }
   .hero h1 { font-size: clamp(43px, 6vw, 60px); }
   .hero-description { font-size: 14px; }

@@ -8,7 +8,7 @@ import { StopBusesPanel } from "@/components/StopBusesPanel";
 import { StopSearchBox } from "@/components/StopSearchBox";
 import { formatDistance, type Position } from "@/lib/geo";
 import { KIND_LABEL, LANDMARK_POINTS, LANDMARK_SHAPES } from "@/lib/landmarks";
-import { clampView, panBy, placeLabels, viewBoxOf, viewRect, zoomAt, type Point, type Rect, type View } from "@/lib/mapView";
+import { clampView, MAX_ZOOM, MIN_ZOOM, panBy, placeLabels, viewBoxOf, viewRect, zoomAt, type Point, type Rect, type View } from "@/lib/mapView";
 import { inCityWindow, NETWORK_SIZE, networkXY, pathOf, routeLine, UNITS_PER_KM } from "@/lib/networkMap";
 import { allRoadLegs } from "@/lib/routeGeometry";
 import { nearestStops, ROUTE_STOPS, STOP_INDEX, type NearStop } from "@/lib/stopIndex";
@@ -332,8 +332,8 @@ export function NetworkMap() {
         </svg>
 
         <div className="net-map-zoom" role="group" aria-label="Zoom">
-          <button type="button" onClick={() => zoomBy(BUTTON_ZOOM)} aria-label="Zoom in" disabled={current.zoom >= 12}><Plus size={16} aria-hidden="true" /></button>
-          <button type="button" onClick={() => zoomBy(1 / BUTTON_ZOOM)} aria-label="Zoom out" disabled={current.zoom <= 1}><Minus size={16} aria-hidden="true" /></button>
+          <button type="button" onClick={() => zoomBy(BUTTON_ZOOM)} aria-label="Zoom in" disabled={current.zoom >= MAX_ZOOM}><Plus size={16} aria-hidden="true" /></button>
+          <button type="button" onClick={() => zoomBy(1 / BUTTON_ZOOM)} aria-label="Zoom out" disabled={current.zoom <= MIN_ZOOM}><Minus size={16} aria-hidden="true" /></button>
           <button type="button" onClick={() => setView(HOME)} aria-label="Back to the city view" disabled={!zoomed}><Maximize2 size={15} aria-hidden="true" /></button>
         </div>
       </div>

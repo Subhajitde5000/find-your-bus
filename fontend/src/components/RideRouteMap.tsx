@@ -13,6 +13,7 @@ import {
   centreOn,
   clampView,
   FOLLOW_ZOOM,
+  MAX_ZOOM,
   panBy,
   placeLabels,
   viewBoxOf,
@@ -508,7 +509,7 @@ export function RideRouteMap({
         </svg>
 
         <div className="ride-map-controls" role="group" aria-label="Map controls">
-          <button type="button" onClick={() => zoomBy(BUTTON_ZOOM)} aria-label="Zoom in" disabled={view.zoom >= 12}>
+          <button type="button" onClick={() => zoomBy(BUTTON_ZOOM)} aria-label="Zoom in" disabled={view.zoom >= MAX_ZOOM}>
             <Plus size={16} aria-hidden="true" />
           </button>
           <button type="button" onClick={() => zoomBy(1 / BUTTON_ZOOM)} aria-label="Zoom out" disabled={!zoomed}>

@@ -27,8 +27,6 @@ import {
 } from "lucide-react";
 import { RideProgress, RideStopList } from "@/components/RideMap";
 import { RideRouteMap } from "@/components/RideRouteMap";
-import { SiteMenu } from "@/components/SiteMenu";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { formatClock, type Direction } from "@/lib/timetables";
 import {
   directionWarning,
@@ -554,7 +552,6 @@ function RideScreen() {
 function RideHeader({ online }: { online: boolean }) {
   return (
     <header className="ride-header">
-      <SiteMenu />
       <Link className="ride-back" href="/"><ArrowLeft size={17} /> Home</Link>
       <span className="ride-header-title">Ride along</span>
       <span
@@ -562,9 +559,8 @@ function RideHeader({ online }: { online: boolean }) {
         title={online ? "You are online, but this screen does not need it" : "Offline — this screen still works"}
       >
         {online ? <Wifi size={13} aria-hidden="true" /> : <WifiOff size={13} aria-hidden="true" />}
-        <span className="ride-online-text">{online ? "Online" : "Offline"}</span>
+        {online ? "Online" : "Offline"}
       </span>
-      <ThemeToggle />
     </header>
   );
 }

@@ -6,13 +6,14 @@ import { LandmarkLayer, type DrawnPoint, type DrawnShape } from "@/components/La
 import { MapStyleToggle, useMapStyle } from "@/components/MapStyleToggle";
 import { StopBusesPanel } from "@/components/StopBusesPanel";
 import { StopSearchBox } from "@/components/StopSearchBox";
-import { KIND_LABEL, LANDMARK_POINTS, LANDMARK_SHAPES } from "@/lib/landmarks";
+import { isMajorWater, KIND_LABEL, LANDMARK_POINTS, LANDMARK_SHAPES, shapeAnchor, shapeLength } from "@/lib/landmarks";
 import { corridorUpTo, nearestStop, pointAtMetres, type RideRoute } from "@/lib/ride";
 import { formatDistance, type Position } from "@/lib/geo";
 import {
   centreOn,
   clampView,
   FOLLOW_ZOOM,
+  MAX_ZOOM,
   panBy,
   placeLabels,
   viewBoxOf,
@@ -278,11 +279,24 @@ export function RideRouteMap({
   const landmarkPoints: DrawnPoint[] = showLandmarks
     ? LANDMARK_POINTS.map((p) => ({ id: p.id, name: p.name, kind: p.kind, ...toXY(projection, p) })).filter(inDrawing)
     : [];
-  const landmarkShapes: DrawnShape[] = showLandmarks
-    ? LANDMARK_SHAPES.map((shape) => ({ shape, xy: shape.points.map((point) => toXY(projection, point)) }))
-        .filter(({ xy }) => xy.some(inDrawing))
-        .map(({ shape, xy }) => ({ id: shape.id, name: shape.name, kind: shape.kind, closed: shape.closed, d: toPath(xy) + (shape.closed ? "Z" : "") }))
-    : [];
+  const shownShapes = showLandmarks ? LANDMARK_SHAPES.filter((shape) => shape.points.some((point) => inDrawing(toXY(projection, point)))) : [];
+  // One label per name, and only for a shape whose middle falls inside this drawing: a
+  // river that merely crosses the corridor should not be named off the edge of the page.
+  const landmarkShapes: DrawnShape[] = shownShapes.map((shape) => {
+    const xy = shape.points.map((point) => toXY(projection, point));
+    const anchor = toXY(projection, shapeAnchor(shape));
+    return {
+      id: shape.id,
+      name: shape.name,
+      kind: shape.kind,
+      closed: shape.closed,
+      d: toPath(xy) + (shape.closed ? "Z" : ""),
+      labelX: anchor.x,
+      labelY: anchor.y,
+      weight: shapeLength(shape),
+      major: isMajorWater(shape),
+    };
+  });
   const landmark = landmarkId
     ? (LANDMARK_POINTS.find((p) => p.id === landmarkId) ?? LANDMARK_SHAPES.find((s) => s.id === landmarkId) ?? null)
     : null;
@@ -508,7 +522,7 @@ export function RideRouteMap({
         </svg>
 
         <div className="ride-map-controls" role="group" aria-label="Map controls">
-          <button type="button" onClick={() => zoomBy(BUTTON_ZOOM)} aria-label="Zoom in" disabled={view.zoom >= 12}>
+          <button type="button" onClick={() => zoomBy(BUTTON_ZOOM)} aria-label="Zoom in" disabled={view.zoom >= MAX_ZOOM}>
             <Plus size={16} aria-hidden="true" />
           </button>
           <button type="button" onClick={() => zoomBy(1 / BUTTON_ZOOM)} aria-label="Zoom out" disabled={!zoomed}>

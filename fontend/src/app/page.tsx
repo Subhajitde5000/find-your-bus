@@ -16,23 +16,23 @@ import {
   History as HistoryIcon,
   Info,
   Lightbulb,
-  Moon,
   MapPin,
   LocateFixed,
   Navigation,
   PersonStanding,
   Route,
   Search,
-  Sun,
   Sunrise,
   Users,
 } from "lucide-react";
 import { BusDetailModal } from "@/components/BusDetailModal";
 import { HeroMap } from "@/components/HeroMap";
 import { StopField } from "@/components/StopField";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { RouteLinks } from "@/components/RouteLinks";
 import { TripCard } from "@/components/TripCard";
 import { RouteExplorer } from "@/components/RouteExplorer";
+import { SiteMenu } from "@/components/SiteMenu";
 import {
   DATA_COUNTS,
   findRouteLinks,
@@ -162,8 +162,6 @@ function timeAgo(timestamp: number): string {
 }
 
 export default function HomePage() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [themeReady, setThemeReady] = useState(false);
   const [from, setFrom] = useState("Esplanade");
   const [to, setTo] = useState("Garia");
   const [time, setTime] = useState("08:00");
@@ -184,21 +182,17 @@ export default function HomePage() {
   const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "failed">("idle");
   const [searchMode, setSearchMode] = useState<"journey" | "route">("journey");
 
+  // The drawer's "Bus route number" link arrives as /#route, so it opens the route search
+  // instead of the journey form. Clicking around inside the page still wins.
   useEffect(() => {
-    const initial = window.setTimeout(() => {
-      const saved = storageGet("cholo-theme");
-      if (saved === "dark" || saved === "light") setTheme(saved);
-      else if (window.matchMedia("(prefers-color-scheme: dark)").matches) setTheme("dark");
-      setThemeReady(true);
-    }, 0);
-    return () => window.clearTimeout(initial);
+    const sync = () => {
+      if (window.location.hash === "#route") setSearchMode("route");
+      else if (window.location.hash === "#search") setSearchMode("journey");
+    };
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
   }, []);
-
-  useEffect(() => {
-    if (!themeReady) return;
-    document.documentElement.dataset.theme = theme;
-    storageSet("cholo-theme", theme);
-  }, [theme, themeReady]);
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
@@ -396,6 +390,7 @@ export default function HomePage() {
     <div className="site-shell" id="top">
       <header className="site-header">
         <div className="header-inner page-container">
+          <SiteMenu onChooseSearch={setSearchMode} />
           <a href="#top" className="brand" aria-label="Cholo home">
             <span className="brand-mark"><BusFront size={23} strokeWidth={2.1} /></span>
             <span className="brand-words"><strong>cholo<span>.</span></strong><small>KOLKATA BUS GUIDE</small></span>
@@ -428,15 +423,7 @@ export default function HomePage() {
               <span>{DATA_COUNTS.routes} routes · {DATA_COUNTS.stops} stops · {DATA_COUNTS.stands} stands</span>
             </span>
             <span className="city-chip"><span className="city-pulse" /><span>Kolkata, WB</span></span>
-            <button
-              type="button"
-              className="theme-toggle"
-              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-              aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-              title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-            >
-              {theme === "light" ? <Moon size={19} /> : <Sun size={19} />}
-            </button>
+            <ThemeToggle />
           </div>
         </div>
       </header>

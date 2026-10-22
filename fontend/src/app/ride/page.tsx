@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { RideProgress, RideStopList } from "@/components/RideMap";
 import { RideRouteMap } from "@/components/RideRouteMap";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { formatClock, type Direction } from "@/lib/timetables";
 import {
   directionWarning,
@@ -561,6 +562,7 @@ function RideHeader({ online }: { online: boolean }) {
         {online ? <Wifi size={13} aria-hidden="true" /> : <WifiOff size={13} aria-hidden="true" />}
         {online ? "Online" : "Offline"}
       </span>
+      <ThemeToggle />
     </header>
   );
 }

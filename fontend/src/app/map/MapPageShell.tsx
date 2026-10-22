@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Wifi, WifiOff } from "lucide-react";
 import { NetworkMap } from "@/components/NetworkMap";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 /** The /map page: the same compact header as the ride screen, and the all-stops map. */
 export function MapPageShell() {
@@ -28,6 +29,7 @@ export function MapPageShell() {
           {online ? <Wifi size={13} aria-hidden="true" /> : <WifiOff size={13} aria-hidden="true" />}
           {online ? "Online" : "Offline"}
         </span>
+        <ThemeToggle />
       </header>
       <main className="ride-body">
         <NetworkMap />

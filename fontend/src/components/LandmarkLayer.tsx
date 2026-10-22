@@ -1,5 +1,5 @@
 import { placeLabels, type Rect } from "@/lib/mapView";
-import { isWater, KIND_LABEL, oneLabelPerName, type LandmarkKind } from "@/lib/landmarks";
+import { KIND_LABEL, type LandmarkKind } from "@/lib/landmarks";
 
 export interface DrawnPoint {
   id: string;
@@ -14,13 +14,6 @@ export interface DrawnShape {
   kind: LandmarkKind;
   closed: boolean;
   d: string;
-  /** Where the shape's name goes: the middle of a river, the centre of a lake. */
-  labelX: number;
-  labelY: number;
-  /** Drawing length, so the longest stretch of a river gets to write its name. */
-  weight: number;
-  /** Water that is named before the reader zooms in: a river, a canal, a lake worth naming. */
-  major: boolean;
 }
 
 interface Props {
@@ -37,51 +30,20 @@ interface Props {
 const WATER = new Set<LandmarkKind>(["river", "canal", "water"]);
 
 /**
- * Rivers, canals, lakes, station buildings and places, drawn under the stops. Water is
- * blue -- a filled outline for a lake, a line for a river -- buildings are filled outlines,
- * and every named place is a small diamond. Presentational: the caller projects the
- * features, so the same layer serves both maps.
- *
- * Water keeps its name at every zoom: "Hooghly" is how people find their bearings on this
- * map. Smaller features are only named once the reader has zoomed in, and the caller picks
- * one stretch per name so a segmented river is not labelled twenty times.
+ * Rivers, canals, bridges, buildings and places, drawn under the stops. Water is blue,
+ * buildings are filled outlines, and every named place is a small diamond. Presentational:
+ * the caller projects the features, so the same layer serves both maps.
  */
 export function LandmarkLayer({ points, shapes, k, rect, showLabels, selectedId, onSelect }: Props) {
-  const inView = (x: number, y: number) =>
-    x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h;
-  const visible = points.filter((p) => inView(p.x, p.y));
-  // One name, one label, chosen from what is on screen: a river split into twenty segments
-  // is named once, at its longest visible stretch, and the name follows the reader.
-  const nameable = (shape: DrawnShape) => (shape.major ? true : showLabels);
-  const named = new Set(
-    oneLabelPerName(shapes.filter((shape) => nameable(shape) && inView(shape.labelX, shape.labelY))).map((shape) => shape.id),
-  );
-  const labels = shapes
-    .filter((shape) => named.has(shape.id))
-    .map((shape, i) => ({
-      id: shape.id,
-      x: shape.labelX,
-      y: shape.labelY,
-      text: shape.name,
-      water: isWater(shape.kind),
-      priority: shape.id === selectedId ? 0 : isWater(shape.kind) ? 1 : 20 + i,
-    }))
-    .concat(
-      showLabels
-        ? visible.map((p, i) => ({
-            id: p.id,
-            x: p.x,
-            y: p.y,
-            text: p.name,
-            water: false,
-            priority: p.id === selectedId ? 0 : 30 + i,
-          }))
-        : [],
-    );
-  // Water names go down first so a stop label is moved out of their way, not over them.
-  labels.sort((a, b) => a.priority - b.priority);
-  const byId = new Map(labels.map((label) => [label.id, label]));
-  const placed = placeLabels(labels, rect, 8 * k, 7 * k);
+  const visible = points.filter((p) => p.x >= rect.x && p.x <= rect.x + rect.w && p.y >= rect.y && p.y <= rect.y + rect.h);
+  const labels = showLabels
+    ? placeLabels(
+        visible.map((p, i) => ({ id: p.id, x: p.x, y: p.y, text: p.name, priority: p.id === selectedId ? 0 : 1 + i })),
+        rect,
+        8 * k,
+        7 * k,
+      )
+    : [];
   const size = 4.2 * k;
   return (
     <g className="landmark-layer">
@@ -105,15 +67,9 @@ export function LandmarkLayer({ points, shapes, k, rect, showLabels, selectedId,
           <title>{`${p.name} (${KIND_LABEL[p.kind]})`}</title>
         </path>
       ))}
-      {placed.map((label) => (
-        <text
-          key={`lm-${label.id}`}
-          className={`landmark-label${byId.get(label.id)?.water ? " water" : ""}`}
-          x={label.tx}
-          y={label.ty}
-          textAnchor={label.anchor}
-        >
-          {byId.get(label.id)?.text ?? ""}
+      {labels.map((label) => (
+        <text key={`lm-${label.id}`} className="landmark-label" x={label.tx} y={label.ty} textAnchor={label.anchor}>
+          {label.text}
         </text>
       ))}
     </g>

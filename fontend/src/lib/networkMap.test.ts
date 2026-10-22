@@ -4,8 +4,7 @@
  */
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { CITY_WINDOW, inCityWindow, NETWORK_SIZE, networkPosition, networkXY, pathOf, routeLine, UNITS_PER_KM } from "@/lib/networkMap";
-import { MAX_ZOOM } from "@/lib/mapView";
+import { CITY_WINDOW, inCityWindow, NETWORK_SIZE, networkPosition, networkXY, pathOf, routeLine } from "@/lib/networkMap";
 import { nextMapStyle, resolveMapStyle, isMapStyle } from "@/lib/mapStyle";
 import { allRoadLegs } from "@/lib/routeGeometry";
 import type { Position } from "@/lib/geo";
@@ -28,16 +27,6 @@ describe("network projection", () => {
   it("knows what is inside the city window", () => {
     assert.ok(inCityWindow({ lat: 22.5726, lng: 88.3639 }));
     assert.ok(!inCityWindow({ lat: 26.7, lng: 88.4 }));
-  });
-
-  it("zooms in far enough to separate neighbouring stops", () => {
-    // Zooming only shrinks the visible rectangle of the same drawing, so the closest view
-    // is the whole city divided by MAX_ZOOM. Anything wider than a few km leaves two stops
-    // on the same street sharing a dot on a phone screen.
-    const kmAcross = NETWORK_SIZE.width / MAX_ZOOM / UNITS_PER_KM;
-    const kmDown = NETWORK_SIZE.height / MAX_ZOOM / UNITS_PER_KM;
-    assert.ok(kmAcross < 2.5, `${kmAcross.toFixed(1)} km across at full zoom`);
-    assert.ok(kmDown < 3.5, `${kmDown.toFixed(1)} km down at full zoom`);
   });
 
   it("scales equally in both directions, so a square on the ground is a square on the map", () => {

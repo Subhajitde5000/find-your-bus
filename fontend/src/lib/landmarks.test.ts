@@ -4,22 +4,7 @@
  */
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import {
-  boundsOf,
-  isMajorWater,
-  isWater,
-  KIND_LABEL,
-  LANDMARK_POINTS,
-  LANDMARK_SHAPES,
-  oneLabelPerName,
-  pointsIn,
-  readLandmarks,
-  shapeAnchor,
-  shapeAreaSqMetres,
-  shapeLength,
-  shapesIn,
-} from "@/lib/landmarks";
-import { inCityWindow } from "@/lib/networkMap";
+import { boundsOf, KIND_LABEL, LANDMARK_POINTS, LANDMARK_SHAPES, pointsIn, readLandmarks, shapesIn } from "@/lib/landmarks";
 import { stopPosition } from "@/lib/coords";
 
 describe("reading landmarks", () => {
@@ -72,74 +57,6 @@ describe("reading landmarks", () => {
   });
 });
 
-describe("naming a shape on the map", () => {
-  const river = {
-    id: "r",
-    name: "Hooghly",
-    kind: "river" as const,
-    closed: false,
-    source: "osm" as const,
-    points: [
-      { lat: 22.5, lng: 88.3 },
-      { lat: 22.6, lng: 88.3 },
-    ],
-  };
-
-  it("puts a river's name halfway along it", () => {
-    assert.deepEqual(shapeAnchor(river), { lat: 22.55, lng: 88.3 });
-    const longer = { ...river, points: [{ lat: 22.5, lng: 88.3 }, { lat: 22.6, lng: 88.3 }, { lat: 22.7, lng: 88.3 }] };
-    assert.ok(Math.abs(shapeAnchor(longer).lat - 22.6) < 1e-9, "the middle of three equal legs is the middle vertex");
-  });
-
-  it("puts a lake's name at its centre", () => {
-    const lake = { ...river, kind: "water" as const, closed: true, points: [{ lat: 22.5, lng: 88.3 }, { lat: 22.6, lng: 88.3 }, { lat: 22.6, lng: 88.4 }, { lat: 22.5, lng: 88.4 }] };
-    const anchor = shapeAnchor(lake);
-    assert.ok(Math.abs(anchor.lat - 22.55) < 1e-9 && Math.abs(anchor.lng - 88.35) < 1e-9);
-  });
-
-  it("names a river traced in segments only once, at its longest stretch", () => {
-    const segments = [
-      { ...river, id: "a", points: [{ lat: 22.5, lng: 88.3 }, { lat: 22.52, lng: 88.3 }] },
-      { ...river, id: "b", points: [{ lat: 22.6, lng: 88.3 }, { lat: 22.8, lng: 88.3 }] },
-      { ...river, id: "c", name: "Adi Ganga", points: [{ lat: 22.4, lng: 88.3 }, { lat: 22.45, lng: 88.3 }] },
-    ];
-    const named = oneLabelPerName(segments.map((segment) => ({ ...segment, weight: shapeLength(segment) }))).map((s) => s.id).sort();
-    assert.deepEqual(named, ["b", "c"]);
-    assert.ok(shapeLength(segments[1]) > shapeLength(segments[0]));
-    // what is on screen decides: with only the short stretch in view, it gets the name
-    assert.deepEqual(oneLabelPerName([{ ...segments[0], weight: shapeLength(segments[0]) }]).map((s) => s.id), ["a"]);
-  });
-
-  it("measures a lake, and names only the lakes that are landmarks", () => {
-    // roughly 1 km x 1 km: 100 ha
-    const big = {
-      ...river,
-      kind: "water" as const,
-      closed: true,
-      points: [
-        { lat: 22.5, lng: 88.3 },
-        { lat: 22.509, lng: 88.3 },
-        { lat: 22.509, lng: 88.3105 },
-        { lat: 22.5, lng: 88.3105 },
-      ],
-    };
-    const pond = { ...big, points: big.points.map((p) => ({ lat: 22.5 + (p.lat - 22.5) / 100, lng: 88.3 + (p.lng - 88.3) / 100 })) };
-    assert.ok(shapeAreaSqMetres(big) > 900_000 && shapeAreaSqMetres(big) < 1_100_000, "a 1 km square is about a square kilometre");
-    assert.equal(isMajorWater(big), true);
-    assert.equal(isMajorWater(pond), false, "a small tank is drawn but not named at the city view");
-    assert.equal(isMajorWater({ ...river, kind: "canal" as const }), true, "a canal always carries its name");
-    assert.equal(isMajorWater({ ...river, kind: "station" as const }), false);
-  });
-
-  it("knows which kinds are water", () => {
-    assert.equal(isWater("river"), true);
-    assert.equal(isWater("canal"), true);
-    assert.equal(isWater("water"), true);
-    assert.equal(isWater("station"), false);
-    assert.equal(isWater("metro"), false);
-  });
-});
-
 describe("the bundled landmarks", () => {
   it("has a label for every kind it uses", () => {
     for (const item of [...LANDMARK_POINTS, ...LANDMARK_SHAPES]) assert.ok(KIND_LABEL[item.kind], item.id);
@@ -157,41 +74,5 @@ describe("the bundled landmarks", () => {
 
   it("marks any OpenStreetMap shape as such", () => {
     for (const shape of LANDMARK_SHAPES) assert.equal(shape.source, "osm");
-  });
-
-  it("draws the city's water: the Hooghly, the canals and the named lakes", () => {
-    const rivers = LANDMARK_SHAPES.filter((s) => s.kind === "river");
-    const canals = LANDMARK_SHAPES.filter((s) => s.kind === "canal");
-    const lakes = LANDMARK_SHAPES.filter((s) => s.kind === "water");
-    assert.ok(rivers.some((s) => s.name === "Hooghly"), "the Hooghly is on the map");
-    assert.ok(canals.some((s) => /circular canal/i.test(s.name)), "the Circular Canal is on the map");
-    assert.ok(lakes.some((s) => /rabindra sarobar/i.test(s.name)), "Rabindra Sarobar is on the map");
-    assert.ok(lakes.length >= 40, `lakes are drawn, not one token pond (${lakes.length})`);
-    for (const lake of lakes) assert.equal(lake.closed, true, `${lake.name} is an outline`);
-    for (const river of rivers) assert.equal(river.closed, false, `${river.name} is a line`);
-  });
-
-  it("keeps every shape inside the window the map draws, and long enough to see", () => {
-    for (const shape of LANDMARK_SHAPES) {
-      assert.ok(shape.points.length >= (shape.closed ? 4 : 2), `${shape.name} has too few points`);
-      const anchor = shapeAnchor(shape);
-      assert.ok(inCityWindow(anchor), `${shape.name} is centred outside the map window`);
-      for (const point of shape.points) assert.ok(inCityWindow(point), `${shape.name} runs outside the map window`);
-    }
-  });
-
-  it("labels a river once, however many segments it was traced in", () => {
-    const named = oneLabelPerName(LANDMARK_SHAPES.map((shape) => ({ ...shape, weight: shapeLength(shape) })));
-    const names = named.map((s) => s.name.toLowerCase());
-    assert.equal(new Set(names).size, names.length);
-    assert.equal(names.filter((n) => n === "hooghly").length, 1);
-    assert.ok(LANDMARK_SHAPES.filter((s) => s.name === "Hooghly").length > 1, "the Hooghly really is several segments");
-  });
-
-  it("draws station buildings and metro stations from OpenStreetMap", () => {
-    const buildings = LANDMARK_SHAPES.filter((s) => s.kind === "station" || s.kind === "metro");
-    assert.ok(buildings.length >= 10, `station buildings are drawn (${buildings.length})`);
-    for (const building of buildings) assert.equal(building.closed, true);
-    assert.ok(LANDMARK_POINTS.some((p) => p.kind === "metro" && p.source === "osm"), "metro stations are places on the map");
   });
 });

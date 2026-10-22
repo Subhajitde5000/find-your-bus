@@ -33,13 +33,7 @@ export interface Rect {
 }
 
 export const MIN_ZOOM = 1;
-/**
- * How far in the reader can go. The drawing is about 500 x 670 units for 45 x 60 km, so
- * 20 shows a 2-3 km square: close enough to tell two neighbouring stops apart on a
- * phone, which is what the stop map is for. Both maps share the limit so the zoom buttons
- * behave the same way.
- */
-export const MAX_ZOOM = 20;
+export const MAX_ZOOM = 12;
 /** Zoom the "follow my bus" button switches to when the map is still showing the whole route. */
 export const FOLLOW_ZOOM = 4;
 

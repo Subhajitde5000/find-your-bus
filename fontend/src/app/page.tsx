@@ -32,6 +32,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { RouteLinks } from "@/components/RouteLinks";
 import { TripCard } from "@/components/TripCard";
 import { RouteExplorer } from "@/components/RouteExplorer";
+import { SiteMenu } from "@/components/SiteMenu";
 import {
   DATA_COUNTS,
   findRouteLinks,
@@ -180,6 +181,18 @@ export default function HomePage() {
   const [showTopButton, setShowTopButton] = useState(false);
   const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "failed">("idle");
   const [searchMode, setSearchMode] = useState<"journey" | "route">("journey");
+
+  // The drawer's "Bus route number" link arrives as /#route, so it opens the route search
+  // instead of the journey form. Clicking around inside the page still wins.
+  useEffect(() => {
+    const sync = () => {
+      if (window.location.hash === "#route") setSearchMode("route");
+      else if (window.location.hash === "#search") setSearchMode("journey");
+    };
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
 
   useEffect(() => {
     const initial = window.setTimeout(() => {
@@ -377,6 +390,7 @@ export default function HomePage() {
     <div className="site-shell" id="top">
       <header className="site-header">
         <div className="header-inner page-container">
+          <SiteMenu onChooseSearch={setSearchMode} />
           <a href="#top" className="brand" aria-label="Cholo home">
             <span className="brand-mark"><BusFront size={23} strokeWidth={2.1} /></span>
             <span className="brand-words"><strong>cholo<span>.</span></strong><small>KOLKATA BUS GUIDE</small></span>

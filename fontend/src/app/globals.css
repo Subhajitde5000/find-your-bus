@@ -71,6 +71,43 @@ html[data-theme="dark"] .site-header { background: rgba(22, 36, 29, .9); }
 .theme-toggle { width: 39px; height: 39px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--heading); display: grid; place-items: center; transition: transform .2s ease, background .2s ease; }
 .theme-toggle:hover { transform: rotate(-14deg); background: var(--chip); }
 
+/* ==========================================================================
+   Navigation drawer — phones and tablets only
+   The header links have nowhere to go below 900px, so the same list moves into
+   a panel that slides in from the left. The button that opens it is hidden
+   above 900px, so a desktop never sees any of this. The panel is rendered into
+   <body> (a portal), which is why it is positioned against the viewport.
+   ========================================================================== */
+.site-menu-trigger { display: none; width: 36px; height: 36px; flex: none; place-items: center; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); color: var(--heading); }
+.site-menu-trigger:hover, .site-menu-trigger[aria-expanded="true"] { border-color: var(--brand); color: var(--brand); background: var(--mint); }
+@media (max-width: 900px) { .site-menu-trigger { display: inline-grid; } }
+
+.site-menu-scrim { position: fixed; inset: 0; z-index: 70; background: rgba(11, 26, 20, .44); animation: site-menu-fade .2s ease both; }
+html[data-theme="dark"] .site-menu-scrim { background: rgba(0, 0, 0, .58); }
+.site-menu { position: fixed; z-index: 80; top: 0; bottom: 0; left: 0; display: flex; flex-direction: column; width: min(84vw, 300px); padding: 12px 12px 16px; border-right: 1px solid var(--line); background: var(--surface); box-shadow: 0 18px 46px rgba(9, 30, 21, .24); animation: site-menu-in .22s ease both; }
+@keyframes site-menu-in { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes site-menu-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.site-menu:focus-visible { outline: none; }
+.site-menu-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 4px 12px; border-bottom: 1px solid var(--line); }
+.site-menu-brand { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.site-menu-brand .brand-mark { width: 36px; height: 36px; border-radius: 11px; }
+.site-menu-words { display: flex; flex-direction: column; line-height: 1; min-width: 0; }
+.site-menu-words strong { font-family: "Outfit", "Segoe UI", sans-serif; font-size: 23px; font-weight: 700; letter-spacing: -.06em; color: var(--heading); }
+.site-menu-words strong span { color: var(--accent); }
+.site-menu-words small { margin-top: 5px; color: var(--muted); font-size: 9.5px; font-weight: 800; letter-spacing: .16em; white-space: nowrap; }
+.site-menu-close { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--heading); }
+.site-menu-close:hover { background: var(--mint); color: var(--brand); }
+.site-menu-nav { display: grid; gap: 3px; padding: 12px 0; overflow-y: auto; }
+.site-menu-link { display: flex; align-items: center; gap: 11px; padding: 11px 12px; border-radius: 12px; color: var(--heading); font-size: 14px; font-weight: 700; }
+.site-menu-link:hover { background: var(--chip); }
+.site-menu-link.active { background: var(--mint); color: var(--brand); }
+.site-menu-icon { display: grid; place-items: center; width: 30px; height: 30px; flex: none; border-radius: 9px; background: var(--chip); color: var(--brand); }
+.site-menu-link.active .site-menu-icon { background: var(--surface); }
+.site-menu-label { flex: 1; min-width: 0; }
+.site-menu-chevron { color: var(--muted); flex: none; }
+.site-menu-foot { margin: auto 0 0; padding: 12px 6px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 11.5px; line-height: 1.5; }
+
 /* Hero */
 .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .95fr); align-items: center; gap: 66px; padding-top: 48px; padding-bottom: 24px; }
 .hero-copy { padding-bottom: 5px; }
@@ -506,6 +543,7 @@ html[data-theme="dark"] .how-number { color: #3c5241; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .site-menu, .site-menu-scrim { animation: none; }
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
 
@@ -1385,6 +1423,9 @@ html[data-theme="dark"] .ride-header { background: rgba(22, 36, 29, .94); }
 @media (max-width: 620px) {
   .ride-header { gap: 9px; padding: 0 11px; }
   .ride-header-title { letter-spacing: .07em; }
+  /* The drawer sits beside these controls now, so the status chip drops its word. */
+  .ride-online { padding: 5px 7px; }
+  .ride-online-text { display: none; }
   .ride-body { padding: 14px 12px 48px; gap: 13px; }
   .ride-status { flex-wrap: wrap; padding: 15px; }
   .ride-status-actions { width: 100%; }

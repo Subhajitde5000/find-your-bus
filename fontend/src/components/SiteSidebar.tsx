@@ -7,7 +7,9 @@ import {
   BusFront,
   ChevronRight,
   CircleHelp,
+  Database,
   Info,
+  Lightbulb,
   Map,
   MapPin,
   Route,
@@ -92,6 +94,16 @@ export function SiteSidebar({ isOpen, onClose, searchMode, onSetSearchMode }: Si
           <Link href="/map" className="sidebar-nav-link" onClick={onClose}>
             <span className="sidebar-nav-icon"><Map size={17} aria-hidden="true" /></span>
             <span>All bus stops</span>
+            <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
+          </Link>
+          <Link href="https://find-your-bus-comiunity.vercel.app/report-data" className="sidebar-nav-link" onClick={onClose}>
+            <span className="sidebar-nav-icon"><Database size={17} aria-hidden="true" /></span>
+            <span>update bus data</span>
+            <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
+          </Link>
+          <Link href="http://find-your-bus-comiunity.vercel.app/suggest-feature" className="sidebar-nav-link" onClick={onClose}>
+            <span className="sidebar-nav-icon"><Lightbulb size={17} aria-hidden="true" /></span>
+            <span>suggest features</span>
             <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
           </Link>
           <a href="#how-it-works" className="sidebar-nav-link" onClick={onClose}>

@@ -3,7 +3,6 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 from typing import Literal
 
-from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -17,7 +16,13 @@ from config import Settings
 from schemas import AdminLogin, SubmissionCreate
 from store import StorageUnavailable, SubmissionStore
 
-load_dotenv()
+# load_dotenv is only needed for local development (reads from .env file).
+# On Vercel, environment variables are injected directly — dotenv is not required.
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ModuleNotFoundError:
+    pass
 
 
 def create_app(store: SubmissionStore | None = None, settings: Settings | None = None) -> FastAPI:

@@ -5,13 +5,10 @@ import hashlib
 import hmac
 import time
 
-ADMIN_USERNAME = "@subhajit de"
-ADMIN_PASSWORD = "password1234!"
-ADMIN_COOKIE_NAME = "cholo_admin_session"
 
-
-def credentials_are_valid(username: str, password: str) -> bool:
-    return hmac.compare_digest(username, ADMIN_USERNAME) and hmac.compare_digest(password, ADMIN_PASSWORD)
+def credentials_are_valid(username: str, password: str, expected_username: str, expected_password: str) -> bool:
+    """Compare submitted credentials against the values stored in the database/config."""
+    return hmac.compare_digest(username, expected_username) and hmac.compare_digest(password, expected_password)
 
 
 def create_session_token(secret: str, ttl_seconds: int, now: int | None = None) -> str:

@@ -101,7 +101,7 @@ export function SiteSidebar({ isOpen, onClose, searchMode, onSetSearchMode }: Si
             <span>update bus data</span>
             <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
           </Link>
-          <Link href="http://find-your-bus-comiunity.vercel.app/suggest-feature" className="sidebar-nav-link" onClick={onClose}>
+          <Link href="https://find-your-bus-comiunity.vercel.app/suggest-feature" className="sidebar-nav-link" onClick={onClose}>
             <span className="sidebar-nav-icon"><Lightbulb size={17} aria-hidden="true" /></span>
             <span>suggest features</span>
             <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />

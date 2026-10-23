@@ -5,11 +5,10 @@ from typing import Literal
 
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response, status
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from auth import (
-    ADMIN_COOKIE_NAME,
-    ADMIN_USERNAME,
     credentials_are_valid,
     create_session_token,
     verify_session_token,
@@ -43,6 +42,15 @@ def create_app(store: SubmissionStore | None = None, settings: Settings | None =
     app.state.settings = app_settings
     app.state.store = submission_store
 
+    # CORS — allow origins defined in the ALLOWED_ORIGINS env variable
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=app_settings.allowed_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
     @app.exception_handler(StorageUnavailable)
     async def storage_unavailable_handler(_: Request, __: StorageUnavailable) -> JSONResponse:
         return JSONResponse(
@@ -51,8 +59,9 @@ def create_app(store: SubmissionStore | None = None, settings: Settings | None =
         )
 
     def require_admin(request: Request) -> None:
-        token = request.cookies.get(ADMIN_COOKIE_NAME)
-        if not verify_session_token(token, request.app.state.settings.admin_session_secret):
+        settings: Settings = request.app.state.settings
+        token = request.cookies.get(settings.admin_cookie_name)
+        if not verify_session_token(token, settings.admin_session_secret):
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Admin sign-in required.")
 
     @app.get("/api/health")
@@ -67,12 +76,17 @@ def create_app(store: SubmissionStore | None = None, settings: Settings | None =
 
     @app.post("/api/admin/login")
     def admin_login(payload: AdminLogin, request: Request, response: Response) -> dict[str, bool]:
-        if not credentials_are_valid(payload.username, payload.password):
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Those sign-in details did not match.")
         settings: Settings = request.app.state.settings
+        if not credentials_are_valid(
+            payload.username,
+            payload.password,
+            settings.admin_username,
+            settings.admin_password,
+        ):
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Those sign-in details did not match.")
         token = create_session_token(settings.admin_session_secret, settings.session_ttl_seconds)
         response.set_cookie(
-            key=ADMIN_COOKIE_NAME,
+            key=settings.admin_cookie_name,
             value=token,
             max_age=settings.session_ttl_seconds,
             httponly=True,
@@ -83,8 +97,9 @@ def create_app(store: SubmissionStore | None = None, settings: Settings | None =
         return {"authenticated": True}
 
     @app.get("/api/admin/me")
-    def admin_me(_: None = Depends(require_admin)) -> dict[str, str | bool]:
-        return {"authenticated": True, "username": ADMIN_USERNAME}
+    def admin_me(request: Request, _: None = Depends(require_admin)) -> dict[str, str | bool]:
+        settings: Settings = request.app.state.settings
+        return {"authenticated": True, "username": settings.admin_username}
 
     @app.get("/api/admin/submissions")
     def admin_submissions(
@@ -97,8 +112,9 @@ def create_app(store: SubmissionStore | None = None, settings: Settings | None =
         return {"items": items, "count": len(items), "storage": request.app.state.store.mode}
 
     @app.post("/api/admin/logout")
-    def admin_logout(response: Response) -> dict[str, bool]:
-        response.delete_cookie(key=ADMIN_COOKIE_NAME, path="/", httponly=True, samesite="strict")
+    def admin_logout(request: Request, response: Response) -> dict[str, bool]:
+        settings: Settings = request.app.state.settings
+        response.delete_cookie(key=settings.admin_cookie_name, path="/", httponly=True, samesite="strict")
         return {"authenticated": False}
 
     return app

@@ -10,7 +10,7 @@ import { checkAdminSession, signIn } from "@/lib/api";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState("@subhajit de");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [checking, setChecking] = useState(true);

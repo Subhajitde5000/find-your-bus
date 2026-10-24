@@ -498,6 +498,27 @@ class Network:
             snap.node = self._ids[snap.point]
         del self.roads
 
+        # Precompute undirected connected components so disconnected road islands abort in O(1)
+        undirected: dict[int, list[int]] = collections.defaultdict(list)
+        for u, nbrs in self.adjacency.items():
+            for v, _ei, _fw in nbrs:
+                undirected[u].append(v)
+                undirected[v].append(u)
+        self.component: dict[int, int] = {}
+        comp_id = 0
+        for root_node in range(len(self.nodes)):
+            if root_node in self.component:
+                continue
+            comp_id += 1
+            stack_c = [root_node]
+            self.component[root_node] = comp_id
+            while stack_c:
+                cur_n = stack_c.pop()
+                for nxt_n in undirected.get(cur_n, ()):
+                    if nxt_n not in self.component:
+                        self.component[nxt_n] = comp_id
+                        stack_c.append(nxt_n)
+
     @staticmethod
     def _burst(edge: Edge, cuts: Sequence[tuple[float, Point]]) -> list[Edge]:
         """Cut one road edge at the given (distance along, point) positions."""
@@ -525,7 +546,12 @@ class Network:
             previous_along, previous_point = along, point
         return pieces
 
-    def route(self, starts: set[int], goals: set[int]) -> tuple[list[Point], float] | None:
+    def route(
+        self,
+        starts: set[int],
+        goals: set[int],
+        max_cost: float = math.inf,
+    ) -> tuple[list[Point], float] | None:
         """Cheapest road path from any start node to any goal node, and its cost."""
         goal_points = [self.nodes[node] for node in goals]
         heuristic_cache: dict[int, float] = {}
@@ -545,7 +571,9 @@ class Network:
         settled: set[int] = set()
 
         while queue:
-            _, cost, node = heapq.heappop(queue)
+            est, cost, node = heapq.heappop(queue)
+            if est > max_cost:
+                return None
             if node in settled:
                 continue
             settled.add(node)
@@ -571,6 +599,103 @@ class Network:
                     came_from[neighbour] = (node, edge_index, forward)
                     heapq.heappush(queue, (next_cost + heuristic(neighbour), next_cost, neighbour))
         return None
+
+    def route_snaps(
+        self,
+        starts: Sequence[Snap],
+        ends: Sequence[Snap],
+        max_total_score: float = math.inf,
+    ) -> tuple[list[Point], float, Snap, Snap] | None:
+        """Single multi-source A* across all candidate snaps minimizing road_cost + both snap offsets."""
+        goal_snaps_by_node: dict[int, Snap] = {}
+        for s in ends:
+            prev_s = goal_snaps_by_node.get(s.node)
+            if prev_s is None or s.offset_metres < prev_s.offset_metres:
+                goal_snaps_by_node[s.node] = s
+
+        target_comps = {self.component.get(node) for node in goal_snaps_by_node}
+        usable_starts = [s for s in starts if self.component.get(s.node) in target_comps]
+        if not usable_starts:
+            return None
+
+        start_snaps_by_node: dict[int, Snap] = {}
+        for s in usable_starts:
+            prev_s = start_snaps_by_node.get(s.node)
+            if prev_s is None or s.offset_metres < prev_s.offset_metres:
+                start_snaps_by_node[s.node] = s
+
+        goal_points = [(self.nodes[node], gs.offset_metres) for node, gs in goal_snaps_by_node.items()]
+        heuristic_cache: dict[int, float] = {}
+
+        def heuristic(node: int) -> float:
+            cached = heuristic_cache.get(node)
+            if cached is None:
+                here = self.nodes[node]
+                cached = min(haversine_metres(here, gp) + goff for gp, goff in goal_points)
+                heuristic_cache[node] = cached
+            return cached
+
+        queue: list[tuple[float, float, int]] = []
+        cost_so_far: dict[int, float] = {}
+        origin_of: dict[int, Snap] = {}
+        came_from: dict[int, tuple[int, int, bool]] = {}
+        settled: set[int] = set()
+
+        for node, ss in sorted(start_snaps_by_node.items()):
+            cost_so_far[node] = ss.offset_metres
+            origin_of[node] = ss
+            queue.append((ss.offset_metres + heuristic(node), ss.offset_metres, node))
+        heapq.heapify(queue)
+
+        best_result: tuple[float, int, Snap, Snap] | None = None
+        bound = max_total_score
+
+        while queue:
+            est, cost, node = heapq.heappop(queue)
+            if est >= bound:
+                break
+            if node in settled:
+                continue
+            settled.add(node)
+
+            gs = goal_snaps_by_node.get(node)
+            if gs is not None:
+                total_score = cost + gs.offset_metres
+                if total_score < bound:
+                    bound = total_score
+                    best_result = (total_score, node, origin_of[node], gs)
+
+            for neighbour, edge_index, forward in self.adjacency.get(node, ()):
+                next_cost = cost + self.edges[edge_index].cost
+                if next_cost < cost_so_far.get(neighbour, math.inf) and next_cost < bound:
+                    cost_so_far[neighbour] = next_cost
+                    origin_of[neighbour] = origin_of[node]
+                    came_from[neighbour] = (node, edge_index, forward)
+                    est_next = next_cost + heuristic(neighbour)
+                    if est_next < bound:
+                        heapq.heappush(queue, (est_next, next_cost, neighbour))
+
+        if best_result is None:
+            return None
+        total_score, goal_node, first_snap, second_snap = best_result
+        if goal_node not in came_from:
+            path = [self.nodes[goal_node]]
+        else:
+            parts: list[list[Point]] = []
+            current = goal_node
+            while current in came_from:
+                previous, edge_index, forward = came_from[current]
+                road = self.edges[edge_index]
+                parts.append(list(road.points if forward else reversed(road.points)))
+                current = previous
+                parts.reverse()
+                parts.reverse()
+            parts.reverse()
+            path = [parts[0][0]]
+            for part in parts:
+                path.extend(part[1:])
+        road_cost = total_score - first_snap.offset_metres - second_snap.offset_metres
+        return _join(first_snap.point, path, second_snap.point), road_cost, first_snap, second_snap
 
 
 def _dedupe(points: Sequence[Point]) -> tuple[Point, ...]:
@@ -612,25 +737,9 @@ def route_leg(
     if not starts or not ends:
         return None
 
-    best: tuple[list[Point], float, Snap, Snap] | None = None
-    for first in starts:
-        for second in ends:
-            if first.node == second.node:
-                path, cost = [first.point], 0.0
-            else:
-                result = network.route({first.node}, {second.node})
-                if result is None:
-                    continue
-                path, cost = result
-            score = cost + first.offset_metres + second.offset_metres
-            if best is None or score < best[1]:
-                best = (path, score, first, second)
-    if best is None:
-        return None
-    path, score, first, second = best
-    # The snap offsets are part of the choice, not of the leg's length.
-    road_cost = score - first.offset_metres - second.offset_metres
-    return _join(first.point, path, second.point), road_cost, first, second
+    straight = haversine_metres(starts[0].point, ends[0].point)
+    upper_cost = (straight * MAX_DETOUR_RATIO + MAX_DETOUR_SLACK_METRES + 2 * MAX_SNAP_METRES) * 1.95
+    return network.route_snaps(starts, ends, max_total_score=upper_cost)
 
 
 def _join(start: Point, path: Sequence[Point], end: Point) -> list[Point]:

@@ -168,6 +168,13 @@ const DATA = dataset as unknown as RawDataset;
 // ---------------------------------------------------------------- time helpers
 
 export function parseClock(value: string): number {
+  if (value.length === 5 && value.charCodeAt(2) === 58) {
+    return (
+      ((value.charCodeAt(0) - 48) * 10 + (value.charCodeAt(1) - 48)) * 60 +
+      (value.charCodeAt(3) - 48) * 10 +
+      (value.charCodeAt(4) - 48)
+    );
+  }
   const [hours, minutes] = value.split(":").map(Number);
   return hours * 60 + minutes;
 }
@@ -223,9 +230,14 @@ interface Route {
   origin: string;
   destination: string;
   stops: string[];
+  returnStops: string[];
+  outboundIndex: Map<string, number>;
+  returnIndex: Map<string, number>;
   fleetText: string | null;
   fleetCount: number | null;
   scheduled: ScheduledRun[];
+  outboundRuns: ScheduledRun[];
+  returnRuns: ScheduledRun[];
   /**
    * Sample route timings. `reverseOffset` is the sample turnaround at the far terminal:
    * the same bus comes back after its outbound travel time plus this many minutes.
@@ -275,6 +287,11 @@ function normaliseRoute(raw: RawRoute): Route {
       timeline,
     };
   });
+  const returnStops = [...raw.stops].reverse();
+  const outboundIndex = new Map<string, number>();
+  for (let i = 0; i < raw.stops.length; i += 1) outboundIndex.set(raw.stops[i], i);
+  const returnIndex = new Map<string, number>();
+  for (let i = 0; i < returnStops.length; i += 1) returnIndex.set(returnStops[i], i);
   return {
     number: raw.number,
     source: raw.source,
@@ -286,9 +303,14 @@ function normaliseRoute(raw: RawRoute): Route {
     origin: raw.origin,
     destination: raw.destination,
     stops: raw.stops,
+    returnStops,
+    outboundIndex,
+    returnIndex,
     fleetText: raw.fleet?.text ?? null,
     fleetCount: raw.fleet?.count ?? null,
     scheduled,
+    outboundRuns: scheduled.filter((run) => run.direction === "outbound"),
+    returnRuns: scheduled.filter((run) => run.direction === "return"),
     frequency: raw.frequency
       ? {
           first: parseClock(raw.frequency.first),
@@ -472,7 +494,7 @@ function changeMargin(first: BusTrip, second: BusTrip): number {
 }
 
 function stopsInDirection(route: Route, direction: Direction): string[] {
-  return direction === "outbound" ? route.stops : [...route.stops].reverse();
+  return direction === "outbound" ? route.stops : route.returnStops;
 }
 
 /**
@@ -490,7 +512,7 @@ function directoryTrips(
   to: number,
   out: BusTrip[],
 ) {
-  const runs = route.scheduled.filter((run) => run.direction === direction);
+  const runs = direction === "outbound" ? route.outboundRuns : route.returnRuns;
   const departures = runs
     .map((run) => run.timeline[from] ?? null)
     .filter((value): value is number => value !== null);
@@ -613,11 +635,15 @@ interface Connection {
  */
 function connections(route: Route, from: string, to: string): Connection[] {
   const found: Connection[] = [];
-  for (const direction of DIRECTIONS) {
-    const stops = stopsInDirection(route, direction);
-    const boarding = stops.indexOf(from);
-    const alighting = stops.indexOf(to);
-    if (boarding >= 0 && alighting > boarding) found.push({ direction, stops, boarding, alighting });
+  const obFrom = route.outboundIndex.get(from);
+  if (obFrom === undefined) return found;
+  const obTo = route.outboundIndex.get(to);
+  if (obTo === undefined) return found;
+  if (obTo > obFrom) {
+    found.push({ direction: "outbound", stops: route.stops, boarding: obFrom, alighting: obTo });
+  } else if (obTo < obFrom) {
+    const n = route.stops.length - 1;
+    found.push({ direction: "return", stops: route.returnStops, boarding: n - obFrom, alighting: n - obTo });
   }
   return found;
 }
@@ -640,9 +666,12 @@ export function findTrips(from: string, to: string): BusTrip[] {
   const start = canonicalStop(from);
   const end = canonicalStop(to);
   if (!start || !end || start === end) return [];
+  const servingStart = ROUTES_BY_STOP.get(start);
+  const servingEnd = ROUTES_BY_STOP.get(end);
+  if (!servingStart || !servingEnd) return [];
+  const smaller = servingStart.length <= servingEnd.length ? servingStart : servingEnd;
   const results: BusTrip[] = [];
-  // Only routes through the boarding stop can connect the pair.
-  for (const route of ROUTES_BY_STOP.get(start) ?? []) {
+  for (const route of smaller) {
     results.push(...tripsOnRoute(route, start, end));
   }
   return results.sort((a, b) => a.departure - b.departure || a.number.localeCompare(b.number));

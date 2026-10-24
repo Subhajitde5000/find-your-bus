@@ -49,6 +49,7 @@ import {
   type TrackerState,
 } from "@/lib/ride";
 import { formatDistance, formatRideMinutes, type GeoFix } from "@/lib/geo";
+import { keepScreenAwake } from "@/lib/keepAwake";
 import { useKolkataMinute } from "@/lib/useKolkataMinute";
 
 /*
@@ -168,6 +169,12 @@ function RideScreen() {
     },
     [],
   );
+
+  // While following the bus, keep the screen on so the phone does not lock and stop the GPS.
+  useEffect(() => {
+    if (permission !== "watching") return;
+    return keepScreenAwake();
+  }, [permission]);
 
   const startTracking = useCallback(() => {
     if (typeof navigator === "undefined" || !navigator.geolocation) {

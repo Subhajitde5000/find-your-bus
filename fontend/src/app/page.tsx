@@ -31,6 +31,7 @@ import { HeroMap } from "@/components/HeroMap";
 import { SiteSidebar } from "@/components/SiteSidebar";
 import { StopField } from "@/components/StopField";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import Link from "next/link";
 import { RouteLinks } from "@/components/RouteLinks";
 import { TripCard } from "@/components/TripCard";
 import { RouteExplorer } from "@/components/RouteExplorer";
@@ -422,7 +423,7 @@ export default function HomePage() {
             >
               Bus route number
             </a>
-            <a className={styles.navLink} href="/map">Stop map</a>
+            <Link className={styles.navLink} href="/map">Stop map</Link>
             <a className={styles.navLink} href="#how-it-works">How it works</a>
             <a className={styles.navLink} href="#about">About</a>
           </nav>

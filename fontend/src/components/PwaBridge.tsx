@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { isNativeApp } from "@/lib/native";
 
 /*
  * Installs the service worker and reports whether the site is running offline.
@@ -24,6 +25,9 @@ declare global {
 export function PwaBridge() {
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") return;
+    // In the phone apps every file is already inside the app, so a service worker would only
+    // add a second cache that can go stale.
+    if (isNativeApp()) return;
     if (!("serviceWorker" in navigator)) return;
 
     const register = () => {

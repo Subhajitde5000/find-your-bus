@@ -123,13 +123,13 @@ function syntheticRoute(spec: SyntheticStop[]): RideRoute {
     locatedStops: stops.filter((stop) => stop.position).length,
     runCode: "RUN-T1-OUT-01",
     bus: null,
-    kind: "scheduled",
+    kind: stops.some((stop) => stop.minutes !== null) ? "scheduled" : null,
     headway: 20,
     serviceStart: 360,
     serviceEnd: 1200,
     notes: null,
     speedMps: 5,
-    speedBasis: "published",
+    speedBasis: stops.some((stop) => stop.minutes !== null) ? "published" : "default",
     otherRuns: 0,
   };
 }
@@ -375,13 +375,14 @@ describe("buildRide", () => {
     const catalogue = routes.find(
       (route) => route.source === "catalogue" && (route.runs?.length ?? 0) === 0,
     );
-    assert.ok(catalogue, "the directory has catalogue routes");
-    const result = buildRide({ number: catalogue.number, direction: "outbound" });
-    assert.equal(result.ok, true);
-    if (!result.ok) return;
-    assert.equal(result.ride.kind, null);
-    assert.equal(result.ride.speedBasis, "default");
-    assert.ok(result.ride.stops.every((stop) => stop.minutes === null), "no times are invented");
+    assert.equal(catalogue, undefined, "all 651 shipped routes now carry full timetables");
+    const bare = syntheticRoute([
+      { name: "Alpha", metres: 0 },
+      { name: "Bravo", metres: 1000 },
+    ]);
+    assert.equal(bare.kind, null);
+    assert.equal(bare.speedBasis, "default");
+    assert.ok(bare.stops.every((stop) => stop.minutes === null), "no times are invented");
   });
 
   it("builds every rideable route in the directory without throwing", () => {

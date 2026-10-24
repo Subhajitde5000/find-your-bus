@@ -7,17 +7,9 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/lib/timetables.test.ts src/lib/ride.test.ts src/lib/render.test.tsx src/lib/ridePage.test.tsx src/lib/serviceWorker.test.ts src/lib/routeMap.test.tsx src/lib/mapView.test.ts src/lib/routeMapControls.test.tsx src/lib/stopIndex.test.ts src/lib/alerts.test.ts src/lib/landmarks.test.ts src/lib/networkMap.test.ts src/lib/stopMap.test.tsx src/lib/theme.test.ts",
-    "app:sync": "npm run build && cap sync",
-    "app:android": "cap open android",
-    "app:ios": "cap open ios",
-    "app:icons": "capacitor-assets generate --iconBackgroundColor '#195a45' --splashBackgroundColor '#f8faf7'"
+    "test": "tsx --test src/lib/timetables.test.ts src/lib/ride.test.ts src/lib/render.test.tsx src/lib/ridePage.test.tsx src/lib/serviceWorker.test.ts src/lib/routeMap.test.tsx src/lib/mapView.test.ts src/lib/routeMapControls.test.tsx src/lib/stopIndex.test.ts src/lib/alerts.test.ts src/lib/landmarks.test.ts src/lib/networkMap.test.ts src/lib/stopMap.test.tsx src/lib/theme.test.ts"
   },
   "dependencies": {
-    "@capacitor-community/keep-awake": "^8.0.1",
-    "@capacitor/android": "^8.5.3",
-    "@capacitor/core": "^8.5.3",
-    "@capacitor/ios": "^8.5.3",
     "@fontsource/dm-sans": "^5.3.0",
     "@fontsource/outfit": "^5.3.0",
     "lucide-react": "^1.54.0",
@@ -26,8 +18,6 @@
     "react-dom": "19.2.6"
   },
   "devDependencies": {
-    "@capacitor/assets": "^3.0.5",
-    "@capacitor/cli": "^8.5.3",
     "@tailwindcss/postcss": "4.1.17",
     "@types/jsdom": "^30.0.0",
     "@types/node": "22.19.15",

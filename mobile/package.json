@@ -1,0 +1,24 @@
+{
+  "name": "cholo-mobile",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Android and iOS apps (Capacitor) that ship the fontend site inside the app, fully offline.",
+  "scripts": {
+    "site": "npm --prefix ../fontend ci && npm --prefix ../fontend run build",
+    "sync": "npm --prefix ../fontend run build && cap sync",
+    "android": "cap open android",
+    "ios": "cap open ios",
+    "icons": "capacitor-assets generate --android --ios --iconBackgroundColor '#195a45' --splashBackgroundColor '#f8faf7'"
+  },
+  "dependencies": {
+    "@capacitor-community/keep-awake": "^8.0.1",
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/ios": "^8.5.3"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.3",
+    "typescript": "5.9.3"
+  }
+}

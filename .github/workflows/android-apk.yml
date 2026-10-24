@@ -4,7 +4,7 @@
 # Download: open the finished run, scroll to Artifacts, download "cholo-android-debug", unzip it,
 # and install app-debug.apk on the phone (allow installs from that source when asked).
 #
-# This is a DEBUG build for testing only. A Play Store release needs a signed .aab (see fontend/APP.md).
+# This is a DEBUG build for testing only. A Play Store release needs a signed .aab (see mobile/APP.md).
 name: Build Android test app
 
 on:
@@ -14,9 +14,6 @@ jobs:
   apk:
     runs-on: ubuntu-latest
     timeout-minutes: 40
-    defaults:
-      run:
-        working-directory: fontend
     steps:
       - uses: actions/checkout@v4
 
@@ -24,21 +21,29 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: fontend/package-lock.json
+          cache-dependency-path: |
+            fontend/package-lock.json
+            mobile/package-lock.json
 
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
 
-      - name: Install packages
+      - name: Install the website packages
+        working-directory: fontend
         run: npm ci
 
-      - name: Build the site and copy it into the Android project
-        run: npm run app:sync
+      - name: Install the app packages
+        working-directory: mobile
+        run: npm ci
+
+      - name: Build the website and copy it into the Android project
+        working-directory: mobile
+        run: npm run sync
 
       - name: Build the debug APK
-        working-directory: fontend/android
+        working-directory: mobile/android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
@@ -46,5 +51,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: cholo-android-debug
-          path: fontend/android/app/build/outputs/apk/debug/app-debug.apk
+          path: mobile/android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error

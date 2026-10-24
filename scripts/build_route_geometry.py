@@ -131,30 +131,96 @@ Point = tuple[float, float]
 # --------------------------------------------------------------------------- sources
 
 
+def _cross_track_km(a: Point, b: Point, p: Point) -> float:
+    cos_lat = math.cos(math.radians((a[0] + b[0]) / 2.0))
+    bx = (b[1] - a[1]) * math.radians(1.0) * 6371.0088 * cos_lat
+    by = (b[0] - a[0]) * math.radians(1.0) * 6371.0088
+    px = (p[1] - a[1]) * math.radians(1.0) * 6371.0088 * cos_lat
+    py = (p[0] - a[0]) * math.radians(1.0) * 6371.0088
+    lsq = bx * bx + by * by
+    if lsq == 0.0:
+        return math.hypot(px, py)
+    t = max(0.0, min(1.0, (px * bx + py * by) / lsq))
+    return math.hypot(px - t * bx, py - t * by)
+
+
+def _filter_corridor_stops(names: Sequence[str], stop_pts: dict[str, Point]) -> list[str]:
+    loc = [(n, stop_pts[n]) for n in names if n in stop_pts]
+    if len(loc) <= 2:
+        return [n for n, _ in loc]
+    hav_km = lambda x, y: haversine_metres(x, y) / 1000.0
+    if len(loc) >= 4:
+        b = hav_km(loc[-2][1], loc[-1][1])
+        prev_leg = hav_km(loc[-3][1], loc[-2][1])
+        skip_prev = hav_km(loc[-3][1], loc[-1][1])
+        a = hav_km(loc[0][1], loc[-2][1])
+        c = hav_km(loc[0][1], loc[-1][1])
+        if b > 18.0 and skip_prev > 18.0 and prev_leg < b * 0.7 and a > 10.0 and (c * c) < (a * a) + (b * b):
+            loc = loc[:-1]
+    if len(loc) >= 4:
+        b = hav_km(loc[0][1], loc[1][1])
+        next_leg = hav_km(loc[1][1], loc[2][1])
+        skip_next = hav_km(loc[0][1], loc[2][1])
+        a = hav_km(loc[1][1], loc[-1][1])
+        c = hav_km(loc[0][1], loc[-1][1])
+        if b > 18.0 and skip_next > 18.0 and next_leg < b * 0.7 and a > 10.0 and (c * c) < (a * a) + (b * b):
+            loc = loc[1:]
+    while len(loc) > 2:
+        best_save = 0.0
+        best_slice: tuple[int, int] | None = None
+        for w in (1, 2):
+            if len(loc) - w < 2:
+                continue
+            for k in range(1, len(loc) - w):
+                a = loc[k - 1][1]
+                b = loc[k + w][1]
+                ab = hav_km(a, b)
+                sub = [a] + [loc[k + j][1] for j in range(w)] + [b]
+                detour = sum(hav_km(x, y) for x, y in zip(sub, sub[1:])) - ab
+                max_xt = max(_cross_track_km(a, b, loc[k + j][1]) for j in range(w))
+                jump_in = hav_km(a, loc[k][1])
+                jump_out = hav_km(loc[k + w - 1][1], b)
+                if (
+                    detour > max(9.0, 0.75 * ab)
+                    and max_xt > max(5.0, 0.35 * ab)
+                    and min(jump_in, jump_out) > max(6.0, 0.45 * ab)
+                ):
+                    score = (jump_in + jump_out - ab) / (w ** 0.35)
+                    if score > best_save:
+                        best_save = score
+                        best_slice = (k, k + w)
+        if best_slice is None:
+            break
+        loc = loc[:best_slice[0]] + loc[best_slice[1]:]
+    return [n for n, _ in loc]
+
+
 def timed_legs(dataset: dict, all_routes: bool = False) -> dict[str, list[str]]:
     """Every stop pair the ride screen measures between, for every timed route.
 
     With ``all_routes`` the routes that have no timetable are included too, so the ride
     map follows streets on every route that has two or more located stops.
 
-    The ride engine drops a stop with no coordinate and measures straight from the
-    located stop before it to the located stop after it, so those are the pairs that
-    need a road shape. Both directions are listed separately: a return trip often uses
-    a different carriageway, and a one-way street gives it a different road entirely.
+    The ride engine drops a stop with no coordinate (or a multi-corridor homonym that
+    belongs to a distant town) and measures straight from the located stop before it to
+    the located stop after it, so those are the pairs that need a road shape. Both
+    directions are listed separately: a return trip often uses a different carriageway,
+    and a one-way street gives it a different road entirely.
     """
-    stops = {stop["name"]: stop for stop in dataset.get("stops", [])}
-    located = lambda name: isinstance(stops.get(name, {}).get("lat"), (int, float))
+    stop_pts = {
+        stop["name"]: (float(stop["lat"]), float(stop["lng"]))
+        for stop in dataset.get("stops", [])
+        if isinstance(stop.get("lat"), (int, float)) and isinstance(stop.get("lng"), (int, float))
+    }
 
     legs: dict[str, list[str]] = collections.defaultdict(list)
     for route in dataset.get("routes", []):
         if not all_routes and not (route.get("runs") or route.get("frequency")):
             continue
-        names = route.get("stops", [])
-        for chain in (names, list(reversed(names))):
+        valid_names = _filter_corridor_stops(route.get("stops", []), stop_pts)
+        for chain in (valid_names, list(reversed(valid_names))):
             previous: str | None = None
             for name in chain:
-                if not located(name):
-                    continue
                 if previous is not None:
                     legs[route["number"]].append(f"{previous}|{name}")
                 previous = name

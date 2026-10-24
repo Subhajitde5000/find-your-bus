@@ -7,6 +7,7 @@ import {
   type TripKind,
 } from "./timetables";
 import { STOP_COORD_CONFIDENCE, stopPosition, type CoordConfidence } from "./coords";
+import { filterRouteCorridorStops } from "./networkMap";
 import { legGeometry } from "./routeGeometry";
 import {
   corridorMetres,
@@ -158,8 +159,15 @@ export function buildRide(request: RideRequest): RideResult {
     return { ok: false, failure: { code: "route-not-found", message: `Route ${number} is not in this directory.` } };
   }
 
+  const validCorridorNames = new Set(
+    filterRouteCorridorStops(
+      timetable.stops.map((s) => s.name),
+      stopPosition,
+    ).map((x) => x.name),
+  );
+
   const stops: RideStop[] = timetable.stops.map((stop, index) => {
-    const position = stopPosition(stop.name);
+    const position = validCorridorNames.has(stop.name) ? stopPosition(stop.name) : null;
     return {
       index,
       name: stop.name,

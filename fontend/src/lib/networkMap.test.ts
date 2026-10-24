@@ -83,6 +83,15 @@ describe("route line", () => {
   it("does not draw a leg from a stop to itself", () => {
     assert.equal(routeLine(["A", "A", "B"], () => null, at).straightLegs, 1);
   });
+
+  it("drops a distant homonym spike rather than drawing a cross-city line", () => {
+    const withHomonym: Record<string, Position> = {
+      ...places,
+      Homonym: { lat: 22.76, lng: 88.37 },
+    };
+    const result = routeLine(["A", "Homonym", "B", "C"], () => null, (name) => withHomonym[name] ?? null);
+    assert.deepEqual(result.line, [places.A, places.B, places.C]);
+  });
 });
 
 describe("road legs", () => {

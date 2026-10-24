@@ -137,6 +137,41 @@ WEB_VERIFIED_STOPS: dict[str, tuple[float, float, str, str]] = {
     "Nibra More": (22.61630, 88.28420, "high", "web_verified:Wikidata/OSM Nibra More NH16/Kona Expy"),
     "Kona Expressway Crossing (Nibra)": (22.61630, 88.28420, "high", "web_verified:OSM Kona Expressway Crossing Nibra"),
     "Nimtouri": (22.28890, 87.89360, "high", "web_verified:OSM Nimtouri Tamluk NH116"),
+    "Durgapur": (23.52040, 87.31190, "high", "web_verified:WBTC/SBSTC Durgapur Station Terminus"),
+    "Durgapur City Centre": (23.53880, 87.29170, "high", "web_verified:SBSTC Durgapur City Centre Bus Terminus"),
+    "Durgapur City Center": (23.53880, 87.29170, "high", "web_verified:SBSTC Durgapur City Centre Bus Terminus"),
+    "Bardhaman Station": (23.24980, 87.86980, "high", "web_verified:Indian Railways Bardhaman Junction (BWN)"),
+    "Shaktigarh": (23.20890, 87.96810, "high", "web_verified:OSM Shaktigarh NH19 Purba Bardhaman"),
+    "Dewandighi": (23.26890, 87.88140, "high", "web_verified:OSM Dewandighi Katwa Road Bardhaman"),
+    "Norja More": (23.25710, 87.87650, "medium", "web_verified:OSM Narja More Katwa Road Bardhaman"),
+    "Barasat Kazipara": (22.71150, 88.49120, "high", "web_verified:OSM Kazipara NH112 Jessore Road Barasat"),
+    "BIT College": (22.52100, 88.46080, "high", "web_verified:OSM Bengal Institute of Technology Basanti Hwy"),
+    "Nilgaunj Depot": (22.76850, 88.43120, "high", "web_verified:WBTC Nilganj Bus Depot Barrackpore-Barasat Rd"),
+    "Kurchi": (22.68140, 87.97110, "medium", "web_verified:OSM Kurchi Binodbashini Udaynarayanpur Howrah"),
+    "Al Ameen Mission": (22.64610, 87.96830, "high", "web_verified:OSM Al-Ameen Mission Khalna Udaynarayanpur"),
+    "Kabardanga": (22.46310, 88.34740, "high", "web_verified:OSM Kabardanga More MG Road Haridevpur"),
+    "S.C.Mallick Square": (22.56386, 88.35969, "high", "web_verified:OSM Subodh Chandra Mullick Square Wellington"),
+    "Madirtala": (22.56450, 88.31680, "high", "web_verified:OSM Mandirtala Vidyasagar Setu Approach Shibpur"),
+    "Mathurapur Station": (22.12640, 88.40610, "high", "web_verified:OSM Mathurapur Road Railway Station"),
+    "Fishery Gate": (22.75950, 88.36980, "high", "web_verified:OSM CIFRI Fishery Gate Barrackpore"),
+    "State University": (22.73917, 88.43500, "high", "web_verified:West Bengal State University Barasat"),
+    "Bhabani Bhawan Hazra": (22.52620, 88.33850, "high", "web_verified:OSM Bhabani Bhawan Alipore Hazra"),
+    "Kharagpur Chowrangee": (22.33020, 87.32150, "high", "web_verified:OSM Chowringhee More Kharagpur NH16"),
+    "Behala Rabindranagar": (22.50180, 88.29950, "high", "web_verified:OSM Rabindranagar Behala"),
+    "Beliaghata Bazar": (22.56490, 88.39340, "high", "web_verified:OSM Beliaghata Bazar Main Road"),
+    "Beliaghata Bridge": (22.56710, 88.38420, "high", "web_verified:OSM Beliaghata Canal Bridge"),
+    "Basirhat Puratan Bazar": (22.65720, 88.86850, "high", "web_verified:OSM Basirhat Puratan Bazar"),
+    "Basirhat Trimohini": (22.66250, 88.85920, "high", "web_verified:OSM Trimohini Basirhat"),
+    "Bongaon 1 No. Railgate Bazar": (23.04680, 88.82650, "high", "web_verified:OSM Bongaon 1 No Railgate"),
+    "Bongaon 78E Bus Stand": (23.04350, 88.83150, "high", "web_verified:OSM Bongaon Bus Stand"),
+    "Bongaon Motigunge Bus Stand": (23.03580, 88.82190, "high", "web_verified:OSM Motiganj Bus Stand Bongaon"),
+    "Bongaon Paikpara": (23.04920, 88.83410, "high", "web_verified:OSM Paikpara Bongaon"),
+    "Saltlake 12no. Tank": (22.57180, 88.41480, "high", "web_verified:OSM Salt Lake Tank No 12 Sector III"),
+    "Saltlake 13no. Tank": (22.56940, 88.41820, "high", "web_verified:OSM Salt Lake Tank No 13 Purbachal"),
+    "Purbachal 13no. Tank": (22.56940, 88.41820, "high", "web_verified:OSM Salt Lake Tank No 13 Purbachal"),
+    "Purbanchal": (22.56940, 88.41820, "high", "web_verified:OSM Purbachal Housing Salt Lake Sector III"),
+    "Saltlake 14no. Tank": (22.56480, 88.41650, "high", "web_verified:OSM Salt Lake Tank No 14 Sector III"),
+    "Saltlake 16no. Tank": (22.56210, 88.41280, "high", "web_verified:OSM Salt Lake Tank No 16 Sector III"),
 }
 
 STOP_SPELLING_ALIASES: dict[str, list[str]] = {
@@ -155,7 +190,8 @@ STOP_SPELLING_ALIASES: dict[str, list[str]] = {
 }
 
 NEVER_PLACE_CITY_LABELS = {
-    "Kolkata",  # City-wide label on external intercity service RADHARANI, not a street stop
+    "Kolkata",   # City-wide label on external intercity service RADHARANI, not a street stop
+    "Ramnagar",  # Multi-district homonym across 24 routes (see data/STOP_COORDINATE_AUDIT.md)
 }
 
 SHIFTED_CSV_LINES = set(range(255, 460)) | set(range(1463, 1609)) | {1641}
@@ -213,6 +249,7 @@ def bengali_phonetic_key(s: str) -> str:
         ("burdwan", "bardhaman"),
         ("baharampur", "berhampore"),
         ("berhampur", "berhampore"),
+        ("neil", "nil"),
     ):
         t = t.replace(pat, rep)
     return re.sub(r"[^a-z0-9]", "", t)
@@ -227,10 +264,14 @@ def clean_tokens(s: str) -> list[str]:
 GENERIC_STOP_WORDS = {
     "bus", "stand", "terminus", "more", "crossing", "xing", "road", "rd",
     "street", "st", "station", "stn", "railway", "rly", "gate", "no", "number",
-    "phari", "bazar", "bazaar", "market", "hat", "para", "pally", "palli",
+    "phari", "bazar", "bazaar", "market", "hat", "hut", "para", "pally", "palli",
     "park", "bridge", "ghat", "tala", "tola", "kolkata", "howrah", "west",
     "bengal", "north", "south", "east", "central", "new", "old", "1", "2", "3",
-    "chowmatha", "chowrasta", "battala", "puratan", "link", "town", "central",
+    "chowmatha", "chowrasta", "battala", "puratan", "link", "town", "college",
+    "bhavan", "bhaban", "bhawan", "depot", "hospital", "school", "institute",
+    "academy", "mission", "ashram", "mandir", "masjid", "temple", "church",
+    "cinema", "hall", "club", "garden", "municipality", "office", "court",
+    "bank", "post", "police", "hq",
 }
 
 
@@ -241,20 +282,46 @@ def core_norm(s: str) -> str:
     return bengali_phonetic_key(" ".join(words))
 
 
+def _core_tokens(s: str) -> list[str]:
+    words = [bengali_phonetic_key(w) for w in clean_tokens(s) if w not in GENERIC_STOP_WORDS]
+    return [w for w in words if w]
+
+
 def names_compatible_for_realign(stop_name: str, matched_name: str) -> bool:
-    a_full, b_full = bengali_phonetic_key(stop_name), bengali_phonetic_key(matched_name)
-    if not a_full or not b_full:
+    m_primary = re.split(r"[/(\[]", matched_name)[0].strip()
+    ta = _core_tokens(stop_name)
+    tb_full = _core_tokens(matched_name)
+    tb_prim = _core_tokens(m_primary)
+    if not ta or not tb_prim:
         return False
-    if a_full == b_full or (len(a_full) >= 4 and a_full in b_full) or (len(b_full) >= 4 and b_full in a_full):
+    ca = "".join(ta)
+    cb_prim = "".join(tb_prim)
+    cb_full = "".join(tb_full)
+    if ca == cb_prim or ca == cb_full:
         return True
-    ca, cb = core_norm(stop_name), core_norm(matched_name)
-    if ca and cb and (ca == cb or (len(ca) >= 4 and ca in cb) or (len(cb) >= 4 and cb in ca)):
-        return True
-    if SequenceMatcher(None, a_full, b_full).ratio() >= 0.78:
-        return True
-    if ca and cb and len(ca) >= 4 and len(cb) >= 4 and SequenceMatcher(None, ca, cb).ratio() >= 0.80:
-        return True
-    return False
+    for wa in ta:
+        matched_tok = False
+        for wb in tb_full:
+            if wa == wb:
+                matched_tok = True
+                break
+            if len(wa) >= 5 and len(wb) >= 5 and wa[0] == wb[0] and SequenceMatcher(None, wa, wb).ratio() >= 0.88:
+                matched_tok = True
+                break
+        if not matched_tok:
+            return False
+    for wb in tb_prim:
+        matched_tok = False
+        for wa in ta:
+            if wa == wb:
+                matched_tok = True
+                break
+            if len(wa) >= 5 and len(wb) >= 5 and wa[0] == wb[0] and SequenceMatcher(None, wa, wb).ratio() >= 0.88:
+                matched_tok = True
+                break
+        if not matched_tok:
+            return False
+    return True
 
 
 # --------------------------------------------------------------------------- external open geo index
@@ -282,6 +349,19 @@ def build_open_geo_index(v8_rows: list[dict[str, str]]) -> dict[str, list[tuple[
             idx[kp].append(entry)
         if kc and len(kc) >= 4:
             idx[f"core:{kc}"].append(entry)
+
+    # Seed from committed data/stop_coordinates.json so open_transit/geonames/india_post_pin
+    # entries remain available even when .cache/external is absent.
+    if COORDS_JSON.exists():
+        try:
+            committed = json.loads(COORDS_JSON.read_text(encoding="utf-8")).get("stops", {})
+            for sname, sinfo in committed.items():
+                src = str(sinfo.get("source") or "")
+                if any(src.startswith(p) for p in ("open_transit", "open_json", "geonames", "india_post_pin", "osm_shapefile")):
+                    base_src = src.split(":")[0]
+                    add(sname, sinfo.get("lat"), sinfo.get("lng"), sinfo.get("confidence", "medium"), base_src)
+        except Exception:
+            pass
 
     for r in v8_rows:
         alts = r.get("alternatives") or ""
@@ -729,17 +809,60 @@ def main() -> int:
             subprocess.check_output(
                 ["git", "show", "f8224a3:fontend/src/data/kolkata-bus-data.json"],
                 cwd=ROOT,
+                stderr=subprocess.DEVNULL,
             ).decode("utf-8")
         )
         existing_payload: dict[str, Any] = json.loads(
             subprocess.check_output(
                 ["git", "show", "f8224a3:data/stop_coordinates.json"],
                 cwd=ROOT,
+                stderr=subprocess.DEVNULL,
             ).decode("utf-8")
         )
     except Exception:
         baseline = json.loads(BASELINE_JSON.read_text(encoding="utf-8"))
         existing_payload = json.loads(COORDS_JSON.read_text(encoding="utf-8"))
+        wb_v2 = openpyxl.load_workbook(
+            DATA_DIR / "Kolkata_Comprehensive_Bus_Routes_and_Fleet_Directory-v2.xlsx",
+            read_only=True,
+            data_only=True,
+        )
+        v2_nums = {
+            str(r[1]).strip().lower()
+            for r in wb_v2["Master Index & Directory"].iter_rows(values_only=True)
+            if r and isinstance(r[0], (int, float)) and r[1] is not None
+        }
+        sample_nums = {"45b", "46", "ac9b", "s12d", "s12e", "s14", "s30", "s6a"}
+        restored_routes = []
+        for r in baseline["routes"]:
+            rnum_l = r["number"].lower()
+            if rnum_l == "e10":
+                continue
+            rcopy = dict(r)
+            if rnum_l in v2_nums:
+                rcopy["source"] = "directory"
+            elif rnum_l == "radharani":
+                rcopy["source"] = "external"
+            elif rnum_l in sample_nums:
+                rcopy["source"] = "preview"
+            else:
+                rcopy["source"] = "catalogue"
+            restored_routes.append(rcopy)
+        baseline["routes"] = restored_routes
+        review_csv = DATA_DIR / "stop_coordinates_review.csv"
+        if review_csv.exists():
+            orig_stops: dict[str, dict[str, Any]] = {}
+            with open(review_csv, encoding="utf-8-sig") as rf:
+                for rr in csv.DictReader(rf):
+                    if rr.get("lat") and rr.get("lng") and rr.get("confidence") in ("high", "medium", "review"):
+                        orig_stops[rr["stop"].strip()] = {
+                            "lat": round(float(rr["lat"]), 5),
+                            "lng": round(float(rr["lng"]), 5),
+                            "confidence": rr["confidence"].strip(),
+                            "source": rr.get("source") or "data/stop_coordinates.json",
+                            "matchedName": rr.get("matched_name") or rr["stop"].strip(),
+                        }
+            existing_payload = {"meta": existing_payload.get("meta", {}), "stops": orig_stops}
     landmarks = json.loads(LANDMARKS_JSON.read_text(encoding="utf-8"))
     existing_coords: dict[str, dict[str, Any]] = existing_payload.get("stops", existing_payload)
 
@@ -924,6 +1047,20 @@ def main() -> int:
 
     for sname, items in clean_v8_by_stop.items():
         if sname in NEVER_PLACE_CITY_LABELS:
+            for line_no, r in items:
+                if r["lat"].strip() and r["lng"].strip():
+                    log_stop_change(
+                        sname,
+                        line_no,
+                        "corridor_outlier_removed",
+                        r["lat"].strip(),
+                        r["lng"].strip(),
+                        None,
+                        None,
+                        "",
+                        "stop_name_loactio-v8.csv",
+                        f"Ambiguous multi-district stop name '{sname}' omitted per STOP_COORDINATE_AUDIT.md; left unlocated rather than guessed",
+                    )
             continue
         valid_items = []
         for line_no, r in items:
@@ -1079,6 +1216,35 @@ def main() -> int:
                 continue
         resolved_coords[sname] = cur
 
+    # Apply explicit WEB_VERIFIED_STOPS overrides when an existing/v8 coordinate conflicts (>1.5 km)
+    for sname, (wla, wlo, wconf, wsrc) in WEB_VERIFIED_STOPS.items():
+        if sname not in canonical_stops_set or sname in NEVER_PLACE_CITY_LABELS:
+            continue
+        if sname in resolved_coords:
+            cur = resolved_coords[sname]
+            if haversine_m(cur["lat"], cur["lng"], wla, wlo) > 1500.0:
+                src_line, _src_tag = resolved_meta_src.get(sname, ("", ""))
+                resolved_coords[sname] = {
+                    "lat": round(wla, 5),
+                    "lng": round(wlo, 5),
+                    "confidence": wconf,
+                    "source": wsrc,
+                    "matchedName": sname,
+                }
+                resolved_meta_src[sname] = ("web", wsrc)
+                log_stop_change(
+                    sname,
+                    src_line or "web_override",
+                    "corridor_outlier_replaced",
+                    cur["lat"],
+                    cur["lng"],
+                    round(wla, 5),
+                    round(wlo, 5),
+                    wconf,
+                    wsrc,
+                    "Replaced conflicting homonym coordinate with verified corridor coordinate",
+                )
+
     # Recover coordinates for unplaced stops across web-verified + realigned v8 + open transit/GIS
     for _iteration in range(4):
         progressed = 0
@@ -1113,7 +1279,11 @@ def main() -> int:
                 oname = pr["stop"].strip()
                 if not (
                     names_compatible_for_realign(sname, mname)
-                    or (p_line not in SHIFTED_CSV_LINES and names_compatible_for_realign(sname, oname))
+                    or (
+                        p_line not in SHIFTED_CSV_LINES
+                        and names_compatible_for_realign(oname, mname)
+                        and names_compatible_for_realign(sname, oname)
+                    )
                 ):
                     continue
                 la, lo = round(float(pr["lat"]), 5), round(float(pr["lng"]), 5)
@@ -1218,7 +1388,10 @@ def main() -> int:
         if progressed == 0:
             break
 
-    # Final route-chain cross-track audit matching scripts/geocode_stops.py (geometry_rejections + multi-corridor homonyms)
+    # Final route-chain cross-track & cluster-detour audit (geometry_rejections + multi-corridor homonyms)
+    def hav_km_pt(a: tuple[float, float], b: tuple[float, float]) -> float:
+        return haversine_m(a[0], a[1], b[0], b[1]) / 1000.0
+
     def cross_track_km_local(a: tuple[float, float], b: tuple[float, float], point: tuple[float, float]) -> float:
         cos_lat = math.cos(math.radians((a[0] + b[0]) / 2.0))
         bx = (b[1] - a[1]) * math.radians(1.0) * 6371.0088 * cos_lat
@@ -1230,6 +1403,100 @@ def main() -> int:
             return math.hypot(px, py)
         t = max(0.0, min(1.0, (px * bx + py * by) / lsq))
         return math.hypot(px - t * bx, py - t * by)
+
+    def is_terminal_spike(d_term: float, d_span_without: float, d_span_with: float, rest_med: float, rest_max: float) -> bool:
+        if d_term <= max(18.0, rest_med * 5.5):
+            return False
+        if d_span_without > 10.0 and (d_span_with * d_span_with) < (d_span_without * d_span_without) + (d_term * d_term):
+            return True
+        if rest_max < 15.0 and d_term > max(20.0, rest_med * 6.0):
+            return True
+        return False
+
+    def prune_route_spikes(stops: list[str], pts: dict[str, tuple[float, float]]) -> tuple[set[str], dict[str, float]]:
+        loc = [(idx, s, pts[s]) for idx, s in enumerate(stops) if s in pts]
+        off_dist: dict[str, float] = {}
+        if len(loc) <= 2:
+            return {s for _, s, _ in loc}, off_dist
+        if len(loc) >= 5 and loc[0][0] == 0 and loc[-1][0] == len(stops) - 1:
+            p0, p1 = loc[0][2], loc[-1][2]
+            first_int, last_int = loc[1][2], loc[-2][2]
+            if hav_km_pt(p0, last_int) + hav_km_pt(first_int, p1) + 10.0 < hav_km_pt(p0, first_int) + hav_km_pt(last_int, p1):
+                loc = [loc[0]] + list(reversed(loc[1:-1])) + [loc[-1]]
+
+        if len(loc) >= 4:
+            b = hav_km_pt(loc[-2][2], loc[-1][2])
+            prev_leg = hav_km_pt(loc[-3][2], loc[-2][2])
+            skip_prev = hav_km_pt(loc[-3][2], loc[-1][2])
+            a = hav_km_pt(loc[0][2], loc[-2][2])
+            c = hav_km_pt(loc[0][2], loc[-1][2])
+            if b > 18.0 and skip_prev > 18.0 and prev_leg < b * 0.7 and a > 10.0 and (c * c) < (a * a) + (b * b):
+                off_dist[loc[-1][1]] = b
+                loc = loc[:-1]
+        if len(loc) >= 4:
+            b = hav_km_pt(loc[0][2], loc[1][2])
+            next_leg = hav_km_pt(loc[1][2], loc[2][2])
+            skip_next = hav_km_pt(loc[0][2], loc[2][2])
+            a = hav_km_pt(loc[1][2], loc[-1][2])
+            c = hav_km_pt(loc[0][2], loc[-1][2])
+            if b > 18.0 and skip_next > 18.0 and next_leg < b * 0.7 and a > 10.0 and (c * c) < (a * a) + (b * b):
+                off_dist[loc[0][1]] = b
+                loc = loc[1:]
+
+        while len(loc) > 2:
+            legs = sorted(hav_km_pt(loc[i][2], loc[i + 1][2]) for i in range(len(loc) - 1))
+            med_leg = max(1.0, min(legs[len(legs) // 2], 6.0))
+            best_save = 0.0
+            best_slice: tuple[int, int] | None = None
+            best_xt = 0.0
+            max_w = min(8, len(loc) - 2)
+            for w in range(1, max_w + 1):
+                for k in range(1, len(loc) - w):
+                    a = loc[k - 1][2]
+                    b = loc[k + w][2]
+                    ab = hav_km_pt(a, b)
+                    sub = [a] + [loc[k + j][2] for j in range(w)] + [b]
+                    path_d = sum(hav_km_pt(x, y) for x, y in zip(sub, sub[1:]))
+                    detour = path_d - ab
+                    max_xt = max(cross_track_km_local(a, b, loc[k + j][2]) for j in range(w))
+                    jump_in = hav_km_pt(a, loc[k][2])
+                    jump_out = hav_km_pt(loc[k + w - 1][2], b)
+                    if (
+                        detour > max(9.0, 0.75 * ab, med_leg * 2.5 * (w ** 0.5))
+                        and max_xt > max(5.0, 0.35 * ab, med_leg * 2.0)
+                        and min(jump_in, jump_out) > max(6.0, ab * 0.45)
+                    ):
+                        score = (jump_in + jump_out - ab) / (w ** 0.35)
+                        if score > best_save:
+                            best_save = score
+                            best_slice = (k, k + w)
+                            best_xt = max_xt
+            if best_slice is None and len(loc) >= 4:
+                d01 = hav_km_pt(loc[0][2], loc[1][2])
+                d1_end = hav_km_pt(loc[1][2], loc[-1][2])
+                d0_end = hav_km_pt(loc[0][2], loc[-1][2])
+                rest_legs = sorted(hav_km_pt(loc[i][2], loc[i + 1][2]) for i in range(1, len(loc) - 1))
+                rest_med = max(1.0, rest_legs[len(rest_legs) // 2])
+                rest_max = max(rest_legs)
+                if is_terminal_spike(d01, d1_end, d0_end, rest_med, rest_max):
+                    best_slice = (0, 1)
+                    best_xt = d01
+                else:
+                    d_last = hav_km_pt(loc[-2][2], loc[-1][2])
+                    d0_prev = hav_km_pt(loc[0][2], loc[-2][2])
+                    d0_last = hav_km_pt(loc[0][2], loc[-1][2])
+                    rest_legs2 = sorted(hav_km_pt(loc[i][2], loc[i + 1][2]) for i in range(0, len(loc) - 2))
+                    rest_med2 = max(1.0, rest_legs2[len(rest_legs2) // 2])
+                    rest_max2 = max(rest_legs2)
+                    if is_terminal_spike(d_last, d0_prev, d0_last, rest_med2, rest_max2):
+                        best_slice = (len(loc) - 1, len(loc))
+                        best_xt = d_last
+            if best_slice is None:
+                break
+            for j in range(best_slice[0], best_slice[1]):
+                off_dist[loc[j][1]] = max(off_dist.get(loc[j][1], 0.0), best_xt)
+            loc = loc[:best_slice[0]] + loc[best_slice[1]:]
+        return {s for _, s, _ in loc}, off_dist
 
     all_route_chains = [slist for _rnum, slist in route_stop_lists]
 
@@ -1245,40 +1512,46 @@ def main() -> int:
                 for st in stops
                 if st == sname or st in resolved_coords
             }
-            loc = [idx for idx, st in enumerate(stops) if st in pts]
-            if len(loc) < 3:
+            if len(pts) < 3:
                 continue
-            legs = [
-                haversine_m(pts[stops[i]][0], pts[stops[i]][1], pts[stops[j]][0], pts[stops[j]][1]) / 1000.0
-                for i, j in zip(loc, loc[1:])
-                if j == i + 1
-            ]
-            if not legs:
-                continue
-            scale = max(sorted(legs)[len(legs) // 2], 1.0)
-            limit = max(scale * 4.0, scale + 6.0)
-            for slot in range(1, len(loc) - 1):
-                if stops[loc[slot]] != sname:
-                    continue
-                off_d = cross_track_km_local(pts[stops[loc[slot - 1]]], pts[stops[loc[slot + 1]]], cand_pt)
-                if off_d > limit:
-                    off_c += 1
-                    worst_c = max(worst_c, off_d)
-                else:
-                    on_c += 1
+            kept, off_dist = prune_route_spikes(stops, pts)
+            if sname in kept:
+                on_c += 1
+            else:
+                off_c += 1
+                worst_c = max(worst_c, off_dist.get(sname, 15.0))
         return off_c, on_c, worst_c
 
-    for _audit_pass in range(3):
+    for _audit_pass in range(4):
         changed_any = False
+        # Compute route-corridor membership across all routes in one pass
+        pts_all = {s: (v["lat"], v["lng"]) for s, v in resolved_coords.items()}
+        on_map: dict[str, int] = defaultdict(int)
+        off_map: dict[str, int] = defaultdict(int)
+        worst_map: dict[str, float] = defaultdict(float)
+        for stops in all_route_chains:
+            loc_s = [st for st in stops if st in pts_all]
+            if len(loc_s) < 3:
+                for st in loc_s:
+                    on_map[st] += 1
+                continue
+            kept, off_dist = prune_route_spikes(stops, pts_all)
+            for st in loc_s:
+                if st in kept:
+                    on_map[st] += 1
+                else:
+                    off_map[st] += 1
+                    worst_map[st] = max(worst_map[st], off_dist.get(st, 15.0))
+
         for sname in sorted(list(resolved_coords.keys())):
-            if sname in landmark_stop_names:
+            if sname in landmark_stop_names or sname in WEB_VERIFIED_STOPS:
                 continue
             src_line, src_tag = resolved_meta_src.get(sname, ("", ""))
-            if src_tag == "data/stop_coordinates.json":
-                continue
             cur = resolved_coords[sname]
-            off_c, on_c, worst_c = eval_candidate_on_routes(sname, (cur["lat"], cur["lng"]))
-            is_bad = (off_c > on_c) or (off_c >= 3 and worst_c >= 40.0)
+            off_c = off_map.get(sname, 0)
+            on_c = on_map.get(sname, 0)
+            worst_c = worst_map.get(sname, 0.0)
+            is_bad = (on_c == 0 and off_c >= 1) or (off_c > on_c and src_tag != "data/stop_coordinates.json")
             if not is_bad:
                 continue
 

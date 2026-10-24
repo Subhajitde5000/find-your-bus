@@ -30,7 +30,7 @@
       "description": "Entries added by hand on top of scripts/geocode_stops.py's output, to work through next step/MISSING_COORDINATES.csv. Each was looked up against a real published map source (OpenStreetMap-derived listings, GeoNames, Wikipedia/Wikidata, or a specific business address) and sanity-checked against the before/after stops on its busiest route. Sources and notes are on each entry; see data/stop_coordinates_review.csv for the audit trail.",
       "count": 15
     },
-    "locatedStops": 1939,
+    "locatedStops": 1731,
     "totalStops": 2194
   },
   "stops": {
@@ -40,13 +40,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "10 Mile Bazar (Fraserganj)"
-    },
-    "10 No. Majhipara": {
-      "lat": 22.7051,
-      "lng": 88.4682,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "10 No. Majhipara (Madhyamgram)"
     },
     "10 No. Tank": {
       "lat": 22.59625,
@@ -69,13 +62,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "206 Bus Stand (AJ Block Salt Lake)"
     },
-    "3A Bus Stand": {
-      "lat": 22.45673,
-      "lng": 88.30458,
-      "confidence": "medium",
-      "source": "calcutta-transport/gtfs/stops.txt",
-      "matchedName": "3A Bus Stand"
-    },
     "45 bus stand": {
       "lat": 22.47125,
       "lng": 88.37725,
@@ -90,26 +76,12 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "4 No. Bridge (Park Circus)"
     },
-    "5 no. kalimath": {
-      "lat": 22.5681,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "5 No. Kalimath (Beliaghata)"
-    },
     "58 Gate": {
       "lat": 22.34678,
       "lng": 88.07436,
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "58 Gate"
-    },
-    "6 Crossing": {
-      "lat": 22.6211,
-      "lng": 88.4412,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "6 Crossing (Rajarhat VIP Rd)"
     },
     "7 point crossing Park Circus": {
       "lat": 22.54332,
@@ -173,13 +145,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Adampur"
-    },
-    "Addhabazar": {
-      "lat": 22.7812,
-      "lng": 88.5812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Addhabazar (Amdanga)"
     },
     "Adhata": {
       "lat": 22.86828,
@@ -370,13 +335,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Akashbani Bhaban"
     },
-    "Akhratala": {
-      "lat": 22.6612,
-      "lng": 88.8512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Akhratala (Basirhat)"
-    },
     "Akra Fatak": {
       "lat": 22.5031,
       "lng": 88.2715,
@@ -398,19 +356,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Akra Station"
     },
-    "Akta Bazar": {
-      "lat": 22.1812,
-      "lng": 88.4212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Akta Bazar (Jaynagar)"
-    },
     "Al Ameen Mission": {
-      "lat": 22.5681,
-      "lng": 88.3852,
+      "lat": 22.6461,
+      "lng": 87.9683,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Al Ameen Mission (Beliaghata)"
+      "source": "web_verified:OSM Al-Ameen Mission Khalna Udaynarayanpur",
+      "matchedName": "Al Ameen Mission"
     },
     "Alambazar": {
       "lat": 22.6495,
@@ -482,13 +433,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Alochaya"
     },
-    "Alpan Diary": {
-      "lat": 22.7152,
-      "lng": 88.4612,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Alpine Dairy (Madhyamgram)"
-    },
     "Amdanga": {
       "lat": 22.8084,
       "lng": 88.51511,
@@ -545,13 +489,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Amrabati"
     },
-    "Amragachhi": {
-      "lat": 22.3612,
-      "lng": 88.2812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Amragachhi (Amtala)"
-    },
     "Amragari": {
       "lat": 22.60784,
       "lng": 87.92809,
@@ -584,7 +521,7 @@
       "lat": 22.58344,
       "lng": 88.01039,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Amta",
+      "source": "open_transit/stops.csv:Amta New Market",
       "matchedName": "Amta New Market"
     },
     "Amta Station": {
@@ -776,13 +713,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Ashari"
     },
-    "Asharu Bazar": {
-      "lat": 22.8322,
-      "lng": 88.8322,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Asharu Bazar (Swarupnagar)"
-    },
     "Ashokenagar Railgate": {
       "lat": 22.8312,
       "lng": 88.6312,
@@ -859,6 +789,13 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Atharobanki More (Canning)"
+    },
+    "Atlas More": {
+      "lat": 22.4382,
+      "lng": 88.3982,
+      "confidence": "high",
+      "source": "stop_name_loactio-v8.csv",
+      "matchedName": "Atlas More (Sonarpur)"
     },
     "Aturia": {
       "lat": 22.73744,
@@ -1014,13 +951,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Badartala"
     },
-    "Badir More": {
-      "lat": 22.7312,
-      "lng": 88.4812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Badir More (Barasat)"
-    },
     "Badu Bazar": {
       "lat": 22.7182,
       "lng": 88.5182,
@@ -1076,13 +1006,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Bagjola"
-    },
-    "Bagjola Bazar": {
-      "lat": 22.6112,
-      "lng": 88.4812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Bagjola Bazar (Rajarhat)"
     },
     "Bagmari Bazar": {
       "lat": 22.5812,
@@ -1175,20 +1098,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Baharu"
     },
-    "Baidyapur Kanchkal": {
-      "lat": 23.1812,
-      "lng": 88.2812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Baidyapur Kanchkal (Kalna)"
-    },
-    "Baikunthapur": {
-      "lat": 22.37925,
-      "lng": 88.41439,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Baikunthapur (Baruipur)"
-    },
     "Baisakhi": {
       "lat": 22.59708,
       "lng": 88.42152,
@@ -1270,8 +1179,8 @@
       "lat": 22.56417,
       "lng": 88.28618,
       "confidence": "medium",
-      "source": "https://www.justdial.com/Howrah/Bakultala-Howrah-Andul-Road",
-      "matchedName": "Bakultala"
+      "source": "manual: justdial.com (Andul Road, Howrah)",
+      "matchedName": "Bakultala (Howrah)"
     },
     "Balaka Housing (EcoPark)": {
       "lat": 22.6012,
@@ -1455,13 +1364,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Banbania Chowmatha"
     },
-    "Bandar": {
-      "lat": 22.05296,
-      "lng": 88.08854,
-      "confidence": "medium",
-      "source": "calcutta-transport/gtfs/stops.txt",
-      "matchedName": "Bandar"
-    },
     "Bandhaghat": {
       "lat": 22.5852,
       "lng": 88.3375,
@@ -1524,13 +1426,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Bansdroni"
-    },
-    "Banstala": {
-      "lat": 22.5821,
-      "lng": 88.3512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Banstala Street (Burrabazar)"
     },
     "Bantala": {
       "lat": 22.533,
@@ -1673,11 +1568,11 @@
       "matchedName": "Barasat District Hospital"
     },
     "Barasat Kazipara": {
-      "lat": 22.5682,
-      "lng": 88.3112,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1191",
-      "matchedName": "Kazipara (Howrah Shibpur)"
+      "lat": 22.7115,
+      "lng": 88.4912,
+      "confidence": "high",
+      "source": "web_verified:OSM Kazipara NH112 Jessore Road Barasat",
+      "matchedName": "Barasat Kazipara"
     },
     "Barasat Kazipara depot": {
       "lat": 22.7325,
@@ -1690,7 +1585,7 @@
       "lat": 22.724,
       "lng": 88.481,
       "confidence": "medium",
-      "source": "open_json/busdata.json:Barasat",
+      "source": "open_json/busdata.json:Barasat Moyna Check Post",
       "matchedName": "Barasat Moyna Check Post"
     },
     "Barasat State University": {
@@ -1721,19 +1616,19 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Barbaria"
     },
-    "Barda": {
-      "lat": 22.15239,
-      "lng": 88.08758,
+    "Bardhaman": {
+      "lat": 23.2324,
+      "lng": 87.8615,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Barda",
-      "matchedName": "Barda"
+      "source": "web_verified:Wikidata/OSM Bardhaman",
+      "matchedName": "Bardhaman"
     },
     "Bardhaman Station": {
-      "lat": 22.7212,
-      "lng": 88.3812,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1218",
-      "matchedName": "Khardah Railway Station Link"
+      "lat": 23.2498,
+      "lng": 87.8698,
+      "confidence": "high",
+      "source": "web_verified:Indian Railways Bardhaman Junction (BWN)",
+      "matchedName": "Bardhaman Station"
     },
     "Bargachia": {
       "lat": 22.66675,
@@ -1770,18 +1665,11 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Barrackpore"
     },
-    "Barrackpore Cantonment": {
-      "lat": 22.78,
-      "lng": 88.48,
-      "confidence": "review",
-      "source": "calcutta-transport/docs/data/places.json",
-      "matchedName": "Barrackpore Cantonment"
-    },
     "Barrackpore Chiriamore": {
       "lat": 22.76416,
       "lng": 88.37761,
       "confidence": "medium",
-      "source": "open_transit/stops.csv:Barrackpore",
+      "source": "open_transit/stops.csv:Barrackpore Chiriamore",
       "matchedName": "Barrackpore Chiriamore"
     },
     "Barrackpore Court": {
@@ -1872,14 +1760,14 @@
       "lat": 22.19833,
       "lng": 88.71391,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Basanti",
+      "source": "open_transit/stops.csv:Basanti Bridge",
       "matchedName": "Basanti Bridge"
     },
     "Basanti Chowmatha": {
       "lat": 22.19833,
       "lng": 88.71391,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Basanti",
+      "source": "open_transit/stops.csv:Basanti Chowmatha",
       "matchedName": "Basanti Chowmatha"
     },
     "Bashirhat (Malancha)": {
@@ -1903,13 +1791,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Basirhat 72 Bus Stand"
     },
-    "Basirhat Chowmatha": {
-      "lat": 22.8251,
-      "lng": 88.625,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_256",
-      "matchedName": "Basirhat Town Bus Stand"
-    },
     "Basirhat Court": {
       "lat": 22.66299,
       "lng": 88.87314,
@@ -1918,18 +1799,18 @@
       "matchedName": "Basirhat Court"
     },
     "Basirhat Puratan Bazar": {
-      "lat": 22.8215,
-      "lng": 88.6212,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_255",
-      "matchedName": "Basirhat Railgate / Station More"
+      "lat": 22.6572,
+      "lng": 88.8685,
+      "confidence": "high",
+      "source": "web_verified:OSM Basirhat Puratan Bazar",
+      "matchedName": "Basirhat Puratan Bazar"
     },
     "Basirhat Trimohini": {
-      "lat": 22.8251,
-      "lng": 88.625,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_256",
-      "matchedName": "Basirhat Town Bus Stand"
+      "lat": 22.6625,
+      "lng": 88.8592,
+      "confidence": "high",
+      "source": "web_verified:OSM Trimohini Basirhat",
+      "matchedName": "Basirhat Trimohini"
     },
     "Basubati": {
       "lat": 22.78254,
@@ -1942,7 +1823,7 @@
       "lat": 22.78254,
       "lng": 88.20304,
       "confidence": "medium",
-      "source": "open_transit/stops.csv:Basubati",
+      "source": "open_transit/stops.csv:Basubati Darbar Sharif",
       "matchedName": "Basubati Darbar Sharif"
     },
     "Basudebpur": {
@@ -2051,11 +1932,11 @@
       "matchedName": "Behala P.S"
     },
     "Behala Rabindranagar": {
-      "lat": 22.5012,
-      "lng": 88.315,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_269",
-      "matchedName": "Behala Market"
+      "lat": 22.5018,
+      "lng": 88.2995,
+      "confidence": "high",
+      "source": "web_verified:OSM Rabindranagar Behala",
+      "matchedName": "Behala Rabindranagar"
     },
     "Behala Tram Depot": {
       "lat": 22.49941,
@@ -2096,7 +1977,7 @@
       "lat": 22.56219,
       "lng": 88.40797,
       "confidence": "medium",
-      "source": "open_transit/stops.csv:Beleghata",
+      "source": "open_transit/stops.csv:Beleghata CIT Building",
       "matchedName": "Beleghata CIT Building"
     },
     "Beleghata CIT More": {
@@ -2194,7 +2075,7 @@
       "lat": 22.66564,
       "lng": 88.398,
       "confidence": "medium",
-      "source": "open_transit/stops.csv:Belgharia",
+      "source": "open_transit/stops.csv:Belgharia Teachers Colony",
       "matchedName": "Belgharia Teachers Colony"
     },
     "Belghoria": {
@@ -2219,18 +2100,18 @@
       "matchedName": "Beliaghata"
     },
     "Beliaghata Bazar": {
-      "lat": 22.5685,
-      "lng": 88.385,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_272",
-      "matchedName": "Beliaghata Main Road"
+      "lat": 22.5649,
+      "lng": 88.3934,
+      "confidence": "high",
+      "source": "web_verified:OSM Beliaghata Bazar Main Road",
+      "matchedName": "Beliaghata Bazar"
     },
     "Beliaghata Bridge": {
-      "lat": 22.5685,
-      "lng": 88.385,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_272",
-      "matchedName": "Beliaghata Main Road"
+      "lat": 22.5671,
+      "lng": 88.3842,
+      "confidence": "high",
+      "source": "web_verified:OSM Beliaghata Canal Bridge",
+      "matchedName": "Beliaghata Bridge"
     },
     "Beliaghata Main Road": {
       "lat": 22.5685,
@@ -2281,13 +2162,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Bengal Chemical"
     },
-    "Beraberia": {
-      "lat": 22.76727,
-      "lng": 88.44337,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Beraberia"
-    },
     "Berachampa": {
       "lat": 22.69465,
       "lng": 88.67923,
@@ -2313,15 +2187,22 @@
       "lat": 22.57565,
       "lng": 87.99044,
       "confidence": "medium",
-      "source": "open_transit/stops.csv:Betai",
+      "source": "open_transit/stops.csv:Betai Bandar More",
       "matchedName": "Betai Bandar More"
     },
     "Betai Bandor More": {
       "lat": 22.57565,
       "lng": 87.99044,
       "confidence": "medium",
-      "source": "open_transit/stops.csv:Betai",
+      "source": "open_transit/stops.csv:Betai Bandor More",
       "matchedName": "Betai Bandor More"
+    },
+    "Betai Bondor More": {
+      "lat": 22.57565,
+      "lng": 87.99044,
+      "confidence": "medium",
+      "source": "open_transit/stops.csv:Betai Bondor More",
+      "matchedName": "Betai Bondor More"
     },
     "Betaitala": {
       "lat": 22.56201,
@@ -2345,11 +2226,11 @@
       "matchedName": "Betore More"
     },
     "Bhabani Bhawan Hazra": {
-      "lat": 22.5212,
-      "lng": 88.3512,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1540",
-      "matchedName": "Hazra More Crossing"
+      "lat": 22.5262,
+      "lng": 88.3385,
+      "confidence": "high",
+      "source": "web_verified:OSM Bhabani Bhawan Alipore Hazra",
+      "matchedName": "Bhabani Bhawan Hazra"
     },
     "Bhadura": {
       "lat": 22.27833,
@@ -2364,20 +2245,6 @@
       "confidence": "high",
       "source": "open_transit/stops.csv:Bhagabanpur",
       "matchedName": "Bhagabanpur"
-    },
-    "Bhagabanpur More": {
-      "lat": 22.14528,
-      "lng": 88.41056,
-      "confidence": "medium",
-      "source": "geonames:Bhagabanpur",
-      "matchedName": "Bhagabanpur More"
-    },
-    "Bhagabatipur": {
-      "lat": 22.10921,
-      "lng": 88.37731,
-      "confidence": "review",
-      "source": "calcutta-transport/docs/data/places.json",
-      "matchedName": "Bhagabatipur"
     },
     "Bhandarkhali": {
       "lat": 22.37691,
@@ -2442,13 +2309,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Bhattanagar"
     },
-    "Bhavan": {
-      "lat": 22.56147,
-      "lng": 88.4088,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1531",
-      "matchedName": "Paribesh Bhavan (Salt Lake Sector III)"
-    },
     "Bhawanipur": {
       "lat": 22.52611,
       "lng": 88.3478,
@@ -2467,14 +2327,14 @@
       "lat": 22.55209,
       "lng": 88.823,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Bhebia",
+      "source": "open_transit/stops.csv:Bhebia Chowmatha",
       "matchedName": "Bhebia Chowmatha"
     },
     "Bhebia Chowrasta": {
       "lat": 22.55209,
       "lng": 88.823,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Bhebia",
+      "source": "open_transit/stops.csv:Bhebia Chowrasta",
       "matchedName": "Bhebia Chowrasta"
     },
     "Bhogali": {
@@ -2505,13 +2365,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Bhowanipur"
     },
-    "Bhubaneshwari": {
-      "lat": 21.94069,
-      "lng": 88.53201,
-      "confidence": "high",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Bhubaneshwari"
-    },
     "Bhyabla Halt": {
       "lat": 22.65534,
       "lng": 88.85375,
@@ -2530,7 +2383,7 @@
       "lat": 22.55024,
       "lng": 88.28533,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Bichali Ghat",
+      "source": "open_transit/stops.csv:Bichali Ghar",
       "matchedName": "Bichali Ghar"
     },
     "Bichali Ghat": {
@@ -2593,7 +2446,7 @@
       "lat": 22.11005,
       "lng": 88.3219,
       "confidence": "medium",
-      "source": "open_transit/stops.csv:Lakshmikantapur",
+      "source": "open_transit/stops.csv:Bijaygunge bazar (Lakshmikantapur)",
       "matchedName": "Bijaygunge bazar (Lakshmikantapur)"
     },
     "Bijoygarh": {
@@ -2609,20 +2462,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Bikash Bhawan"
-    },
-    "Bindopur": {
-      "lat": 21.90344,
-      "lng": 88.53451,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Bindopur"
-    },
-    "Binodpur": {
-      "lat": 21.90296,
-      "lng": 88.53697,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Binodpur"
     },
     "Bira": {
       "lat": 22.79012,
@@ -2667,17 +2506,17 @@
       "matchedName": "Birati"
     },
     "Birati Tantkal": {
-      "lat": 22.7481,
-      "lng": 88.4985,
+      "lat": 22.6643,
+      "lng": 88.4275,
       "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_296",
-      "matchedName": "Birati Station More"
+      "source": "calcutta-transport/gtfs/stops.txt:Birati",
+      "matchedName": "Birati Tantkal"
     },
     "Birlapur": {
-      "lat": 22.42165,
-      "lng": 88.15598,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
+      "lat": 22.4396,
+      "lng": 88.1489,
+      "confidence": "high",
+      "source": "web_verified:Wikidata/OSM Birlapur Budge Budge",
       "matchedName": "Birlapur"
     },
     "Birshibpur": {
@@ -2716,11 +2555,11 @@
       "matchedName": "Biswanathpur"
     },
     "BIT College": {
-      "lat": 22.5712,
-      "lng": 88.3612,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_359",
-      "matchedName": "College Street Market"
+      "lat": 22.521,
+      "lng": 88.4608,
+      "confidence": "high",
+      "source": "web_verified:OSM Bengal Institute of Technology Basanti Hwy",
+      "matchedName": "BIT College"
     },
     "Bithari": {
       "lat": 22.85064,
@@ -2786,45 +2625,45 @@
       "matchedName": "Bondel Gate"
     },
     "Bongaon": {
-      "lat": 23.05824,
-      "lng": 88.78618,
+      "lat": 23.0435,
+      "lng": 88.8315,
       "confidence": "high",
-      "source": "calcutta-transport:data/bus/stops.csv",
+      "source": "web_verified:Wikidata/OSM Bangaon",
       "matchedName": "Bongaon"
     },
     "Bongaon 1 No. Railgate Bazar": {
-      "lat": 23.0815,
-      "lng": 88.8215,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_306",
-      "matchedName": "Bongaon Railway Station"
+      "lat": 23.0468,
+      "lng": 88.8265,
+      "confidence": "high",
+      "source": "web_verified:OSM Bongaon 1 No Railgate",
+      "matchedName": "Bongaon 1 No. Railgate Bazar"
     },
     "Bongaon 78E Bus Stand": {
-      "lat": 23.0815,
-      "lng": 88.8215,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_305",
-      "matchedName": "Bongaon Court / Bus Stand"
+      "lat": 23.0435,
+      "lng": 88.8315,
+      "confidence": "high",
+      "source": "web_verified:OSM Bongaon Bus Stand",
+      "matchedName": "Bongaon 78E Bus Stand"
     },
     "Bongaon Motigunge Bus Stand": {
-      "lat": 23.0815,
-      "lng": 88.8215,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_305",
-      "matchedName": "Bongaon Court / Bus Stand"
+      "lat": 23.0358,
+      "lng": 88.8219,
+      "confidence": "high",
+      "source": "web_verified:OSM Motiganj Bus Stand Bongaon",
+      "matchedName": "Bongaon Motigunge Bus Stand"
     },
     "Bongaon Paikpara": {
-      "lat": 23.0815,
-      "lng": 88.8215,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_306",
-      "matchedName": "Bongaon Railway Station"
+      "lat": 23.0492,
+      "lng": 88.8341,
+      "confidence": "high",
+      "source": "web_verified:OSM Paikpara Bongaon",
+      "matchedName": "Bongaon Paikpara"
     },
     "Bonhooghly": {
       "lat": 22.64899,
       "lng": 88.38098,
       "confidence": "review",
-      "source": "https://indiamapia.com/Kolkata/Bonhooghly.html",
+      "source": "manual: indiamapia.com + Wikimedia Commons geotag",
       "matchedName": "Bonhooghly"
     },
     "Bonhooghly Tobin Road": {
@@ -2838,15 +2677,8 @@
       "lat": 22.636,
       "lng": 88.382,
       "confidence": "medium",
-      "source": "open_json/busdata.json:Bonhooghly",
+      "source": "open_json/busdata.json:Bonhoogly (ISI)",
       "matchedName": "Bonhoogly (ISI)"
-    },
-    "Boro Kanthalia More": {
-      "lat": 22.7812,
-      "lng": 88.3812,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1165",
-      "matchedName": "Kanthalia More (Barrackpore Road)"
     },
     "Boro Talikhola": {
       "lat": 22.8844,
@@ -2861,13 +2693,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Bosepukur"
-    },
-    "Boshirhat boardghat": {
-      "lat": 22.8212,
-      "lng": 88.8212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Basirhat Boardghat / Ferry"
     },
     "Botanical Garden": {
       "lat": 22.55291,
@@ -2897,26 +2722,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Bowbazar"
     },
-    "Boyra": {
-      "lat": 22.8512,
-      "lng": 88.8712,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Boyra Border Road"
-    },
     "Brace Bridge": {
       "lat": 22.51792,
       "lng": 88.30114,
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Brace Bridge"
-    },
-    "Brahmaner More": {
-      "lat": 22.8112,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Brahmaner More Habra Town"
     },
     "Brajalalchak": {
       "lat": 22.08963,
@@ -3065,13 +2876,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Calcutta Leather Complex (Covers All 3 Gates)"
     },
-    "Calcutta Technical School": {
-      "lat": 22.5712,
-      "lng": 88.3612,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Calcutta Technical School College St"
-    },
     "Camac Street": {
       "lat": 22.54154,
       "lng": 88.35187,
@@ -3085,13 +2889,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Canal Bridge East Kankurgachi"
-    },
-    "Cancer Hospital": {
-      "lat": 22.52673,
-      "lng": 88.38842,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Cancer Hospital Thakurpukur Centre"
     },
     "Cannel Bridge": {
       "lat": 22.5812,
@@ -3296,13 +3093,6 @@
       "source": "calcutta-transport/gtfs/stops.txt",
       "matchedName": "Champahati"
     },
-    "Champatala": {
-      "lat": 22.5732,
-      "lng": 88.3612,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Champatala (College St)"
-    },
     "Chamrail": {
       "lat": 22.63913,
       "lng": 88.30399,
@@ -3316,13 +3106,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Chanda"
-    },
-    "Chandaneshwar": {
-      "lat": 22.4812,
-      "lng": 88.3712,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Chandaneshwar (Regent Park)"
     },
     "Chandipur": {
       "lat": 22.51086,
@@ -3338,20 +3121,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Chanditala"
     },
-    "Chandkhali": {
-      "lat": 22.3812,
-      "lng": 88.7112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Chandkhali (Hasnabad)"
-    },
-    "Chandmari": {
-      "lat": 22.4399,
-      "lng": 88.43866,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Chandmari"
-    },
     "Chandni Chowk": {
       "lat": 22.56552,
       "lng": 88.35749,
@@ -3363,8 +3132,8 @@
       "lat": 22.56543,
       "lng": 88.3546,
       "confidence": "medium",
-      "source": "https://www.tripopola.com/location/kolkata/chandni-chowk-market/15522",
-      "matchedName": "Chandni Market"
+      "source": "manual: tripopola.com + justdial.com",
+      "matchedName": "Chandni Chowk Market"
     },
     "Chandpara B.D.O. Office": {
       "lat": 22.9512,
@@ -3408,20 +3177,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Chandrakona Town"
     },
-    "Chandua Bazar": {
-      "lat": 22.8212,
-      "lng": 88.6512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Chandua Bazar (Habra)"
-    },
-    "Changabottala": {
-      "lat": 22.6412,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Changabottala (Dum Dum)"
-    },
     "Chapaberia": {
       "lat": 22.6112,
       "lng": 88.4812,
@@ -3449,13 +3204,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Chapra"
-    },
-    "Chapuria": {
-      "lat": 22.8112,
-      "lng": 88.6812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Chapuria (Gaighata)"
     },
     "Charabidya": {
       "lat": 22.33372,
@@ -3604,13 +3352,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Chitpur Crossing"
     },
-    "Chitrasenpur": {
-      "lat": 22.4112,
-      "lng": 88.1112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Chitrasenpur (Budge Budge)"
-    },
     "Chittaranjan Hospital": {
       "lat": 22.5412,
       "lng": 88.3712,
@@ -3618,26 +3359,12 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Chittaranjan National Cancer Institute"
     },
-    "Choatia": {
-      "lat": 22.8512,
-      "lng": 88.6512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Choatia (Gaighata)"
-    },
     "Chongda More": {
       "lat": 22.85926,
       "lng": 88.67324,
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Chongda More"
-    },
-    "Chouberia Chowrasta": {
-      "lat": 22.8812,
-      "lng": 88.7112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Chouberia Chowrasta"
     },
     "Chouhati": {
       "lat": 22.40495,
@@ -3652,13 +3379,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Chowbaga"
-    },
-    "Chowdhury Chak": {
-      "lat": 22.2812,
-      "lng": 88.4112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Chowdhury Chak (Baruipur)"
     },
     "Chowhati": {
       "lat": 22.4512,
@@ -3849,13 +3569,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Contai Bypass Road"
     },
-    "CTC Depot": {
-      "lat": 22.54191,
-      "lng": 88.36667,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Park Circus CTC Tram Depot"
-    },
     "Culture More": {
       "lat": 22.6212,
       "lng": 88.4312,
@@ -3912,13 +3625,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Dakbanglow More"
     },
-    "Dakbungalow Bazar": {
-      "lat": 22.6812,
-      "lng": 88.4412,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Madhyamgram Dakbungalow Bazar"
-    },
     "Dakbungalow More": {
       "lat": 22.71139,
       "lng": 88.47549,
@@ -3961,13 +3667,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Dakshineswar Bus Stand"
     },
-    "Dakshin Akhratala": {
-      "lat": 22.3812,
-      "lng": 88.6512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Dakshin Akhratala (Hasnabad)"
-    },
     "Dakshin Barasat": {
       "lat": 22.22644,
       "lng": 88.45254,
@@ -3981,13 +3680,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Dakshin Battala"
-    },
-    "Dakshin Birampur": {
-      "lat": 22.2812,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Dakshin Birampur (Baruipur)"
     },
     "Dakshin Durgapur": {
       "lat": 22.01157,
@@ -4073,13 +3765,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Dariapur"
     },
-    "Daripukur": {
-      "lat": 22.4212,
-      "lng": 88.4812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Daripukur (Bhangore)"
-    },
     "Dashadrone": {
       "lat": 22.6212,
       "lng": 88.4412,
@@ -4108,33 +3793,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Daulatpur"
     },
-    "Dayarampur Bazar": {
-      "lat": 22.1812,
-      "lng": 88.2512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Dayarampur Bazar (Diamond Harbour)"
-    },
     "Debaloy Hadipur Post Office": {
       "lat": 22.6812,
       "lng": 88.6212,
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Hadipur Debaloy Post Office"
-    },
-    "Debipur": {
-      "lat": 23.1112,
-      "lng": 88.1812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Debipur Station Road"
-    },
-    "Debpukur": {
-      "lat": 22.8212,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Debpukur (Habra)"
     },
     "Debra": {
       "lat": 22.3952,
@@ -4156,13 +3820,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Delhi Road"
-    },
-    "Deorah More": {
-      "lat": 22.7512,
-      "lng": 88.6212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Deorah More (Deganga)"
     },
     "Derozio College": {
       "lat": 22.63345,
@@ -4213,6 +3870,13 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Deulti"
     },
+    "Dewandighi": {
+      "lat": 23.2689,
+      "lng": 87.8814,
+      "confidence": "high",
+      "source": "web_verified:OSM Dewandighi Katwa Road Bardhaman",
+      "matchedName": "Dewandighi"
+    },
     "Dhakuria": {
       "lat": 22.50781,
       "lng": 88.36705,
@@ -4240,13 +3904,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Dhamakhali"
-    },
-    "Dhamua": {
-      "lat": 22.2812,
-      "lng": 88.4112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Dhamua Station Road"
     },
     "Dhanmath": {
       "lat": 22.52091,
@@ -4283,13 +3940,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Dharampur"
     },
-    "Dharmapukuria": {
-      "lat": 23.0112,
-      "lng": 88.8212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Dharmapukuria (Bongaon)"
-    },
     "Dherua": {
       "lat": 22.4812,
       "lng": 87.1812,
@@ -4297,26 +3947,12 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Dherua (Midnapore)"
     },
-    "Dhola": {
-      "lat": 22.02724,
-      "lng": 88.29604,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Dhola bus stop"
-    },
     "Dhola bus stop": {
       "lat": 22.02724,
       "lng": 88.29604,
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Dhola bus stop"
-    },
-    "Dholahat More": {
-      "lat": 22.0812,
-      "lng": 88.3512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Dholahat More (Sundarban Rd)"
     },
     "Dhopagachi": {
       "lat": 22.3663,
@@ -4436,13 +4072,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "DLF1"
-    },
-    "Dockghat": {
-      "lat": 22.5412,
-      "lng": 88.3182,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kidderpore Dockghat"
     },
     "Dockyard": {
       "lat": 22.5412,
@@ -4648,10 +4277,10 @@
       "matchedName": "Durganagar"
     },
     "Durgapur": {
-      "lat": 22.41762,
-      "lng": 88.5893,
+      "lat": 23.5204,
+      "lng": 87.3119,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
+      "source": "web_verified:WBTC/SBSTC Durgapur Station Terminus",
       "matchedName": "Durgapur"
     },
     "Durgapur Bridge": {
@@ -4669,11 +4298,11 @@
       "matchedName": "Durgapur City Centre Bus Stand"
     },
     "Durgapur City Centre": {
-      "lat": 22.58995,
-      "lng": 88.40841,
+      "lat": 23.5388,
+      "lng": 87.2917,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "City Centre"
+      "source": "web_verified:SBSTC Durgapur City Centre Bus Terminus",
+      "matchedName": "Durgapur City Centre"
     },
     "Durgapur Expressway": {
       "lat": 23.0688,
@@ -4688,13 +4317,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Duttabagan"
-    },
-    "Duttabazar": {
-      "lat": 22.7812,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Dutta Bazar (Habra)"
     },
     "Duttapara": {
       "lat": 22.84765,
@@ -4955,13 +4577,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "FD Park"
     },
-    "Ferry Ghat": {
-      "lat": 22.5651,
-      "lng": 88.3412,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Babughat Ferry Terminal"
-    },
     "Fire Brigade": {
       "lat": 22.56786,
       "lng": 88.43253,
@@ -4970,11 +4585,11 @@
       "matchedName": "Fire Brigade"
     },
     "Fishery Gate": {
-      "lat": 22.6112,
-      "lng": 88.4812,
+      "lat": 22.7595,
+      "lng": 88.3698,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Fishery Gate Rajarhat"
+      "source": "web_verified:OSM CIFRI Fishery Gate Barrackpore",
+      "matchedName": "Fishery Gate"
     },
     "Foreshore Road": {
       "lat": 22.5813,
@@ -5025,13 +4640,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Frazerganj"
     },
-    "Fulbari": {
-      "lat": 22.8812,
-      "lng": 88.6812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Fulbari (Gaighata)"
-    },
     "Furfura Sharif": {
       "lat": 22.74838,
       "lng": 88.1334,
@@ -5052,20 +4660,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Gabbuni"
-    },
-    "Gadamara": {
-      "lat": 22.7812,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Gadamara (North 24 Parganas)"
-    },
-    "Gadarati": {
-      "lat": 22.8412,
-      "lng": 88.5112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Gadarati (North 24 Parganas)"
     },
     "Gadiara": {
       "lat": 22.22249,
@@ -5130,13 +4724,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Gandhi Colony"
     },
-    "Gangadharpur": {
-      "lat": 22.7312,
-      "lng": 88.2412,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Gangadharpur (Howrah / Hooghly Link)"
-    },
     "Ganganagar": {
       "lat": 22.6712,
       "lng": 88.4412,
@@ -5157,13 +4744,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Ganguly Bagan (Raja SC Mullick Rd)"
-    },
-    "Ganjer Bazar": {
-      "lat": 22.4512,
-      "lng": 88.4112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Ganjer Bazar (Bhangore Link)"
     },
     "Ganrapota": {
       "lat": 23.13214,
@@ -5354,27 +4934,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Ghatatkpukur"
     },
-    "Ghatboar": {
-      "lat": 22.9812,
-      "lng": 88.7312,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Ghatbaor (Bongaon)"
-    },
-    "Ghatur More": {
-      "lat": 22.8112,
-      "lng": 88.6212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Ghatur More (Habra)"
-    },
-    "Gheedah": {
-      "lat": 22.7512,
-      "lng": 88.6512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Gheedah (Deganga)"
-    },
     "Ghola": {
       "lat": 22.6965,
       "lng": 88.40893,
@@ -5395,13 +4954,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Ghoradaha"
-    },
-    "Ghoraras Beltala": {
-      "lat": 22.7612,
-      "lng": 88.5812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Ghoraras Beltala (Barasat-Basirhat Rd)"
     },
     "Ghoshpur": {
       "lat": 22.4812,
@@ -5424,33 +4976,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Girish Park"
     },
-    "Goakhali": {
-      "lat": 22.2812,
-      "lng": 88.0812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Goakhali (Narayantala)"
-    },
     "Goalbagi": {
       "lat": 23.15401,
       "lng": 88.73999,
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Goalbagi"
-    },
-    "Goalbathan": {
-      "lat": 22.5885,
-      "lng": 88.4412,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Goalbathan (Salt Lake Sector V Link)"
-    },
-    "Goaldaha": {
-      "lat": 22.4112,
-      "lng": 88.5812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Goaldaha (Canning Corridor)"
     },
     "Goaltore": {
       "lat": 22.7112,
@@ -5494,13 +5025,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Gobindopur"
     },
-    "Gobra More": {
-      "lat": 22.5412,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Gobra Crossing (Entally / Park Circus)"
-    },
     "Gocharan": {
       "lat": 22.27867,
       "lng": 88.45634,
@@ -5536,27 +5060,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Golabarai PS"
     },
-    "Golabari": {
-      "lat": 22.59326,
-      "lng": 88.34411,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Golabari (Howrah GT Road)"
-    },
-    "Golabari More": {
-      "lat": 22.59326,
-      "lng": 88.34411,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Golabari Crossing"
-    },
-    "Golaknagar": {
-      "lat": 22.9512,
-      "lng": 88.8112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Golaknagar (Bongaon)"
-    },
     "Golf Green": {
       "lat": 22.49133,
       "lng": 88.36184,
@@ -5585,26 +5088,19 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Gopalpur House (Rajarhat)"
     },
-    "Gopalpur More": {
-      "lat": 22.6285,
-      "lng": 88.4485,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Gopalpur More (VIP Road / Rajarhat)"
-    },
-    "Goura": {
-      "lat": 22.4512,
-      "lng": 88.1112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Goura (Panchla-Bagnan)"
-    },
     "Gourangapur": {
       "lat": 22.73765,
       "lng": 87.87685,
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Gourangapur"
+    },
+    "Gourhati": {
+      "lat": 22.8412,
+      "lng": 88.3512,
+      "confidence": "high",
+      "source": "stop_name_loactio-v8.csv",
+      "matchedName": "Gourhati (Chinsurah / Chandannagar)"
     },
     "Gouribari": {
       "lat": 22.59455,
@@ -5683,27 +5179,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Guma Chowmatha (Habra-Ashoknagar Rd)"
     },
-    "Gurdah": {
-      "lat": 22.8112,
-      "lng": 88.5212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Gurdah (Habra Corridor)"
-    },
-    "Gurudaspur": {
-      "lat": 22.2812,
-      "lng": 88.3512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Gurudaspur (Kulpi / Diamond Harbour)"
-    },
-    "Gurudaspur Hospital More": {
-      "lat": 22.52527,
-      "lng": 88.34664,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Hospital More"
-    },
     "Gurusaday Road": {
       "lat": 22.53617,
       "lng": 88.36017,
@@ -5774,20 +5249,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Habra WBTC Bus Depot"
     },
-    "Hadipur Colony": {
-      "lat": 22.7512,
-      "lng": 88.6812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Hadipur Colony (Deganga)"
-    },
-    "Haidarpur": {
-      "lat": 22.4112,
-      "lng": 88.4512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Haidarpur (Baruipur)"
-    },
     "Hakimpur": {
       "lat": 22.85266,
       "lng": 88.95228,
@@ -5844,33 +5305,12 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Haltu Bazar (Garfa Link)"
     },
-    "Hamadama": {
-      "lat": 22.8412,
-      "lng": 88.7212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Hamadama (Gaighata)"
-    },
     "Hamidpur": {
       "lat": 22.87472,
       "lng": 88.47009,
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Hamidpur"
-    },
-    "Hansia": {
-      "lat": 22.3812,
-      "lng": 88.5212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Hansia (Canning Road)"
-    },
-    "Hanskhali Pole": {
-      "lat": 22.48402,
-      "lng": 88.30239,
-      "confidence": "high",
-      "source": "open_transit/stops.csv:Bakultala",
-      "matchedName": "Hanskhali Pole"
     },
     "Hanspukur": {
       "lat": 22.45282,
@@ -5928,13 +5368,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Haripara"
     },
-    "Harishpur": {
-      "lat": 22.4812,
-      "lng": 88.6812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Harishpur (Hasnabad)"
-    },
     "Haroa": {
       "lat": 22.60648,
       "lng": 88.67829,
@@ -5991,13 +5424,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Hastings"
     },
-    "Hathatgange": {
-      "lat": 22.3112,
-      "lng": 88.6512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Hathatganj (Canning)"
-    },
     "Hatiara": {
       "lat": 22.61669,
       "lng": 88.44942,
@@ -6018,13 +5444,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Hatishala"
-    },
-    "Hatkhola Bazar": {
-      "lat": 22.5912,
-      "lng": 88.3612,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Hatkhola Bazar (Shyambazar / Sovabazar)"
     },
     "Hatthuba": {
       "lat": 22.85191,
@@ -6137,20 +5556,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Hiranmoypur"
-    },
-    "Hirghata": {
-      "lat": 22.9512,
-      "lng": 88.5512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Haringhata (Nadia Border Link)"
-    },
-    "Hoglashi More": {
-      "lat": 22.4112,
-      "lng": 88.2412,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Hoglashi More (Bishnupur)"
     },
     "Home Town": {
       "lat": 22.58299,
@@ -6327,26 +5732,12 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Indiranagar (Baguiati)"
     },
-    "Indranarayanpur": {
-      "lat": 22.1812,
-      "lng": 88.2812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Indranarayanpur (Kulpi)"
-    },
     "Infospace": {
       "lat": 22.57505,
       "lng": 88.48306,
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Infospace"
-    },
-    "Iswarigacha": {
-      "lat": 22.7812,
-      "lng": 88.5512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Iswarigacha (Habra-Ashoknagar)"
     },
     "Jadavpore": {
       "lat": 22.49528,
@@ -6467,13 +5858,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Jagatdal"
     },
-    "Jagulgachi": {
-      "lat": 22.7112,
-      "lng": 88.6812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Jagulgachi (Berachampa)"
-    },
     "Jaguli": {
       "lat": 22.92726,
       "lng": 88.54616,
@@ -6494,13 +5878,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Jaguli More"
-    },
-    "Jainpur": {
-      "lat": 22.3812,
-      "lng": 88.1812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Jainpur (Budge Budge)"
     },
     "Jala Biswanathpur": {
       "lat": 22.55593,
@@ -6544,13 +5921,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Jalilpur"
     },
-    "Jamalpur More": {
-      "lat": 23.0512,
-      "lng": 87.9812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Jamalpur More (Burdwan Link)"
-    },
     "Jamdani": {
       "lat": 22.89975,
       "lng": 88.7658,
@@ -6587,10 +5957,10 @@
       "matchedName": "Janakalyan"
     },
     "Jangalpur": {
-      "lat": 22.59303,
-      "lng": 88.22197,
+      "lat": 22.7689,
+      "lng": 88.7404,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
+      "source": "calcutta-transport/docs/data/places.json:Jangalpur",
       "matchedName": "Jangalpur"
     },
     "Jangipara": {
@@ -6600,19 +5970,19 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Jangipara"
     },
-    "Jashoda More": {
-      "lat": 22.8112,
-      "lng": 88.6512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Jashoda More (Habra)"
-    },
     "Jatragachi": {
       "lat": 22.59865,
       "lng": 88.46634,
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Jatragachi"
+    },
+    "Jayanti": {
+      "lat": 22.4512,
+      "lng": 88.3812,
+      "confidence": "high",
+      "source": "stop_name_loactio-v8.csv",
+      "matchedName": "Jayanti (Garia / Mukundapur)"
     },
     "Jaynagar Post office": {
       "lat": 22.17744,
@@ -6656,13 +6026,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Jharkhali"
     },
-    "Jhautala": {
-      "lat": 22.53677,
-      "lng": 88.3656,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Jhautala"
-    },
     "Jhawdanga": {
       "lat": 23.0112,
       "lng": 88.7512,
@@ -6704,13 +6067,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Jingira Bazar (Metiabruz / Jinjira)"
-    },
-    "Jitpur": {
-      "lat": 23.22978,
-      "lng": 88.85992,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Jitpur"
     },
     "Jodhpur Park": {
       "lat": 22.50561,
@@ -6782,13 +6138,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Jorabagan"
     },
-    "Jorabattala": {
-      "lat": 22.4812,
-      "lng": 88.3712,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Jora Battala (Jadavpur)"
-    },
     "Joramandir": {
       "lat": 22.61324,
       "lng": 88.4297,
@@ -6821,15 +6170,8 @@
       "lat": 22.77735,
       "lng": 88.56861,
       "confidence": "medium",
-      "source": "geonames:Joypul",
+      "source": "geonames:Joypul Bazar",
       "matchedName": "Joypul Bazar"
-    },
-    "Joypur PS": {
-      "lat": 22.5225,
-      "lng": 87.9525,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Joypur Police Station"
     },
     "Jujursha": {
       "lat": 22.6112,
@@ -6867,10 +6209,10 @@
       "matchedName": "Jyotishpur (Basanti Corridor)"
     },
     "Kabardanga": {
-      "lat": 22.51075,
-      "lng": 88.3815,
+      "lat": 22.4631,
+      "lng": 88.3474,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
+      "source": "web_verified:OSM Kabardanga More MG Road Haridevpur",
       "matchedName": "Kabardanga"
     },
     "Kachari Bazar": {
@@ -6887,20 +6229,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Kachhi Sarab (Burrabazar)"
     },
-    "Kachua More": {
-      "lat": 22.7112,
-      "lng": 88.6212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kachua More (Berachampa Link)"
-    },
-    "Kachuberia": {
-      "lat": 21.7112,
-      "lng": 88.1312,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kachuberia Sagar Ferry Ghat"
-    },
     "Kadambagachi": {
       "lat": 22.70908,
       "lng": 88.53991,
@@ -6912,7 +6240,7 @@
       "lat": 22.59116,
       "lng": 88.31998,
       "confidence": "medium",
-      "source": "https://yappe.in/west-bengal/howrah/kadamtala/1770690",
+      "source": "manual: yappe.in (OSM bus stop, Bantra, Howrah)",
       "matchedName": "Kadamtala"
     },
     "Kadapara": {
@@ -6929,13 +6257,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Kahankia"
     },
-    "Kaijuri Bazar": {
-      "lat": 22.4112,
-      "lng": 88.5812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kaijuri Bazar (Canning Road)"
-    },
     "Kaikhali": {
       "lat": 22.63442,
       "lng": 88.43462,
@@ -6943,26 +6264,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Kaikhali"
     },
-    "Kajiberia": {
-      "lat": 22.1812,
-      "lng": 88.1112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kajiberia (Diamond Harbour)"
-    },
     "Kajla": {
       "lat": 22.87762,
       "lng": 88.65169,
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Kajla"
-    },
-    "Kajoler More": {
-      "lat": 22.8312,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kajoler More (Habra)"
     },
     "Kakdip": {
       "lat": 21.88129,
@@ -6977,20 +6284,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Kakdwip"
-    },
-    "Kakdwip Bus Stand": {
-      "lat": 21.88129,
-      "lng": 88.194,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kakdwip Central Bus Stand"
-    },
-    "Kakdwip Station (Bamuner More)": {
-      "lat": 21.8825,
-      "lng": 88.1925,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kakdwip Station Bamuner More"
     },
     "Kalaberia": {
       "lat": 22.61984,
@@ -7076,47 +6369,19 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Kalipark (VIP Road Rajarhat)"
     },
-    "Kalitala": {
-      "lat": 22.51075,
-      "lng": 88.3815,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kalitala (Bosepukur Kasba)"
-    },
-    "Kalitala bazar": {
-      "lat": 22.7422,
-      "lng": 88.2079,
-      "confidence": "high",
-      "source": "calcutta-transport/docs/data/places.json:Kalitala",
-      "matchedName": "Kalitala bazar"
-    },
-    "Kalitala Housing": {
-      "lat": 22.5112,
-      "lng": 88.3821,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kalitala Housing (Kasba)"
-    },
-    "Kalitola": {
-      "lat": 22.51075,
-      "lng": 88.3815,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kalitola (Kasba)"
-    },
-    "Kaltala": {
-      "lat": 22.51075,
-      "lng": 88.3815,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kaltala (Kasba)"
-    },
     "Kalupur": {
       "lat": 23.02261,
       "lng": 88.80357,
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Kalupur"
+    },
+    "Kalur More": {
+      "lat": 22.8112,
+      "lng": 88.5512,
+      "confidence": "high",
+      "source": "stop_name_loactio-v8.csv",
+      "matchedName": "Kalur More (Habra Road)"
     },
     "Kalyan Nagar": {
       "lat": 22.71853,
@@ -7145,13 +6410,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Jagulia Kalyani Expressway Crossing"
-    },
-    "Kalyanpur": {
-      "lat": 22.4212,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kalyanpur (Baruipur)"
     },
     "Kalyanpur Panchayat": {
       "lat": 22.4215,
@@ -7223,13 +6481,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Kampa More"
     },
-    "Kanchiara": {
-      "lat": 22.7812,
-      "lng": 88.6212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kanchiara (Baduria)"
-    },
     "Kanchrapara": {
       "lat": 22.94624,
       "lng": 88.45138,
@@ -7293,13 +6544,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Kantaltala (Anandapur / Chowbhaga)"
     },
-    "Kantamari": {
-      "lat": 22.2512,
-      "lng": 88.4812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kantamari (Canning Corridor)"
-    },
     "Kantatala": {
       "lat": 22.5212,
       "lng": 88.4112,
@@ -7314,12 +6558,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Kanthalberia"
     },
-    "Kanthalibar": {
-      "lat": 22.7812,
-      "lng": 88.3812,
+    "Kanthi": {
+      "lat": 21.7781,
+      "lng": 87.7517,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kanthalia / Kanthalibar"
+      "source": "web_verified:Wikidata/OSM Contai (Kanthi)",
+      "matchedName": "Kanthi"
     },
     "Kapileswarpur": {
       "lat": 22.87235,
@@ -7327,13 +6571,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Kapileswarpur"
-    },
-    "Karaidanga": {
-      "lat": 22.4512,
-      "lng": 88.5812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Karaidanga (Bhangore Road)"
     },
     "Karanjali": {
       "lat": 22.03121,
@@ -7360,7 +6597,7 @@
       "lat": 22.53905,
       "lng": 88.26775,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Karbala",
+      "source": "open_transit/stops.csv:Karbala More",
       "matchedName": "Karbala More"
     },
     "Karigari Bhawan": {
@@ -7402,8 +6639,8 @@
       "lat": 22.5212,
       "lng": 88.3812,
       "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_457",
-      "matchedName": "Kasba Post Office / Rathtala"
+      "source": "stop_name_loactio-v8.csv:row_456",
+      "matchedName": "Kasba Depot / Ballygunge Stn"
     },
     "Kasba PS": {
       "lat": 22.53097,
@@ -7461,13 +6698,6 @@
       "source": "stop_name_loactio-v8.csv:row_1185",
       "matchedName": "Katlia (Howrah Domjur)"
     },
-    "Kathgola": {
-      "lat": 22.57672,
-      "lng": 88.38999,
-      "confidence": "medium",
-      "source": "calcutta-transport/gtfs/stops.txt",
-      "matchedName": "Kathgola"
-    },
     "Kathilabar": {
       "lat": 22.29277,
       "lng": 88.01194,
@@ -7503,33 +6733,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Kaukepara"
     },
-    "Kautala": {
-      "lat": 22.5182,
-      "lng": 88.3612,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1199",
-      "matchedName": "Keyatala (Golpark / Southern Ave)"
-    },
     "Kayrapur": {
       "lat": 22.79199,
       "lng": 88.39235,
       "confidence": "review",
       "source": "calcutta-transport/docs/data/places.json",
       "matchedName": "Kayrapur"
-    },
-    "Kazibari": {
-      "lat": 22.6912,
-      "lng": 88.5812,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1220",
-      "matchedName": "Kharibari More (Rajarhat)"
-    },
-    "Kazibari More": {
-      "lat": 22.6912,
-      "lng": 88.5812,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1220",
-      "matchedName": "Kharibari More (Rajarhat)"
     },
     "Kazipara": {
       "lat": 22.72265,
@@ -7565,13 +6774,6 @@
       "confidence": "review",
       "source": "calcutta-transport/docs/data/places.json",
       "matchedName": "Kefayetkati"
-    },
-    "Kemia More": {
-      "lat": 22.6112,
-      "lng": 88.5212,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1197",
-      "matchedName": "Keria (Rajarhat Link)"
     },
     "Kendua": {
       "lat": 22.47675,
@@ -7654,15 +6856,15 @@
       "lat": 22.59504,
       "lng": 88.37527,
       "confidence": "medium",
-      "source": "https://yappe.in/west-bengal/kolkata/khanna-cinema/573526",
+      "source": "manual: yappe.in (OSM bus stop)",
       "matchedName": "Khanna Cinema"
     },
     "Kharagpur Chowrangee": {
-      "lat": 22.3382,
-      "lng": 87.3212,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1214",
-      "matchedName": "Kharagpur Bus Stand / Station"
+      "lat": 22.3302,
+      "lng": 87.3215,
+      "confidence": "high",
+      "source": "web_verified:OSM Chowringhee More Kharagpur NH16",
+      "matchedName": "Kharagpur Chowrangee"
     },
     "Kharampur": {
       "lat": 22.52765,
@@ -7726,13 +6928,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Khariberia"
-    },
-    "Kharuberia": {
-      "lat": 22.4812,
-      "lng": 88.0812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Kharuberia (Uluberia-Kulgachia)"
     },
     "Khashmallik": {
       "lat": 22.37798,
@@ -7819,10 +7014,10 @@
       "matchedName": "Kholakhali Hat"
     },
     "Kholapota": {
-      "lat": 22.6817,
-      "lng": 88.8106,
+      "lat": 22.6589,
+      "lng": 88.7885,
       "confidence": "high",
-      "source": "calcutta-transport:data/bus/stops.csv",
+      "source": "web_verified:OSM Kholapota Basirhat",
       "matchedName": "Kholapota"
     },
     "Khosdelpur": {
@@ -7836,7 +7031,7 @@
       "lat": 22.47032,
       "lng": 88.2811,
       "confidence": "medium",
-      "source": "open_transit/stops.csv:Sarsuna",
+      "source": "open_transit/stops.csv:Khudiram Park (Sarsuna)",
       "matchedName": "Khudiram Park (Sarsuna)"
     },
     "Khulna": {
@@ -7913,7 +7108,7 @@
       "lat": 22.61847,
       "lng": 88.29688,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Kona",
+      "source": "open_transit/stops.csv:Kona high road",
       "matchedName": "Kona high road"
     },
     "Kona More": {
@@ -7929,13 +7124,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Kona Xing"
-    },
-    "Korapara": {
-      "lat": 22.8112,
-      "lng": 88.4512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Korapara (Barasat Link)"
     },
     "Krishnachandrapur": {
       "lat": 22.02307,
@@ -8008,11 +7196,11 @@
       "matchedName": "Kundghat"
     },
     "Kurchi": {
-      "lat": 22.52673,
-      "lng": 88.38842,
+      "lat": 22.6814,
+      "lng": 87.9711,
       "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_325",
-      "matchedName": "Cancer Hospital (Thakurpukur/Chittaranjan)"
+      "source": "web_verified:OSM Kurchi Binodbashini Udaynarayanpur Howrah",
+      "matchedName": "Kurchi"
     },
     "Kushangra": {
       "lat": 22.51514,
@@ -8105,26 +7293,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Laketown(VIP)"
     },
-    "Lakshmi More": {
-      "lat": 21.83988,
-      "lng": 88.4504,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Lakshmi More"
-    },
     "Lakshmikantapur Station": {
       "lat": 22.11005,
       "lng": 88.3219,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Lakshmikantapur",
+      "source": "open_transit/stops.csv:Lakshmikantapur Station",
       "matchedName": "Lakshmikantapur Station"
-    },
-    "Lal bazar": {
-      "lat": 22.5712,
-      "lng": 88.3521,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1289",
-      "matchedName": "Lalbazar Police HQ / BBD Bagh"
     },
     "Lalbaba College": {
       "lat": 22.63649,
@@ -8204,18 +7378,11 @@
       "matchedName": "Leather Complex"
     },
     "Lebukhali": {
-      "lat": 22.27444,
-      "lng": 88.73631,
-      "confidence": "review",
-      "source": "calcutta-transport/docs/data/places.json",
-      "matchedName": "Lebukhali"
-    },
-    "Lebutala": {
-      "lat": 22.6667,
-      "lng": 88.63994,
+      "lat": 22.3694,
+      "lng": 88.9189,
       "confidence": "medium",
-      "source": "calcutta-transport/gtfs/stops.txt",
-      "matchedName": "Lebutala"
+      "source": "web_verified:OSM Lebukhali Hingalganj",
+      "matchedName": "Lebukhali"
     },
     "Lenin Sarani": {
       "lat": 22.5651,
@@ -8294,13 +7461,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Madartala"
     },
-    "Madhabpur": {
-      "lat": 22.35944,
-      "lng": 88.06472,
-      "confidence": "medium",
-      "source": "geonames:Madhabpur",
-      "matchedName": "Madhabpur"
-    },
     "Madhabpur More": {
       "lat": 22.04659,
       "lng": 88.56576,
@@ -8323,18 +7483,11 @@
       "matchedName": "Madhyamgram Chowmatha"
     },
     "Madirtala": {
-      "lat": 22.62773,
-      "lng": 88.73857,
+      "lat": 22.5645,
+      "lng": 88.3168,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Madartala / Madirtala (Hasnabad)"
-    },
-    "Magra Bazar": {
-      "lat": 22.9812,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Magra Bazar (Hooghly GT Road)"
+      "source": "web_verified:OSM Mandirtala Vidyasagar Setu Approach Shibpur",
+      "matchedName": "Madirtala"
     },
     "Magurkhali": {
       "lat": 22.847,
@@ -8434,13 +7587,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Maiti Para (Kasba)"
     },
-    "Maitrobagan": {
-      "lat": 22.7212,
-      "lng": 88.4812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Maitri Bagan (Barasat)"
-    },
     "Majherhat": {
       "lat": 22.5191,
       "lng": 88.32289,
@@ -8525,13 +7671,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Malipanchghara (Salkia Howrah)"
     },
-    "Malipota": {
-      "lat": 22.9512,
-      "lng": 88.8212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Malipota (Bongaon Corridor)"
-    },
     "Mallick Bazar": {
       "lat": 22.5468,
       "lng": 88.3614,
@@ -8546,40 +7685,12 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Mallick Fatak (Howrah GT Road)"
     },
-    "Mallickbari": {
-      "lat": 22.5812,
-      "lng": 88.3712,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Mallickbari (Maniktala)"
-    },
-    "Mallickpur": {
-      "lat": 22.4112,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Mallickpur Station Road / Baruipur Link"
-    },
-    "Mallickpur Tematha": {
-      "lat": 22.4112,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Mallickpur Tematha"
-    },
     "Mallikbazar": {
       "lat": 22.5468,
       "lng": 88.3614,
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Mallikbazar"
-    },
-    "Mamudpur": {
-      "lat": 22.33074,
-      "lng": 88.41652,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Mamudpur"
     },
     "Manasabari Bazar": {
       "lat": 22.8385,
@@ -8595,26 +7706,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Mandabtala"
     },
-    "Mandalerhat": {
-      "lat": 22.3812,
-      "lng": 88.4812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Mandalerhat (Canning Road)"
-    },
     "Mandalganthi": {
       "lat": 22.74216,
       "lng": 88.51545,
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Mandalganthi"
-    },
-    "Mandalpur": {
-      "lat": 22.8112,
-      "lng": 88.5812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Mandalpur (Habra Link)"
     },
     "Mandirbazar": {
       "lat": 22.1633,
@@ -8643,13 +7740,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Manicktala"
-    },
-    "Manikpir More": {
-      "lat": 22.6858,
-      "lng": 88.4825,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Manikpir More"
     },
     "Manikpur": {
       "lat": 22.47,
@@ -8707,13 +7797,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Matgaran"
     },
-    "Matharani More": {
-      "lat": 22.8212,
-      "lng": 88.6412,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Matharani More (Habra)"
-    },
     "Mathbari": {
       "lat": 22.47694,
       "lng": 88.76111,
@@ -8757,10 +7840,10 @@
       "matchedName": "Mathrangi More"
     },
     "Mathurapur Station": {
-      "lat": 22.42691,
-      "lng": 88.44419,
+      "lat": 22.1264,
+      "lng": 88.4061,
       "confidence": "high",
-      "source": "calcutta-transport:data/bus/stops.csv",
+      "source": "web_verified:OSM Mathurapur Road Railway Station",
       "matchedName": "Mathurapur Station"
     },
     "Matiabruz": {
@@ -8784,13 +7867,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Matla Bridge"
     },
-    "Mayapur": {
-      "lat": 22.86902,
-      "lng": 87.86719,
-      "confidence": "medium",
-      "source": "calcutta-transport/gtfs/stops.txt",
-      "matchedName": "Mayapur"
-    },
     "Mayo Road": {
       "lat": 22.55861,
       "lng": 88.34907,
@@ -8804,13 +7880,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Mayo Road crossing"
-    },
-    "Mayramahal": {
-      "lat": 22.8112,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Mayramahal (Habra)"
     },
     "Mayukh Bhaban": {
       "lat": 22.59054,
@@ -8868,13 +7937,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Manton (Diamond Harbour Rd)"
     },
-    "Metekhali": {
-      "lat": 22.3812,
-      "lng": 88.7212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Metekhali (Canning)"
-    },
     "Metiabruj": {
       "lat": 22.54357,
       "lng": 88.26793,
@@ -8902,13 +7964,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Metiabruz Super Speciality Hospital"
-    },
-    "Metiakhali Bazar": {
-      "lat": 22.3821,
-      "lng": 88.7225,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Metiakhali Bazar"
     },
     "Metro cash and carry": {
       "lat": 22.49676,
@@ -9040,15 +8095,8 @@
       "lat": 22.77125,
       "lng": 88.39554,
       "confidence": "medium",
-      "source": "geonames:Mohan Pur",
+      "source": "geonames:Mohanpur",
       "matchedName": "Mohanpur"
-    },
-    "Mohirampur": {
-      "lat": 22.31859,
-      "lng": 88.13225,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Mohirampur"
     },
     "Mollarchak": {
       "lat": 22.14678,
@@ -9070,13 +8118,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Mominpur"
-    },
-    "Momonpore": {
-      "lat": 22.5482,
-      "lng": 88.3285,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1468",
-      "matchedName": "Mominpur Crossing"
     },
     "Mondolpara": {
       "lat": 22.99306,
@@ -9124,7 +8165,7 @@
       "lat": 22.5618,
       "lng": 88.3671,
       "confidence": "medium",
-      "source": "https://yappe.in/west-bengal/kolkata/moulali/582089",
+      "source": "manual: yappe.in (OSM bus stop)",
       "matchedName": "Moulali"
     },
     "Mourigram": {
@@ -9145,7 +8186,7 @@
       "lat": 22.48727,
       "lng": 88.33209,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Muchipara",
+      "source": "open_transit/stops.csv:Muchipara Xing",
       "matchedName": "Muchipara Xing"
     },
     "Mudiali": {
@@ -9196,13 +8237,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Muragacha"
-    },
-    "Muthurapur": {
-      "lat": 22.42691,
-      "lng": 88.44419,
-      "confidence": "high",
-      "source": "open_transit/stops.csv:Mathurapur Station",
-      "matchedName": "Muthurapur"
     },
     "Nabadiganta": {
       "lat": 22.57664,
@@ -9282,10 +8316,10 @@
       "matchedName": "Nagerbazar"
     },
     "Nahata": {
-      "lat": 23.41233,
-      "lng": 88.73404,
-      "confidence": "review",
-      "source": "calcutta-transport/docs/data/places.json",
+      "lat": 23.0056,
+      "lng": 88.7589,
+      "confidence": "high",
+      "source": "web_verified:Wikidata/OSM Nahata Gopalnagar",
       "matchedName": "Nahata"
     },
     "Naihati": {
@@ -9327,14 +8361,14 @@
       "lat": 22.85648,
       "lng": 88.74519,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Machhlandapur",
+      "source": "open_transit/stops.csv:Nakpul",
       "matchedName": "Nakpul"
     },
     "Nakpul Bazar": {
       "lat": 22.85648,
       "lng": 88.74519,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Machhlandapur",
+      "source": "open_transit/stops.csv:Nakpul Bazar",
       "matchedName": "Nakpul Bazar"
     },
     "Naktala": {
@@ -9411,7 +8445,7 @@
       "lat": 22.43911,
       "lng": 88.39675,
       "confidence": "medium",
-      "source": "open_transit/stops.csv:Narendrapur",
+      "source": "open_transit/stops.csv:Narendrapur Ramkrishna Mission",
       "matchedName": "Narendrapur Ramkrishna Mission"
     },
     "Narikelabar": {
@@ -9425,7 +8459,7 @@
       "lat": 22.5744,
       "lng": 88.01888,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Amta",
+      "source": "open_transit/stops.csv:Narit More",
       "matchedName": "Narit More"
     },
     "Narkelbagan": {
@@ -9519,13 +8553,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Neelgunge"
     },
-    "Neilgunj": {
-      "lat": 22.8212,
-      "lng": 88.5112,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1516",
-      "matchedName": "Nilganj More"
-    },
     "Nepalgunge": {
       "lat": 22.4047,
       "lng": 88.3522,
@@ -9590,10 +8617,10 @@
       "matchedName": "New Town"
     },
     "Nibra": {
-      "lat": 22.61,
-      "lng": 88.25,
-      "confidence": "review",
-      "source": "calcutta-transport/docs/data/places.json",
+      "lat": 22.6163,
+      "lng": 88.2842,
+      "confidence": "high",
+      "source": "web_verified:Wikidata/OSM Nibra Howrah NH16",
       "matchedName": "Nibra"
     },
     "Nibra Crossing": {
@@ -9625,11 +8652,11 @@
       "matchedName": "Nilgaunj"
     },
     "Nilgaunj Depot": {
-      "lat": 22.5782,
-      "lng": 88.4612,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1506",
-      "matchedName": "New Town Bus Depot"
+      "lat": 22.7685,
+      "lng": 88.4312,
+      "confidence": "high",
+      "source": "web_verified:WBTC Nilganj Bus Depot Barrackpore-Barasat Rd",
+      "matchedName": "Nilgaunj Depot"
     },
     "Nilgunge": {
       "lat": 22.74825,
@@ -9645,27 +8672,6 @@
       "source": "stop_name_loactio-v8.csv:row_1515",
       "matchedName": "Nilganj Depot (Barrackpore-Barasat Rd)"
     },
-    "Nilgunge Hat": {
-      "lat": 22.8212,
-      "lng": 88.5112,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1515",
-      "matchedName": "Nilganj Depot (Barrackpore-Barasat Rd)"
-    },
-    "Nilgunge Hut": {
-      "lat": 22.8212,
-      "lng": 88.5112,
-      "confidence": "medium",
-      "source": "stop_name_loactio-v8.csv:row_1516",
-      "matchedName": "Nilganj More"
-    },
-    "Nilgunge Road": {
-      "lat": 22.74825,
-      "lng": 88.41973,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Nilgunge Road"
-    },
     "Nimchi": {
       "lat": 22.54285,
       "lng": 88.79742,
@@ -9677,7 +8683,7 @@
       "lat": 22.54285,
       "lng": 88.79742,
       "confidence": "high",
-      "source": "open_transit/stops.csv:Nimchi",
+      "source": "open_transit/stops.csv:Nimchi Bazar",
       "matchedName": "Nimchi Bazar"
     },
     "Nimdighi": {
@@ -9707,13 +8713,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Nimta Bazar"
-    },
-    "Nimtala": {
-      "lat": 22.96947,
-      "lng": 88.43117,
-      "confidence": "review",
-      "source": "calcutta-transport/docs/data/places.json",
-      "matchedName": "Nimtala Bus Stop"
     },
     "Nimtala Ghat": {
       "lat": 22.59355,
@@ -9792,13 +8791,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Nonapukur"
     },
-    "Noongola": {
-      "lat": 22.5812,
-      "lng": 88.3512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Noongola (Posta / Burrabazar)"
-    },
     "Noorpur": {
       "lat": 22.1812,
       "lng": 88.0812,
@@ -9806,19 +8798,12 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Noorpur Ferry Ghat (Diamond Harbour Link)"
     },
-    "Norghat": {
-      "lat": 22.3112,
-      "lng": 87.9112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Norghat Bridge (Tamluk)"
-    },
     "Norja More": {
-      "lat": 22.8112,
-      "lng": 88.5812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Norja More (Habra)"
+      "lat": 23.2571,
+      "lng": 87.8765,
+      "confidence": "medium",
+      "source": "web_verified:OSM Narja More Katwa Road Bardhaman",
+      "matchedName": "Norja More"
     },
     "Notun Rastar More": {
       "lat": 22.58432,
@@ -9826,13 +8811,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Notun Rastar More"
-    },
-    "Noul Bazar": {
-      "lat": 22.4812,
-      "lng": 87.9612,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Noul Bazar (Bagnan)"
     },
     "NRS Hospital": {
       "lat": 22.5649,
@@ -9875,6 +8853,13 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Old Dakghar (Maheshtala)"
+    },
+    "Om Dayal": {
+      "lat": 22.5612,
+      "lng": 88.1112,
+      "confidence": "high",
+      "source": "stop_name_loactio-v8.csv",
+      "matchedName": "Om Dayal College (Uluberia)"
     },
     "ONGC More": {
       "lat": 22.5012,
@@ -9931,6 +8916,13 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Padmerhat Hospital"
+    },
+    "Paglarhat": {
+      "lat": 22.5212,
+      "lng": 88.4112,
+      "confidence": "high",
+      "source": "stop_name_loactio-v8.csv",
+      "matchedName": "Paglarhat Market"
     },
     "Paharpur": {
       "lat": 22.51667,
@@ -10037,13 +9029,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Panchanan Gram"
     },
-    "Panchanantala": {
-      "lat": 22.5812,
-      "lng": 88.3112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Panchanantala (Howrah)"
-    },
     "Panchasayar": {
       "lat": 22.47605,
       "lng": 88.39708,
@@ -10086,19 +9071,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Panihati"
     },
-    "Panikhali": {
-      "lat": 22.9112,
-      "lng": 88.8112,
+    "Panpur More": {
+      "lat": 22.9212,
+      "lng": 88.4612,
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Panikhali (Bongaon Link)"
-    },
-    "Panshkura Bazar": {
-      "lat": 22.5812,
-      "lng": 87.7512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Panskura Central Bus Stand"
+      "matchedName": "Panpur More (Kalyani Expressway)"
     },
     "pantihal": {
       "lat": 22.6589,
@@ -10191,13 +9169,6 @@
       "source": "calcutta-transport/docs/data/places.json",
       "matchedName": "Parnasree Pally"
     },
-    "Parthapur": {
-      "lat": 22.5612,
-      "lng": 88.3112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Parthapur (Babughat Link)"
-    },
     "Paschim Chowbhaga": {
       "lat": 22.5182,
       "lng": 88.4112,
@@ -10212,33 +9183,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Paschim Tajpur"
     },
-    "Patharberia More": {
-      "lat": 22.4212,
-      "lng": 88.5112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Patharberia More (Baruipur)"
-    },
     "Patharghata": {
-      "lat": 22.56848,
-      "lng": 88.52481,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
+      "lat": 22.7575,
+      "lng": 88.678,
+      "confidence": "high",
+      "source": "calcutta-transport/docs/data/places.json:Patharghata",
       "matchedName": "Patharghata"
-    },
-    "Patharpratima": {
-      "lat": 21.7812,
-      "lng": 88.3512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Patharpratima Central Stand"
-    },
-    "Pathshimuliya bazar": {
-      "lat": 23.14501,
-      "lng": 88.85118,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Pathshimulia Bazar"
     },
     "Patinan": {
       "lat": 22.47629,
@@ -10253,13 +9203,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Patipukur"
-    },
-    "Patkelpota": {
-      "lat": 22.8512,
-      "lng": 88.7212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Patkelpota (Gaighata)"
     },
     "Patshimulia": {
       "lat": 23.14501,
@@ -10310,13 +9253,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Peerless Hospital"
     },
-    "Petkulchand Bazar": {
-      "lat": 22.2812,
-      "lng": 88.4212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Petkulchand Bazar (Baruipur)"
-    },
     "PG Hospital": {
       "lat": 22.53995,
       "lng": 88.34235,
@@ -10324,19 +9260,19 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "PG Hospital"
     },
-    "Philips More": {
-      "lat": 22.5612,
-      "lng": 88.3712,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Philips More (Sealdah / CIT Rd)"
-    },
     "Phoolbagan": {
       "lat": 22.57209,
       "lng": 88.38964,
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Phoolbagan"
+    },
+    "Phooltala": {
+      "lat": 22.3682,
+      "lng": 88.4312,
+      "confidence": "high",
+      "source": "stop_name_loactio-v8.csv",
+      "matchedName": "Baruipur Fultala"
     },
     "Phuleshwar": {
       "lat": 22.4812,
@@ -10373,13 +9309,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Pifa Bazar (Hasnabad)"
     },
-    "Pilan": {
-      "lat": 22.4312,
-      "lng": 88.3112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Pailan Diamond Harbour Rd"
-    },
     "Pilkhana More": {
       "lat": 22.59429,
       "lng": 88.33867,
@@ -10393,20 +9322,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Pirgacha"
-    },
-    "Pirnagar": {
-      "lat": 22.71253,
-      "lng": 88.51886,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Pirnagar (Barasat)"
-    },
-    "Pirtala": {
-      "lat": 22.5812,
-      "lng": 88.3612,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Pirtala (Rajabazar)"
     },
     "Pitambara": {
       "lat": 22.25673,
@@ -10492,13 +9407,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Prachi Cinema Hall"
     },
-    "Prafulla Nagar": {
-      "lat": 22.6885,
-      "lng": 88.4512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Prafulla Nagar (Dum Dum/Habra)"
-    },
     "Pramodnagar": {
       "lat": 22.6582,
       "lng": 88.3982,
@@ -10512,13 +9420,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Pramodnagar Mathkal"
-    },
-    "Prasadpur": {
-      "lat": 22.45259,
-      "lng": 88.00978,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Prasadpur Bagnan"
     },
     "Prince Anwar Sha connector": {
       "lat": 22.5085,
@@ -10555,13 +9456,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Princep Ghat"
     },
-    "Priyor More": {
-      "lat": 22.6212,
-      "lng": 88.4312,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Priyor More (Baguiati)"
-    },
     "PTS": {
       "lat": 22.53835,
       "lng": 88.33646,
@@ -10582,13 +9476,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Pukuria Hat (Baruipur)"
-    },
-    "Pumlia Bazar": {
-      "lat": 22.8112,
-      "lng": 88.6212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Pumlia Bazar (Habra)"
     },
     "Purandarpur": {
       "lat": 22.90986,
@@ -10631,20 +9518,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Purbachal Salt Lake Sector III"
-    },
-    "Purpat": {
-      "lat": 22.4812,
-      "lng": 88.1112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Purpat (Uluberia)"
-    },
-    "Purshura": {
-      "lat": 22.84082,
-      "lng": 87.96618,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Purshura"
     },
     "Purta Bhawan": {
       "lat": 22.59102,
@@ -10779,13 +9652,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Rabindra Sadan Exide Crossing"
     },
-    "Radha Chemical More": {
-      "lat": 22.6982,
-      "lng": 88.3882,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Radha Chemical More Sodepur"
-    },
     "Radhadashi": {
       "lat": 22.5612,
       "lng": 88.2212,
@@ -10799,13 +9665,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Radhanagar"
-    },
-    "Radhapur": {
-      "lat": 22.24509,
-      "lng": 87.99754,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Radhapur"
     },
     "Rafipur": {
       "lat": 22.82207,
@@ -10832,7 +9691,7 @@
       "lat": 22.83203,
       "lng": 88.52148,
       "confidence": "medium",
-      "source": "geonames:Rahana",
+      "source": "geonames:Rahana Bazar",
       "matchedName": "Rahana Bazar"
     },
     "Rahara Bazar": {
@@ -10933,13 +9792,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Rajabazar Tram Depot"
     },
-    "Rajapur": {
-      "lat": 22.4812,
-      "lng": 88.0812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Rajapur (Uluberia)"
-    },
     "Rajarhat": {
       "lat": 22.6185,
       "lng": 88.5112,
@@ -10972,8 +9824,8 @@
       "lat": 22.59997,
       "lng": 88.3675,
       "confidence": "medium",
-      "source": "https://yappe.in/west-bengal/kolkata/raj-ballabh-park/491811",
-      "matchedName": "Rajballavpara"
+      "source": "manual: yappe.in (OSM bus stop)",
+      "matchedName": "Raj Ballabh Para"
     },
     "Rajbari": {
       "lat": 22.40729,
@@ -10981,13 +9833,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Rajbari"
-    },
-    "Rajberia": {
-      "lat": 22.8644,
-      "lng": 88.62208,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Rajberia"
     },
     "Rajchandrapur": {
       "lat": 22.65291,
@@ -11080,13 +9925,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Ramgarh"
     },
-    "Ramkrishna Talkies": {
-      "lat": 22.5812,
-      "lng": 88.3312,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Ramkrishna Talkies Howrah"
-    },
     "Ramlal Bazar": {
       "lat": 22.50753,
       "lng": 88.38515,
@@ -11129,13 +9967,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Ramrajatala"
     },
-    "Ranabelia ghat": {
-      "lat": 22.2512,
-      "lng": 88.9112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Ranabelia Ghat Hingalganj"
-    },
     "Ranaghat": {
       "lat": 23.17381,
       "lng": 88.56368,
@@ -11151,10 +9982,10 @@
       "matchedName": "Rangapur"
     },
     "Raniganj": {
-      "lat": 23.24163,
-      "lng": 87.86595,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
+      "lat": 23.6164,
+      "lng": 87.1306,
+      "confidence": "high",
+      "source": "busjatri-open-data/data/stops.csv:Raniganj",
       "matchedName": "Raniganj"
     },
     "Ranihati": {
@@ -11248,13 +10079,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Rathtala Belgharia"
     },
-    "Ratneshwarpur": {
-      "lat": 22.3812,
-      "lng": 88.6512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Ratneshwarpur (Hasnabad)"
-    },
     "Reckjuani": {
       "lat": 22.6318,
       "lng": 88.4832,
@@ -11340,10 +10164,10 @@
       "matchedName": "Ruby Hospital"
     },
     "Rudrapur": {
-      "lat": 22.63028,
-      "lng": 88.17528,
+      "lat": 22.7688,
+      "lng": 88.7681,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
+      "source": "calcutta-transport/docs/data/places.json:Rudrapur",
       "matchedName": "Rudrapur"
     },
     "Ruiya Purbapara": {
@@ -11361,11 +10185,11 @@
       "matchedName": "Rupmari Bazar (Hingalganj)"
     },
     "S.C.Mallick Square": {
-      "lat": 22.49528,
-      "lng": 88.37294,
+      "lat": 22.56386,
+      "lng": 88.35969,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "SC Mallick Road Jadavpur"
+      "source": "web_verified:OSM Subodh Chandra Mullick Square Wellington",
+      "matchedName": "S.C.Mallick Square"
     },
     "S.CITY": {
       "lat": 22.53933,
@@ -11409,13 +10233,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Sabedabagan"
     },
-    "Sadarpur": {
-      "lat": 22.8112,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sadarpur (Habra)"
-    },
     "Saduli": {
       "lat": 22.5549,
       "lng": 88.56978,
@@ -11443,13 +10260,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Saheb Colony More"
-    },
-    "Sahebbagan Gate": {
-      "lat": 22.6185,
-      "lng": 88.4412,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sahebbagan Gate Baguiati"
     },
     "Saheed Nagar": {
       "lat": 22.5112,
@@ -11571,18 +10381,18 @@
       "matchedName": "Salt Lake 13 No Tank"
     },
     "Saltlake 14no. Tank": {
-      "lat": 22.5812,
-      "lng": 88.4112,
+      "lat": 22.5648,
+      "lng": 88.4165,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Salt Lake 14 No Tank"
+      "source": "web_verified:OSM Salt Lake Tank No 14 Sector III",
+      "matchedName": "Saltlake 14no. Tank"
     },
     "Saltlake 16no. Tank": {
-      "lat": 22.5812,
-      "lng": 88.4112,
+      "lat": 22.5621,
+      "lng": 88.4128,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Salt Lake 16 No Tank"
+      "source": "web_verified:OSM Salt Lake Tank No 16 Sector III",
+      "matchedName": "Saltlake 16no. Tank"
     },
     "Saltlake 4no. Tank": {
       "lat": 22.5812,
@@ -11759,20 +10569,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Sarapul"
     },
-    "Sarasberia": {
-      "lat": 21.9954,
-      "lng": 88.32213,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sarasberia"
-    },
-    "Saraswati Press": {
-      "lat": 22.5482,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Saraswati Press Entally"
-    },
     "Sarat Colony": {
       "lat": 22.6185,
       "lng": 88.4312,
@@ -11828,27 +10624,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Sasati (Bagnan)"
-    },
-    "Sasthir More": {
-      "lat": 22.8112,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sasthir More Habra"
-    },
-    "Satabharat": {
-      "lat": 22.7812,
-      "lng": 88.6512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Satabharat (Baduria)"
-    },
-    "Satulia Bridge": {
-      "lat": 22.4812,
-      "lng": 88.5112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Satulia Bridge (Bhangore)"
     },
     "Satya Narayan Park": {
       "lat": 22.58018,
@@ -11969,20 +10744,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Sehagori"
     },
-    "Sehagori More": {
-      "lat": 22.6112,
-      "lng": 88.1812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sehagori More (Domjur)"
-    },
-    "Sendanga": {
-      "lat": 22.8112,
-      "lng": 88.6512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sendanga (Gaighata)"
-    },
     "Serampore": {
       "lat": 22.75479,
       "lng": 88.33999,
@@ -11998,10 +10759,10 @@
       "matchedName": "Seva Hospital"
     },
     "Shaktigarh": {
-      "lat": 22.49146,
-      "lng": 88.36781,
+      "lat": 23.2089,
+      "lng": 87.9681,
       "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
+      "source": "web_verified:OSM Shaktigarh NH19 Purba Bardhaman",
       "matchedName": "Shaktigarh"
     },
     "Shakuntala Park": {
@@ -12095,13 +10856,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Shasan Bazar"
     },
-    "Shasati More": {
-      "lat": 22.4512,
-      "lng": 87.9812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Shasati More (Bagnan)"
-    },
     "Sheakhala": {
       "lat": 22.76655,
       "lng": 88.17084,
@@ -12122,20 +10876,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Shiakhala Bus Stand"
-    },
-    "Shibalaya": {
-      "lat": 22.8112,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Shibalaya (Habra)"
-    },
-    "Shibganj Bazar": {
-      "lat": 22.5112,
-      "lng": 88.0812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Shibganj Bazar (Uluberia)"
     },
     "Shibgunge": {
       "lat": 22.26019,
@@ -12197,15 +10937,8 @@
       "lat": 22.47242,
       "lng": 88.31007,
       "confidence": "medium",
-      "source": "https://www.mappls.com/place-bus+stop-diamond+harbour+road-silpara-purba+barisha-kolkata-west+bengal-700008-LAO71H",
-      "matchedName": "Shilpara"
-    },
-    "Shimulpur Senbari": {
-      "lat": 22.9112,
-      "lng": 88.7512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Shimulpur Senbari (Gaighata)"
+      "source": "manual: mappls.com bus stop POI",
+      "matchedName": "Silpara bus stop"
     },
     "Shimultala": {
       "lat": 22.44428,
@@ -12249,27 +10982,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Shonepur"
     },
-    "Shrikole More": {
-      "lat": 22.2812,
-      "lng": 88.2112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Shirakole More DH Road"
-    },
-    "Shrikrishnapur": {
-      "lat": 22.3512,
-      "lng": 88.4212,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Shrikrishnapur (Baruipur)"
-    },
-    "Shripur Mallikpur": {
-      "lat": 22.3812,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Mallikpur Station Rd"
-    },
     "Shyambazar": {
       "lat": 22.59966,
       "lng": 88.37099,
@@ -12290,13 +11002,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Shyampur"
-    },
-    "Siddhiberia": {
-      "lat": 22.3512,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Siddhiberia (Canning)"
     },
     "Siliguri": {
       "lat": 26.71004,
@@ -12382,33 +11087,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Sishu Mangal (Kasba)"
     },
-    "Sitalia": {
-      "lat": 22.2512,
-      "lng": 88.4812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sitalia (Sundarban)"
-    },
-    "Sitapur": {
-      "lat": 22.2812,
-      "lng": 88.2512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sitapur (Bishnupur)"
-    },
     "Situri": {
       "lat": 22.44684,
       "lng": 88.5901,
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Situri"
-    },
-    "Sobedatala": {
-      "lat": 22.4712,
-      "lng": 88.3612,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sobedatala Bansdroni"
     },
     "Sodepur": {
       "lat": 22.69718,
@@ -12459,13 +11143,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Sonakhali Bus Stand"
     },
-    "Sonamukhi Bazar": {
-      "lat": 23.3112,
-      "lng": 87.4112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sonamukhi Bazar"
-    },
     "Sonarpur": {
       "lat": 22.42572,
       "lng": 88.45417,
@@ -12473,26 +11150,12 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Sonarpur"
     },
-    "Sondalia Bablatala": {
-      "lat": 22.7112,
-      "lng": 88.5412,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sondalia Bablatala"
-    },
     "Sondalia Station": {
       "lat": 22.68182,
       "lng": 88.5823,
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Sondalia Station"
-    },
-    "Sonpukur": {
-      "lat": 22.5812,
-      "lng": 88.5112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sonpukur (Bhangore)"
     },
     "South Bishnupur": {
       "lat": 22.149,
@@ -12550,13 +11213,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Sreebhumi"
     },
-    "Sreepally": {
-      "lat": 22.78349,
-      "lng": 88.37178,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sreepally"
-    },
     "Srichanda": {
       "lat": 22.28438,
       "lng": 88.27179,
@@ -12600,10 +11256,10 @@
       "matchedName": "State Garage"
     },
     "State University": {
-      "lat": 22.98223,
-      "lng": 88.43917,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
+      "lat": 22.73917,
+      "lng": 88.435,
+      "confidence": "high",
+      "source": "web_verified:West Bengal State University Barasat",
       "matchedName": "State University"
     },
     "Strand Road": {
@@ -12620,13 +11276,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Subarnapur"
     },
-    "Subhash Colony": {
-      "lat": 22.6812,
-      "lng": 88.4512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Subhash Colony Madhyamgram"
-    },
     "Subhash Nagar": {
       "lat": 22.74937,
       "lng": 88.43737,
@@ -12641,13 +11290,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Subhash Sarobar"
     },
-    "Subidpur": {
-      "lat": 22.3812,
-      "lng": 88.3512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Subidpur (Baruipur)"
-    },
     "Subod Mallick Squre": {
       "lat": 22.56386,
       "lng": 88.35969,
@@ -12661,13 +11303,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Subodh Mullick Square"
-    },
-    "Sujapur": {
-      "lat": 22.30927,
-      "lng": 88.13747,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Sujapur"
     },
     "Sukanta Nagar": {
       "lat": 22.55963,
@@ -12739,13 +11374,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Sulekha"
     },
-    "Sunderban Chowmatha": {
-      "lat": 22.3112,
-      "lng": 88.6512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Sundarban Chowmatha Canning"
-    },
     "Sundia": {
       "lat": 22.43773,
       "lng": 88.53786,
@@ -12759,13 +11387,6 @@
       "confidence": "medium",
       "source": "busjatri-open-data/data/stops.csv",
       "matchedName": "Surulia"
-    },
-    "Suryapur": {
-      "lat": 22.7812,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Suryapur (Barrackpore)"
     },
     "Suryasen Nagar": {
       "lat": 22.6512,
@@ -12851,13 +11472,6 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Taratala Crossing"
     },
-    "Tahelarampur bazar": {
-      "lat": 22.8512,
-      "lng": 88.7512,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Taherpur Bazar"
-    },
     "Taki": {
       "lat": 22.58594,
       "lng": 88.92673,
@@ -12885,13 +11499,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Taldi"
-    },
-    "Talikhola": {
-      "lat": 22.8844,
-      "lng": 88.4376,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Boro Talikhola"
     },
     "Talpukur": {
       "lat": 22.74878,
@@ -12934,20 +11541,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Tank No.10"
-    },
-    "Tantipara": {
-      "lat": 22.8112,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Tantipara (Habra)"
-    },
-    "Tantirhat": {
-      "lat": 22.3112,
-      "lng": 88.1812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Tantirhat (Diamond Harbour Rd)"
     },
     "Taragunia": {
       "lat": 22.716,
@@ -13054,33 +11647,12 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Tehatta Bus Stand"
     },
-    "Telecom": {
-      "lat": 22.5782,
-      "lng": 88.4312,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Telecom Factory Salt Lake"
-    },
-    "Tematha": {
-      "lat": 22.3812,
-      "lng": 88.3812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Mallikpur Tematha"
-    },
     "Tentulia": {
       "lat": 22.78952,
       "lng": 88.85588,
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Tentulia"
-    },
-    "Tentulia Bazar": {
-      "lat": 22.7512,
-      "lng": 88.7812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Tentulia Bazar (Baduria)"
     },
     "Tentultala": {
       "lat": 22.94499,
@@ -13158,13 +11730,6 @@
       "confidence": "medium",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Thakurpukur cancer hospital"
-    },
-    "Thaliya": {
-      "lat": 22.6112,
-      "lng": 88.1812,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Thaliya (Domjur)"
     },
     "Thanapara": {
       "lat": 23.8812,
@@ -13264,13 +11829,6 @@
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Tollygunj Tram Depot"
     },
-    "Tona": {
-      "lat": 22.70006,
-      "lng": 88.60558,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Tona"
-    },
     "Topsia": {
       "lat": 22.5418,
       "lng": 88.38696,
@@ -13284,13 +11842,6 @@
       "confidence": "high",
       "source": "calcutta-transport:data/bus/stops.csv",
       "matchedName": "Topsia Road Xing"
-    },
-    "Trimohani": {
-      "lat": 22.8112,
-      "lng": 88.6112,
-      "confidence": "high",
-      "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Trimohani (Habra)"
     },
     "Tulshiberia": {
       "lat": 22.51806,
@@ -13313,12 +11864,12 @@
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "UEM Campus Action Area III"
     },
-    "Udang Bazar": {
-      "lat": 22.6812,
-      "lng": 87.9512,
+    "Udainarayanpur": {
+      "lat": 22.72131,
+      "lng": 87.98244,
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
-      "matchedName": "Udang Bazar (Amta)"
+      "matchedName": "Udaynarayanpur Bus Stand"
     },
     "Udaynaryanpur": {
       "lat": 22.72131,
@@ -13405,11 +11956,11 @@
       "matchedName": "Unsani Kona Expressway"
     },
     "Usthi": {
-      "lat": 22.23703,
-      "lng": 88.2767,
-      "confidence": "medium",
-      "source": "geonames:Usti",
-      "matchedName": "Usthi"
+      "lat": 22.2512,
+      "lng": 88.3212,
+      "confidence": "high",
+      "source": "stop_name_loactio-v8.csv",
+      "matchedName": "Usthi Bazar (Bishnupur/Maghat)"
     },
     "Uttar Chandipur": {
       "lat": 22.14996,
@@ -13543,13 +12094,6 @@
       "confidence": "high",
       "source": "stop_name_loactio-v8.csv",
       "matchedName": "Water Gate Fort William Strand Rd"
-    },
-    "Watgangemore": {
-      "lat": 22.54233,
-      "lng": 88.32186,
-      "confidence": "medium",
-      "source": "calcutta-transport:data/bus/stops.csv",
-      "matchedName": "Watgangemore"
     },
     "Welington Sq": {
       "lat": 22.56386,

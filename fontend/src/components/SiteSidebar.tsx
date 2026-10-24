@@ -96,12 +96,12 @@ export function SiteSidebar({ isOpen, onClose, searchMode, onSetSearchMode }: Si
             <span>All bus stops</span>
             <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
           </Link>
-          <Link href="https://find-your-bus-comiunity.vercel.app/report-data" className="sidebar-nav-link" onClick={onClose}>
+          <Link href="https://forms.gle/QuwAH5fkjVU7ovhA7" className="sidebar-nav-link" onClick={onClose} target="_blank" rel="noopener noreferrer">
             <span className="sidebar-nav-icon"><Database size={17} aria-hidden="true" /></span>
             <span>update bus data</span>
             <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
           </Link>
-          <Link href="https://find-your-bus-comiunity.vercel.app/suggest-feature" className="sidebar-nav-link" onClick={onClose}>
+          <Link href="https://forms.gle/vCbtE1LJseD7ABV99" className="sidebar-nav-link" onClick={onClose} target="_blank" rel="noopener noreferrer">
             <span className="sidebar-nav-icon"><Lightbulb size={17} aria-hidden="true" /></span>
             <span>suggest features</span>
             <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />

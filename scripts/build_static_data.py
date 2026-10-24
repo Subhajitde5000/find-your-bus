@@ -63,6 +63,7 @@ DEFAULT_ROUTES = DATA_DIR / "Kolkata_Comprehensive_Bus_Routes_and_Fleet_Director
 DEFAULT_STANDS = DATA_DIR / "Kolkata_Bus_Stands_v2.xlsx"
 DEFAULT_PREVIEW = DATA_DIR / "timetable_preview_routes.json"
 DEFAULT_EXTENSION = DATA_DIR / "Kolkata_Bus_Routes_Extension-v3.xlsx"
+DEFAULT_V28_TIMETABLES = DATA_DIR / "v28_timetables.json"
 DEFAULT_COORDINATES = DATA_DIR / "stop_coordinates.json"
 DEFAULT_OUTPUT = ROOT / "fontend" / "src" / "data" / "kolkata-bus-data.json"
 
@@ -543,6 +544,7 @@ def build_dataset(
     preview_path: Path = DEFAULT_PREVIEW,
     extension_path: Path | None = DEFAULT_EXTENSION,
     coordinates_path: Path | None = DEFAULT_COORDINATES,
+    v28_path: Path | None = DEFAULT_V28_TIMETABLES,
 ) -> tuple[dict[str, Any], BuildReport]:
     report = BuildReport()
     coordinates = read_coordinates(coordinates_path)
@@ -666,8 +668,60 @@ def build_dataset(
             }
         )
 
-    # ------------------------------------------------------------------ sample routes
+    # ------------------------------------------------------------------ v28 missing timetables
     directory_codes = {number.lower() for number in directory}
+    if v28_path is not None and v28_path.exists():
+        v28_payload = json.loads(v28_path.read_text(encoding="utf-8"))
+        for entry in v28_payload.get("routes", []):
+            rnum = entry["number"]
+            if rnum.lower() in directory_codes:
+                raise ValueError(f"v28 repeats a directory route number: {rnum}")
+            directory_codes.add(rnum.lower())
+            stops = [canonical_stop(raw) for raw in entry["stops"]]
+            if len(set(stops)) != len(stops):
+                raise ValueError(f"v28 route {rnum} repeats a stop: {stops}")
+            for stop in stops:
+                stop_names.setdefault(stop, None)
+            add_unique(operators, entry["operator"])
+            add_unique(categories, entry["category"])
+            runs_out: list[dict[str, Any]] = []
+            for run in entry["runs"]:
+                if run["run"] in run_codes:
+                    raise ValueError(f"duplicate run code: {run['run']}")
+                run_codes.add(run["run"])
+                parsed_times = [None if value is None else parse_clock(value) for value in run["times"]]
+                if len(parsed_times) != len(stops):
+                    raise ValueError(f"{run['run']}: time count does not match the stop count")
+                report.blank_time_cells += sum(1 for value in parsed_times if value is None)
+                if _midnight_count(parsed_times):
+                    report.midnight_runs += 1
+                runs_out.append(
+                    {
+                        "run": run["run"],
+                        "direction": run["direction"],
+                        "bus": bus_id(run.get("reg_no")),
+                        "times": [None if value is None else clock_string(value) for value in parsed_times],
+                        "notes": run.get("notes"),
+                    }
+                )
+            routes.append(
+                {
+                    "number": rnum,
+                    "source": "directory",
+                    "operator": entry["operator"],
+                    "category": entry["category"],
+                    "type": entry["type"],
+                    "origin": stops[0],
+                    "destination": stops[-1],
+                    "stops": stops,
+                    "fleet": None,
+                    "runs": runs_out,
+                    "provenance": entry.get("provenance"),
+                    "confidence": entry.get("confidence"),
+                }
+            )
+
+    # ------------------------------------------------------------------ sample routes
     kept_samples: list[dict[str, Any]] = []
     for sample in preview_routes:
         if sample["number"].lower() in directory_codes:
@@ -713,7 +767,7 @@ def build_dataset(
     existing_codes = {route["number"].lower() for route in routes}
     for entry in catalogue:
         if entry["number"].lower() in existing_codes:
-            raise ValueError(f"extension repeats a route number: {entry['number']}")
+            continue
         existing_codes.add(entry["number"].lower())
         for stop in entry["stops"]:
             stop_names.setdefault(stop, None)
@@ -833,7 +887,8 @@ def build_dataset(
                 stands_path.name,
                 preview_path.name,
                 *([extension_path.name] if extension_path is not None and extension_path.exists() else []),
-                *([coordinates_path.name] if coordinates_path is not None and coordinates_path.exists() else []),
+                *(["missing_timtable_rout-v28.xlsx"] if v28_path is not None and v28_path.exists() else []),
+                *([coordinates_path.name, "stop_name_loactio-v8.csv"] if coordinates_path is not None and coordinates_path.exists() else []),
             ],
             "counts": {
                 "stands": len(stand_rows),

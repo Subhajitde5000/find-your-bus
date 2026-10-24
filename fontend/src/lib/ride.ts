@@ -181,7 +181,22 @@ export function buildRide(request: RideRequest): RideResult {
     if (previous?.position) {
       const road = legGeometry(previous.name, stop.name);
       if (road) roadSegments += 1;
-      const points = road ?? [previous.position, position];
+      let points = road ? [...road] : [previous.position, position];
+      if (segments.length > 0) {
+        const prevSeg = segments[segments.length - 1];
+        while (
+          prevSeg.points.length > 2 &&
+          points.length > 2 &&
+          prevSeg.points[prevSeg.points.length - 2].lat === points[1].lat &&
+          prevSeg.points[prevSeg.points.length - 2].lng === points[1].lng
+        ) {
+          prevSeg.points.pop();
+          points = points.slice(1);
+        }
+        prevSeg.metres = corridorMetres(prevSeg.points);
+        total = prevSeg.startMetres + prevSeg.metres;
+        previous.distanceAlongMetres = total;
+      }
       const metres = corridorMetres(points);
       segments.push({
         fromStop: previous.index,

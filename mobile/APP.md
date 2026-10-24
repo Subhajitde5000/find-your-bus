@@ -5,24 +5,29 @@ Same code, same screens, no server: everything is inside the app, so it works wi
 
 | | |
 |---|---|
-| `capacitor.config.ts` | App name, app id, and `webDir: out` (the static export) |
+| `capacitor.config.ts` | App name, app id, and `webDir: ../fontend/out` (the website's static export) |
 | `android/`, `ios/` | The native projects Capacitor generated. Open them in Android Studio / Xcode |
-| `resources/` | The 1024 px icon and the splash source. `npm run app:icons` makes every size from them |
-| `src/lib/native.ts` | `isNativeApp()`: true only inside the app. The service worker is skipped there |
-| `src/lib/keepAwake.ts` | Keeps the screen on while Set on bus follows the bus |
+| `resources/` | The 1024 px icon and the splash source. `npm run icons` makes every size from them |
+| `../fontend/src/lib/native.ts` | `isNativeApp()`: true only inside the app. The service worker is skipped there |
+| `../fontend/src/lib/keepAwake.ts` | Keeps the screen on while Set on bus follows the bus |
 
 ## Build and run
 
+The website lives in `fontend/` and is not changed by the apps. This folder (`mobile/`) holds only the
+app side, and reads the finished website from `../fontend/out`.
+
 ```bash
-cd fontend
-npm install
-npm run app:sync        # builds the site, copies it into android/ and ios/
-npm run app:android     # opens Android Studio  -> Run
-npm run app:ios         # opens Xcode (Mac only) -> Run
+cd fontend && npm install && cd ..     # once: the website's packages
+cd mobile && npm install               # once: the app's packages
+npm run sync        # builds the website, copies it into android/ and ios/
+npm run android     # opens Android Studio  -> Run
+npm run ios         # opens Xcode (Mac only) -> Run
 ```
 
-Run `npm run app:sync` again after every change to the site or its data.
-Run `npm run app:icons` after changing `resources/icon.png`.
+Run `npm run sync` again after every change to the site or its data.
+Run `npm run icons` after changing `resources/icon.png`.
+
+No Android Studio? The **Build Android test app** workflow in GitHub Actions builds a test APK for you.
 
 ## Before you publish
 

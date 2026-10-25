@@ -25,10 +25,11 @@ interface SiteSidebarProps {
   onClose: () => void;
   searchMode: SearchMode;
   onSetSearchMode: (mode: SearchMode) => void;
+  isMobileApp?: boolean;
 }
 
 /** Primary navigation for the bus guide. It becomes a drawer on smaller screens. */
-export function SiteSidebar({ isOpen, onClose, searchMode, onSetSearchMode }: SiteSidebarProps) {
+export function SiteSidebar({ isOpen, onClose, searchMode, onSetSearchMode, isMobileApp = false }: SiteSidebarProps) {
   useEffect(() => {
     if (!isOpen) return;
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -106,16 +107,20 @@ export function SiteSidebar({ isOpen, onClose, searchMode, onSetSearchMode }: Si
             <span>suggest features</span>
             <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
           </Link>
-          <a href="#how-it-works" className="sidebar-nav-link" onClick={onClose}>
-            <span className="sidebar-nav-icon"><CircleHelp size={17} aria-hidden="true" /></span>
-            <span>How it works</span>
-            <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
-          </a>
-          <a href="#about" className="sidebar-nav-link" onClick={onClose}>
-            <span className="sidebar-nav-icon"><Info size={17} aria-hidden="true" /></span>
-            <span>About the data</span>
-            <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
-          </a>
+          {!isMobileApp && (
+            <>
+              <a href="#how-it-works" className="sidebar-nav-link web-only-link" onClick={onClose}>
+                <span className="sidebar-nav-icon"><CircleHelp size={17} aria-hidden="true" /></span>
+                <span>How it works</span>
+                <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
+              </a>
+              <a href="#about" className="sidebar-nav-link web-only-link" onClick={onClose}>
+                <span className="sidebar-nav-icon"><Info size={17} aria-hidden="true" /></span>
+                <span>About the data</span>
+                <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
+              </a>
+            </>
+          )}
         </nav>
 
         <div className="sidebar-spacer" />
@@ -124,7 +129,9 @@ export function SiteSidebar({ isOpen, onClose, searchMode, onSetSearchMode }: Si
           <span className="sidebar-network-kicker"><span className="city-pulse" aria-hidden="true" /> KOLKATA NETWORK</span>
           <strong>{DATA_COUNTS.routes}<span> routes listed</span></strong>
           <p>{DATA_COUNTS.stops} stops <i aria-hidden="true">·</i> {DATA_COUNTS.stands} bus stands</p>
-          <a href="#about" onClick={onClose}>How the data works <ArrowUpRight size={14} aria-hidden="true" /></a>
+          {!isMobileApp && (
+            <a className="web-only-link" href="#about" onClick={onClose}>How the data works <ArrowUpRight size={14} aria-hidden="true" /></a>
+          )}
         </section>
 
         <div className="sidebar-location">

@@ -1568,3 +1568,26 @@ html[data-theme="dark"] .ride-alert[data-level="missed"] span, html[data-theme="
 @media (prefers-reduced-motion: reduce) { .ride-map-nearest { animation: none; } }
 .ride-map-you { fill: var(--nm-user); stroke: #fff; stroke-width: calc(2px * var(--k, 1)); }
 .ride-map-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--heading); font-size: 12px; font-weight: 800; }
+
+/* ------------------------------------------------------------------ native mobile app (Android & iOS) */
+html[data-native="true"] .hero,
+html[data-native="true"] .results-sidebar,
+html[data-native="true"] .how-section,
+html[data-native="true"] .ride-promo,
+html[data-native="true"] .web-only-link {
+  display: none !important;
+}
+html[data-native="true"] .results-layout,
+.results-layout.results-layout-full {
+  grid-template-columns: minmax(0, 1fr);
+}
+html[data-native="true"] .search-section,
+.search-section.search-section-mobile {
+  padding-top: 22px;
+}
+html[data-native="true"] .results-section,
+.results-section.results-section-mobile {
+  margin-top: 32px;
+  padding-bottom: 40px;
+}
+

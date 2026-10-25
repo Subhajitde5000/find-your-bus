@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { PwaBridge } from "@/components/PwaBridge";
 import { ThemeSync } from "@/components/ThemeSync";
+import { IS_MOBILE_APP_BUILD, NATIVE_BOOTSTRAP } from "@/lib/native";
 import { THEME_BOOTSTRAP } from "@/lib/theme";
 // The fonts ship inside the app (latin subset only), so the site and the phone apps look the same
 // with no network. They used to come from Google Fonts, which cannot be reached offline.
@@ -55,10 +56,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    // data-theme is set by the bootstrap script below, before hydration.
-    <html lang="en" suppressHydrationWarning>
+    // data-theme and data-native are set by the bootstrap script below, before hydration.
+    <html lang="en" data-native={IS_MOBILE_APP_BUILD ? "true" : undefined} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
+        <script dangerouslySetInnerHTML={{ __html: `${THEME_BOOTSTRAP}${NATIVE_BOOTSTRAP}` }} />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />

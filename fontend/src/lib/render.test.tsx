@@ -12,6 +12,8 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import { RideProgress, RideStopList } from "@/components/RideMap";
+import { SiteSidebar } from "@/components/SiteSidebar";
+import { isNativeApp, NATIVE_BOOTSTRAP } from "@/lib/native";
 import { buildRide, matchRide, pointAtMetres, rideLegs, type RideRoute } from "@/lib/ride";
 import { stopPosition } from "@/lib/coords";
 import { formatDistance, formatRideMinutes } from "@/lib/geo";
@@ -181,6 +183,45 @@ describe("passenger-facing formatting", () => {
     const mapped = ride.stops.filter((stop) => stopPosition(stop.name)).length;
     assert.ok(mapped >= 2, "the button's own precondition");
     assert.equal(mapped, ride.locatedStops);
+  });
+});
+
+describe("website vs mobile app navigation and native detection", () => {
+  it("keeps How it works and About links on the website, and omits them in the mobile app", () => {
+    const webHtml = renderToStaticMarkup(
+      <SiteSidebar isOpen={false} onClose={() => {}} searchMode="journey" onSetSearchMode={() => {}} isMobileApp={false} />,
+    );
+    assert.ok(webHtml.includes("How it works"));
+    assert.ok(webHtml.includes("About the data"));
+    assert.ok(webHtml.includes("How the data works"));
+
+    const mobileHtml = renderToStaticMarkup(
+      <SiteSidebar isOpen={false} onClose={() => {}} searchMode="journey" onSetSearchMode={() => {}} isMobileApp={true} />,
+    );
+    assert.ok(!mobileHtml.includes("How it works"));
+    assert.ok(!mobileHtml.includes("About the data"));
+    assert.ok(!mobileHtml.includes("How the data works"));
+    assert.ok(mobileHtml.includes("Find a bus"));
+    assert.ok(mobileHtml.includes("All bus stops"));
+  });
+
+  it("detects Capacitor native platform in isNativeApp() and NATIVE_BOOTSTRAP", () => {
+    assert.ok(NATIVE_BOOTSTRAP.includes("dataset.native"));
+    const prevWindow = (globalThis as { window?: unknown }).window;
+    try {
+      (globalThis as { window?: unknown }).window = {
+        Capacitor: { isNativePlatform: () => true },
+      };
+      assert.equal(isNativeApp(), true);
+      (globalThis as { window?: unknown }).window = {};
+      assert.equal(isNativeApp(), false);
+    } finally {
+      if (prevWindow === undefined) {
+        delete (globalThis as { window?: unknown }).window;
+      } else {
+        (globalThis as { window?: unknown }).window = prevWindow;
+      }
+    }
   });
 });
 

@@ -1,0 +1,374 @@
+/*
+ * The sticker maker's own styles. Deliberately independent of the website's CSS: this
+ * page is never deployed, so it must not need the site build to look right.
+ */
+
+:root {
+  --bg: #f6f9f5;
+  --surface: #ffffff;
+  --ink: #16352a;
+  --muted: #6f8277;
+  --line: #e2eae0;
+  --brand: #195a45;
+  --brand-hover: #104833;
+  --on-brand: #ffffff;
+  --accent: #e9865c;
+  --chip: #eff5ec;
+  --field: #fbfdfa;
+  --warn: #8a5a10;
+  --warn-bg: #fff5e2;
+  --bad: #a33c1f;
+  --bad-bg: #fff3ee;
+  --shadow: 0 10px 26px rgba(22, 53, 42, .07);
+  color-scheme: light;
+}
+
+/*
+ * Dark mode. The same layout, a palette built for a dim room: the ink flips to a pale
+ * mint, surfaces sit just above the background, and the brand green lightens so it still
+ * reads as a colour rather than as a smudge. The printed sticker is deliberately NOT
+ * part of this: it is always black on white, whatever the screen (see @media print).
+ */
+html[data-theme="dark"] {
+  --bg: #0d1713;
+  --surface: #16241d;
+  --ink: #e7f3ea;
+  --muted: #9db3a4;
+  --line: #2a3d32;
+  --brand: #8dd3a8;
+  --brand-hover: #a8e5bd;
+  --on-brand: #0b1d14;
+  --accent: #f3a17d;
+  --chip: #20342a;
+  --field: #1b2b23;
+  --warn: #ecc77a;
+  --warn-bg: #322a18;
+  --bad: #f3a17d;
+  --bad-bg: #33231c;
+  --shadow: 0 10px 26px rgba(0, 0, 0, .3);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "DM Sans", "Segoe UI", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+h1, h2, .brand-words strong { font-family: "Outfit", "Segoe UI", Arial, sans-serif; }
+h1 { margin: 0; font-size: 30px; letter-spacing: -0.035em; }
+h2 { margin: 0; font-size: 19px; letter-spacing: -0.02em; }
+
+a { color: var(--brand); }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 17px;
+}
+.brand-words { display: grid; }
+.brand-words strong { font-size: 18px; letter-spacing: -0.04em; }
+.brand-words strong span { color: var(--accent); }
+.brand-words small { color: var(--muted); font-size: 9.5px; font-weight: 800; letter-spacing: 0.16em; }
+
+.private-badge {
+  margin-left: auto;
+  padding: 5px 11px;
+  border: 1px solid rgba(138, 90, 16, 0.35);
+  border-radius: 20px;
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  transition: transform .2s ease, background .2s ease;
+}
+.theme-toggle:hover { background: var(--chip); transform: rotate(-12deg); }
+.theme-toggle .icon-moon { display: none; }
+html[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+html[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+/* The badge no longer needs to push itself right: the toggle does that now. */
+.private-badge { margin-left: 0; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 22px 20px 60px; display: grid; gap: 18px; }
+
+.setup {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+}
+.lede { margin: 8px 0 0; max-width: 62ch; color: var(--muted); }
+.origin-row { display: grid; gap: 6px; max-width: 560px; }
+.origin-row > label { font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.origin-input { display: flex; gap: 8px; }
+.origin-input input { flex: 1; }
+.hint { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.hint.bad { color: var(--bad); }
+
+input[type="text"], input[type="url"], input[type="search"] {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--field);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  min-width: 0;
+}
+input:focus-visible, button:focus-visible, a:focus-visible {
+  outline: 3px solid rgba(233, 134, 92, 0.6);
+  outline-offset: 2px;
+}
+
+button {
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 800;
+  cursor: pointer;
+}
+button:hover { background: var(--chip); }
+button.primary { border-color: transparent; background: var(--brand); color: var(--on-brand); }
+button.primary:hover { background: var(--brand-hover); }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+.copy-row button { padding: 7px 11px; }
+
+.steps { display: flex; gap: 8px; flex-wrap: wrap; }
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 15px;
+  border-radius: 12px;
+  font-size: 13.5px;
+}
+.step span { color: var(--muted); font-size: 11px; font-weight: 700; }
+.step.on { border-color: transparent; background: var(--brand); color: #fff; }
+.step.on span { color: rgba(255, 255, 255, 0.72); }
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.panel[hidden] { display: none; }
+
+.picker {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  position: sticky;
+  top: 76px;
+}
+.picker-label { font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.picker-meta { margin: 0; color: var(--muted); font-size: 11.5px; }
+.picker-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 3px;
+  max-height: 420px;
+  overflow: auto;
+}
+.picker-list button {
+  width: 100%;
+  display: grid;
+  gap: 1px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  text-align: left;
+}
+.picker-list button:hover { background: var(--chip); }
+.picker-list button[aria-selected="true"] { border-color: var(--brand); background: var(--chip); }
+.picker-list strong { font-size: 13px; font-weight: 800; }
+.picker-list span { color: var(--muted); font-size: 11.5px; font-weight: 600; }
+.picker-empty { padding: 14px 4px; color: var(--muted); font-size: 12px; }
+
+.result {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.result[hidden] { display: none; }
+.result-head p { margin: 4px 0 0; color: var(--muted); font-size: 12.5px; }
+.result-body { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 20px; align-items: start; }
+.qr-holder { display: grid; gap: 6px; justify-items: center; }
+.qr-holder canvas {
+  width: 200px;
+  height: 200px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  image-rendering: pixelated;
+}
+.qr-meta { color: var(--muted); font-size: 11px; font-weight: 700; text-align: center; }
+.qr-meta.bad { color: var(--bad); }
+
+.result-fields { display: grid; gap: 6px; min-width: 0; }
+.result-fields > label { margin-top: 6px; font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.copy-row { display: flex; gap: 8px; align-items: center; }
+.copy-row code {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--chip);
+}
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; align-items: center; }
+.link-button { font-size: 12.5px; font-weight: 800; }
+
+.sheet { display: grid; gap: 14px; padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.sheet-head { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
+.sheet-head p { margin: 4px 0 0; color: var(--muted); font-size: 12.5px; }
+.sheet-actions { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.sheet-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.sheet-empty { padding: 22px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); text-align: center; font-size: 12.5px; }
+
+/*
+ * A sticker is a printed object, not part of the app chrome: it stays white with dark
+ * text in both themes, so what is on screen matches what comes out of the printer.
+ */
+.sticker {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border: 1px dashed #b9c9bb;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #10251a;
+  break-inside: avoid;
+}
+.sticker canvas { width: 90px; height: 90px; flex: none; background: #ffffff; }
+.sticker-body { display: grid; gap: 2px; min-width: 0; align-content: center; }
+.sticker-kind { color: #5d7568; font-size: 9px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.sticker-title { font-family: "Outfit", sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: anywhere; }
+.sticker-sub { color: #3c5a4a; font-size: 11px; font-weight: 700; overflow-wrap: anywhere; }
+.sticker-note { color: #5d7568; font-size: 10px; line-height: 1.45; }
+.sticker-link { color: #7d9186; font-family: ui-monospace, Menlo, monospace; font-size: 7.5px; overflow-wrap: anywhere; }
+.sticker-remove { align-self: start; padding: 2px 5px; border: 0; background: transparent; color: #9aada1; font-size: 13px; }
+.sticker-remove:hover { background: rgba(0, 0, 0, .06); color: var(--bad); }
+
+.print-note { margin: 0; color: var(--muted); font-size: 11.5px; }
+
+.foot { display: grid; gap: 6px; color: var(--muted); font-size: 12px; }
+.foot p { margin: 0; max-width: 90ch; }
+.foot strong { color: var(--ink); }
+
+@media (max-width: 900px) {
+  .panel { grid-template-columns: minmax(0, 1fr); }
+  .picker { position: static; }
+  .result-body { grid-template-columns: minmax(0, 1fr); }
+  .qr-holder canvas { width: 160px; height: 160px; }
+  .sheet-cards { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ------------------------------------------------------------------ printing */
+
+@page {
+  size: A4;
+  margin: 10mm;
+}
+
+@media print {
+  /* Printing is a light operation even when the screen is dark: paper is white and the
+     code is black, and most printers would flood a dark background. */
+  html,
+  html[data-theme="dark"] {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --ink: #10251a;
+    --muted: #56695d;
+    --line: #d7e0d7;
+    --brand: #195a45;
+    --on-brand: #ffffff;
+    --chip: #ffffff;
+    --field: #ffffff;
+    color-scheme: light;
+  }
+  html, body { background: #ffffff !important; color: #10251a !important; }
+  .top, .setup, .steps, .panel, .sheet-head, .print-note, .foot, .sticker-remove { display: none !important; }
+  .wrap { padding: 0; max-width: none; }
+  .sheet { padding: 0; border: 0; border-radius: 0; }
+  .sheet-cards { grid-template-columns: repeat(2, 90mm); gap: 6mm; justify-content: start; }
+  .sticker {
+    width: 90mm;
+    height: 60mm;
+    padding: 4mm;
+    gap: 4mm;
+    border: 1px dashed #c9d6cb;
+    border-radius: 3mm;
+  }
+  .sticker canvas { width: 40mm; height: 40mm; }
+  .sticker-title { font-size: 15pt; }
+  .sticker-sub { font-size: 8.5pt; }
+  .sticker-note { font-size: 7.5pt; }
+  .sticker-link { font-size: 5.5pt; }
+  .sticker-kind { font-size: 6.5pt; }
+}
+
+/* A bus registration that is not an Indian plate. */
+input.bad { border-color: #d07352; background: #fff6f1; }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	  iOS Universal Links: the QR stickers are ordinary https links, so a phone with the
+	  app opens them in the app instead of Safari. The domain must match SITE_ORIGIN in
+	  fontend/src/lib/qrLinks.ts; scripts/set_qr_domain.mjs rewrites this file too.
+
+	  Apple also needs the Team ID in public/.well-known/apple-app-site-association
+	  before verification succeeds — see README.md, "QR codes".
+	-->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:cholo.example</string>
+		<string>applinks:www.cholo.example</string>
+	</array>
+</dict>
+</plist>

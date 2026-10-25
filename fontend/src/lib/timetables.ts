@@ -887,6 +887,108 @@ export function getRouteDepartures(routeNumber: string, direction: Direction): R
   return departures;
 }
 
+// ---------------------------------------------------------------- every run of a route
+
+export interface RouteRun {
+  /** The workbook's run code, or null for a frequency-based route. */
+  runCode: string | null;
+  /** The bus's number in the workbook's own bus list, when the workbook gives one. */
+  bus: string | null;
+  notes: string | null;
+  /** Published passage time at each stop of this direction, aligned with `stops`. */
+  times: (number | null)[];
+  /** The first published time on this run, which is when the bus starts working. */
+  start: number | null;
+}
+
+export interface RouteRuns {
+  number: string;
+  direction: Direction;
+  /** The route's stops in this direction's travel order. */
+  stops: string[];
+  /** Every run of the day in this direction, earliest first. Empty when no times exist. */
+  runs: RouteRun[];
+  kind: TripKind | null;
+  /** Typical minutes between departures, when it can be said. */
+  headway: number | null;
+}
+
+/**
+ * Every run of one direction of one route, not just the next one.
+ *
+ * `getRideTimetable` answers "which bus am I on?" for the screen it is given; this
+ * answers "which buses are there at all?", which is what the QR features need: the
+ * passenger's position and the clock narrow a whole day of runs down to the one bus
+ * they could be sitting in, and a bus stop lists every run that calls there.
+ *
+ * Nothing is invented. A blank workbook cell stays blank, and a route with no times
+ * comes back with no runs rather than with evenly spaced guesses.
+ */
+export function getRouteRuns(routeNumber: string, direction: Direction): RouteRuns | undefined {
+  if (typeof routeNumber !== "string") return undefined;
+  const route = ROUTE_BY_NUMBER.get(routeNumber.trim().toLowerCase());
+  if (!route) return undefined;
+  const stops = stopsInDirection(route, direction);
+
+  if (route.scheduled.length) {
+    const runs: RouteRun[] = route.scheduled
+      .filter((run) => run.direction === direction)
+      .map((run) => ({
+        runCode: run.run,
+        bus: run.bus,
+        notes: run.notes,
+        times: stops.map((_, index) => run.timeline[index] ?? null),
+        start: firstTime(run),
+      }))
+      .sort((a, b) => (a.start ?? Infinity) - (b.start ?? Infinity));
+    const starts = runs.map((run) => run.start).filter((value): value is number => value !== null);
+    return {
+      number: route.number,
+      direction,
+      stops,
+      runs,
+      kind: runs.length ? "scheduled" : null,
+      headway: typicalHeadway(starts),
+    };
+  }
+
+  const frequency = route.frequency;
+  if (frequency) {
+    const legs = direction === "return" ? [...frequency.legs].reverse() : frequency.legs;
+    const cumulative = [0];
+    for (const leg of legs) cumulative.push(cumulative[cumulative.length - 1] + leg);
+    const travel = frequency.legs.reduce((sum, leg) => sum + leg, 0);
+    const runs: RouteRun[] = [];
+    for (let start = frequency.first; start <= frequency.last; start += frequency.every) {
+      // The return trip is the same bus coming back, as in getRideTimetable.
+      const departure = direction === "return" ? start + travel + frequency.reverseOffset : start;
+      if (departure >= 1440) continue;
+      runs.push({
+        runCode: null,
+        bus: null,
+        notes: null,
+        times: stops.map((_, index) => departure + (cumulative[index] ?? 0)),
+        start: departure,
+      });
+    }
+    return {
+      number: route.number,
+      direction,
+      stops,
+      runs,
+      kind: runs.length ? "sample" : null,
+      headway: frequency.every,
+    };
+  }
+
+  return { number: route.number, direction, stops, runs: [], kind: null, headway: null };
+}
+
+/** The stop's index in a direction's stop list, or -1. Loop routes repeat a name. */
+export function stopIndexInDirection(stops: string[], stopName: string): number {
+  return stops.indexOf(stopName);
+}
+
 // ---------------------------------------------------------------- ride timetable
 
 export interface RideStopTime {

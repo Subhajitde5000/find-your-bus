@@ -18,7 +18,32 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!--
+              Android App Links: a printed QR sticker is an https link, and with this filter
+              and the verified assetlinks.json on the site, a phone with the app turns the
+              scan straight into the app instead of a browser tab. The host must match
+              SITE_ORIGIN in fontend/src/lib/qrLinks.ts; scripts/set_qr_domain.mjs rewrites
+              both together.
+
+              The filter belongs inside <activity>: an intent-filter directly under
+              <application> is not a valid manifest and aapt rejects it.
+            -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="cholo.example" />
+                <data android:pathPrefix="/on-bus" />
+                <data android:pathPrefix="/stop" />
+                <data android:pathPrefix="/scan" />
+            </intent-filter>
         </activity>
+
+        <!-- The QR scanner. The model can be downloaded with the app so a scan works offline. -->
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="barcode" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -36,4 +61,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <!-- Scanning a bus or bus-stop QR code. The camera is optional: the stop timetable
+         and the ride screen work without it. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 </manifest>

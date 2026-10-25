@@ -8,11 +8,18 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["standalone", "browser"],
+  "display_override": [
+    "standalone",
+    "browser"
+  ],
   "orientation": "portrait-primary",
   "background_color": "#f8faf7",
   "theme_color": "#195a45",
-  "categories": ["travel", "navigation", "utilities"],
+  "categories": [
+    "travel",
+    "navigation",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "/icons/icon.svg",
@@ -41,18 +48,52 @@
   ],
   "shortcuts": [
     {
+      "name": "Scan a QR code",
+      "short_name": "Scan",
+      "description": "Scan the QR code inside a bus or at a bus stop",
+      "url": "/scan",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
       "name": "Find a bus",
       "short_name": "Find a bus",
       "description": "Search the timetable between two stops",
       "url": "/#search",
-      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Ride along",
       "short_name": "Ride",
       "description": "Open the offline ride screen for a route you are on",
       "url": "/ride",
-      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Buses at a stop",
+      "short_name": "Bus stop",
+      "description": "The next buses and the whole day at a bus stop",
+      "url": "/stop",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

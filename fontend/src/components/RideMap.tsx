@@ -89,6 +89,9 @@ export function RideStopList({ ride, legs, currentStop, onBus }: StopListProps) 
               : leg.isNext
                 ? "next"
                 : "ahead";
+        // A destination or the stop the passenger is at is never "passed", however the
+        // timetable was read: the card above already says "5.4 km ahead" of it.
+        const showAhead = !leg.passed || role === "destination" || role === "current";
         const gap = index > 0 ? legs[index - 1] : null;
         const gapMetres =
           gap && stop.distanceAlongMetres !== null && ride.stops[gap.index].distanceAlongMetres !== null
@@ -121,13 +124,13 @@ export function RideStopList({ ride, legs, currentStop, onBus }: StopListProps) 
                   )}
                 </span>
                 <span className="ride-stop-figures">
-                  {!leg.passed && leg.metresFromHere !== null && (
+                  {showAhead && leg.metresFromHere !== null && (
                     <span className="ride-stop-distance">{formatDistance(leg.metresFromHere)}</span>
                   )}
-                  <span className="ride-stop-time">{leg.passed ? "passed" : legTime(leg)}</span>
+                  <span className="ride-stop-time">{showAhead ? legTime(leg) : "passed"}</span>
                 </span>
               </div>
-              {!leg.passed && legCaption(leg) && <span className="ride-stop-note">{legCaption(leg)}</span>}
+              {showAhead && legCaption(leg) && <span className="ride-stop-note">{legCaption(leg)}</span>}
               {stop.coordConfidence === "review" && (
                 <span className="ride-stop-note">position approximate</span>
               )}

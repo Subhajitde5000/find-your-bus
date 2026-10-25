@@ -12,6 +12,7 @@ import {
   Lightbulb,
   Map,
   MapPin,
+  QrCode,
   Route,
   Search,
   X,
@@ -92,6 +93,11 @@ export function SiteSidebar({ isOpen, onClose, searchMode, onSetSearchMode, isMo
 
         <p className="sidebar-label sidebar-label-spaced">DISCOVER</p>
         <nav className="sidebar-nav" aria-label="Explore Cholo">
+          <Link href="/scan" className="sidebar-nav-link" onClick={onClose}>
+            <span className="sidebar-nav-icon"><QrCode size={17} aria-hidden="true" /></span>
+            <span>Scan a QR code</span>
+            <ChevronRight size={15} className="sidebar-nav-chevron" aria-hidden="true" />
+          </Link>
           <Link href="/map" className="sidebar-nav-link" onClick={onClose}>
             <span className="sidebar-nav-icon"><Map size={17} aria-hidden="true" /></span>
             <span>All bus stops</span>

@@ -1570,6 +1570,51 @@ html[data-theme="dark"] .ride-alert[data-level="missed"] span, html[data-theme="
 .ride-map-link { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--heading); font-size: 12px; font-weight: 800; }
 
 /* ------------------------------------------------------------------ native mobile app (Android & iOS) */
+html[data-native="true"] {
+  --safe-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --safe-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --safe-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
+  --safe-right: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
+}
+html[data-native="true"] .site-header {
+  height: calc(64px + var(--safe-top));
+  padding-top: var(--safe-top);
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+  background: rgba(248, 250, 247, 0.68);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border-bottom: 1px solid rgba(25, 90, 69, 0.08);
+}
+html[data-native="true"][data-theme="dark"] .site-header {
+  background: rgba(16, 28, 24, 0.68);
+  border-bottom: 1px solid rgba(141, 211, 168, 0.1);
+}
+html[data-native="true"] .ride-header {
+  height: calc(56px + var(--safe-top));
+  padding-top: var(--safe-top);
+  padding-left: calc(16px + var(--safe-left));
+  padding-right: calc(16px + var(--safe-right));
+  background: rgba(248, 250, 247, 0.68);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border-bottom: 1px solid rgba(25, 90, 69, 0.08);
+}
+html[data-native="true"][data-theme="dark"] .ride-header {
+  background: rgba(16, 28, 24, 0.68);
+  border-bottom: 1px solid rgba(141, 211, 168, 0.1);
+}
+html[data-native="true"] .site-sidebar {
+  padding-top: calc(18px + var(--safe-top));
+  padding-bottom: calc(18px + var(--safe-bottom));
+}
+html[data-native="true"] .site-shell,
+html[data-native="true"] .ride-page {
+  padding-bottom: var(--safe-bottom);
+}
+html[data-native="true"] .to-top {
+  bottom: calc(22px + var(--safe-bottom));
+}
 html[data-native="true"] .hero,
 html[data-native="true"] .results-sidebar,
 html[data-native="true"] .how-section,

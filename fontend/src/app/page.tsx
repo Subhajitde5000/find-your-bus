@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore, type FormEvent } from "react";
 import {
   Accessibility,
   ArrowLeftRight,
@@ -32,6 +32,7 @@ import { SiteSidebar } from "@/components/SiteSidebar";
 import { StopField } from "@/components/StopField";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import Link from "next/link";
+import { IS_MOBILE_APP_BUILD, isNativeApp } from "@/lib/native";
 import { RouteLinks } from "@/components/RouteLinks";
 import { TripCard } from "@/components/TripCard";
 import { RouteExplorer } from "@/components/RouteExplorer";
@@ -164,6 +165,9 @@ function timeAgo(timestamp: number): string {
   return `${Math.floor(hours / 24)} d ago`;
 }
 
+const emptySubscribe = () => () => {};
+const serverMobileSnapshot = () => IS_MOBILE_APP_BUILD;
+
 export default function HomePage() {
   const [from, setFrom] = useState("Esplanade");
   const [to, setTo] = useState("Garia");
@@ -185,6 +189,13 @@ export default function HomePage() {
   const [shareStatus, setShareStatus] = useState<"idle" | "copied" | "failed">("idle");
   const [searchMode, setSearchMode] = useState<"journey" | "route">("journey");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const mobileApp = useSyncExternalStore(emptySubscribe, isNativeApp, serverMobileSnapshot);
+
+  useEffect(() => {
+    if (mobileApp) {
+      document.documentElement.dataset.native = "true";
+    }
+  }, [mobileApp]);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 1100px)");
@@ -424,8 +435,12 @@ export default function HomePage() {
               Bus route number
             </a>
             <Link className={styles.navLink} href="/map">Stop map</Link>
-            <a className={styles.navLink} href="#how-it-works">How it works</a>
-            <a className={styles.navLink} href="#about">About</a>
+            {!mobileApp && (
+              <>
+                <a className={`${styles.navLink} web-only-link`} href="#how-it-works">How it works</a>
+                <a className={`${styles.navLink} web-only-link`} href="#about">About</a>
+              </>
+            )}
           </nav>
           <div className="header-actions">
             <span
@@ -447,22 +462,25 @@ export default function HomePage() {
           onClose={() => setSidebarOpen(false)}
           searchMode={searchMode}
           onSetSearchMode={setSearchMode}
+          isMobileApp={mobileApp}
         />
         <main className={styles.content}>
-        <section className="hero page-container" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <div className="eyebrow"><span className="eyebrow-mark" /> MADE FOR MOVING AROUND KOLKATA</div>
-            <h1 id="hero-title">More going.<br /><span>Less guessing.</span></h1>
-            <p className="hero-description">Your everyday guide to Kolkata bus timetables. Find scheduled buses between your stops and make every journey a little easier.</p>
-            <div className="hero-points">
-              <span><Check size={15} strokeWidth={3} /> No sign-up needed</span>
-              <span><Check size={15} strokeWidth={3} /> Today&apos;s schedules</span>
+        {!mobileApp && (
+          <section className="hero page-container" aria-labelledby="hero-title">
+            <div className="hero-copy">
+              <div className="eyebrow"><span className="eyebrow-mark" /> MADE FOR MOVING AROUND KOLKATA</div>
+              <h1 id="hero-title">More going.<br /><span>Less guessing.</span></h1>
+              <p className="hero-description">Your everyday guide to Kolkata bus timetables. Find scheduled buses between your stops and make every journey a little easier.</p>
+              <div className="hero-points">
+                <span><Check size={15} strokeWidth={3} /> No sign-up needed</span>
+                <span><Check size={15} strokeWidth={3} /> Today&apos;s schedules</span>
+              </div>
             </div>
-          </div>
-          <HeroMap />
-        </section>
+            <HeroMap />
+          </section>
+        )}
 
-        <section className="search-section page-container" id="search" aria-labelledby="search-title">
+        <section className={`search-section page-container${mobileApp ? " search-section-mobile" : ""}`} id="search" aria-labelledby="search-title">
           <div className="search-card">
             <div className="search-card-heading">
               <div>
@@ -577,7 +595,7 @@ export default function HomePage() {
           </section>
         )}
 
-        <section className="results-section page-container" id="results" aria-labelledby="results-title">
+        <section className={`results-section page-container${mobileApp ? " results-section-mobile" : ""}`} id="results" aria-labelledby="results-title">
           <div className="results-intro">
             <div><div className="section-kicker"><span className="kicker-dash" /> YOUR JOURNEY, SORTED</div><h2 id="results-title">Buses for your day<span className="accent-period">.</span></h2><p>All the scheduled options for the journey you have in mind.</p></div>
             <div className="schedule-indicator"><span className="schedule-indicator-icon"><CalendarDays size={17} /></span><span><strong>{today}</strong><small>Kolkata local time (IST)</small></span></div>
@@ -593,7 +611,7 @@ export default function HomePage() {
             <div className="type-filters" aria-label="Filter by bus type"><span>Show</span>{(["all", "AC", "Non-AC"] as TypeFilter[]).map((type) => <button key={type} type="button" className={typeFilter === type ? "selected" : ""} onClick={() => { setTypeFilter(type); setVisibleCount(6); }} aria-pressed={typeFilter === type}>{type === "all" ? "All buses" : type}</button>)}</div>
           </div>
 
-          <div className="results-layout">
+          <div className={`results-layout${mobileApp ? " results-layout-full" : ""}`}>
             <div className="results-list" role="tabpanel">
               {visibleTrips.length ? (
                 <>
@@ -649,28 +667,34 @@ export default function HomePage() {
               )}
               {allTrips.length > 0 && <RouteLinks links={routeLinks} noTrips={false} />}
             </div>
-            <aside className="results-sidebar" aria-label="Timetable information">
-              <div className="sidebar-tips">
-                <div className="sidebar-tips-head"><span className="sidebar-tips-icon"><Lightbulb size={19} aria-hidden="true" /></span><h3>Handy for passengers</h3></div>
-                <ul>
-                  <li><span className="tip-icon person"><PersonStanding size={15} aria-hidden="true" /></span><p>Reach your stop a few minutes early — buses sometimes leave a little ahead of the listed time.</p></li>
-                  <li><span className="tip-icon users"><Users size={15} aria-hidden="true" /></span><p>Peak hours feel crowded. Midday and late-evening buses are usually quieter.</p></li>
-                  <li><span className="tip-icon access"><Accessibility size={15} aria-hidden="true" /></span><p>Seats near the front are meant for seniors and passengers with disabilities.</p></li>
-                  <li><span className="tip-icon route"><Route size={15} aria-hidden="true" /></span><p>Big hubs such as Esplanade and Sealdah link to most routes in this preview.</p></li>
-                </ul>
-              </div>
-              <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory v2, which publishes a passage time at every stop, plus a small number of long-distance services whose operator publishes stop-by-stop times. <strong>{DATA_COUNTS.catalogueRoutes} more routes</strong> come from the WBTC and Bus-O-Pedia route lists; Kolkata city buses run to frequency, so those have no times at all and are shown as route links. Some routes use <strong>sample frequencies</strong> and are labelled Sample. Times are not live, do not show bus locations, and may differ from official schedules. The <strong>Set on bus</strong> screen is different: it uses your phone&apos;s own GPS to follow your route and works offline, but it still does not track buses.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata and suburban routes</div></div>
-              <div className="sidebar-art"><div className="sidebar-art-label">A CITY ALWAYS IN MOTION</div><div className="sidebar-path"><span /><span /><span /></div><h3>Go on, Kolkata is waiting.</h3><p>From your first stop to your last, a little planning goes a long way.</p><Navigation size={24} className="sidebar-navigation" /></div>
-            </aside>
+            {!mobileApp && (
+              <aside className="results-sidebar" aria-label="Timetable information">
+                <div className="sidebar-tips">
+                  <div className="sidebar-tips-head"><span className="sidebar-tips-icon"><Lightbulb size={19} aria-hidden="true" /></span><h3>Handy for passengers</h3></div>
+                  <ul>
+                    <li><span className="tip-icon person"><PersonStanding size={15} aria-hidden="true" /></span><p>Reach your stop a few minutes early — buses sometimes leave a little ahead of the listed time.</p></li>
+                    <li><span className="tip-icon users"><Users size={15} aria-hidden="true" /></span><p>Peak hours feel crowded. Midday and late-evening buses are usually quieter.</p></li>
+                    <li><span className="tip-icon access"><Accessibility size={15} aria-hidden="true" /></span><p>Seats near the front are meant for seniors and passengers with disabilities.</p></li>
+                    <li><span className="tip-icon route"><Route size={15} aria-hidden="true" /></span><p>Big hubs such as Esplanade and Sealdah link to most routes in this preview.</p></li>
+                  </ul>
+                </div>
+                <div className="sidebar-note" id="about"><span className="sidebar-icon"><Info size={21} /></span><h3>A little heads-up</h3><p>Timetables come from the Kolkata bus directory v2, which publishes a passage time at every stop, plus a small number of long-distance services whose operator publishes stop-by-stop times. <strong>{DATA_COUNTS.catalogueRoutes} more routes</strong> come from the WBTC and Bus-O-Pedia route lists; Kolkata city buses run to frequency, so those have no times at all and are shown as route links. Some routes use <strong>sample frequencies</strong> and are labelled Sample. Times are not live, do not show bus locations, and may differ from official schedules. The <strong>Set on bus</strong> screen is different: it uses your phone&apos;s own GPS to follow your route and works offline, but it still does not track buses.</p><div className="sidebar-divider" /><div className="sidebar-fact"><span><Check size={13} /></span> No account required</div><div className="sidebar-fact"><span><Check size={13} /></span> Today&apos;s timetable view</div><div className="sidebar-fact"><span><Check size={13} /></span> Kolkata and suburban routes</div></div>
+                <div className="sidebar-art"><div className="sidebar-art-label">A CITY ALWAYS IN MOTION</div><div className="sidebar-path"><span /><span /><span /></div><h3>Go on, Kolkata is waiting.</h3><p>From your first stop to your last, a little planning goes a long way.</p><Navigation size={24} className="sidebar-navigation" /></div>
+              </aside>
+            )}
           </div>
         </section>
 
-        <section className="how-section page-container" id="how-it-works" aria-labelledby="how-title"><div className="how-heading"><div><div className="section-kicker"><span className="kicker-dash" /> SIMPLE AS 1, 2, 3</div><h2 id="how-title">A smoother way to get there<span className="accent-period">.</span></h2></div><p>Less time figuring out the commute. More time enjoying the journey.</p></div><div className="how-grid">
+        {!mobileApp && (
+          <>
+            <section className="how-section page-container" id="how-it-works" aria-labelledby="how-title"><div className="how-heading"><div><div className="section-kicker"><span className="kicker-dash" /> SIMPLE AS 1, 2, 3</div><h2 id="how-title">A smoother way to get there<span className="accent-period">.</span></h2></div><p>Less time figuring out the commute. More time enjoying the journey.</p></div><div className="how-grid">
   <div className="how-card"><span className="how-number">01</span><span className="how-icon"><PersonStanding size={24} /></span><h3>Pick your stops</h3><p>Choose where you&apos;re starting from and where you want to go in Kolkata.</p></div>
   <div className="how-card"><span className="how-number">02</span><span className="how-icon"><Clock3 size={24} /></span><h3>Choose a time</h3><p>Use a quick time or set your own, then see every bus for the rest of the day.</p></div>
   <div className="how-card"><span className="how-number">03</span><span className="how-icon"><BusFront size={24} /></span><h3>Tap your bus</h3><p>Open any bus to see its full route, every stop, and the times along the way.</p></div>
 </div></section>
-        <section className="ride-promo page-container" aria-labelledby="ride-promo-title"><div className="ride-promo-inner"><span className="ride-promo-icon"><LocateFixed size={26} /></span><div className="ride-promo-copy"><div className="section-kicker"><span className="kicker-dash" /> ON THE BUS, OFFLINE</div><h2 id="ride-promo-title">Set on bus<span className="accent-period">.</span></h2><p>Open any bus and tap <strong>Set on bus</strong>. A full-page route map follows you along it with no signal at all: how far the next stop is, and how long to every stop still ahead. It uses your phone&apos;s own GPS, so it works where a bus is most likely to lose reception — and it tells you plainly if you are not on the route.</p><ul><li><Check size={14} strokeWidth={3} /> Works completely offline</li><li><Check size={14} strokeWidth={3} /> Distances and times to every stop ahead</li><li><Check size={14} strokeWidth={3} /> Says &ldquo;you are not seated in this bus&rdquo; when you are not</li></ul></div><a className="ride-promo-action" href="#search"><span>Find a bus to ride</span><ArrowRight size={17} /></a></div></section>
+            <section className="ride-promo page-container" aria-labelledby="ride-promo-title"><div className="ride-promo-inner"><span className="ride-promo-icon"><LocateFixed size={26} /></span><div className="ride-promo-copy"><div className="section-kicker"><span className="kicker-dash" /> ON THE BUS, OFFLINE</div><h2 id="ride-promo-title">Set on bus<span className="accent-period">.</span></h2><p>Open any bus and tap <strong>Set on bus</strong>. A full-page route map follows you along it with no signal at all: how far the next stop is, and how long to every stop still ahead. It uses your phone&apos;s own GPS, so it works where a bus is most likely to lose reception — and it tells you plainly if you are not on the route.</p><ul><li><Check size={14} strokeWidth={3} /> Works completely offline</li><li><Check size={14} strokeWidth={3} /> Distances and times to every stop ahead</li><li><Check size={14} strokeWidth={3} /> Says &ldquo;you are not seated in this bus&rdquo; when you are not</li></ul></div><a className="ride-promo-action" href="#search"><span>Find a bus to ride</span><ArrowRight size={17} /></a></div></section>
+          </>
+        )}
         <BusDetailModal trip={detailTrip} onClose={() => setDetailTrip(null)} />
         </main>
       </div>

@@ -1,10 +1,22 @@
 /*
  * Is this page running inside the Android or iOS app (Capacitor) rather than a browser?
- * Capacitor puts a `Capacitor` object on `window`; a browser never has one. No import is
- * needed, so the website bundle does not carry any app code.
+ *
+ * Two checks work together:
+ * 1. Build-time (`NEXT_PUBLIC_MOBILE_APP=1`, set by `mobile/scripts/build-mobile-web.mjs`
+ *    when building the Android and iOS bundle from `mobile/`): strips website-only
+ *    marketing/editorial sections out of the static mobile export at compile time.
+ * 2. Runtime (`window.Capacitor?.isNativePlatform()`): detects Capacitor's native shell
+ *    even if a standard website build was synced into the native project.
  */
+export const IS_MOBILE_APP_BUILD =
+  process.env.NEXT_PUBLIC_MOBILE_APP === "1" || process.env.NEXT_PUBLIC_MOBILE_APP === "true";
+
+export const NATIVE_BOOTSTRAP = `(function(){try{var c=window.Capacitor;if(${IS_MOBILE_APP_BUILD ? "true" : "false"}||(c&&typeof c.isNativePlatform==="function"&&c.isNativePlatform()===true)){document.documentElement.dataset.native="true";}}catch(e){}})();`;
+
 export function isNativeApp(): boolean {
+  if (IS_MOBILE_APP_BUILD) return true;
   if (typeof window === "undefined") return false;
   const capacitor = (window as unknown as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor;
   return typeof capacitor?.isNativePlatform === "function" && capacitor.isNativePlatform() === true;
 }
+

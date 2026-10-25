@@ -8,7 +8,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
 
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = CAPBridgeViewController()
+        window?.backgroundColor = .clear
+        let bridgeViewController = CAPBridgeViewController()
+        bridgeViewController.view.backgroundColor = .clear
+        bridgeViewController.webView?.isOpaque = false
+        bridgeViewController.webView?.backgroundColor = .clear
+        bridgeViewController.webView?.scrollView.backgroundColor = .clear
+        bridgeViewController.webView?.scrollView.contentInsetAdjustmentBehavior = .never
+        window?.rootViewController = bridgeViewController
         window?.makeKeyAndVisible()
 
         SceneDelegateProxy.shared.scene(scene, willConnectTo: session, options: connectionOptions)

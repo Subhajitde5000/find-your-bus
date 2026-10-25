@@ -86,78 +86,80 @@ export function BusDetailModal({ trip, onClose }: { trip: BusTrip | null; onClos
           </button>
         </div>
 
-        <div className="modal-stats">
-          <div><span><PersonStanding size={13} aria-hidden="true" /> Departs {trip.boarding}</span><strong>{departure.time} <em>{departure.period}</em></strong></div>
-          <div><span><Flag size={13} aria-hidden="true" /> Arrives {trip.alighting}</span><strong>{arrival.time} <em>{arrival.period}</em></strong></div>
-          <div><span><Timer size={13} aria-hidden="true" /> Journey time</span><strong>{formatDuration(trip.duration)}</strong></div>
-          <div><span><BusFront size={13} aria-hidden="true" /> {gapLabel}</span><strong>{trip.headway ? `${trip.headway} min` : "—"}</strong></div>
-          <div><span><Sunrise size={13} aria-hidden="true" /> First bus</span><strong>{first.time} <em>{first.period}</em></strong></div>
-          <div><span><Sunset size={13} aria-hidden="true" /> Last bus</span><strong>{last.time} <em>{last.period}</em></strong></div>
-        </div>
-
-        <div className="modal-amenities">
-          {trip.type === "AC" ? <span><Snowflake size={13} aria-hidden="true" /> Air conditioned</span> : <span><Wind size={13} aria-hidden="true" /> Open windows</span>}
-          <span><Users size={13} aria-hidden="true" /> {trip.operator} service</span>
-          <span><Armchair size={13} aria-hidden="true" /> {trip.fullStops.length} stops</span>
-          {trip.runCode && <span><Route size={13} aria-hidden="true" /> Run {trip.runCode}</span>}
-          <span><BusFront size={13} aria-hidden="true" /> {trip.bus ? `Bus ${trip.bus}` : "Bus not recorded"}</span>
-          <span><Accessibility size={13} aria-hidden="true" /> Front seats kept free for seniors &amp; wheelchair users</span>
-        </div>
-
         <div className="modal-body">
-          <div className="modal-section-heading"><Route size={16} /> All stops on this trip <span>{trip.fullStops.length} stops</span></div>
-          <div className="stop-timeline modal-timeline">
-            {trip.fullStops.map((stop) => {
-              const clock = stop.minutes === null ? null : formatClock(stop.minutes);
-              const role = !stop.journey
-                ? "other"
-                : stop.name === trip.boarding
-                  ? "boarding"
-                  : stop.name === trip.alighting
-                    ? "alighting"
-                    : "journey";
-              return (
-                <div className={`timeline-stop ${role}`} key={`${trip.id}-full-${stop.name}`}>
-                  <span className="timeline-dot" />
-                  <span className="timeline-name">
-                    {stop.name}
-                    {role === "boarding" && <em>Board here</em>}
-                    {role === "alighting" && <em>Get off here</em>}
-                    {role === "journey" && <em className="on-route">On your route</em>}
-                  </span>
-                  <span className="timeline-time">{clock ? `${clock.time} ${clock.period}` : "No time published"}</span>
-                </div>
-              );
-            })}
+          <div className="modal-stats">
+            <div><span><PersonStanding size={13} aria-hidden="true" /> Departs {trip.boarding}</span><strong>{departure.time} <em>{departure.period}</em></strong></div>
+            <div><span><Flag size={13} aria-hidden="true" /> Arrives {trip.alighting}</span><strong>{arrival.time} <em>{arrival.period}</em></strong></div>
+            <div><span><Timer size={13} aria-hidden="true" /> Journey time</span><strong>{formatDuration(trip.duration)}</strong></div>
+            <div><span><BusFront size={13} aria-hidden="true" /> {gapLabel}</span><strong>{trip.headway ? `${trip.headway} min` : "—"}</strong></div>
+            <div><span><Sunrise size={13} aria-hidden="true" /> First bus</span><strong>{first.time} <em>{first.period}</em></strong></div>
+            <div><span><Sunset size={13} aria-hidden="true" /> Last bus</span><strong>{last.time} <em>{last.period}</em></strong></div>
           </div>
+
+          <div className="modal-amenities">
+            {trip.type === "AC" ? <span><Snowflake size={13} aria-hidden="true" /> Air conditioned</span> : <span><Wind size={13} aria-hidden="true" /> Open windows</span>}
+            <span><Users size={13} aria-hidden="true" /> {trip.operator} service</span>
+            <span><Armchair size={13} aria-hidden="true" /> {trip.fullStops.length} stops</span>
+            {trip.runCode && <span><Route size={13} aria-hidden="true" /> Run {trip.runCode}</span>}
+            <span><BusFront size={13} aria-hidden="true" /> {trip.bus ? `Bus ${trip.bus}` : "Bus not recorded"}</span>
+            <span><Accessibility size={13} aria-hidden="true" /> Front seats kept free for seniors &amp; wheelchair users</span>
+          </div>
+
+          <div className="modal-stops-section">
+            <div className="modal-section-heading"><Route size={16} /> All stops on this trip <span>{trip.fullStops.length} stops</span></div>
+            <div className="stop-timeline modal-timeline">
+              {trip.fullStops.map((stop) => {
+                const clock = stop.minutes === null ? null : formatClock(stop.minutes);
+                const role = !stop.journey
+                  ? "other"
+                  : stop.name === trip.boarding
+                    ? "boarding"
+                    : stop.name === trip.alighting
+                      ? "alighting"
+                      : "journey";
+                return (
+                  <div className={`timeline-stop ${role}`} key={`${trip.id}-full-${stop.name}`}>
+                    <span className="timeline-dot" />
+                    <span className="timeline-name">
+                      {stop.name}
+                      {role === "boarding" && <em>Board here</em>}
+                      {role === "alighting" && <em>Get off here</em>}
+                      {role === "journey" && <em className="on-route">On your route</em>}
+                    </span>
+                    <span className="timeline-time">{clock ? `${clock.time} ${clock.period}` : "No time published"}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="modal-note"><Info size={14} /> {noteFor(trip)}</div>
+
+          {isRideable(trip.fullStops.map((stop) => stop.name)) ? (
+            <div className="modal-ride">
+              <div className="modal-ride-text">
+                <strong><LocateFixed size={15} aria-hidden="true" /> Set on bus</strong>
+                <span>
+                  Follow this route on a full-page map: where you are on it, how far the next stop is,
+                  and how long to {trip.alighting}. Works with no signal.
+                </span>
+              </div>
+              <Link className="modal-ride-button" href={rideLink(trip)}>
+                Open <ArrowRight size={15} aria-hidden="true" />
+              </Link>
+            </div>
+          ) : (
+            <div className="modal-ride disabled">
+              <div className="modal-ride-text">
+                <strong>Set on bus is not available for this route</strong>
+                <span>
+                  Fewer than two of its stops have a published position, so there is not enough of the
+                  route to match against. The timetable above still applies.
+                </span>
+              </div>
+            </div>
+          )}
         </div>
-
-        <div className="modal-note"><Info size={14} /> {noteFor(trip)}</div>
-
-        {isRideable(trip.fullStops.map((stop) => stop.name)) ? (
-          <div className="modal-ride">
-            <div className="modal-ride-text">
-              <strong><LocateFixed size={15} aria-hidden="true" /> Set on bus</strong>
-              <span>
-                Follow this route on a full-page map: where you are on it, how far the next stop is,
-                and how long to {trip.alighting}. Works with no signal.
-              </span>
-            </div>
-            <Link className="modal-ride-button" href={rideLink(trip)}>
-              Open <ArrowRight size={15} aria-hidden="true" />
-            </Link>
-          </div>
-        ) : (
-          <div className="modal-ride disabled">
-            <div className="modal-ride-text">
-              <strong>Set on bus is not available for this route</strong>
-              <span>
-                Fewer than two of its stops have a published position, so there is not enough of the
-                route to match against. The timetable above still applies.
-              </span>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -5,9 +5,9 @@ Same code, same screens, no server: everything is inside the app, so it works wi
 
 | | |
 |---|---|
-| `capacitor.config.ts` | App name, app id, and `webDir: ../fontend/out` (the website's static export) |
+| `capacitor.config.ts` | App name, app id, `webDir: ../fontend/out`, transparent WebView background, and `SystemBars.insetsHandling: "disable"` for edge-to-edge system bars |
 | `scripts/build-mobile-web.mjs` | Builds the lightweight mobile bundle (`NEXT_PUBLIC_MOBILE_APP=1`), omitting website-only hero, tips, heads-up, and promo sections |
-| `android/`, `ios/` | The native projects Capacitor generated. Open them in Android Studio / Xcode |
+| `android/`, `ios/` | The native projects (`MainActivity.java`, `styles.xml`, `SceneDelegate.swift`) configured with transparent status and navigation bars and safe-area CSS insets |
 | `resources/` | The 1024 px icon and the splash source. `npm run icons` makes every size from them |
 | `../fontend/src/lib/native.ts` | `isNativeApp()` / `IS_MOBILE_APP_BUILD`: true inside the mobile app; hides website-only sections and skips the service worker |
 | `../fontend/src/lib/keepAwake.ts` | Keeps the screen on while Set on bus follows the bus |

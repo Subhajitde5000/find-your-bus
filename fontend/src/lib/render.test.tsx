@@ -12,12 +12,13 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import { RideProgress, RideStopList } from "@/components/RideMap";
+import { BusDetailModal } from "@/components/BusDetailModal";
 import { SiteSidebar } from "@/components/SiteSidebar";
 import { isNativeApp, NATIVE_BOOTSTRAP } from "@/lib/native";
 import { buildRide, matchRide, pointAtMetres, rideLegs, type RideRoute } from "@/lib/ride";
 import { stopPosition } from "@/lib/coords";
 import { formatDistance, formatRideMinutes } from "@/lib/geo";
-import { formatClock } from "@/lib/timetables";
+import { findTrips, formatClock } from "@/lib/timetables";
 
 function rideOrFail(number: string): RideRoute {
   const result = buildRide({ number, direction: "outbound" });
@@ -205,12 +206,17 @@ describe("website vs mobile app navigation and native detection", () => {
     assert.ok(mobileHtml.includes("All bus stops"));
   });
 
-  it("detects Capacitor native platform in isNativeApp() and NATIVE_BOOTSTRAP", () => {
+  it("detects Capacitor native platform and CholoNativeBars in isNativeApp() and NATIVE_BOOTSTRAP", () => {
     assert.ok(NATIVE_BOOTSTRAP.includes("dataset.native"));
+    assert.ok(NATIVE_BOOTSTRAP.includes("CholoNativeBars"));
     const prevWindow = (globalThis as { window?: unknown }).window;
     try {
       (globalThis as { window?: unknown }).window = {
         Capacitor: { isNativePlatform: () => true },
+      };
+      assert.equal(isNativeApp(), true);
+      (globalThis as { window?: unknown }).window = {
+        CholoNativeBars: { setDarkTheme: () => {} },
       };
       assert.equal(isNativeApp(), true);
       (globalThis as { window?: unknown }).window = {};
@@ -222,6 +228,27 @@ describe("website vs mobile app navigation and native detection", () => {
         (globalThis as { window?: unknown }).window = prevWindow;
       }
     }
+  });
+
+  it("places stats, amenities, all stops on this trip, note, and ride action inside the scrollable modal-body", () => {
+    const trips = findTrips("Esplanade", "Garia");
+    assert.ok(trips.length > 0, "finds trips between Esplanade and Garia");
+    const sampleTrip = trips[0];
+    const html = renderToStaticMarkup(<BusDetailModal trip={sampleTrip} onClose={() => {}} />);
+
+    const bodyStart = html.indexOf('class="modal-body"');
+    assert.ok(bodyStart > 0, "renders modal-body scroll container");
+    const bodyHtml = html.slice(bodyStart);
+
+    assert.ok(bodyHtml.includes('class="modal-stats"'), "modal-stats is inside scrollable modal-body");
+    assert.ok(bodyHtml.includes('class="modal-amenities"'), "modal-amenities is inside scrollable modal-body");
+    assert.ok(bodyHtml.includes('class="modal-stops-section"'), "modal-stops-section is inside scrollable modal-body");
+    assert.ok(bodyHtml.includes("All stops on this trip"), "stop list heading is visible");
+    for (const stop of sampleTrip.fullStops) {
+      assert.ok(bodyHtml.includes(escapeHtml(stop.name)), `renders stop ${stop.name}`);
+    }
+    assert.ok(bodyHtml.includes('class="modal-note"'), "modal-note is inside scrollable modal-body");
+    assert.ok(bodyHtml.includes("modal-ride"), "modal-ride is inside scrollable modal-body");
   });
 });
 

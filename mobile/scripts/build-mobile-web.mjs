@@ -63,4 +63,9 @@ for (const snippet of forbidden) {
   }
 }
 
+if (!html.includes("viewport-fit=cover")) {
+  console.error("build-mobile-web: mobile index.html is missing viewport-fit=cover for transparent system bars");
+  process.exit(1);
+}
+
 console.log("build-mobile-web: built lightweight mobile bundle in ../fontend/out (Android & iOS ready).");

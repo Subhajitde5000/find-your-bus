@@ -14,6 +14,14 @@ never link to it from the site, and do not commit it to a public deployment.
 
 ---
 
+## The page
+
+Three steps, left to right: set the site address, choose a route or a stop, then check the
+sticker in the preview column and add it to the print sheet at the bottom. The two sticker
+types are tabs — only one form is on screen at a time. Everything is styled with the same
+colours, cards and type as the website, and the print sheet is the only thing that reaches
+paper.
+
 ## Open it
 
 It is a plain static page with no build step and no dependencies to install:
@@ -25,16 +33,22 @@ cd qr-admin && python3 -m http.server 8080
 # then open http://localhost:8080
 ```
 
-It works offline. The route and stop lists come from `data/routes.js` and
+The route and stop lists load themselves. They normally come from `data/routes.js` and
 `data/stops.js`, generated from the same bundle the site ships:
 
 ```bash
 cd fontend && npm run qr-data      # = node scripts/export-qr-admin-data.mjs
 ```
 
-Re-run that after rebuilding the timetable data (`scripts/build_static_data.py`). If the
-files are missing, the page offers a file picker: load
-`fontend/src/data/kolkata-bus-data.json` instead and it builds the same lists in memory.
+Re-run that after rebuilding the timetable data (`scripts/build_static_data.py`). If those
+files are missing, the page fetches `../fontend/src/data/kolkata-bus-data.json` itself
+(three candidate paths, then `data/kolkata-bus-data.json`). Only if that fails too — for
+example when the folder was copied somewhere on its own — does a small inline note appear,
+with a one-click file picker for the built dataset. There is nothing to dismiss and no
+error screen on the way in.
+
+Re-run `npm run qr-data` after rebuilding the timetable data so the two lists stay in step
+with the site.
 
 ## Set the site address first
 

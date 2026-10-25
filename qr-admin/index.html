@@ -27,57 +27,63 @@
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="4" y="10" width="16" height="11" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" />
         </svg>
-        Private tool — do not publish
+        Private — do not publish
       </span>
       <div class="top-right">
-        <span class="count-chip" id="data-chip">Loading the directory…</span>
+        <span class="chip busy" id="data-chip"><span class="dot" aria-hidden="true"></span><span id="data-chip-text">Loading route lists…</span></span>
         <button type="button" class="btn" id="load-data">Load data file</button>
       </div>
     </header>
 
-    <h1>Print the stickers</h1>
-    <p class="lede">
-      One QR for every bus route (<strong>on bus</strong>), one for every bus stop (<strong>at bus stop</strong>).
-      Each code is a plain link to this site’s <code>/qr/…</code> screens: a phone with the app opens the
-      app, a phone without it opens the website. Nothing is uploaded from this page — it builds links
-      and draws the QR codes in your browser, from the timetable data bundled beside it.
-    </p>
-
-    <div id="load-error" class="load-error" hidden>
-      <strong>The route and stop lists could not be loaded</strong>
-      <span>
-        <code>data/routes.js</code> or <code>data/stops.js</code> is missing. Either run
-        <code>cd fontend &amp;&amp; node scripts/export-qr-admin-data.mjs</code>, or load the built dataset
-        <code>fontend/src/data/kolkata-bus-data.json</code> directly:
-      </span>
-      <input type="file" id="data-file" accept="application/json,.json" />
-    </div>
+    <section class="intro">
+      <div>
+        <h1>Print the stickers</h1>
+        <p>
+          One QR for every bus route (<strong>on bus</strong>), one for every bus stop (<strong>at bus stop</strong>).
+          Each code is a plain link to this site’s <code>/qr/…</code> screens: a phone with the app opens the
+          app, a phone without it opens the website. Nothing leaves this page — links and QR codes are
+          built in your browser from the timetable beside it.
+        </p>
+      </div>
+      <div class="intro-facts">
+        <span>No account</span>
+        <span>Works offline</span>
+        <span>Print sheets kept in this browser</span>
+      </div>
+    </section>
 
     <section class="hostbar" aria-label="The site the stickers point at">
-      <label class="field grow">
+      <span class="step" aria-hidden="true">1</span>
+      <label class="field">
         <span>Site address the QR opens</span>
         <input id="host" type="url" placeholder="https://your-domain.example" spellcheck="false" autocomplete="off" />
       </label>
       <span class="host-state" id="host-state">No address yet</span>
       <p class="hint">
-        Must be the https domain that serves this site, with no path after it. That is the address
-        Android App Links and iOS Universal Links verify, and the one printed on every sticker. It is
-        remembered in this browser only.
+        The https domain that serves this site, with no path after it. That is the address Android App
+        Links and iOS Universal Links verify, and the one printed on every sticker. Remembered in this browser.
       </p>
     </section>
 
     <div class="layout">
-      <div>
+      <div class="column">
+        <div class="step-head">
+          <span class="step" aria-hidden="true">2</span>
+          <div>
+            <h2>Choose the sticker</h2>
+            <p>Search the same directory the website ships, then create the code.</p>
+          </div>
+        </div>
+
         <div class="tabs" role="tablist" aria-label="Sticker type">
-          <button type="button" role="tab" id="tab-bus" aria-selected="true" aria-controls="panel-bus">On bus</button>
-          <button type="button" role="tab" id="tab-stop" aria-selected="false" aria-controls="panel-stop">At bus stop</button>
+          <button type="button" role="tab" id="tab-bus" aria-selected="true" aria-controls="panel-bus" tabindex="0">On bus</button>
+          <button type="button" role="tab" id="tab-stop" aria-selected="false" aria-controls="panel-stop" tabindex="-1">At bus stop</button>
         </div>
 
         <section class="card" id="panel-bus" role="tabpanel" aria-labelledby="tab-bus">
-          <h2>On bus sticker</h2>
           <p class="note">
-            One sticker per route. The screen it opens asks for a position once, finds the nearest stop
-            of that route and matches the clock against the timetable to work out which bus it is.
+            One sticker per route. The screen it opens asks for a position once, finds the nearest stop of
+            that route and matches the clock against the timetable to work out which bus it is.
           </p>
 
           <div class="grid2">
@@ -126,20 +132,19 @@
 
           <div class="actions">
             <button type="button" class="btn primary" id="bus-create">Create sticker</button>
-            <button type="button" class="btn" id="bus-reset">Clear</button>
+            <button type="button" class="btn ghost" id="bus-reset">Clear</button>
           </div>
           <p class="note">
-            Leave direction, registration and stops blank for the ordinary route sticker. The
-            registration field exists for the per-bus stickers planned later — today the screen shows it
-            as printed and still identifies the bus from the timetable.
+            Leave direction, registration and stops blank for the ordinary route sticker. The registration
+            field is for the per-bus stickers planned later — today the screen shows it as printed and still
+            identifies the bus from the timetable.
           </p>
         </section>
 
         <section class="card" id="panel-stop" role="tabpanel" aria-labelledby="tab-stop" hidden>
-          <h2>At bus stop sticker</h2>
           <p class="note">
-            One sticker per stop. It opens that stop’s board: the next two hours first, with the whole
-            day one tap away. Both directions are shown, each labelled with the terminus it heads to.
+            One sticker per stop. It opens that stop’s board: the next two hours first, with the rest of the
+            day and the whole day a tap away. Both directions are shown, each labelled with its terminus.
           </p>
 
           <div class="grid2">
@@ -162,63 +167,88 @@
 
           <div class="actions">
             <button type="button" class="btn primary" id="stop-create">Create sticker</button>
-            <button type="button" class="btn" id="stop-reset">Clear</button>
+            <button type="button" class="btn ghost" id="stop-reset">Clear</button>
           </div>
         </section>
+
+        <div class="data-note" id="data-note" hidden>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+          </svg>
+          <span>Route and stop lists were not found beside this page. Choose the built dataset once, or run <code>npm run qr-data</code>.</span>
+          <button type="button" class="btn" id="data-note-load">Choose dataset</button>
+        </div>
       </div>
 
-      <aside class="preview" aria-live="polite">
-        <div class="preview-empty" id="preview-empty">
-          <strong>Nothing to print yet</strong>
-          <p>Pick a route or a stop on the left. The sticker, its link and its download buttons appear here.</p>
+      <aside class="preview">
+        <div class="step-head">
+          <span class="step" aria-hidden="true">3</span>
+          <div>
+            <h2>Check, then print</h2>
+            <p>Preview the sticker, download it, or add it to the sheet.</p>
+          </div>
         </div>
-        <div id="preview-body" hidden>
+
+        <div class="preview-empty" id="preview-empty">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" />
+            <rect x="3" y="14" width="7" height="7" rx="1" /><path d="M14 14h3v3h-3z" /><path d="M20 20h1" /><path d="M14 20h1" /><path d="M20 14v1" />
+          </svg>
+          <strong>Nothing to print yet</strong>
+          <p>Pick a route or a stop on the left. The sticker, its link and the download buttons appear here.</p>
+        </div>
+
+        <div id="preview-body" class="preview-card" hidden>
           <div id="preview-sticker"></div>
           <div class="linkbox">
-            <span>Link inside the QR</span>
+            <span class="label">Link inside the QR</span>
             <code id="preview-url"></code>
             <span id="preview-warn" class="warn" hidden></span>
           </div>
-          <div class="actions" style="margin-top:12px">
-            <button type="button" class="btn primary" id="copy-link">Copy link</button>
+          <div class="preview-actions">
+            <button type="button" class="btn primary wide" id="add-sheet">Add to print sheet</button>
+            <button type="button" class="btn" id="copy-link">Copy link</button>
             <button type="button" class="btn" id="download-png">PNG</button>
             <button type="button" class="btn" id="download-svg">SVG</button>
-            <button type="button" class="btn" id="add-sheet">Add to print sheet</button>
           </div>
         </div>
       </aside>
     </div>
 
     <section class="sheet-card" aria-label="Print sheet">
-      <h2>
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M6 9V2h12v7" /><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /><rect x="6" y="14" width="12" height="8" rx="1" />
-        </svg>
-        Print sheet <span class="count-chip" id="sheet-count" style="margin-left:6px">0 stickers</span>
-      </h2>
-      <p>
-        Stickers are added here, three to a row on A4, then printed straight to paper or to a PDF.
-        Keep this sheet to yourself — the links contain nothing secret, but a stray sheet is a sticker
-        on the wrong bus.
-      </p>
-      <div class="actions" style="margin-bottom:14px">
-        <button type="button" class="btn primary" id="print-sheet">Print / save as PDF</button>
-        <button type="button" class="btn" id="clear-sheet">Clear sheet</button>
+      <div class="sheet-head">
+        <h2>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 9V2h12v7" /><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /><rect x="6" y="14" width="12" height="8" rx="1" />
+          </svg>
+          Print sheet <span class="chip" id="sheet-count">0 stickers</span>
+        </h2>
+        <div class="actions">
+          <button type="button" class="btn primary" id="print-sheet">Print / save as PDF</button>
+          <button type="button" class="btn" id="clear-sheet">Clear sheet</button>
+        </div>
       </div>
-      <div class="sheet-empty" id="sheet-empty">No stickers on the sheet yet.</div>
+      <p>
+        Stickers are added here, three to a row on A4, then printed to paper or PDF. Keep this sheet to
+        yourself — the links contain nothing secret, but a stray sheet is a sticker on the wrong bus.
+      </p>
+      <div class="sheet-empty" id="sheet-empty">
+        <strong>No stickers on the sheet yet</strong>
+        <span>Create a sticker, then press “Add to print sheet”.</span>
+      </div>
       <div class="sheet-grid" id="sheet-grid"></div>
     </section>
 
     <footer class="foot">
       <p>
         <strong>Private.</strong> This page is not part of the website build and is never linked from it.
-        Keep it on your own computer, or behind a password on a host you control — never in the public
-        web root, and never committed to a public deploy.
+        Keep it on your own computer, or behind a password on a host you control — never in the public web
+        root, and never committed to a public deploy.
       </p>
       <p>
-        <strong>Links must match the domain.</strong> Android App Links and iOS Universal Links only
-        work when the printed domain holds the verification files (<code>/.well-known/assetlinks.json</code>
-        and <code>/.well-known/apple-app-site-association</code>) that the build writes from
+        <strong>Links must match the domain.</strong> Android App Links and iOS Universal Links only work
+        when the printed domain holds the verification files (<code>/.well-known/assetlinks.json</code> and
+        <code>/.well-known/apple-app-site-association</code>) that the build writes from
         <code>APP_LINK_HOST</code>. Read <code>qr-admin/README.md</code> before printing a batch.
       </p>
       <p>
@@ -229,6 +259,8 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <input type="file" id="data-file" accept="application/json,.json" hidden />
 
   <script src="vendor/qrcode.js"></script>
   <script src="data/routes.js"></script>

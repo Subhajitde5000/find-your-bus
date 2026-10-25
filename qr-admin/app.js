@@ -458,11 +458,17 @@
 
   // ---------------------------------------------------------------- data
 
+  /** The little status chip: busy while loading, green when the lists are in, plain otherwise. */
+  function setDataChip(text, kind) {
+    $("data-chip-text").textContent = text;
+    $("data-chip").className = "chip" + (kind ? " " + kind : "");
+  }
+
   function applyData(nextRoutes, nextStops) {
     routes = nextRoutes;
     stops = nextStops;
-    $("data-chip").textContent = routes.length + " routes · " + stops.length + " stops";
-    $("load-error").hidden = true;
+    setDataChip(routes.length + " routes · " + stops.length + " stops");
+    $("data-note").hidden = true;
   }
 
   function buildFromDataset(data) {
@@ -499,13 +505,62 @@
     return { routes: nextRoutes, stops: nextStops };
   }
 
-  function loadData() {
-    if (Array.isArray(window.QR_ROUTES) && Array.isArray(window.QR_STOPS)) {
+  /*
+   * The route and stop lists load themselves.
+   *
+   * Normally `data/routes.js` and `data/stops.js` are beside this page and have already
+   * run by the time this file does, so there is nothing to do. If they are missing (the
+   * page was copied out of the folder, or the data was never exported), the built
+   * dataset is fetched from the repository instead -- which works whenever the page is
+   * served over http, and fails quietly when a browser blocks file:// reads. Only when
+   * both routes are exhausted is the small inline note shown, with a file picker; there
+   * is no error wall to click past.
+   */
+  var DATASET_PATHS = [
+    "../fontend/src/data/kolkata-bus-data.json",
+    "../../fontend/src/data/kolkata-bus-data.json",
+    "kolkata-bus-data.json",
+    "data/kolkata-bus-data.json",
+  ];
+
+  function applyScriptsIfPresent() {
+    if (Array.isArray(window.QR_ROUTES) && window.QR_ROUTES.length && Array.isArray(window.QR_STOPS) && window.QR_STOPS.length) {
       applyData(window.QR_ROUTES, window.QR_STOPS);
+      return true;
+    }
+    return false;
+  }
+
+  function fetchDataset(index) {
+    if (index >= DATASET_PATHS.length) {
+      setDataChip("Route lists not loaded", "empty");
+      $("data-note").hidden = false;
       return;
     }
-    $("load-error").hidden = false;
-    $("data-chip").textContent = "Data file missing";
+    var url = DATASET_PATHS[index];
+    if (typeof fetch !== "function") {
+      fetchDataset(index + 1);
+      return;
+    }
+    fetch(url, { cache: "no-store" })
+      .then(function (response) {
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        return response.json();
+      })
+      .then(function (data) {
+        var next = buildFromDataset(data);
+        if (!next.routes.length || !next.stops.length) throw new Error("no routes or stops");
+        applyData(next.routes, next.stops);
+      })
+      .catch(function () {
+        fetchDataset(index + 1);
+      });
+  }
+
+  function loadData() {
+    if (applyScriptsIfPresent()) return;
+    setDataChip("Loading route lists…", "busy");
+    fetchDataset(0);
   }
 
   // ---------------------------------------------------------------- events
@@ -517,16 +572,29 @@
     renderHostState();
     $("host").addEventListener("input", renderHostState);
 
-    // Tabs
-    function setTab(tab) {
+    // Tabs. The hidden attribute is what keeps the two panels apart; styles.css makes
+    // sure it wins over the card's own display rule.
+    function setTab(tab, focus) {
       state.tab = tab;
-      $("tab-bus").setAttribute("aria-selected", String(tab === "bus"));
-      $("tab-stop").setAttribute("aria-selected", String(tab === "stop"));
+      var tabs = { bus: $("tab-bus"), stop: $("tab-stop") };
+      Object.keys(tabs).forEach(function (name) {
+        var selected = name === tab;
+        tabs[name].setAttribute("aria-selected", String(selected));
+        tabs[name].tabIndex = selected ? 0 : -1;
+      });
       $("panel-bus").hidden = tab !== "bus";
       $("panel-stop").hidden = tab !== "stop";
+      if (focus) tabs[tab].focus();
     }
     $("tab-bus").addEventListener("click", function () { setTab("bus"); });
     $("tab-stop").addEventListener("click", function () { setTab("stop"); });
+    Array.prototype.forEach.call(document.querySelectorAll('[role="tab"]'), function (tab) {
+      tab.addEventListener("keydown", function (event) {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        setTab(state.tab === "bus" ? "stop" : "bus", true);
+      });
+    });
 
     // Route search
     var routeSearch = $("route-search");
@@ -671,11 +739,12 @@
       toast("Sheet cleared.");
     });
 
-    // Fallback data load
-    $("load-data").addEventListener("click", function () {
-      $("load-error").hidden = false;
+    // Manual override, always available but no longer required.
+    function openFilePicker() {
       $("data-file").click();
-    });
+    }
+    $("load-data").addEventListener("click", openFilePicker);
+    $("data-note-load").addEventListener("click", openFilePicker);
     $("data-file").addEventListener("change", function (event) {
       var file = event.target.files && event.target.files[0];
       if (!file) return;
@@ -688,7 +757,7 @@
           applyData(next.routes, next.stops);
           toast("Loaded " + next.routes.length + " routes and " + next.stops.length + " stops.");
         } catch (error) {
-          $("data-chip").textContent = "Could not read that file";
+          setDataChip("Could not read that file", "empty");
           toast("That file could not be read: " + error.message);
         }
       };

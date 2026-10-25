@@ -10,6 +10,8 @@ data/      Source workbooks, the sample routes, the route extension, and the dat
 scripts/   build_static_data.py — the workbooks -> bundled JSON exporter.
            geocode_stops.py    — stop coordinates for the offline ride screen.
            build_route_geometry.py — road shapes for the ride map, from OpenStreetMap.
+           set_qr_domain.mjs   — put the permanent address into the QR stickers.
+qr-admin/  The private QR sticker maker. Not part of the site; never deployed.
 ```
 
 The website does not call the backend. All timetable data is generated once into
@@ -50,6 +52,165 @@ bundle; the only live input is the phone's own GPS, read by the browser.
 **This is not live tracking.** Nothing follows the bus. The only moving thing the site
 knows about is the passenger's own phone.
 
+## QR codes on buses and at bus stops
+
+Two kinds of sticker, both plain `https` links, both working with no install and with no
+signal once the page is on the phone.
+
+| Sticker | Link | Opens |
+|---|---|---|
+| **On a bus** — one per route, inside every bus of that route | `/on-bus?route=1` (optionally `&bus=WB 04 A 1234`) | `/on-bus` |
+| **At a bus stop** — one per stop | `/stop?stop=Esplanade` | `/stop` |
+
+The links are ordinary web addresses on purpose: on a phone with the app installed,
+**Android App Links** and **iOS Universal Links** open the sticker in the app; without the
+app the same link opens the website. The phone's own camera app works too, and a printed
+link never expires.
+
+### On a bus (`/on-bus`)
+
+The sticker can only say which *route* it is, because one sticker is stuck inside every
+bus of that route. The screen works out the rest the way a passenger would:
+
+1. the phone's GPS matches the position against the route's corridor, in both directions
+   (`matchRide` in `fontend/src/lib/ride.ts`, the same engine as `/ride`);
+2. the route's published runs say when each scheduled bus is at that point, interpolated
+   by distance between the two printed stops around it (`fontend/src/lib/onBus.ts`);
+3. the run nearest the clock is the bus the passenger is most likely in — and the card
+   says how near, in minutes, so a bus 20 minutes late is shown as exactly that.
+
+Then it asks, once, **where the passenger is getting off** (optional). With a destination
+it counts down the journey: minutes, distance, the next stop, the arrival time, and a
+"get ready / your stop is next / you have arrived" alert with a buzz. Choosing "skip"
+follows the bus to its terminus, like the plain ride screen.
+
+Everything has a way forward without GPS, because a bus is where GPS is worst: "No signal?
+Choose your stop instead" identifies the bus from the stop the passenger has just left,
+and the route's own stop list is on screen before any permission is granted. Blocked
+location, no camera, an unlisted route, a route whose stops are not mapped: each has its
+own plain sentence and a next step, never a dead screen.
+
+Bus registration numbers are **not printed yet**. The link format already carries one
+(`&bus=`), the scanner keeps it, and the screen shows it as a certain identification when
+present — so a later per-bus sticker needs no change to any printed address.
+
+### At a bus stop (`/stop`)
+
+The next buses from now, with a wait, and behind one tap **the whole day** grouped by
+hour (Esplanade has 261 routes and some 9,800 printed passes, so hours open one at a
+time and each shows 40 rows at first). A filter narrows by route or destination. Every
+row leads to the ride screen for that bus. Times are the operator's published passage
+times at that stop; the page says once, plainly, that they are not live positions.
+
+One static document serves all 2,194 stops, so a QR address never depends on a per-stop
+page existing, and the service worker caches one page for every stop in the city.
+
+### Scanning, in the browser and in the app (`/scan`)
+
+- **In the app:** the native ML Kit scanner (`@capacitor-mlkit/barcode-scanning`), with the
+  barcode model pre-downloaded (`com.google.mlkit.vision.DEPENDENCIES=barcode`) so a scan
+  works offline. If the module is missing (old build, no Play services) the app falls back
+  to the camera decoder, so the button always does something.
+- **In the browser:** `getUserMedia` plus the built-in `BarcodeDetector` where it exists,
+  and the bundled **jsQR** decoder everywhere else (iOS Safari has no `BarcodeDetector`).
+  jsQR is loaded on demand, only on this screen.
+- **Also:** paste a link by hand, or use the phone's camera app. A QR from any other
+  website is refused and shown, never followed (`parseQrValue` in
+  `fontend/src/lib/qrLinks.ts`).
+
+There is a scan button in the site header, in the sidebar, in the app's home-screen
+shortcuts, and on both QR screens.
+
+### How the three screens are laid out
+
+All three pages are answer-first: the thing the passenger scanned for is at the top, and
+every button below it is a way forward. Nothing important is behind a fold they have to
+find, and nothing repeats.
+
+- **`/on-bus`** — a route header that fits on one card (number, termini, operator, and the
+  Kolkata clock in its footer strip), then the status card, then the answer. The
+  identification card leads with a sentence ("You are on route 1" / "No bus matches this
+  time closely") and a confidence badge; the run that produced it is a small caption
+  underneath, with the evidence (printed time, clock, source) in one tinted strip. The
+  destination question comes after that, then the journey: minutes, distance and stop up
+  front, with the map, the progress bar and the stop list divided inside the same card
+  instead of stacking as three more boxes. "No signal? Choose your stop instead" is the
+  one fallback, and the route's own timetable folds away until asked for. A footer with
+  two buttons (scan again, buses at your stop) and the direction correction closes the
+  screen. Below 760 px the status card stacks and its buttons go full width; the map and
+  stop list stay inside the journey card, so the page has one rhythm rather than six.
+- **`/stop`** — the stop card carries the name, how many buses call here, and a footer strip
+  with the one caveat ("published times, not live positions") plus the current minute.
+  Under it a sticky toolbar: **Next** / **Whole day** and the filter, with the wait for the
+  next bus on the tab. Each bus is one row — a fixed time column, route and destination,
+  operator under it, and the wait as a badge on the right, with the row itself leading to
+  the ride screen. **Whole day** opens as hours, the current hour first and highlighted.
+- **`/scan`** — a wide, dark camera stage with a corner frame and a sweeping line, one
+  primary button, and "find a stop without scanning" as a quiet link under it. Messages are
+  inline cards, not alerts: permission denied, no camera, unreadable code, and a *foreign*
+  code (shown and refused, never followed). Pasting a link, and the two sentences that say
+  what each sticker does, sit below in a single card each.
+
+The three screens share one CSS block in `globals.css` (`.qr-*`, `.ob-*`, `.stop-*`,
+`.scan-*`) written against the site's theme variables, so light and dark are the same
+layout. The camera stage stays dark in both themes, because a bright screen ruins a scan.
+
+### The private sticker maker
+
+`qr-admin/` is a **separate folder, not a route on the website**: no page under
+`fontend/src/app`, nothing in `fontend/out`, nothing to find on the public server. Open
+`qr-admin/index.html` directly. It searches the site's own route and stop lists, builds
+the link, draws the QR, downloads PNG/SVG, and lays stickers out 2 × 4 on A4 at
+90 × 60 mm for printing. It has its own light/dark switch in the top right (remembered per
+browser, following the system until you choose); printing is always black on white, in
+either theme. See [`qr-admin/README.md`](qr-admin/README.md).
+
+It carries every route and stop in `qr-admin/data/catalog.js`, generated from
+`fontend/src/data/kolkata-bus-data.json` by `node qr-admin/scripts/build-catalog.mjs`.
+`node qr-admin/scripts/verify-qr.mjs` generates a code, rasterises it and decodes it with
+the same jsQR the scanner uses, so the encoder is proven, not assumed.
+`node qr-admin/scripts/test-admin.mjs` drives the page itself in jsdom: the light/dark
+switch and what it remembers, the origin rules, the link that lands in a QR, and the print
+sheet.
+
+### Setting the permanent address
+
+The address is the one part of a sticker that can never change, so it lives in one place:
+
+```bash
+node scripts/set_qr_domain.mjs https://your-domain --sha256 "AA:BB:…" --team-id ABCDE12345
+node scripts/set_qr_domain.mjs --help      # prints the usage
+cd mobile && npm run sync                  # copy the site and the native config
+```
+
+It rewrites `SITE_ORIGIN` in `fontend/src/lib/qrLinks.ts`, the host in the Android
+manifest, the associated domains in the iOS entitlements, and the sticker maker's default.
+
+For the link to open in the app, the two association files must also be live on that
+domain, filled in with the account values that only the developer accounts know:
+
+| File | What it needs |
+|---|---|
+| `fontend/public/.well-known/assetlinks.json` | the app's signing-certificate SHA-256 (Play Console → App integrity, or `keytool -list -v`) |
+| `fontend/public/.well-known/apple-app-site-association` | the Apple Team ID in `TEAMID.in.cholo.kolkatabus` |
+
+Both are served at the domain root by the static export (they are copied from
+`fontend/public/`). They must come back as `200`, as `application/json`, with **no
+redirect** — Apple and Google both refuse a redirect here, which is the usual reason a
+correct-looking sticker still opens in the browser. Until they are filled in and verified, an Android browser shows a
+dismissible "Open in app" hint on the QR screens instead, using an `intent://` link.
+
+### What the stickers cannot do
+
+- **They are not live tracking.** No bus reports its position. The on-bus screen compares
+  the passenger's own GPS with the timetable, and says when no bus matches the clock.
+- **One sticker per route, not per vehicle**, in this version. The route and the time
+  identify the bus; the registration field exists in the link for later.
+- **A sticker is only as good as its placement.** Fix it inside the bus where a standing
+  passenger can reach it, and at the stop on the shelter at about 1.5 m — not on glass, not
+  in the sun. Print at 100%, and scan a sample with two phones (one with the app, one
+  without) before a print run.
+
 ### Installable (PWA)
 
 `npm run build` writes a web app manifest and a service worker that precaches the whole
@@ -69,7 +230,7 @@ npm run dev        # http://localhost:3000
 npm run build      # static export -> fontend/out, then writes out/sw.js
 npm run lint
 npm run typecheck
-npm test             # journey-search, ride-engine, render and page tests (149 of them)
+npm test             # journey search, ride engine, QR links/stops/identification, render and page tests
 ```
 
 `npm run build` writes plain HTML/CSS/JS to `fontend/out`, which can be served by any static host
@@ -99,6 +260,21 @@ timetable but not for the ride screen.
 /ride?route=230&dir=return&from=Esplanade&to=Alipore%20Zoo
 /ride?route=1&dir=outbound&run=RUN-1-OUT-01    # a specific published run
 ```
+
+### Testing a QR screen without a sticker
+
+Every sticker is just a link, so the screens can be opened directly:
+
+```
+/on-bus?route=1                        # the bus screen for route 1
+/on-bus?route=230&bus=WB%2004%20A%201234
+/stop?stop=Garia                       # next buses and the whole day at a stop
+/stop?stop=Howrah%20Stn                # aliases resolve to the directory name
+/scan                                  # the scanner (needs a camera, or paste a link)
+```
+
+`/on-bus` needs a GPS fix to identify the bus, or a stop picked from "No signal? Choose
+your stop instead"; a desktop browser with location services gives it one.
 
 To try it without moving, open the page on a laptop and use your browser's location
 override (Chrome DevTools → Sensors → Location) to place yourself on a stop's

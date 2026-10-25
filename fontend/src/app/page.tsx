@@ -21,6 +21,7 @@ import {
   Menu,
   Navigation,
   PersonStanding,
+  QrCode,
   Route,
   Search,
   Sunrise,
@@ -451,6 +452,10 @@ export default function HomePage() {
               <span>{DATA_COUNTS.routes} routes · {DATA_COUNTS.stops} stops · {DATA_COUNTS.stands} stands</span>
             </span>
             <span className="city-chip location-chip"><span className="city-pulse" /><span>Kolkata, WB</span></span>
+            <Link className="scan-chip" href="/scan" title="Scan the QR code inside a bus or at a bus stop">
+              <QrCode size={16} aria-hidden="true" />
+              <span>Scan a QR</span>
+            </Link>
             <ThemeToggle />
           </div>
         </div>

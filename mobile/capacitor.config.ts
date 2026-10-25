@@ -13,7 +13,12 @@ const config: CapacitorConfig = {
   appName: "Cholo",
   webDir: "../fontend/out",
   server: { androidScheme: "https" },
-  backgroundColor: "#f8faf7",
+  backgroundColor: "#00000000",
+  plugins: {
+    SystemBars: {
+      insetsHandling: "disable",
+    },
+  },
 };
 
 export default config;

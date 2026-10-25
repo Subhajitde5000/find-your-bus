@@ -58,6 +58,7 @@ describe("the theme choice", () => {
     const attributes = new Map<string, string>();
     const storage = new Map<string, string>();
     const events: string[] = [];
+    const nativeDarkStates: boolean[] = [];
 
     const fake = globalThis as unknown as {
       document?: unknown;
@@ -84,6 +85,9 @@ describe("the theme choice", () => {
         },
         matchMedia: () => ({ matches: false }),
         dispatchEvent: (event: { type: string }) => void events.push(event.type),
+        CholoNativeBars: {
+          setDarkTheme: (dark: boolean) => void nativeDarkStates.push(dark),
+        },
       },
     });
 
@@ -93,10 +97,12 @@ describe("the theme choice", () => {
       assert.equal(attributes.get("data-theme"), "dark", "the page paints dark");
       assert.equal(storage.get(THEME_KEY), "dark", "and the choice is remembered");
       assert.deepEqual(events, [THEME_EVENT], "other theme buttons are told");
+      assert.deepEqual(nativeDarkStates, [true], "native status/navigation bar icons match dark theme");
       assert.equal(currentTheme(), "dark");
       assert.equal(preferredTheme(), "dark");
       setTheme("light");
       assert.equal(currentTheme(), "light");
+      assert.deepEqual(nativeDarkStates, [true, false], "native status/navigation bar icons switch back to light");
     } finally {
       Object.defineProperty(globalThis, "document", { configurable: true, writable: true, value: previous.document });
       Object.defineProperty(globalThis, "window", { configurable: true, writable: true, value: previous.window });

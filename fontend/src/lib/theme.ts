@@ -70,6 +70,10 @@ export function currentTheme(): Theme {
 export function applyTheme(theme: Theme): void {
   if (typeof document === "undefined") return;
   document.documentElement.setAttribute("data-theme", theme);
+  if (typeof window !== "undefined") {
+    const nativeBars = (window as unknown as { CholoNativeBars?: { setDarkTheme?: (dark: boolean) => void } }).CholoNativeBars;
+    nativeBars?.setDarkTheme?.(theme === "dark");
+  }
 }
 
 /** Applies, remembers and announces a theme chosen by the reader. */

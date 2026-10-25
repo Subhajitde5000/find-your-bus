@@ -6,6 +6,8 @@
 	<string>$(CAPACITOR_DEBUG)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Cholo uses the camera only to read a QR sticker on a bus or at a stop. The picture stays on your phone.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Cholo uses your location to show how far the next stop is and to warn you before your stop. It never leaves your phone.</string>
 	<key>CFBundleDisplayName</key>

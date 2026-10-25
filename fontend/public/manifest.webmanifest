@@ -8,11 +8,18 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["standalone", "browser"],
+  "display_override": [
+    "standalone",
+    "browser"
+  ],
   "orientation": "portrait-primary",
   "background_color": "#f8faf7",
   "theme_color": "#195a45",
-  "categories": ["travel", "navigation", "utilities"],
+  "categories": [
+    "travel",
+    "navigation",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "/icons/icon.svg",
@@ -45,14 +52,36 @@
       "short_name": "Find a bus",
       "description": "Search the timetable between two stops",
       "url": "/#search",
-      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Ride along",
       "short_name": "Ride",
       "description": "Open the offline ride screen for a route you are on",
       "url": "/ride",
-      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Scan a sticker",
+      "short_name": "Scan",
+      "description": "Scan a Cholo QR sticker on a bus or at a stop",
+      "url": "/scan",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

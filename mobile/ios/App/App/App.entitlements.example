@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Universal Links for the QR stickers (iOS).
+
+  This is an EXAMPLE. To switch it on:
+    1. Replace cholo.example.com with the domain that serves the website.
+    2. Rename this file to App.entitlements and add it to the App target.
+    3. Xcode > Signing & Capabilities > + Capability > Associated Domains
+       (the entry below appears there), then choose a team that has the
+       capability enabled.
+    4. Make sure the same domain is set as APP_LINK_HOST when building the
+       website, so /.well-known/apple-app-site-association is published with
+       your Team ID and bundle id.
+    5. Rebuild the app. A scanned sticker then opens the app; without the app
+       installed the same https link opens Safari.
+
+  Left as .example on purpose: an entitlements file wired into the build
+  without the Associated Domains capability in the provisioning profile makes
+  Xcode fail to sign the app.
+-->
+<plist version="1.0">
+<dict>
+  <key>com.apple.developer.associated-domains</key>
+  <array>
+    <string>applinks:cholo.example.com</string>
+  </array>
+</dict>
+</plist>

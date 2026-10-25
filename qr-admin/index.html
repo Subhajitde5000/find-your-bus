@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <title>Cholo QR studio — private</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <span class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 6v6" /><path d="M15 6v6" /><path d="M2 12h19.6" />
+            <path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3" />
+            <circle cx="7" cy="18" r="2" /><path d="M9 18h5" /><circle cx="16" cy="18" r="2" />
+          </svg>
+        </span>
+        <span>
+          <strong>cholo<span>.</span></strong>
+          <small>QR STICKER STUDIO</small>
+        </span>
+      </span>
+      <span class="private-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="10" width="16" height="11" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" />
+        </svg>
+        Private tool — do not publish
+      </span>
+      <div class="top-right">
+        <span class="count-chip" id="data-chip">Loading the directory…</span>
+        <button type="button" class="btn" id="load-data">Load data file</button>
+      </div>
+    </header>
+
+    <h1>Print the stickers</h1>
+    <p class="lede">
+      One QR for every bus route (<strong>on bus</strong>), one for every bus stop (<strong>at bus stop</strong>).
+      Each code is a plain link to this site’s <code>/qr/…</code> screens: a phone with the app opens the
+      app, a phone without it opens the website. Nothing is uploaded from this page — it builds links
+      and draws the QR codes in your browser, from the timetable data bundled beside it.
+    </p>
+
+    <div id="load-error" class="load-error" hidden>
+      <strong>The route and stop lists could not be loaded</strong>
+      <span>
+        <code>data/routes.js</code> or <code>data/stops.js</code> is missing. Either run
+        <code>cd fontend &amp;&amp; node scripts/export-qr-admin-data.mjs</code>, or load the built dataset
+        <code>fontend/src/data/kolkata-bus-data.json</code> directly:
+      </span>
+      <input type="file" id="data-file" accept="application/json,.json" />
+    </div>
+
+    <section class="hostbar" aria-label="The site the stickers point at">
+      <label class="field grow">
+        <span>Site address the QR opens</span>
+        <input id="host" type="url" placeholder="https://your-domain.example" spellcheck="false" autocomplete="off" />
+      </label>
+      <span class="host-state" id="host-state">No address yet</span>
+      <p class="hint">
+        Must be the https domain that serves this site, with no path after it. That is the address
+        Android App Links and iOS Universal Links verify, and the one printed on every sticker. It is
+        remembered in this browser only.
+      </p>
+    </section>
+
+    <div class="layout">
+      <div>
+        <div class="tabs" role="tablist" aria-label="Sticker type">
+          <button type="button" role="tab" id="tab-bus" aria-selected="true" aria-controls="panel-bus">On bus</button>
+          <button type="button" role="tab" id="tab-stop" aria-selected="false" aria-controls="panel-stop">At bus stop</button>
+        </div>
+
+        <section class="card" id="panel-bus" role="tabpanel" aria-labelledby="tab-bus">
+          <h2>On bus sticker</h2>
+          <p class="note">
+            One sticker per route. The screen it opens asks for a position once, finds the nearest stop
+            of that route and matches the clock against the timetable to work out which bus it is.
+          </p>
+
+          <div class="grid2">
+            <label class="field">
+              <span>Route number</span>
+              <input id="route-search" type="search" placeholder="Search a route, e.g. 230 or S-12A" autocomplete="off" spellcheck="false" />
+              <ul class="suggest" id="route-suggest" hidden></ul>
+            </label>
+            <label class="field">
+              <span>Direction printed on the sticker</span>
+              <select id="direction">
+                <option value="">Any direction (recommended)</option>
+                <option value="outbound">Outbound only</option>
+                <option value="return">Return only</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="picked" id="route-picked" hidden></div>
+
+          <div class="grid2">
+            <label class="field">
+              <span>Bus registration (optional, for future per-bus stickers)</span>
+              <input id="bus-reg" type="text" placeholder="WB 12 AB 3456" autocomplete="off" />
+            </label>
+            <label class="field">
+              <span>Boarding stop printed into the link (optional)</span>
+              <select id="boarding"><option value="">Not set — the phone decides</option></select>
+            </label>
+          </div>
+
+          <div class="grid2">
+            <label class="field">
+              <span>Destination printed into the link (optional)</span>
+              <select id="destination"><option value="">Not set</option></select>
+            </label>
+            <label class="field">
+              <span>Error correction</span>
+              <select id="ec">
+                <option value="M" selected>M — standard (smallest code)</option>
+                <option value="Q">Q — survives grime and scratches</option>
+                <option value="H">H — survives heavy wear (largest)</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button type="button" class="btn primary" id="bus-create">Create sticker</button>
+            <button type="button" class="btn" id="bus-reset">Clear</button>
+          </div>
+          <p class="note">
+            Leave direction, registration and stops blank for the ordinary route sticker. The
+            registration field exists for the per-bus stickers planned later — today the screen shows it
+            as printed and still identifies the bus from the timetable.
+          </p>
+        </section>
+
+        <section class="card" id="panel-stop" role="tabpanel" aria-labelledby="tab-stop" hidden>
+          <h2>At bus stop sticker</h2>
+          <p class="note">
+            One sticker per stop. It opens that stop’s board: the next two hours first, with the whole
+            day one tap away. Both directions are shown, each labelled with the terminus it heads to.
+          </p>
+
+          <div class="grid2">
+            <label class="field">
+              <span>Bus stop</span>
+              <input id="stop-search" type="search" placeholder="Search a stop, e.g. Esplanade" autocomplete="off" spellcheck="false" />
+              <ul class="suggest" id="stop-suggest" hidden></ul>
+            </label>
+            <label class="field">
+              <span>Error correction</span>
+              <select id="stop-ec">
+                <option value="M" selected>M — standard (smallest code)</option>
+                <option value="Q">Q — survives grime and scratches</option>
+                <option value="H">H — survives heavy wear (largest)</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="picked" id="stop-picked" hidden></div>
+
+          <div class="actions">
+            <button type="button" class="btn primary" id="stop-create">Create sticker</button>
+            <button type="button" class="btn" id="stop-reset">Clear</button>
+          </div>
+        </section>
+      </div>
+
+      <aside class="preview" aria-live="polite">
+        <div class="preview-empty" id="preview-empty">
+          <strong>Nothing to print yet</strong>
+          <p>Pick a route or a stop on the left. The sticker, its link and its download buttons appear here.</p>
+        </div>
+        <div id="preview-body" hidden>
+          <div id="preview-sticker"></div>
+          <div class="linkbox">
+            <span>Link inside the QR</span>
+            <code id="preview-url"></code>
+            <span id="preview-warn" class="warn" hidden></span>
+          </div>
+          <div class="actions" style="margin-top:12px">
+            <button type="button" class="btn primary" id="copy-link">Copy link</button>
+            <button type="button" class="btn" id="download-png">PNG</button>
+            <button type="button" class="btn" id="download-svg">SVG</button>
+            <button type="button" class="btn" id="add-sheet">Add to print sheet</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="sheet-card" aria-label="Print sheet">
+      <h2>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 9V2h12v7" /><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" /><rect x="6" y="14" width="12" height="8" rx="1" />
+        </svg>
+        Print sheet <span class="count-chip" id="sheet-count" style="margin-left:6px">0 stickers</span>
+      </h2>
+      <p>
+        Stickers are added here, three to a row on A4, then printed straight to paper or to a PDF.
+        Keep this sheet to yourself — the links contain nothing secret, but a stray sheet is a sticker
+        on the wrong bus.
+      </p>
+      <div class="actions" style="margin-bottom:14px">
+        <button type="button" class="btn primary" id="print-sheet">Print / save as PDF</button>
+        <button type="button" class="btn" id="clear-sheet">Clear sheet</button>
+      </div>
+      <div class="sheet-empty" id="sheet-empty">No stickers on the sheet yet.</div>
+      <div class="sheet-grid" id="sheet-grid"></div>
+    </section>
+
+    <footer class="foot">
+      <p>
+        <strong>Private.</strong> This page is not part of the website build and is never linked from it.
+        Keep it on your own computer, or behind a password on a host you control — never in the public
+        web root, and never committed to a public deploy.
+      </p>
+      <p>
+        <strong>Links must match the domain.</strong> Android App Links and iOS Universal Links only
+        work when the printed domain holds the verification files (<code>/.well-known/assetlinks.json</code>
+        and <code>/.well-known/apple-app-site-association</code>) that the build writes from
+        <code>APP_LINK_HOST</code>. Read <code>qr-admin/README.md</code> before printing a batch.
+      </p>
+      <p>
+        QR codes are drawn by <a href="https://github.com/kazuhikoarase/qrcode-generator" target="_blank" rel="noreferrer">qrcode-generator</a>
+        (MIT), vendored in <code>vendor/</code>. Timetable data comes from the same bundle the site ships.
+      </p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="vendor/qrcode.js"></script>
+  <script src="data/routes.js"></script>
+  <script src="data/stops.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

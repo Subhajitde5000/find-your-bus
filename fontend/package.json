@@ -3,13 +3,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/build_sw.mjs",
+    "build": "next build && node scripts/build_app_links.mjs && node scripts/build_sw.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/lib/timetables.test.ts src/lib/ride.test.ts src/lib/render.test.tsx src/lib/ridePage.test.tsx src/lib/serviceWorker.test.ts src/lib/routeMap.test.tsx src/lib/mapView.test.ts src/lib/routeMapControls.test.tsx src/lib/stopIndex.test.ts src/lib/alerts.test.ts src/lib/landmarks.test.ts src/lib/networkMap.test.ts src/lib/stopMap.test.tsx src/lib/theme.test.ts"
+    "test": "tsx --test src/lib/timetables.test.ts src/lib/ride.test.ts src/lib/render.test.tsx src/lib/ridePage.test.tsx src/lib/serviceWorker.test.ts src/lib/routeMap.test.tsx src/lib/mapView.test.ts src/lib/routeMapControls.test.tsx src/lib/stopIndex.test.ts src/lib/alerts.test.ts src/lib/landmarks.test.ts src/lib/networkMap.test.ts src/lib/stopMap.test.tsx src/lib/theme.test.ts src/lib/qr.test.ts src/lib/onBus.test.ts src/lib/stopBoard.test.ts src/lib/qrPages.test.tsx",
+    "qr-data": "node scripts/export-qr-admin-data.mjs"
   },
   "dependencies": {
+    "@capacitor-mlkit/barcode-scanning": "^8.2.1",
+    "@capacitor/app": "^8.1.2",
     "@fontsource/dm-sans": "^5.3.0",
     "@fontsource/outfit": "^5.3.0",
     "lucide-react": "^1.54.0",

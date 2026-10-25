@@ -435,6 +435,7 @@ export default function HomePage() {
               Bus route number
             </a>
             <Link className={styles.navLink} href="/map">Stop map</Link>
+            <Link className={styles.navLink} href="/scan">Scan QR</Link>
             {!mobileApp && (
               <>
                 <a className={`${styles.navLink} web-only-link`} href="#how-it-works">How it works</a>

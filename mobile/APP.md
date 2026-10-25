@@ -30,6 +30,51 @@ Run `npm run icons` after changing `resources/icon.png`.
 
 No Android Studio? The **Build Android test app** workflow in GitHub Actions builds a test APK for you.
 
+## QR stickers and deep links
+
+The QR stickers printed by [`../qr-admin/`](../qr-admin/README.md) hold ordinary `https`
+links to the site (`/qr/bus?r=…`, `/qr/stop?s=…`). When the app is installed those links
+open the app; when it is not, they open the website. Two things make the app side work:
+
+| | |
+|---|---|
+| `@capacitor/app` | tells the web app which URL launched it (cold start) or arrived (warm start). `fontend/src/components/DeepLinkBridge.tsx` then navigates inside the app. |
+| `@capacitor-mlkit/barcode-scanning` | the native offline QR reader used by `/scan` inside the app. Needs the camera permission, added to `AndroidManifest.xml`, and `NSCameraUsageDescription` in `Info.plist` (already added). |
+
+Both are in `mobile/package.json`; run `npm run sync` after pulling this change, or the
+native projects will not include them.
+
+### Android
+
+1. Set the site's domain in `android/gradle.properties`:
+   `appLinkHost=cholo.example.com` (no `https://`, no trailing slash).
+2. `AndroidManifest.xml` already carries the verified `https` intent filter for
+   `/qr/`, `/ride` and `/scan` on that host (`android:autoVerify="true"`).
+3. Publish `/.well-known/assetlinks.json` on that domain with the **signing**
+   certificate's SHA-256. The website build writes it from `ANDROID_SHA256_FINGERPRINTS`.
+   For a Play Store build use the fingerprint from Play Console → App integrity, because
+   Play re-signs the app.
+4. Test without a domain first:
+   ```bash
+   adb shell am start -a android.intent.action.VIEW -d "https://cholo.example.com/qr/bus?r=230"
+   ```
+   An unverified host still opens the app through the app chooser; a verified host opens it
+   directly with no chooser.
+
+### iOS
+
+1. Copy `ios/App/App/App.entitlements.example` to `App.entitlements`, replace the domain,
+   add it to the App target, and enable **Associated Domains** in
+   Signing & Capabilities (which needs a team with the capability).
+2. Publish `/.well-known/apple-app-site-association` with your Team ID and bundle id —
+   written by the website build from `IOS_TEAM_ID` / `IOS_BUNDLE_ID`.
+3. Universal Links only work from a real tap (Messages, Notes, camera), not from typing the
+   URL in Safari's address bar.
+
+Until those files are published, scanning a sticker opens the website in the phone's
+browser instead. Nothing in the app breaks: that is the fallback the feature is designed
+around.
+
 ## Before you publish
 
 1. **Change the app id** in `capacitor.config.ts` (`in.cholo.kolkatabus` is a placeholder; use a domain you own,

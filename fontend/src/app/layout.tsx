@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { DeepLinkBridge } from "@/components/DeepLinkBridge";
 import { PwaBridge } from "@/components/PwaBridge";
 import { ThemeSync } from "@/components/ThemeSync";
 import { IS_MOBILE_APP_BUILD, NATIVE_BOOTSTRAP } from "@/lib/native";
@@ -71,6 +72,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {children}
         <ThemeSync />
         <PwaBridge />
+        {/* Opens the screen a scanned App Link points at when it launches the app. */}
+        <DeepLinkBridge />
       </body>
     </html>
   );

@@ -18,6 +18,23 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!--
+              Scanned QR stickers.
+              A sticker holds https://<appLinkHost>/qr/bus?... or /qr/stop?... so the app
+              opens the right screen when it is installed, and the same link opens the
+              website when it is not. Android verifies the domain against
+              /.well-known/assetlinks.json (written by the site build from APP_LINK_HOST).
+              Change the host in android/gradle.properties, not here.
+            -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="${appLinkHost}" android:pathPrefix="/qr/" />
+                <data android:scheme="https" android:host="${appLinkHost}" android:pathPrefix="/ride" />
+                <data android:scheme="https" android:host="${appLinkHost}" android:pathPrefix="/scan" />
+            </intent-filter>
         </activity>
 
         <provider
@@ -32,6 +49,9 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Scanning a sticker: ML Kit reads the QR from the camera, on the phone only. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
     <!-- Set on bus follows the phone's own GPS along the route. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

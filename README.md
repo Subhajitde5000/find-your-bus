@@ -60,6 +60,80 @@ screen on Android and iOS.
 Stop coordinates come from openly published open datasets and are checked against the
 route chains; see [`data/STOP_COORDINATE_AUDIT.md`](data/STOP_COORDINATE_AUDIT.md).
 
+## QR stickers: inside the bus and at the stop
+
+Two stickers, one link format, and no server anywhere in the path:
+
+| Sticker | Where it goes | What scanning it opens |
+|---|---|---|
+| **On bus** | one per route, inside the bus | `/qr/bus?r=<route>` — finds your stop from one GPS reading, then matches the clock against that route's timetable to work out which bus you are on, with the alternatives listed |
+| **At bus stop** | one per stop, on the shelter | `/qr/stop?s=<stop>` — every bus from that stop: the next two hours first, the rest of the day and the whole day a tap away |
+
+Both are ordinary `https` links on this site's own domain:
+
+```
+https://<domain>/qr/bus?r=230            route sticker (either direction)
+https://<domain>/qr/bus?r=230&d=r        return direction only
+https://<domain>/qr/bus?r=230&bus=WB...  future per-bus sticker, registration printed
+https://<domain>/qr/stop?s=Esplanade     stop sticker
+```
+
+That choice is what satisfies the two requirements at once: a phone with the app installed
+opens the app (Android App Links / iOS Universal Links), and a phone without it opens the
+same screen on the website. The code is read and resolved locally
+([`fontend/src/lib/qr.ts`](fontend/src/lib/qr.ts)), so scanning works with no signal; the
+short code printed under every QR (`BUS 230`, `STOP Esplanade`) is the manual fallback.
+
+**How "on bus" identifies the bus** ([`onBus.ts`](fontend/src/lib/onBus.ts)): the nearest
+stop of that route within about 200 m, then the published runs at that stop ranked against
+the clock — a run up to 25 minutes late stays a candidate, a run more than a few minutes
+early is marked unusual, and two runs minutes apart are shown as an unresolved tie rather
+than a guess. If location is refused or unavailable, the stop is picked by hand from the
+route's stop list; nothing is blocked behind a permission. The destination is optional: it
+adds "about 25 min, arriving about 10:20" from the published times and hands over to the
+existing `/ride` screen, which follows the rest of the journey offline.
+
+**How the stop board works** ([`stopBoard.ts`](fontend/src/lib/stopBoard.ts)): the service
+day starts at 03:30, so a 00:20 bus is the last run of tonight rather than the first of
+tomorrow. A busy stop publishes thousands of passages a day, so the whole day is grouped by
+route and direction, and the two-hour view is capped with a "show more" rather than drawing
+one enormous page.
+
+**Scanning** ([`/scan`](fontend/src/app/scan/page.tsx)) is in both places: the app uses the
+native ML Kit scanner (offline, camera permission), the website uses the browser's
+`BarcodeDetector` where it exists, and manual code entry is always offered.
+
+### The private sticker tool
+
+[`qr-admin/`](qr-admin/) builds the links and draws/prints the QR codes. It is a standalone
+HTML page outside the Next.js app — never built into `out/`, never linked from the site.
+See [`qr-admin/README.md`](qr-admin/README.md) for printing sizes, batch sheets and the
+domain setup.
+
+```bash
+cd fontend && npm run qr-data     # refresh the route and stop lists the tool searches
+```
+
+### Making a scanned code open the app
+
+The build writes the verification files when the deployment tells it the domain:
+
+```bash
+cd fontend
+APP_LINK_HOST=cholo.in \
+ANDROID_SHA256_FINGERPRINTS="AA:BB:…:FF" \
+ANDROID_PACKAGE_NAME=in.cholo.kolkatabus \
+IOS_TEAM_ID=ABCDE12345 \
+IOS_BUNDLE_ID=in.cholo.kolkatabus \
+npm run build
+```
+
+That writes `out/.well-known/assetlinks.json` and
+`out/.well-known/apple-app-site-association`. Set the same host in
+`mobile/android/gradle.properties` (`appLinkHost=`) and rebuild the app; on iOS follow
+[`mobile/APP.md`](mobile/APP.md). With the variables unset the build still succeeds and the
+stickers simply open the website, which is the intended fallback.
+
 ## Frontend (static site)
 
 ```bash

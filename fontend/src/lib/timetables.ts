@@ -1061,6 +1061,139 @@ export function getRideTimetable(
   };
 }
 
+// ---------------------------------------------------------------- stop passages
+
+/**
+ * One scheduled passage of one bus through one stop.
+ *
+ * This is what both QR screens are built on: "which bus is at this stop now" (on bus)
+ * and "what passes this stop today" (at bus stop). It is derived only from the bundled
+ * timetable -- no live vehicle data exists anywhere in this project.
+ */
+export interface StopPassage {
+  route: string;
+  operator: string;
+  type: ServiceType;
+  source: RouteSource;
+  direction: Direction;
+  /** The terminus this direction starts from. */
+  origin: string;
+  /** The terminus this direction ends at. */
+  destination: string;
+  runCode: string | null;
+  bus: string | null;
+  /**
+   * Passage time in minutes on the run's service timeline. A late-evening run that
+   * reaches this stop after midnight keeps counting past 1440; `formatClock` wraps it.
+   */
+  minutes: number;
+  kind: TripKind;
+  /** Where the stop sits in this direction, 0 = first. */
+  stopIndex: number;
+  stopCount: number;
+  notes: string | null;
+}
+
+/** Every timed passage of one direction of one route, before the stop is chosen. */
+function allPassages(route: Route, direction: Direction): { minutes: number; runCode: string | null; bus: string | null; kind: TripKind; notes: string | null }[][] {
+  const stops = stopsInDirection(route, direction);
+  const out: { minutes: number; runCode: string | null; bus: string | null; kind: TripKind; notes: string | null }[][] = [];
+  for (const run of route.scheduled.filter((item) => item.direction === direction)) {
+    out.push(
+      run.timeline.map((minutes) => ({
+        minutes: minutes ?? Number.NaN,
+        runCode: run.run,
+        bus: run.bus,
+        kind: "scheduled" as TripKind,
+        notes: run.notes,
+      })),
+    );
+  }
+  if (!route.scheduled.length && route.frequency) {
+    // Same model as sampleTrips: the return is the outbound bus coming back after its
+    // own travel time plus the sample turnaround, not an independent second wave.
+    const frequency = route.frequency;
+    const legs = direction === "return" ? [...frequency.legs].reverse() : frequency.legs;
+    const cumulative = [0];
+    for (const leg of legs) cumulative.push(cumulative[cumulative.length - 1] + leg);
+    const travel = frequency.legs.reduce((sum, leg) => sum + leg, 0);
+    for (let start = frequency.first; start <= frequency.last; start += frequency.every) {
+      const base = direction === "return" ? start + travel + frequency.reverseOffset : start;
+      out.push(
+        cumulative.map((offset, index) => ({
+          minutes: index < stops.length ? base + offset : Number.NaN,
+          runCode: null,
+          bus: null,
+          kind: "sample" as TripKind,
+          notes: null,
+        })),
+      );
+    }
+  }
+  return out;
+}
+
+/**
+ * Every bus that passes one stop, from the bundled timetable.
+ *
+ * Notes that matter to the screens built on it:
+ * - A route that names the stop twice (a loop) is listed once, at its first call, which
+ *   is the one a passenger standing there is waiting for.
+ * - A stop a route serves but for which the workbook publishes no time produces nothing
+ *   rather than a guess; the stop board lists those routes separately.
+ * - Times are service-timeline minutes, so a run reaching the stop after midnight is
+ *   greater than 1440. Callers compare clock times with `boardPosition` instead.
+ */
+export function getStopPassages(
+  stopName: string,
+  options: { route?: string; direction?: Direction } = {},
+): StopPassage[] {
+  const stop = canonicalStop(stopName);
+  if (!stop) return [];
+  const wantedRoute = typeof options.route === "string" ? options.route.trim().toLowerCase() : "";
+  const single = wantedRoute ? ROUTE_BY_NUMBER.get(wantedRoute) : undefined;
+  if (wantedRoute && !single) return [];
+  const routes: Route[] = wantedRoute ? [single as Route] : ROUTES_BY_STOP.get(stop) ?? [];
+  const found: StopPassage[] = [];
+  const directions: Direction[] = options.direction ? [options.direction] : ["outbound", "return"];
+  for (const route of routes) {
+    for (const direction of directions) {
+      const stops = stopsInDirection(route, direction);
+      const stopIndex = stops.indexOf(stop);
+      if (stopIndex < 0) continue;
+      for (const run of allPassages(route, direction)) {
+        const cell = run[stopIndex];
+        if (!cell || !Number.isFinite(cell.minutes)) continue;
+        found.push({
+          route: route.number,
+          operator: route.operator,
+          type: route.type,
+          source: route.source,
+          direction,
+          origin: stops[0] ?? route.origin,
+          destination: stops[stops.length - 1] ?? route.destination,
+          runCode: cell.runCode,
+          bus: cell.bus,
+          minutes: cell.minutes,
+          kind: cell.kind,
+          stopIndex,
+          stopCount: stops.length,
+          notes: cell.notes,
+        });
+      }
+    }
+  }
+  return found.sort((a, b) => a.minutes - b.minutes || a.route.localeCompare(b.route, "en", { numeric: true }));
+}
+
+/** Stops of one direction of a route, in travel order, for the stop pickers. */
+export function getRouteStops(routeNumber: string, direction: Direction): string[] {
+  if (typeof routeNumber !== "string") return [];
+  const route = ROUTE_BY_NUMBER.get(routeNumber.trim().toLowerCase());
+  if (!route) return [];
+  return stopsInDirection(route, direction);
+}
+
 // ---------------------------------------------------------------- presentation helpers
 
 export const POPULAR_JOURNEYS: { from: string; to: string }[] = [

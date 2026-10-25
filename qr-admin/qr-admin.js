@@ -292,6 +292,7 @@
   function selectRoute(route) {
     state.route = route;
     $("bus-result").hidden = false;
+    $("bus-empty").hidden = true;
     $("bus-title").textContent = `Bus ${route.number}`;
     $("bus-sub").textContent = `${route.origin} ↔ ${route.destination} · ${route.type} · ${route.operator} · ${route.stops} stops${route.timed ? "" : " · no published times"}`;
     $("bus-reg").value = "";
@@ -339,6 +340,7 @@
   function selectStop(stop) {
     state.stop = stop.name;
     $("stop-result").hidden = false;
+    $("stop-empty").hidden = true;
     $("stop-title").textContent = stop.name;
     $("stop-sub").textContent = "The next buses from this stop, and the whole day.";
     renderStops();

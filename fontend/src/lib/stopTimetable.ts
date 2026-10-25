@@ -210,6 +210,18 @@ export function passesByHour(passes: StopPass[]): { hour: number; passes: StopPa
 }
 
 /** "4 min", "1 hr 12 min" — the wait, in the words a passenger uses. */
+/**
+ * The same wait, squeezed onto a badge: "now", "12m", "4h 21m".
+ * A hub at midnight is four hours from the first bus, and "261m" on a tab is unreadable.
+ */
+export function shortWaitLabel(deltaMinutes: number): string {
+  if (deltaMinutes <= 0) return "now";
+  if (deltaMinutes < 60) return `${deltaMinutes}m`;
+  const hours = Math.floor(deltaMinutes / 60);
+  const minutes = deltaMinutes % 60;
+  return minutes ? `${hours}h ${minutes}m` : `${hours}h`;
+}
+
 export function waitLabel(deltaMinutes: number): string {
   if (deltaMinutes <= 0) return "due now";
   if (deltaMinutes < 60) return `in ${deltaMinutes} min`;

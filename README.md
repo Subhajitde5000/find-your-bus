@@ -123,33 +123,37 @@ shortcuts, and on both QR screens.
 
 ### How the three screens are laid out
 
-All three pages are answer-first: the thing the passenger scanned for is on top, and every
-button underneath it is a way forward.
+All three pages are answer-first: the thing the passenger scanned for is at the top, and
+every button below it is a way forward. Nothing important is behind a fold they have to
+find, and nothing repeats.
 
-- **`/on-bus`** — the route and the "this is probably bus 07:40" card come *before* any
-  picker, so a scan with GPS already working shows the answer without a tap. The card
-  restates its evidence (Kolkata clock, GPS accuracy, how many fixes), asks for a
-  destination only after that, then shows the journey: three numbers up front (minutes,
-  distance, stop), then the map, progress and the live stop list. If the GPS fix only fits
-  the opposite direction the screen switches once and says so; if it fits both it asks
-  "which way is this bus going?" instead of guessing. Below 760 px the status card stacks
-  and the buttons go full width. "No signal? Choose your stop instead" opens a searchable
-  stop picker, and the footnote explains what the sticker can and cannot know.
-- **`/stop`** — a sticky toolbar with two tabs (**Next**, **Whole day**) and the wait for
-  the next bus, then the next passes as one-tap rows into the ride screen. **Whole day**
-  opens as hours, the current hour first and expanded, forty rows at a time; the filter
-  narrows by route or destination. The header states plainly that these are published
-  times, not live positions, and the minute it was computed.
-- **`/scan`** — one large camera view with a corner frame and a sweeping line, torch when
-  the camera has one, and "stop" to release the camera immediately. Messages are inline
-  cards, not alerts: permission denied, no camera, unreadable code, and a *foreign* code
-  (which is shown and refused, never followed). A paste-the-link form and a "find a stop
-  without scanning" link mean the screen still works with a dead camera.
+- **`/on-bus`** — a route header that fits on one card (number, termini, operator, and the
+  Kolkata clock in its footer strip), then the status card, then the answer. The
+  identification card leads with a sentence ("You are on route 1" / "No bus matches this
+  time closely") and a confidence badge; the run that produced it is a small caption
+  underneath, with the evidence (printed time, clock, source) in one tinted strip. The
+  destination question comes after that, then the journey: minutes, distance and stop up
+  front, with the map, the progress bar and the stop list divided inside the same card
+  instead of stacking as three more boxes. "No signal? Choose your stop instead" is the
+  one fallback, and the route's own timetable folds away until asked for. A footer with
+  two buttons (scan again, buses at your stop) and the direction correction closes the
+  screen. Below 760 px the status card stacks and its buttons go full width; the map and
+  stop list stay inside the journey card, so the page has one rhythm rather than six.
+- **`/stop`** — the stop card carries the name, how many buses call here, and a footer strip
+  with the one caveat ("published times, not live positions") plus the current minute.
+  Under it a sticky toolbar: **Next** / **Whole day** and the filter, with the wait for the
+  next bus on the tab. Each bus is one row — a fixed time column, route and destination,
+  operator under it, and the wait as a badge on the right, with the row itself leading to
+  the ride screen. **Whole day** opens as hours, the current hour first and highlighted.
+- **`/scan`** — a wide, dark camera stage with a corner frame and a sweeping line, one
+  primary button, and "find a stop without scanning" as a quiet link under it. Messages are
+  inline cards, not alerts: permission denied, no camera, unreadable code, and a *foreign*
+  code (shown and refused, never followed). Pasting a link, and the two sentences that say
+  what each sticker does, sit below in a single card each.
 
-The pages follow the site's own light/dark switch (`html[data-theme]`, remembered per
-browser); the tinted identification card, the alert levels and the hour rows all have
-dark-mode palettes, and the camera view stays dark in both because a bright screen ruins
-the scan.
+The three screens share one CSS block in `globals.css` (`.qr-*`, `.ob-*`, `.stop-*`,
+`.scan-*`) written against the site's theme variables, so light and dark are the same
+layout. The camera stage stays dark in both themes, because a bright screen ruins a scan.
 
 ### The private sticker maker
 

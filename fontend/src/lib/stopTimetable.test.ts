@@ -10,6 +10,7 @@ import {
   minuteOfDay,
   passesByHour,
   upcomingPasses,
+  shortWaitLabel,
   waitLabel,
   type StopPass,
 } from "@/lib/stopTimetable";
@@ -130,5 +131,14 @@ describe("the rest of the day", () => {
     assert.equal(waitLabel(59), "in 59 min");
     assert.equal(waitLabel(60), "in 1 hr");
     assert.equal(waitLabel(72), "in 1 hr 12 min");
+  });
+
+  it("shortens the same wait for a badge", () => {
+    assert.equal(shortWaitLabel(0), "now");
+    assert.equal(shortWaitLabel(-3), "now");
+    assert.equal(shortWaitLabel(12), "12m");
+    assert.equal(shortWaitLabel(60), "1h");
+    assert.equal(shortWaitLabel(72), "1h 12m");
+    assert.equal(shortWaitLabel(261), "4h 21m");
   });
 });

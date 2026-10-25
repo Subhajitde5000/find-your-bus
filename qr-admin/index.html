@@ -80,6 +80,14 @@
           <ul class="picker-list" id="route-list" role="listbox" aria-label="Routes"></ul>
         </div>
 
+        <div class="result-empty" id="bus-empty">
+          <span class="result-empty-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5" /><path d="M3 10h18M7.5 15h2M14.5 15h2" /></svg>
+          </span>
+          <strong>Pick a route on the left</strong>
+          <p>The sticker for that bus appears here, with the link inside it, a PNG and an SVG.</p>
+        </div>
+
         <div class="result" id="bus-result" hidden>
           <div class="result-head">
             <h2 id="bus-title">—</h2>
@@ -120,6 +128,14 @@
           <input id="stop-search" type="search" placeholder="Stop name" autocomplete="off" />
           <p class="picker-meta" id="stop-meta"></p>
           <ul class="picker-list" id="stop-list" role="listbox" aria-label="Bus stops"></ul>
+        </div>
+
+        <div class="result-empty" id="stop-empty">
+          <span class="result-empty-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z" /><circle cx="12" cy="10" r="2.5" /></svg>
+          </span>
+          <strong>Pick a bus stop on the left</strong>
+          <p>The sticker that goes at that stop appears here, with the next buses it shows.</p>
         </div>
 
         <div class="result" id="stop-result" hidden>

@@ -48,6 +48,7 @@ import {
 import { formatDistance, formatRideMinutes, type GeoFix } from "@/lib/geo";
 import { keepScreenAwake } from "@/lib/keepAwake";
 import { useKolkataMinute } from "@/lib/useKolkataMinute";
+import { kolkataNowMinutes } from "@/lib/clock";
 import { stopAlert, vibrationFor, type StopAlertLevel } from "@/lib/alerts";
 import {
   describeIdentification,
@@ -507,8 +508,25 @@ function OnBusScreen() {
       return { title: "Location is blocked", body: "Choose your stop below instead, or allow location for this site and try again." };
     if (permission === "unsupported")
       return { title: "This browser has no location", body: "Choose your stop below; the timetable and the destination countdown still work." };
-    if (permission === "unavailable")
-      return { title: "No position yet", body: "The phone could not get a GPS reading. Near a window, or outside, it usually can." };
+    if (permission === "unavailable") {
+      // A fix that stopped arriving is a different problem from a phone that never gave
+      // one. The age comes from the ticking minute, never from a clock read during render.
+      const ageMinutes = lastFix
+        ? Math.max(0, nowMinutes - kolkataNowMinutes(new Date(lastFix.timestamp)))
+        : null;
+      if (ageMinutes !== null)
+        return {
+          title: "Position lost",
+          body:
+            ageMinutes < 1
+              ? "The last reading was moments ago. Cholo keeps using it; a fresh one tells the buses apart better."
+              : `The last reading was ${ageMinutes} minute${ageMinutes === 1 ? "" : "s"} ago. Cholo keeps using it, but a fresh reading is what tells the buses apart.`,
+        };
+      return {
+        title: "No position yet",
+        body: "This phone has not given a position yet. Near a window or outside usually fixes it — or choose your stop instead.",
+      };
+    }
     if (permission === "idle" || permission === "stopped")
       return {
         title: "Find yourself on this bus",
@@ -539,7 +557,7 @@ function OnBusScreen() {
   const canChooseRun = Boolean(identified?.runCode) && (identification?.candidates.length ?? 0) > 1;
   const statusState = ended ? "ended" : tracker.status;
   // The picker is the way in until something has placed the passenger, so it starts open.
-  const pickerOpen = pickingStop || (placeIndex === null && permission !== "watching");
+  const pickerOpen = pickingStop || (placeIndex === null && permission === "denied");
   const favouriteStops = baseRide.stops.slice(0, 6);
 
   /* ---------------------------------------------------------- the screen */
@@ -549,24 +567,31 @@ function OnBusScreen() {
       <OnBusHeader online={online} />
 
       <main className="ride-body">
-        <header className="ob-route">
-          <span className={`route-square ${directory.type === "AC" ? "ac" : ""}`}>
-            <BusFront size={20} strokeWidth={2.1} aria-hidden="true" />
-          </span>
-          <div className="ob-route-text">
-            <div className="ob-route-row">
-              <strong>{directory.number}</strong>
-              <span className={`type-badge ${directory.type === "AC" ? "ac" : ""}`}>{directory.type}</span>
-              {sticker.bus && (
-                <span className="qr-sticker-chip" title="This is the bus the sticker is fixed to">{sticker.bus}</span>
-              )}
-            </div>
-            <span className="ob-termini">
-              {directory.origin} <ArrowRight size={12} aria-hidden="true" /> {directory.destination}
+        <header className="ob-hero">
+          <div className="ob-hero-top">
+            <span className={`route-square ${directory.type === "AC" ? "ac" : ""}`}>
+              <BusFront size={19} strokeWidth={2.1} aria-hidden="true" />
             </span>
-            <span className="ob-operator">
+            <div className="ob-hero-id">
+              <div className="ob-hero-line">
+                <strong>{directory.number}</strong>
+                <span className={`type-badge ${directory.type === "AC" ? "ac" : ""}`}>{directory.type}</span>
+                {sticker.bus && (
+                  <span className="qr-sticker-chip" title="This is the bus the sticker is fixed to">{sticker.bus}</span>
+                )}
+              </div>
+              <span className="ob-hero-termini">
+                {directory.origin} <ArrowRight size={11} aria-hidden="true" /> {directory.destination}
+              </span>
+            </div>
+          </div>
+          <div className="ob-hero-foot">
+            <span>
               {directory.operator}
               {runsForDirection?.kind === "sample" ? " · sample frequency" : ""}
+            </span>
+            <span className="ob-hero-clock">
+              <Signal size={11} aria-hidden="true" /> {nowClock.time} {nowClock.period}
             </span>
           </div>
         </header>
@@ -580,7 +605,6 @@ function OnBusScreen() {
             <p>{headline.body}</p>
           </div>
           <div className="ob-status-meta">
-            <span><Signal size={11} aria-hidden="true" /> {nowClock.time} {nowClock.period}</span>
             {permission === "watching" && lastFix && lastFix.accuracy > 0 && (
               <span title="How precise the phone's last position was">±{Math.round(lastFix.accuracy)} m</span>
             )}
@@ -629,8 +653,8 @@ function OnBusScreen() {
           <section className="ob-ask" aria-live="polite">
             <h2><Compass size={16} aria-hidden="true" /> Which way is this bus going?</h2>
             <p>
-              Both directions of route {directory.number} run along this road here, so your position
-              cannot tell them apart. The timetable is different for each.
+              Both directions of route {directory.number} run on this road, so your position cannot
+              tell them apart — and the times differ.
             </p>
             <div className="qr-direction-switch">
               <button
@@ -665,22 +689,10 @@ function OnBusScreen() {
         {showIdentification && identified && (
           <section className="ob-ident" data-confidence={identified.confidence} aria-live="polite">
             <header className="ob-ident-head">
-              <span className="ob-ident-badge">
-                <BusFront size={16} aria-hidden="true" />
-              </span>
-              <div className="ob-ident-name">
-                <strong>{identified.bus ? `Bus ${identified.bus}` : `Run ${identified.runCode ?? "of this route"}`}</strong>
-                <span>
-                  {identified.runCode ? `run ${identified.runCode}` : "frequency service"}
-                  {identification?.printedAtStop != null
-                    ? ` · printed ${passageClock(identification.printedAtStop)} at ${identification.stopName}`
-                    : ""}
-                </span>
-              </div>
+              <h2>{wording.title}</h2>
               <span className="ob-confidence">{CONFIDENCE_TEXT[identified.confidence]}</span>
             </header>
 
-            <h2>{wording.title}</h2>
             <p>{wording.detail}</p>
 
             <ul className="ob-ident-facts">
@@ -697,6 +709,20 @@ function OnBusScreen() {
                 <span>{usingGps ? "from your location" : `from ${identification?.stopName ?? "the stop you picked"}`}</span>
               </li>
             </ul>
+
+            <p className="ob-ident-run">
+              <BusFront size={12} aria-hidden="true" />
+              <span>
+                {identified.bus
+                  ? `Bus ${identified.bus}`
+                  : identified.runCode
+                    ? `Run ${identified.runCode}`
+                    : "Frequency service"}
+                {identification?.printedAtStop != null
+                  ? ` · printed ${passageClock(identification.printedAtStop)} at ${identification.stopName}`
+                  : ""}
+              </span>
+            </p>
 
             <div className="ob-ident-actions">
               {canChooseRun && (
@@ -852,8 +878,10 @@ function OnBusScreen() {
               </div>
               <div>
                 <span className="ob-label"><Gauge size={12} aria-hidden="true" /> Bus</span>
-                <strong>{identified?.bus ?? ride?.bus ?? (ride?.runCode ? `Run ${ride.runCode}` : "Not identified")}</strong>
+                <strong>{identified?.bus ?? ride?.bus ?? "Registration not printed"}</strong>
                 <span className="ob-meta">
+                  {ride?.runCode ? `run ${ride.runCode}` : "no published run"}
+                  {" · "}
                   {ride?.kind === "scheduled" ? "published timetable" : ride?.kind === "sample" ? "sample frequency" : "no times published"}
                 </span>
               </div>
@@ -868,34 +896,35 @@ function OnBusScreen() {
                 </span>
               </div>
             </div>
-          </section>
-        )}
 
-        {showJourney && ride && (
-          <>
-            <section className="ob-map-section" aria-label="Route map">
-              <RideRouteMap
-                ride={ride}
-                metresAlong={match?.metresAlong ?? null}
-                onBus={aboard}
-                currentStop={currentStop?.index ?? null}
-                destinationIndex={destinationIdx}
-                nextStopIndex={nextStopIndex}
-                passed={passedStops}
-                userPosition={tracker.smoothed ?? tracker.fixes[tracker.fixes.length - 1] ?? null}
-              />
-            </section>
-            <RideProgress ride={ride} metresAlong={aboard ? match?.metresAlong ?? null : null} onBus={aboard} />
-            <section className="ob-stoplist" aria-label="Stops on this route">
-              <RideStopList ride={ride} legs={legs} currentStop={currentStop?.index ?? null} onBus={aboard} />
-            </section>
-          </>
+            {ride && (
+              <>
+                <div className="ob-journey-block" aria-label="Route map">
+                  <RideRouteMap
+                    ride={ride}
+                    metresAlong={match?.metresAlong ?? null}
+                    onBus={aboard}
+                    currentStop={currentStop?.index ?? null}
+                    destinationIndex={destinationIdx}
+                    nextStopIndex={nextStopIndex}
+                    passed={passedStops}
+                    userPosition={tracker.smoothed ?? tracker.fixes[tracker.fixes.length - 1] ?? null}
+                  />
+                </div>
+                <RideProgress ride={ride} metresAlong={aboard ? match?.metresAlong ?? null : null} onBus={aboard} />
+                <div className="ob-journey-block" aria-label="Stops on this route">
+                  <RideStopList ride={ride} legs={legs} currentStop={currentStop?.index ?? null} onBus={aboard} />
+                </div>
+              </>
+            )}
+          </section>
         )}
 
         {/*
           The stop picker is a first-class fallback, not a footnote: a phone in a bus is
           exactly where GPS fails, and a passenger who knows which stop they just left can
-          identify their bus without it. It starts open until something has placed them.
+          identify their bus without it. It stays closed until asked for, or until the phone
+          refuses to give a position at all, so the answer is never pushed off the first screen.
         */}
         <section className={`ob-picker ${pickerOpen ? "open" : ""}`} id={pickerId}>
           <button
@@ -956,15 +985,20 @@ function OnBusScreen() {
         </section>
 
         {placeIndex === null && (
-          <section className="ob-peek" aria-label="This route's timetable">
-            <header>
-              <h2>This route, both ways</h2>
-              <p>
-                {runsForDirection?.runs.length
-                  ? `${runsForDirection.runs.length}${runsForDirection.kind === "sample" ? " sample" : ""} buses this way today${runsForDirection.headway ? `, about every ${formatDuration(runsForDirection.headway)}` : ""}.`
-                  : "No times are published for this route, so the timetable has no clock times."}
-              </p>
-            </header>
+          <details className="ob-peek" aria-label="This route's timetable">
+            <summary>
+              <span className="ob-peek-icon" aria-hidden="true"><BusFront size={15} /></span>
+              <span className="ob-peek-text">
+                <strong>This route, both ways</strong>
+                <em>
+                  {runsForDirection?.runs.length
+                    ? `${runsForDirection.runs.length}${runsForDirection.kind === "sample" ? " sample" : ""} buses this way today${runsForDirection.headway ? `, about every ${formatDuration(runsForDirection.headway)}` : ""}`
+                    : "No clock times published for this route"}
+                </em>
+              </span>
+              <ChevronDown size={16} aria-hidden="true" className="ob-peek-chevron" />
+            </summary>
+            <div className="ob-peek-body">
             <div className="qr-direction-switch">
               <button type="button" className={direction === "outbound" ? "on" : undefined} onClick={() => setDirection("outbound")}>
                 towards {directory.destination}
@@ -981,7 +1015,8 @@ function OnBusScreen() {
                 </li>
               ))}
             </ol>
-          </section>
+            </div>
+          </details>
         )}
 
         {placeIndex !== null && !destination && !choosingDestination && (
@@ -989,25 +1024,6 @@ function OnBusScreen() {
             <RotateCcw size={13} aria-hidden="true" /> Choose a destination again
           </button>
         )}
-
-        <section className="ob-links">
-          <button
-            type="button"
-            onClick={() => {
-              setDirection((current) => (current === "outbound" ? "return" : "outbound"));
-              setDirectionConfirmed(true);
-              setAutoSwitched(false);
-            }}
-          >
-            <Compass size={14} aria-hidden="true" /> Towards {towards === directory.destination ? directory.origin : directory.destination} instead
-          </button>
-          <Link href={`/stop?stop=${encodeURIComponent(baseRide.stops[placeIndex ?? 0]?.name ?? directory.origin)}`}>
-            <MapPin size={14} aria-hidden="true" /> Buses at your stop
-          </Link>
-          <Link href="/scan">
-            <QrCode size={14} aria-hidden="true" /> Scan another code
-          </Link>
-        </section>
 
         <details className="ob-footnote">
           <summary>
@@ -1043,6 +1059,26 @@ function OnBusScreen() {
             Scheduled times from the operator&apos;s own directory, not live positions. Confirm with the conductor.
           </p>
         </details>
+
+        <nav className="ob-ways" aria-label="Other ways to use this screen">
+          <Link className="ob-way" href="/scan">
+            <QrCode size={15} aria-hidden="true" /> Scan another code
+          </Link>
+          <Link className="ob-way" href={`/stop?stop=${encodeURIComponent(baseRide.stops[placeIndex ?? 0]?.name ?? directory.origin)}`}>
+            <MapPin size={15} aria-hidden="true" /> Buses at your stop
+          </Link>
+          <button
+            type="button"
+            className="ob-way"
+            onClick={() => {
+              setDirection((current) => (current === "outbound" ? "return" : "outbound"));
+              setDirectionConfirmed(true);
+              setAutoSwitched(false);
+            }}
+          >
+            <Compass size={15} aria-hidden="true" /> Towards {towards === directory.destination ? directory.origin : directory.destination}
+          </button>
+        </nav>
 
         <OpenInApp />
       </main>

@@ -210,7 +210,7 @@ describe("the /on-bus screen, in a DOM", () => {
         /Most likely|Probably|No bus matches this time closely/,
         "the card says how sure it is",
       );
-      assert.ok(page.text().includes("run RUN-1-OUT"), "the run from the workbook is named");
+      assert.match(page.text(), /run RUN-1-OUT/i, "the run from the workbook is named");
       assert.ok(page.text().includes("Where are you getting off?"), "and the destination is asked once we are placed");
 
       const firstStop = page.container.querySelector(".ob-destination .qr-stop-shortlist button") as HTMLElement | null;

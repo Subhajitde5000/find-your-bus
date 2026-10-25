@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
-  BusFront,
   ChevronDown,
   Clock3,
   Filter,
@@ -28,6 +27,7 @@ import {
   getStopPasses,
   passesByHour,
   upcomingPasses,
+  shortWaitLabel,
   waitLabel,
   type StopPass,
   type UpcomingPass,
@@ -72,27 +72,30 @@ function PassRow({ pass, stopName, wait }: { pass: StopPass | UpcomingPass; stop
           {clock.time}
           <span>{clock.period}</span>
         </strong>
-        {wait ? <em className="stop-wait">{wait}</em> : nextDay ? <em className="stop-wait nextday">tomorrow</em> : null}
       </div>
       <div className="stop-pass-main">
         <div className="stop-pass-route">
-          <span className={`route-square small ${pass.routeType === "AC" ? "ac" : ""}`}>
-            <BusFront size={14} aria-hidden="true" />
-          </span>
-          <strong>{pass.routeNumber}</strong>
-          <span className={`type-badge ${pass.routeType === "AC" ? "ac" : ""}`}>{pass.routeType}</span>
+          <strong>{pass.routeNumber.replace(/_/g, " ")}</strong>
+          {pass.routeType === "AC" && <span className="type-badge ac">AC</span>}
         </div>
         <span className="stop-pass-towards">
-          <ArrowRight size={12} aria-hidden="true" /> {pass.towards}
+          <ArrowRight size={11} aria-hidden="true" /> {pass.towards}
         </span>
         <span className="stop-pass-meta">
           {pass.operator}
-          {pass.bus ? ` · bus ${pass.bus}` : ""}
+          {pass.bus ? ` · ${pass.bus}` : ""}
         </span>
       </div>
-      <Link className="stop-pass-go" href={href} aria-label={`Set on bus ${pass.routeNumber} towards ${pass.towards}`} title="Set on bus">
-        <ArrowRight size={16} aria-hidden="true" />
-      </Link>
+      <div className="stop-pass-end">
+        {wait ? (
+          <em className="stop-wait">{wait}</em>
+        ) : nextDay ? (
+          <em className="stop-wait nextday">tomorrow</em>
+        ) : null}
+        <Link className="stop-pass-go" href={href} aria-label={`Set on bus ${pass.routeNumber} towards ${pass.towards}`} title="Set on bus">
+          <ArrowRight size={15} aria-hidden="true" />
+        </Link>
+      </div>
     </li>
   );
 }
@@ -249,23 +252,24 @@ function StopScreen() {
 
       <main className="ride-body">
         <header className="stop-head">
-          <span className="stop-head-mark"><MapPin size={19} aria-hidden="true" /></span>
-          <div className="stop-head-text">
+          <div className="stop-head-top">
+            <span className="stop-head-mark"><MapPin size={17} aria-hidden="true" /></span>
             <h1>{stop.stop}</h1>
-            <p>
-              {buses === 0
-                ? "No bus in this directory calls here."
-                : `${buses} bus${buses === 1 ? "" : "es"} stop${buses === 1 ? "s" : ""} here · ${today} scheduled pass${today === 1 ? "" : "es"} today`}
-            </p>
-            <span className="stop-head-fact">
-              <Clock3 size={11} aria-hidden="true" /> Published times, not live positions
-            </span>
           </div>
-          {nowMinutes > 0 && (
-            <span className="stop-head-note" title="Kolkata time, which these times are measured from">
-              <Clock3 size={11} aria-hidden="true" /> now {formatClock(nowMinutes).time}
-            </span>
-          )}
+          <p className="stop-head-meta">
+            {buses === 0
+              ? "No bus in this directory calls here."
+              : `${buses} bus${buses === 1 ? "" : "es"} stop${buses === 1 ? "s" : ""} here · ${today} scheduled pass${today === 1 ? "" : "es"} today`}
+          </p>
+          <p className="stop-head-fact">
+            <Clock3 size={12} aria-hidden="true" />
+            Published times, not live positions
+            {nowMinutes > 0 && (
+              <span className="stop-head-now">
+                now {formatClock(nowMinutes).time} {formatClock(nowMinutes).period}
+              </span>
+            )}
+          </p>
         </header>
 
         <div className="stop-toolbar">
@@ -277,7 +281,7 @@ function StopScreen() {
               className={view === "next" ? "on" : undefined}
               onClick={() => setView("next")}
             >
-              <Sunrise size={14} aria-hidden="true" /> Next buses
+              <Sunrise size={14} aria-hidden="true" /> Next
               {soonestBadge(soonest?.deltaMinutes)}
             </button>
             <button
@@ -298,8 +302,8 @@ function StopScreen() {
             aria-label="Filter the list by route or destination"
             onClick={() => setFilterOpen((open) => !open)}
           >
-            <Filter size={14} aria-hidden="true" />
-            {filterActive ? "Filtered" : "Filter"}
+            <Filter size={15} aria-hidden="true" />
+            <span className="stop-filter-text">{filterActive ? "Filtered" : "Filter"}</span>
           </button>
         </div>
 
@@ -326,9 +330,10 @@ function StopScreen() {
           <section className="stop-section" aria-live="polite">
             <header className="stop-section-head">
               <h2>
+                <span className="stop-kicker">Next buses</span>
                 {nowMinutes > 0
                   ? `From ${formatClock(nowMinutes).time} ${formatClock(nowMinutes).period}`
-                  : "Next buses"}
+                  : "Leaving now"}
               </h2>
               {next.length > 0 && <span>{next.length} shown</span>}
             </header>
@@ -365,7 +370,10 @@ function StopScreen() {
         {view === "day" && (
           <section className="stop-section" ref={dayRef}>
             <header className="stop-section-head">
-              <h2>Whole day</h2>
+              <h2>
+                <span className="stop-kicker">Whole day</span>
+                All published passes
+              </h2>
               <span>{filtered.length} pass{filtered.length === 1 ? "" : "es"}</span>
             </header>
             {hours.length === 0 ? (
@@ -440,11 +448,17 @@ function StopScreen() {
           </section>
         )}
 
-        <section className="ob-links">
-          <Link href="/map"><MapPin size={14} aria-hidden="true" /> This stop on the map</Link>
-          <Link href="/scan"><QrCode size={14} aria-hidden="true" /> Scan another code</Link>
-          <Link href="/">Search a journey</Link>
-        </section>
+        <nav className="ob-ways" aria-label="Other ways to use this screen">
+          <Link className="ob-way" href="/map">
+            <MapPin size={15} aria-hidden="true" /> This stop on the map
+          </Link>
+          <Link className="ob-way" href="/scan">
+            <QrCode size={15} aria-hidden="true" /> Scan another code
+          </Link>
+          <Link className="ob-way" href="/">
+            <Search size={15} aria-hidden="true" /> Search a journey instead
+          </Link>
+        </nav>
 
         <details className="ob-footnote">
           <summary>
@@ -483,7 +497,7 @@ function StopScreen() {
 /** A tiny "next in 4 min" badge on the tab, so the wait is readable at a glance. */
 function soonestBadge(deltaMinutes: number | undefined) {
   if (deltaMinutes === undefined) return null;
-  return <span className="stop-tab-count">{deltaMinutes <= 0 ? "now" : `${deltaMinutes}m`}</span>;
+  return <span className="stop-tab-count">{shortWaitLabel(deltaMinutes)}</span>;
 }
 
 function StopHeader({ online }: { online: boolean }) {

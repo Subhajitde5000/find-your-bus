@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import { DeepLinkBridge } from "@/components/DeepLinkBridge";
 import { PwaBridge } from "@/components/PwaBridge";
 import { ThemeSync } from "@/components/ThemeSync";
@@ -73,6 +74,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeSync />
         <PwaBridge />
         <DeepLinkBridge />
+        <Analytics />
       </body>
     </html>
   );

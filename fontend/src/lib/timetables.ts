@@ -179,8 +179,15 @@ export function parseClock(value: string): number {
   return hours * 60 + minutes;
 }
 
+/**
+ * "hh:mm AM/PM" for a minute of the day.
+ *
+ * The minute is rounded, not truncated: times that are interpolated along a corridor
+ * (a stop between two published anchors) arrive as fractions, and "08:10.688526654619864"
+ * is what a passenger saw when they were printed raw. A clock has no fractions.
+ */
 export function formatClock(totalMinutes: number): { time: string; period: string } {
-  const minutesInDay = ((totalMinutes % 1440) + 1440) % 1440;
+  const minutesInDay = ((Math.round(totalMinutes) % 1440) + 1440) % 1440;
   const hours = Math.floor(minutesInDay / 60);
   const minutes = minutesInDay % 60;
   return {
@@ -191,7 +198,7 @@ export function formatClock(totalMinutes: number): { time: string; period: strin
 
 /** 24-hour "HH:MM" for inputs and sample data. */
 export function toClock24(totalMinutes: number): string {
-  const minutesInDay = ((totalMinutes % 1440) + 1440) % 1440;
+  const minutesInDay = ((Math.round(totalMinutes) % 1440) + 1440) % 1440;
   return `${String(Math.floor(minutesInDay / 60)).padStart(2, "0")}:${String(minutesInDay % 60).padStart(2, "0")}`;
 }
 

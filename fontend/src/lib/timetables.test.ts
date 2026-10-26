@@ -341,6 +341,9 @@ describe("specific v2 and v28 routes", () => {
     );
     for (const trip of trips) assert.ok(trip.arrival > trip.departure, "overnight trip must move forward");
     assert.deepEqual(formatClock(24 * 60 + 15), { time: "12:15", period: "AM" });
+    // An interpolated passage time arrives as a fraction; a clock has no fractions.
+    assert.deepEqual(formatClock(610.7), { time: "10:11", period: "AM" });
+    assert.deepEqual(formatClock(1439.6), { time: "12:00", period: "AM" });
   });
 
   it("includes WBTC route E10 (Howrah Railway Station - Jadavpur 8B) with scheduled runs", () => {

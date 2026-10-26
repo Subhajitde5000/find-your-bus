@@ -169,6 +169,8 @@ describe("the identification card's wording", () => {
     assert.equal(passageClock(0), "12:00 AM");
     assert.equal(passageClock(14 * 60 + 5), "02:05 PM");
     assert.equal(passageClock(null), "—");
+    // The time at a stop between two anchors is interpolated, so it is a fraction.
+    assert.equal(passageClock(8 * 60 + 10.688526654619864), "08:11 AM");
   });
 
   it("names the stop and the printed time when it is confident", () => {

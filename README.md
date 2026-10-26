@@ -159,19 +159,26 @@ layout. The camera stage stays dark in both themes, because a bright screen ruin
 
 `qr-admin/` is a **separate folder, not a route on the website**: no page under
 `fontend/src/app`, nothing in `fontend/out`, nothing to find on the public server. Open
-`qr-admin/index.html` directly. It searches the site's own route and stop lists, builds
-the link, draws the QR, downloads PNG/SVG, and lays stickers out 2 × 4 on A4 at
-90 × 60 mm for printing. It has its own light/dark switch in the top right (remembered per
-browser, following the system until you choose); printing is always black on white, in
-either theme. See [`qr-admin/README.md`](qr-admin/README.md).
+`qr-admin/index.html` directly. It searches the site's own route and stop lists, builds the
+link, draws the QR, downloads PNG/SVG, and lays the stickers out on A4 for printing.
+
+Every code carries the **Cholo logo** in the middle — the website's own bus mark, on a
+white plate — with the code raised to error correction level H so the mark can cover part
+of the pattern and still read. The sticker's **size is a choice**: four presets (Small
+70 × 45 mm up to Wide 190 × 55 mm) or a hand-typed width, height, code size and gap, with
+the sheet reporting how many fit on a page and the millimetres per printed module, warning
+when a code is too dense to rely on. The sheet is drawn at paper size and broken into real
+A4 pages, so the preview is the print. It has its own light/dark switch in the top right
+(remembered per browser, following the system until you choose); printing is always black
+on white, in either theme. See [`qr-admin/README.md`](qr-admin/README.md).
 
 It carries every route and stop in `qr-admin/data/catalog.js`, generated from
 `fontend/src/data/kolkata-bus-data.json` by `node qr-admin/scripts/build-catalog.mjs`.
-`node qr-admin/scripts/verify-qr.mjs` generates a code, rasterises it and decodes it with
-the same jsQR the scanner uses, so the encoder is proven, not assumed.
-`node qr-admin/scripts/test-admin.mjs` drives the page itself in jsdom: the light/dark
-switch and what it remembers, the origin rules, the link that lands in a QR, and the print
-sheet.
+`node qr-admin/scripts/verify-qr.mjs` generates a code **with and without the logo**,
+rasterises it at the printed sizes and decodes it with the same jsQR the scanner uses, so
+the encoder is proven, not assumed. `node qr-admin/scripts/test-admin.mjs` drives the page
+itself in jsdom: the light/dark switch and what it remembers, the origin rules, the link
+that lands in a QR, the logo toggle, the sticker sizes and their page counts.
 
 ### Setting the permanent address
 

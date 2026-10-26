@@ -23,19 +23,45 @@
   const ORIGIN_KEY = "cholo:qr:origin";
   const SHEET_KEY = "cholo:qr:sheet";
   const THEME_KEY = "cholo:qr:theme";
+  const SIZE_KEY = "cholo:qr:size";
+  const LOGO_KEY = "cholo:qr:logo";
   const MAX_LIST_ROWS = 120;
   /** Quiet zone in modules, as the QR specification requires. */
   const QUIET = 4;
-  /** Printed QR size in millimetres; the print CSS uses the same number. */
-  const PRINT_MM = 40;
+
+  /**
+   * A4 at the stylesheet's page margin (`@page { margin: 10mm }`), in millimetres.
+   * The sheet counts how many stickers fit, so the two numbers must agree.
+   */
+  const PAGE = { width: 210, height: 297, margin: 10 };
+
+  /**
+   * Sticker sizes, in millimetres. A sticker is a physical object, so its size is a print
+   * decision rather than a layout one: `qr` is the printed width of the code and `gap` is
+   * the space between stickers on the page. The sheet lays out as many as fit.
+   */
+  const SIZES = {
+    small: { label: "Small", width: 70, height: 45, qr: 30, gap: 5 },
+    standard: { label: "Standard", width: 90, height: 60, qr: 40, gap: 6 },
+    large: { label: "Large", width: 120, height: 65, qr: 50, gap: 6 },
+    wide: { label: "Wide", width: 190, height: 55, qr: 42, gap: 5 },
+  };
+  /** Nothing outside these can be printed sensibly on A4, so the fields are bounded. */
+  const SIZE_LIMITS = { width: [40, 190], height: [30, 140], qr: [20, 110], gap: [0, 15] };
+  /** Below this, a phone camera on paper starts to struggle: the sheet says so. */
+  const MIN_MM_PER_MODULE = 0.35;
 
   const catalog = window.CHOLO_QR_CATALOG || { routes: [], stops: [], counts: {} };
+  const logoSpec = window.CHOLO_LOGO || null;
   const state = {
     origin: DEFAULT_ORIGIN,
     tab: "bus",
     route: null,
     stop: null,
     sheet: [],
+    densestModules: null,
+    size: sizeOf("standard"),
+    logo: true,
   };
 
   const $ = (id) => document.getElementById(id);
@@ -57,6 +83,167 @@
     } catch {
       /* private mode: the tool still works, it just forgets between visits */
     }
+  }
+
+  /* ------------------------------------------------------------------ sticker size */
+
+  function sizeOf(name) {
+    const preset = SIZES[name] || SIZES.standard;
+    return { width: preset.width, height: preset.height, qr: preset.qr, gap: preset.gap };
+  }
+
+  function clampTo(value, [min, max]) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return null;
+    return Math.min(max, Math.max(min, Math.round(number)));
+  }
+
+  /** How many stickers of this size fit on one A4 page, and therefore on the sheet. */
+  function layoutFor(size) {
+    const usableWidth = PAGE.width - PAGE.margin * 2;
+    const usableHeight = PAGE.height - PAGE.margin * 2;
+    const columns = Math.max(1, Math.floor((usableWidth + size.gap) / (size.width + size.gap)));
+    const rows = Math.max(1, Math.floor((usableHeight + size.gap) / (size.height + size.gap)));
+    return { columns, rows, perPage: columns * rows };
+  }
+
+  /**
+   * Every size passes through here: bounds first, then the code can never be wider than
+   * the sticker it sits on. A typo becomes a clamped number, not an unprintable sheet.
+   */
+  function normaliseSize(input) {
+    const next = { ...state.size, ...input };
+    for (const key of ["width", "height", "qr", "gap"]) {
+      const value = clampTo(next[key], SIZE_LIMITS[key]);
+      if (value !== null) next[key] = value;
+    }
+    next.qr = Math.min(next.qr, Math.min(next.width, next.height) - 6);
+    return next;
+  }
+
+  function presetName(size) {
+    return (
+      Object.keys(SIZES).find((name) => {
+        const preset = SIZES[name];
+        return (
+          preset.width === size.width &&
+          preset.height === size.height &&
+          preset.qr === size.qr &&
+          preset.gap === size.gap
+        );
+      }) || "custom"
+    );
+  }
+
+  /** Millimetres per printed module: the one number that predicts whether a code scans. */
+  function mmPerModule(modules) {
+    return state.size.qr / (modules + QUIET * 2);
+  }
+
+  function applySize(input, { remember = true } = {}) {
+    state.size = normaliseSize(input);
+    const size = state.size;
+    const root = document.documentElement;
+    const layout = layoutFor(size);
+    // Words are dropped before they are allowed to overflow: a short sticker or one whose
+    // code leaves little room loses the sentence, then the eyebrow, in that order.
+    const padMm = Math.max(3, Math.round(Math.min(size.width, size.height) * 0.07));
+    const textRoom = Math.max(0, size.width - size.qr - padMm * 2 - Math.round(size.width * 0.039));
+    const pages = $("sheet-cards");
+    if (pages) {
+      // A sentence needs roughly 26 mm of width beside the code and 42 mm of height;
+      // below that the sticker keeps the title, the route and the link.
+      pages.dataset.compact = textRoom < 26 || size.height < 42 ? "on" : "off";
+      pages.dataset.tight = textRoom < 16 ? "on" : "off";
+    }
+    root.style.setProperty("--sticker-w", String(size.width));
+    root.style.setProperty("--sticker-h", String(size.height));
+    root.style.setProperty("--sticker-qr", String(size.qr));
+    root.style.setProperty("--sticker-gap", String(size.gap));
+    root.style.setProperty("--sticker-pad", String(Math.max(3, Math.round(Math.min(size.width, size.height) * 0.07))));
+    root.style.setProperty("--sheet-cols", String(layout.columns));
+    // The room left for words once the code is drawn: the text is sized against this,
+    // so a sticker with a big code gets smaller type instead of an overflow.
+    root.style.setProperty("--sticker-text-mm", String(textRoom));
+    // Explicit pixels for the screen: CSS cannot divide one custom property by another,
+    // so the geometry is computed here rather than in calc().
+    root.style.setProperty("--sticker-qr-px", `${(size.qr * 3.7795).toFixed(2)}px`);
+    root.style.setProperty("--sticker-w-px", `${(size.width * 3.7795).toFixed(2)}px`);
+    root.style.setProperty("--sticker-h-px", `${(size.height * 3.7795).toFixed(2)}px`);
+    root.style.setProperty("--sticker-pad-px", `${(Math.max(3, Math.round(Math.min(size.width, size.height) * 0.07)) * 3.7795).toFixed(2)}px`);
+
+    const name = presetName(size);
+    for (const button of document.querySelectorAll("[data-size-preset]")) {
+      button.setAttribute("aria-pressed", String(button.dataset.sizePreset === name));
+    }
+    const fields = { width: $("size-width"), height: $("size-height"), qr: $("size-qr"), gap: $("size-gap") };
+    for (const key of Object.keys(fields)) {
+      if (fields[key]) fields[key].value = String(size[key]);
+    }
+
+    if (remember) write(SIZE_KEY, JSON.stringify(size));
+    renderSheet();
+    refreshPreview();
+  }
+
+  /* ------------------------------------------------------------------ logo in the code */
+
+  /** Whether the site's mark is drawn in the middle of the code. */
+  function applyLogo(on, { remember = true } = {}) {
+    state.logo = Boolean(on);
+    const toggle = $("logo-toggle");
+    if (toggle) toggle.checked = state.logo;
+    document.documentElement.dataset.qrLogo = state.logo ? "on" : "off";
+    if (remember) write(LOGO_KEY, state.logo ? "on" : "off");
+    renderSheet();
+    refreshPreview();
+  }
+
+  function roundedRect(context, x, y, width, height, radius) {
+    const r = Math.max(0, Math.min(radius, width / 2, height / 2));
+    context.beginPath();
+    context.moveTo(x + r, y);
+    context.arcTo(x + width, y, x + width, y + height, r);
+    context.arcTo(x + width, y + height, x, y + height, r);
+    context.arcTo(x, y + height, x, y, r);
+    context.arcTo(x, y, x + width, y, r);
+    context.closePath();
+    context.fill();
+  }
+
+  /**
+   * Draws the white plate and the Cholo mark over the finished code.
+   *
+   * The plate is the whole trick: modules underneath it are gone, so it has to be clean
+   * white rather than semi-transparent, and the code has to be level H for the decoder
+   * to rebuild them (`qrFor`). Geometry comes from `logo.js`, which verify-qr.mjs uses
+   * as well, so what is tested is what is printed.
+   */
+  function drawLogo(context, total) {
+    if (!logoSpec) return false;
+    const pad = total * logoSpec.padRatio;
+    const box = total * logoSpec.boxRatio;
+    const origin = (total - pad) / 2;
+    context.fillStyle = "#ffffff";
+    roundedRect(context, origin, origin, pad, pad, pad * logoSpec.padRadius);
+
+    const scale = box / logoSpec.viewBox;
+    const left = (total - box) / 2;
+    const top = (total - box) / 2;
+    for (const shape of logoSpec.shapes) {
+      context.fillStyle = shape.fill;
+      if (shape.rect) {
+        const [x, y, width, height] = shape.rect;
+        roundedRect(context, left + x * scale, top + y * scale, width * scale, height * scale, (shape.radius || 0) * scale);
+      } else if (shape.circle) {
+        const [cx, cy, radius] = shape.circle;
+        context.beginPath();
+        context.arc(left + cx * scale, top + cy * scale, radius * scale, 0, Math.PI * 2);
+        context.closePath();
+        context.fill();
+      }
+    }
+    return true;
   }
 
   /* ------------------------------------------------------------------ theme */
@@ -141,9 +328,11 @@
   /* ------------------------------------------------------------------ QR drawing */
 
   function qrFor(text) {
-    // Type 0 lets the encoder pick the smallest version that fits; "M" is the level
-    // that survives a scuffed sticker without making the code dense.
-    const code = window.qrcode(0, "M");
+    // Type 0 lets the encoder pick the smallest version that fits. With a logo the code
+    // has to survive a hole in the middle, so the level goes up to H (about 30%
+    // recoverable); without one, M is the level that survives a scuffed sticker without
+    // making the code needlessly dense.
+    const code = window.qrcode(0, state.logo && logoSpec ? logoSpec.level : "M");
     code.addData(text);
     code.make();
     return code;
@@ -159,7 +348,7 @@
     const context = canvas.getContext("2d");
     // A browser without a 2D context cannot draw the code, but the link, the copy button
     // and the downloads still work, so this is a blank canvas rather than a crash.
-    if (!context) return { modules, pixelSize: 0, scale: 0 };
+    if (!context) return { modules, pixelSize: 0, scale: 0, logo: false };
     context.fillStyle = "#ffffff";
     context.fillRect(0, 0, total, total);
     context.fillStyle = "#0b1f17";
@@ -170,7 +359,33 @@
         }
       }
     }
-    return { modules, pixelSize: total, scale };
+    const logo = state.logo ? drawLogo(context, total) : false;
+    return { modules, pixelSize: total, scale, logo };
+  }
+
+  /** The mark as SVG, in the code's own module coordinates, so exports match the screen. */
+  function logoSvg(size) {
+    if (!logoSpec) return "";
+    const pad = size * logoSpec.padRatio;
+    const box = size * logoSpec.boxRatio;
+    const origin = (size - pad) / 2;
+    const scale = box / logoSpec.viewBox;
+    const shapes = logoSpec.shapes
+      .map((shape) => {
+        if (shape.rect) {
+          const [x, y, width, height] = shape.rect;
+          return `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="${shape.radius || 0}" fill="${shape.fill}"/>`;
+        }
+        const [cx, cy, radius] = shape.circle;
+        return `<circle cx="${cx}" cy="${cy}" r="${radius}" fill="${shape.fill}"/>`;
+      })
+      .join("");
+    return (
+      `<g data-cholo-logo="true">` +
+      `<rect x="${origin}" y="${origin}" width="${pad}" height="${pad}" rx="${pad * logoSpec.padRadius}" fill="#ffffff"/>` +
+      `<g transform="translate(${(size - box) / 2} ${(size - box) / 2}) scale(${scale})">${shapes}</g>` +
+      `</g>`
+    );
   }
 
   function svgFor(code) {
@@ -192,12 +407,9 @@
       `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="1024" height="1024" shape-rendering="crispEdges">` +
       `<rect width="${size}" height="${size}" fill="#ffffff"/>` +
       `<path d="${parts.join("")}" fill="#0b1f17"/>` +
+      (state.logo ? logoSvg(size) : "") +
       `</svg>`
     );
-  }
-
-  function mmPerModule(code) {
-    return PRINT_MM / (code.getModuleCount() + QUIET * 2);
   }
 
   function download(name, blob) {
@@ -296,6 +508,8 @@
     $("bus-title").textContent = `Bus ${route.number}`;
     $("bus-sub").textContent = `${route.origin} ↔ ${route.destination} · ${route.type} · ${route.operator} · ${route.stops} stops${route.timed ? "" : " · no published times"}`;
     $("bus-reg").value = "";
+    // The add button carries a one-off "already on the sheet"; a new route resets it.
+    $("bus-add").textContent = "Add to print sheet";
     renderRoutes();
     refreshPreview();
   }
@@ -343,6 +557,7 @@
     $("stop-empty").hidden = true;
     $("stop-title").textContent = stop.name;
     $("stop-sub").textContent = "The next buses from this stop, and the whole day.";
+    $("stop-add").textContent = "Add to print sheet";
     renderStops();
     refreshPreview();
   }
@@ -356,6 +571,18 @@
     return routeLink(state.route.number, registration, state.origin);
   }
 
+  /** What the printed code will actually be: module count, and millimetres per module. */
+  function describeDensity(modules) {
+    const mm = mmPerModule(modules);
+    const parts = [
+      `${modules}×${modules} modules`,
+      `${mm.toFixed(2)} mm per module at ${state.size.qr} mm${state.logo ? " with the logo" : ""}`,
+    ];
+    const tooDense = mm < MIN_MM_PER_MODULE;
+    if (tooDense) parts.push("too dense for this size: print larger, or turn the logo off");
+    return { text: parts.join(" · "), tooDense };
+  }
+
   function refreshPreview() {
     if (state.route) {
       const link = busLinkNow();
@@ -364,13 +591,11 @@
       $("bus-reg").classList.toggle("bad", Boolean(badRegistration));
       $("bus-link").textContent = link;
       $("bus-open").href = link;
-      const code = qrFor(link);
-      paint($("bus-qr"), code, 640);
-      const mm = mmPerModule(code);
+      const painted = paint($("bus-qr"), qrFor(link), 640);
+      const density = describeDensity(painted.modules);
       const meta = $("bus-qr-meta");
-      meta.textContent = `${code.getModuleCount()}×${code.getModuleCount()} modules · ${mm.toFixed(2)} mm per module at ${PRINT_MM} mm`;
-      meta.classList.toggle("bad", mm < 0.35);
-      if (mm < 0.35) meta.textContent += " · too dense for this size, print larger";
+      meta.textContent = density.text;
+      meta.classList.toggle("bad", density.tooDense);
       if (badRegistration) {
         meta.classList.add("bad");
         meta.textContent = "Bus number ignored: use a plate like WB 04 A 1234";
@@ -381,13 +606,14 @@
       const link = stopLink(state.stop, state.origin);
       $("stop-link").textContent = link;
       $("stop-open").href = link;
-      const code = qrFor(link);
-      paint($("stop-qr"), code, 640);
-      const mm = mmPerModule(code);
+      const painted = paint($("stop-qr"), qrFor(link), 640);
+      const density = describeDensity(painted.modules);
       const meta = $("stop-qr-meta");
-      meta.textContent = `${code.getModuleCount()}×${code.getModuleCount()} modules · ${mm.toFixed(2)} mm per module at ${PRINT_MM} mm`;
-      meta.classList.toggle("bad", mm < 0.35);
+      meta.textContent = density.text;
+      meta.classList.toggle("bad", density.tooDense);
     }
+
+    updateSizeSummary();
   }
 
   /* ------------------------------------------------------------------ the sheet */
@@ -430,62 +656,158 @@
     write(SHEET_KEY, JSON.stringify(state.sheet));
   }
 
+  /**
+   * The page frames are drawn at real paper size, which is wider than a phone. Rather than
+   * cropping them, the whole frame is zoomed down to fit the window — zoom scales the
+   * layout, so the preview keeps every printed proportion. Printing resets it to 1.
+   */
+  function fitSheetPreview() {
+    const holder = $("sheet-cards");
+    if (!holder) return;
+    holder.style.removeProperty("--sheet-zoom");
+    const frame = holder.querySelector(".sheet-page");
+    if (!frame) return;
+    const pageWidth = frame.getBoundingClientRect().width;
+    const available = holder.clientWidth - 2;
+    if (!pageWidth || !available) return;
+    const zoom = Math.min(1, available / pageWidth);
+    if (!Number.isFinite(zoom) || zoom >= 0.999) {
+      holder.dataset.zoomed = "off";
+      holder.style.removeProperty("--sheet-zoom");
+      return;
+    }
+    holder.style.setProperty("--sheet-zoom", zoom.toFixed(3));
+    holder.dataset.zoomed = zoom < 0.75 ? "on" : "off";
+  }
+
+  /**
+   * What the current size means in practice: how many fit on a page, and whether the
+   * smallest code on the sheet is still printable at that size. The number is measured
+   * from the codes actually on the sheet, not from a guess.
+   */
+  function updateSizeSummary(densestModules = state.densestModules) {
+    const size = state.size;
+    const layout = layoutFor(size);
+    const parts = [`${layout.columns} × ${layout.rows} = ${layout.perPage} per A4 page`];
+    let tooDense = false;
+    if (densestModules) {
+      const mm = mmPerModule(densestModules);
+      parts.push(`${mm.toFixed(2)} mm per module`);
+      tooDense = mm < MIN_MM_PER_MODULE;
+      if (tooDense) parts.push("too dense at this size: print larger, or turn the logo off");
+    }
+    const meta = $("size-meta");
+    if (meta) {
+      const textMm = Number(document.documentElement.style.getPropertyValue("--sticker-text-mm")) || 0;
+      if (textMm > 0 && textMm < 22) parts.push("little room left for the words: a smaller code reads better");
+      meta.textContent = parts.join(" · ");
+      meta.classList.toggle("bad", tooDense || (textMm > 0 && textMm < 16));
+    }
+    const note = $("print-note");
+    if (note) {
+      note.textContent =
+        `Print at 100% (no “fit to page”), on sticker paper or plain paper with tape. ` +
+        `Each sticker is ${size.width} × ${size.height} mm with a ${size.qr} mm code, ` +
+        `${size.gap} mm apart. Stickers always print black on white, whatever theme this screen is in.`;
+    }
+  }
+
+  /** One card per sticker, in the same proportions it will be printed in. */
+  function buildSticker(sticker) {
+    const card = document.createElement("article");
+    card.className = "sticker";
+
+    const canvas = document.createElement("canvas");
+    const painted = paint(canvas, qrFor(sticker.link), 480);
+    card.append(canvas);
+
+    const body = document.createElement("div");
+    body.className = "sticker-body";
+    const kind = document.createElement("span");
+    kind.className = "sticker-kind";
+    kind.textContent = sticker.kind === "bus" ? "On bus · route sticker" : "At bus stop";
+    const title = document.createElement("strong");
+    title.className = "sticker-title";
+    title.textContent = sticker.title;
+    const sub = document.createElement("span");
+    sub.className = "sticker-sub";
+    sub.textContent = sticker.subtitle;
+    const note = document.createElement("span");
+    note.className = "sticker-note";
+    note.textContent = sticker.note;
+    const link = document.createElement("span");
+    link.className = "sticker-link";
+    link.textContent = sticker.link.replace(/^https?:\/\//, "");
+    body.append(kind, title, sub, note, link);
+    card.append(body);
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "sticker-remove";
+    remove.textContent = "✕";
+    remove.setAttribute("aria-label", `Remove the ${sticker.title} sticker`);
+    remove.addEventListener("click", () => {
+      state.sheet = state.sheet.filter((item) => item.id !== sticker.id);
+      persistSheet();
+      renderSheet();
+    });
+    card.append(remove);
+    return { card, modules: painted.modules };
+  }
+
+  /**
+   * The sheet is dealt into real A4 pages rather than one long grid, so the page count
+   * shown here is the number of sheets that come out of the printer, and a page break
+   * never lands in the middle of a sticker.
+   */
   function renderSheet() {
     const holder = $("sheet-cards");
     holder.replaceChildren();
+    const layout = layoutFor(state.size);
+    const pages = Math.max(1, Math.ceil(state.sheet.length / layout.perPage));
     $("sheet-meta").textContent = state.sheet.length
-      ? `${state.sheet.length} sticker${state.sheet.length === 1 ? "" : "s"} · ${Math.ceil(state.sheet.length / 8)} A4 page${Math.ceil(state.sheet.length / 8) === 1 ? "" : "s"}`
+      ? `${state.sheet.length} sticker${state.sheet.length === 1 ? "" : "s"} · ${layout.columns} × ${layout.rows} per page · ${pages} A4 page${pages === 1 ? "" : "s"}`
       : "Nothing added yet.";
 
     if (!state.sheet.length) {
       const empty = document.createElement("p");
       empty.className = "sheet-empty";
-      empty.textContent = "Pick a route or a stop above and add it here. Stickers are grouped 8 to an A4 page.";
+      empty.textContent = `Pick a route or a stop above and add it here. ${layout.perPage} stickers of this size fit on an A4 page.`;
       holder.append(empty);
+      state.densestModules = null;
+      updateSizeSummary(null);
       return;
     }
 
-    for (const sticker of state.sheet) {
-      const card = document.createElement("article");
-      card.className = "sticker";
+    let densest = 0;
+    for (let page = 0; page < pages; page += 1) {
+      const slice = state.sheet.slice(page * layout.perPage, (page + 1) * layout.perPage);
+      const section = document.createElement("section");
+      section.className = "sheet-page";
+      section.dataset.page = String(page + 1);
 
-      const canvas = document.createElement("canvas");
-      paint(canvas, qrFor(sticker.link), 480);
-      card.append(canvas);
+      const head = document.createElement("header");
+      head.className = "sheet-page-head";
+      const left = document.createElement("span");
+      left.textContent = `A4 page ${page + 1} of ${pages}`;
+      const right = document.createElement("span");
+      right.textContent = `${slice.length} of ${layout.perPage} places used`;
+      head.append(left, right);
 
-      const body = document.createElement("div");
-      body.className = "sticker-body";
-      const kind = document.createElement("span");
-      kind.className = "sticker-kind";
-      kind.textContent = sticker.kind === "bus" ? "On bus · route sticker" : "At bus stop";
-      const title = document.createElement("strong");
-      title.className = "sticker-title";
-      title.textContent = sticker.title;
-      const sub = document.createElement("span");
-      sub.className = "sticker-sub";
-      sub.textContent = sticker.subtitle;
-      const note = document.createElement("span");
-      note.className = "sticker-note";
-      note.textContent = sticker.note;
-      const link = document.createElement("span");
-      link.className = "sticker-link";
-      link.textContent = sticker.link.replace(/^https?:\/\//, "");
-      body.append(kind, title, sub, note, link);
-      card.append(body);
-
-      const remove = document.createElement("button");
-      remove.type = "button";
-      remove.className = "sticker-remove";
-      remove.textContent = "✕";
-      remove.setAttribute("aria-label", `Remove the ${sticker.title} sticker`);
-      remove.addEventListener("click", () => {
-        state.sheet = state.sheet.filter((item) => item.id !== sticker.id);
-        persistSheet();
-        renderSheet();
-      });
-      card.append(remove);
-      holder.append(card);
+      const grid = document.createElement("div");
+      grid.className = "sheet-cards";
+      for (const sticker of slice) {
+        const built = buildSticker(sticker);
+        // The largest module count needs the most millimetres per module to stay legible.
+        densest = Math.max(densest, built.modules);
+        grid.append(built.card);
+      }
+      section.append(head, grid);
+      holder.append(section);
     }
+    state.densestModules = densest;
+    updateSizeSummary(densest);
+    fitSheetPreview();
   }
 
   /* ------------------------------------------------------------------ events */
@@ -603,11 +925,40 @@
         state.tab === "bus" ? matchingRoutes().map(stickerForRoute) : matchingStops().map((stop) => stickerForStop(stop.name));
       if (!stickerList.length) return;
       const count = stickerList.length;
-      if (count > 8 && !window.confirm(`Add ${count} stickers to the print sheet? That is ${Math.ceil(count / 8)} A4 pages.`)) {
+      const perPage = layoutFor(state.size).perPage;
+      if (count > perPage && !window.confirm(`Add ${count} stickers to the print sheet? That is ${Math.ceil(count / perPage)} A4 pages at this size.`)) {
         return;
       }
       addStickers(stickerList);
     });
+
+    for (const button of document.querySelectorAll("[data-size-preset]")) {
+      button.addEventListener("click", () => applySize(sizeOf(button.dataset.sizePreset)));
+    }
+
+    for (const key of ["width", "height", "qr", "gap"]) {
+      const input = $(`size-${key}`);
+      if (!input) continue;
+      // Typing applies as soon as the number is usable, so the preview follows the hand.
+      input.addEventListener("input", () => {
+        const value = clampTo(input.value, SIZE_LIMITS[key]);
+        if (value === null) return;
+        applySize({ [key]: value });
+      });
+      // Leaving the field always shows the number that will be printed.
+      input.addEventListener("change", () => applySize({ [key]: input.value }));
+    }
+
+    $("logo-toggle").addEventListener("change", () => applyLogo($("logo-toggle").checked));
+
+    let resizeTimer = null;
+    window.addEventListener("resize", () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(fitSheetPreview, 150);
+    });
+    // Fonts change the height of the page head, which changes nothing about the width,
+    // but the first measurement has to happen after layout.
+    window.setTimeout(fitSheetPreview, 0);
 
     $("sheet-print").addEventListener("click", () => {
       if (!state.sheet.length) {
@@ -633,6 +984,16 @@
     $("catalog-date").textContent = catalog.generated || "—";
     $("origin").value = read(ORIGIN_KEY, DEFAULT_ORIGIN);
     setOrigin($("origin").value, { remember: false });
+
+    // Saved print size, if it is still a sensible one; the same for the logo choice.
+    try {
+      const storedSize = JSON.parse(read(SIZE_KEY, "null"));
+      if (storedSize && typeof storedSize === "object") state.size = normaliseSize(storedSize);
+    } catch {
+      /* a corrupt value falls back to the standard sticker */
+    }
+    applySize(state.size, { remember: false });
+    applyLogo(read(LOGO_KEY, "on") !== "off", { remember: false });
 
     try {
       const stored = JSON.parse(read(SHEET_KEY, "[]"));

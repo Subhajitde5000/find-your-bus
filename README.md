@@ -43,7 +43,16 @@ network at all**:
   are left off the map, and the caption says how many and why.
   The map zooms and pans: **+ / −**, pinch, drag, or Ctrl/Cmd + wheel. **Show the whole route**
   fits it back, and **Follow my bus** keeps the map centred on you. Stop names appear as you
-  zoom in, placed so none overlap. The maths is in `fontend/src/lib/mapView.ts`.
+  zoom in — a handful first (where you are, the next stop, your stop, the two ends), all of
+  them once you pass 2.5× — each placed so none overlaps. The maths is in
+  `fontend/src/lib/mapView.ts`.
+- **One stop at a time.** Under the position cards, **Stops, one at a time** shows a single
+  stop in type big enough to read on a moving bus: its name, whether it is behind you, the
+  next one, or the stop you are getting off at, the distance and the time. Step through the
+  route with the **‹ ›** arrows, a sideways swipe, the arrow keys (or Home/End), or by
+  tapping a dot; the map moves with you, centres on that stop and prints its name. A route
+  too long for a rail of dots keeps the arrows only, and the stop list below always has the
+  whole route in order. The logic is `fontend/src/lib/stopStep.ts`.
 
 It works offline because it has to be able to: a bus is exactly where you are least
 likely to have a signal. The route, the stop coordinates and the timetable are all in the

@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { RideProgress, RideStopList } from "@/components/RideMap";
 import { RideRouteMap } from "@/components/RideRouteMap";
+import { StopStepper } from "@/components/StopStepper";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { formatClock, type Direction } from "@/lib/timetables";
 import {
@@ -109,6 +110,11 @@ function RideScreen() {
   const [dismissedAlert, setDismissedAlert] = useState<StopAlertLevel>("none");
   const announced = useRef<{ stop: StopAlertLevel; direction: DirectionWarningLevel }>({ stop: "none", direction: "none" });
   const [ended, setEnded] = useState(false);
+  /**
+   * The stop the passenger is walking through one at a time, or null to follow the live
+   * position. It lives here rather than in the card because the map follows it too.
+   */
+  const [focusedStop, setFocusedStop] = useState<number | null>(null);
   const watchId = useRef<number | null>(null);
 
   const built = useMemo(
@@ -472,6 +478,21 @@ function RideScreen() {
           </div>
         </section>
 
+        <section className="ride-map-section" aria-label="Stops, one at a time">
+          <StopStepper
+            ride={ride}
+            legs={legs}
+            currentStop={currentStop?.index ?? null}
+            destinationIndex={destination}
+            nextStopIndex={nextStopIndex}
+            onBus={onBus}
+            passed={passedStops}
+            focused={focusedStop}
+            onFocus={setFocusedStop}
+            onReset={() => setFocusedStop(null)}
+          />
+        </section>
+
         <section className="ride-map-section" aria-label="Route map">
           <RideRouteMap
             ride={ride}
@@ -482,6 +503,8 @@ function RideScreen() {
             nextStopIndex={nextStopIndex}
             passed={passedStops}
             userPosition={tracker.smoothed ?? tracker.fixes[tracker.fixes.length - 1] ?? null}
+            focusIndex={focusedStop}
+            onFocusStop={setFocusedStop}
           />
         </section>
 

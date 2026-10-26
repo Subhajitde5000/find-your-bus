@@ -176,6 +176,13 @@ interface Props {
   passed: Set<number>;
   /** The phone's last good position, so the nearest stop can be highlighted before boarding. */
   userPosition?: Position | null;
+  /**
+   * A stop the passenger is walking through one at a time. When it changes the map centres
+   * on it at a zoom that prints its name, so the map and the stop card tell the same story.
+   */
+  focusIndex?: number | null;
+  /** Told when a stop is picked on the map, so the stop card can show the same stop. */
+  onFocusStop?: (index: number) => void;
 }
 
 /** Where a screen point falls in the drawing, allowing for the letterboxing "meet" adds. */
@@ -217,6 +224,8 @@ export function RideRouteMap({
   nextStopIndex,
   passed,
   userPosition = null,
+  focusIndex = null,
+  onFocusStop,
 }: Props) {
   const built = useMemo(() => project(ride), [ride]);
   const mapStyle = useMapStyle();
@@ -269,6 +278,26 @@ export function RideRouteMap({
     return () => svg.removeEventListener("wheel", onWheel);
   }, [key, size.width, size.height]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Walking the route one stop at a time moves the map with the passenger's thumb: centre
+  // on the stop on show, and zoom in far enough that its name is printed. The deps are the
+  // stop alone -- re-running on every view change would fight the passenger dragging the map.
+  const focusRef = useRef<{ stops: ProjectedStop[]; key: string; zoom: number }>({ stops: [], key, zoom: 1 });
+  useEffect(() => {
+    focusRef.current = { stops: built?.stops ?? [], key, zoom: view.zoom };
+  });
+  useEffect(() => {
+    if (focusIndex === null) return;
+    const { stops: placed, key: currentKey, zoom: currentZoom } = focusRef.current;
+    const target = placed.find((stop) => stop.index === focusIndex && stop.at !== null);
+    if (!target) return;
+    setStored((previous) => ({
+      key: currentKey,
+      zoom: Math.max(previous.key === currentKey ? currentZoom : 1, ALL_LABELS_ZOOM),
+      centre: { x: target.x, y: target.y },
+      follow: false,
+    }));
+  }, [focusIndex]);
+
   if (!built) return null;
   const { projection, stops, corridor } = built;
 
@@ -307,12 +336,17 @@ export function RideRouteMap({
   const nearestXY = nearestNear ? (stops.find((stop) => stop.index === nearestNear.index && stop.at !== null) ?? null) : null;
   const youXY = userPosition && !onBus ? toXY(projection, userPosition) : null;
   const routeStopNames = new Set(stops.filter((stop) => stop.at !== null).map((stop) => stop.name));
+  const focusedStop = focusIndex === null ? null : (stops.find((stop) => stop.index === focusIndex && stop.at !== null) ?? null);
 
   const choose = (name: string) => {
     setPicked(name);
     setLandmarkId(null);
     const target = stops.find((stop) => stop.name === name && stop.at !== null);
-    if (target) setStored({ key, zoom: Math.max(view.zoom, 4), centre: { x: target.x, y: target.y }, follow: false });
+    if (target) {
+      setStored({ key, zoom: Math.max(view.zoom, 4), centre: { x: target.x, y: target.y }, follow: false });
+      // The card above walks the same route, so a stop tapped here becomes the stop on show.
+      onFocusStop?.(target.index);
+    }
   };
   /** A drag must not pick the stop the finger happened to end on. */
   const tap = (action: () => void) => () => {
@@ -480,6 +514,9 @@ export function RideRouteMap({
             return target ? <circle className="ride-map-picked" cx={target.x} cy={target.y} r={8 * k} fill="none" stroke="var(--accent)" strokeWidth={2 * k} /> : null;
           })()}
 
+          {/* The stop the one-at-a-time card is showing, ringed so the two agree. */}
+          {focusedStop && <circle className="ride-map-focus" cx={focusedStop.x} cy={focusedStop.y} r={9 * k} />}
+
           {nearestXY && <circle className="ride-map-nearest" cx={nearestXY.x} cy={nearestXY.y} r={10 * k} />}
           {youXY && inDrawing(youXY) && <circle className="ride-map-you" cx={youXY.x} cy={youXY.y} r={4.5 * k} />}
 
@@ -575,7 +612,7 @@ export function RideRouteMap({
           <span className="legend-item"><span className="legend-dot next" /> next</span>
           <span className="legend-item"><span className="legend-dot destination" /> your stop</span>
         </span>
-        <span className="ride-map-note ride-map-hint">Pinch or use + / − to zoom, drag to move, tap a stop to see its buses.</span>
+        <span className="ride-map-note ride-map-hint">Pinch or use + / − to zoom, drag to move, tap a stop to bring it into the card and see its buses.</span>
         {nearestNear && (
           <span className="ride-map-note">
             Nearest stop to you on this route: <strong>{nearestNear.name}</strong>, {formatDistance(nearestNear.metres)} away in a straight line.

@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { RideProgress, RideStopList } from "@/components/RideMap";
 import { RideRouteMap } from "@/components/RideRouteMap";
+import { StopStepper } from "@/components/StopStepper";
 import { OpenInApp } from "@/components/OpenInApp";
 import { StopSearchBox } from "@/components/StopSearchBox";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -142,6 +143,8 @@ function OnBusScreen() {
   const [tracker, setTracker] = useState<TrackerState>(initTracker);
   const [online, setOnline] = useState(true);
   const [ended, setEnded] = useState(false);
+  /** The stop being walked through one at a time, or null to follow the bus. */
+  const [focusedStop, setFocusedStop] = useState<number | null>(null);
   const [manualStop, setManualStop] = useState<string | null>(null);
   const [pickingStop, setPickingStop] = useState(false);
   const [pickedRun, setPickedRun] = useState<string | null>(null);
@@ -899,6 +902,20 @@ function OnBusScreen() {
 
             {ride && (
               <>
+                <div className="ob-journey-block" aria-label="Stops, one at a time">
+                  <StopStepper
+                    ride={ride}
+                    legs={legs}
+                    currentStop={currentStop?.index ?? null}
+                    destinationIndex={destinationIdx}
+                    nextStopIndex={nextStopIndex}
+                    onBus={aboard}
+                    passed={passedStops}
+                    focused={focusedStop}
+                    onFocus={setFocusedStop}
+                    onReset={() => setFocusedStop(null)}
+                  />
+                </div>
                 <div className="ob-journey-block" aria-label="Route map">
                   <RideRouteMap
                     ride={ride}
@@ -909,6 +926,8 @@ function OnBusScreen() {
                     nextStopIndex={nextStopIndex}
                     passed={passedStops}
                     userPosition={tracker.smoothed ?? tracker.fixes[tracker.fixes.length - 1] ?? null}
+                    focusIndex={focusedStop}
+                    onFocusStop={setFocusedStop}
                   />
                 </div>
                 <RideProgress ride={ride} metresAlong={aboard ? match?.metresAlong ?? null : null} onBus={aboard} />

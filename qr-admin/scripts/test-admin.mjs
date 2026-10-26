@@ -56,7 +56,7 @@ function open({ storedTheme = null, prefersDark = false } = {}) {
     storedTheme === "dark" || storedTheme === "light" ? storedTheme : prefersDark ? "dark" : "light";
   window.document.documentElement.dataset.theme = theme;
 
-  for (const file of ["vendor/qrcode.js", "data/catalog.js", "qr-admin.js"]) {
+  for (const file of ["vendor/qrcode.js", "logo.js", "data/catalog.js", "qr-admin.js"]) {
     window.eval(readFileSync(join(ADMIN, file), "utf8"));
   }
   return window;
@@ -183,6 +183,178 @@ const byId = (window, id) => window.document.getElementById(id);
       sticker?.textContent?.slice(0, 80),
     );
   }
+}
+
+/* ------------------------------------------------------------------ the logo */
+
+{
+  const window = open();
+  const toggle = byId(window, "logo-toggle");
+  check("the logo is on by default", toggle.checked === true);
+  check("and the page says so", window.document.documentElement.dataset.qrLogo === "on");
+
+  // Choosing a route shows what the code will be, including the logo's cost in modules.
+  const search = byId(window, "route-search");
+  search.value = "1";
+  search.dispatchEvent(new window.Event("input", { bubbles: true }));
+  click(window, window.document.querySelector("#route-list button"));
+  check(
+    "the code's description mentions the logo and its printed density",
+    /with the logo/.test(byId(window, "bus-qr-meta").textContent) &&
+      /mm per module/.test(byId(window, "bus-qr-meta").textContent),
+    byId(window, "bus-qr-meta").textContent,
+  );
+
+  toggle.checked = false;
+  toggle.dispatchEvent(new window.Event("change", { bubbles: true }));
+  check("turning it off is remembered", window.localStorage.getItem("cholo:qr:logo") === "off");
+  check("and the page reflects it", window.document.documentElement.dataset.qrLogo === "off");
+  check(
+    "a plain code is described without the logo",
+    !/with the logo/.test(byId(window, "bus-qr-meta").textContent),
+    byId(window, "bus-qr-meta").textContent,
+  );
+}
+
+/* ------------------------------------------------------------------ sticker size */
+
+{
+  const window = open();
+  const sizeMeta = () => byId(window, "size-meta").textContent;
+  check("the standard sticker is the default", byId(window, "size-width").value === "90");
+  check("and it fits 8 to an A4 page", /2 × 4 = 8 per A4 page/.test(sizeMeta()), sizeMeta());
+
+  click(window, window.document.querySelector('[data-size-preset="small"]'));
+  const presets = window.document.querySelectorAll("[data-size-preset]");
+  const small = [...presets].find((button) => button.dataset.sizePreset === "small");
+  check("choosing a preset marks it", small.getAttribute("aria-pressed") === "true");
+  check("the fields follow the preset", byId(window, "size-width").value === "70" && byId(window, "size-qr").value === "30");
+  check("the page count follows the size", /2 × 5 = 10 per A4 page/.test(sizeMeta()), sizeMeta());
+  check(
+    "the printed dimensions are stated in the note",
+    /70 × 45 mm with a 30 mm code/.test(byId(window, "print-note").textContent),
+    byId(window, "print-note").textContent,
+  );
+  check("the size is remembered", JSON.parse(window.localStorage.getItem("cholo:qr:size")).width === 70);
+
+  // A hand-typed size is clamped, and the code can never outgrow its sticker.
+  const width = byId(window, "size-width");
+  width.value = "999";
+  width.dispatchEvent(new window.Event("input", { bubbles: true }));
+  check("an impossible width is clamped to the sheet", byId(window, "size-width").value === "190", byId(window, "size-width").value);
+
+  const qr = byId(window, "size-qr");
+  qr.value = "110";
+  qr.dispatchEvent(new window.Event("input", { bubbles: true }));
+  check(
+    "the code is never larger than the sticker",
+    Number(byId(window, "size-qr").value) <= Math.min(Number(byId(window, "size-width").value), Number(byId(window, "size-height").value)) - 6,
+    `${byId(window, "size-qr").value} in ${byId(window, "size-width").value}`,
+  );
+
+  // A sticker with no room for words drops them rather than overprinting them.
+  const search2 = byId(window, "route-search");
+  search2.value = "1";
+  search2.dispatchEvent(new window.Event("input", { bubbles: true }));
+  click(window, window.document.querySelector("#route-list button"));
+  click(window, byId(window, "bus-add"));
+
+  // 110 x 40 mm with a 40 mm code leaves ~60 mm of width but only 40 mm of height.
+  const setSize = (values) => {
+    for (const key of Object.keys(values)) {
+      const field = byId(window, `size-${key}`);
+      field.value = String(values[key]);
+      field.dispatchEvent(new window.Event("input", { bubbles: true }));
+    }
+  };
+  setSize({ width: 110, height: 40, qr: 40, gap: 5 });
+  check(
+    "a short sticker keeps the title and the link",
+    Boolean(window.document.querySelector(".sticker-title")) &&
+      Boolean(window.document.querySelector(".sticker-link")),
+  );
+  check(
+    "and marks itself compact, so the sentence beside the code is not printed",
+    byId(window, "sheet-cards").dataset.compact === "on",
+    byId(window, "sheet-cards").dataset.compact,
+  );
+
+  // Nothing else fits at 40 mm tall with a 24 mm code: no sentence, no eyebrow.
+  setSize({ width: 40, height: 30, qr: 24, gap: 2 });
+  check(
+    "a sticker with no room at all drops the eyebrow too",
+    byId(window, "sheet-cards").dataset.tight === "on",
+    `compact=${byId(window, "sheet-cards").dataset.compact} tight=${byId(window, "sheet-cards").dataset.tight}`,
+  );
+  check(
+    "and says so, instead of printing an unreadable scrap",
+    /little room left for the words/.test(byId(window, "size-meta").textContent),
+    byId(window, "size-meta").textContent,
+  );
+
+  click(window, window.document.querySelector('[data-size-preset="standard"]'));
+  check(
+    "a standard sticker has room for the sentence again",
+    byId(window, "sheet-cards").dataset.compact === "off",
+    byId(window, "sheet-cards").dataset.compact,
+  );
+
+  // Nonsense in a size field must not blank the sheet.
+  width.value = "";
+  width.dispatchEvent(new window.Event("input", { bubbles: true }));
+  check("an empty field leaves the last good size", Number(byId(window, "size-width").value) > 0);
+
+  // A tiny code with a logo is too dense to trust, and the tool says so rather than
+  // printing something a phone will struggle to read.
+  const search = byId(window, "route-search");
+  search.value = "1";
+  search.dispatchEvent(new window.Event("input", { bubbles: true }));
+  click(window, window.document.querySelector("#route-list button"));
+  click(window, window.document.querySelector('[data-size-preset="small"]'));
+  click(window, byId(window, "bus-add"));
+  const tiny = byId(window, "size-meta").textContent;
+  check(
+    "a code too dense for its printed size is called out",
+    /too dense/.test(tiny) || /mm per module/.test(tiny),
+    tiny,
+  );
+}
+
+/* ------------------------------------------------------------------ pages on the sheet */
+
+{
+  const window = open();
+  const search = byId(window, "route-search");
+  const addRoute = (query) => {
+    search.value = query;
+    search.dispatchEvent(new window.Event("input", { bubbles: true }));
+    const first = window.document.querySelector("#route-list button");
+    if (first) {
+      click(window, first);
+      click(window, byId(window, "bus-add"));
+    }
+  };
+  // A standard sticker is 8 to a page, so exactly eight still fit on one sheet.
+  for (const query of ["1", "1A", "1B", "3", "3B", "3C/1", "210", "213"]) addRoute(query);
+  const pages = () => window.document.querySelectorAll(".sheet-page");
+  check("eight standard stickers fill one page", pages().length === 1, `${pages().length} pages`);
+  addRoute("C20");
+  check("the ninth starts a second page", pages().length === 2, `${pages().length} pages`);
+  check(
+    "the page says how many of its places are used",
+    /of 8 places used/.test(pages()[0].textContent),
+    pages()[0].querySelector(".sheet-page-head").textContent,
+  );
+  click(window, window.document.querySelector('[data-size-preset="large"]'));
+  check("a bigger sticker needs even more pages", pages().length >= 3, `${pages().length} pages`);
+  const first = pages()[0].querySelectorAll(".sticker").length;
+  const perPage = 3;
+  check("and a page never holds more than fits", first <= perPage, `${first} on the first page`);
+  check(
+    "every sticker is still on the sheet",
+    window.document.querySelectorAll(".sticker").length === 9,
+    `${window.document.querySelectorAll(".sticker").length} stickers`,
+  );
 }
 
 /* ------------------------------------------------------------------ printing */

@@ -151,6 +151,29 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
 .hint { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
 .hint.bad { color: var(--bad); }
 
+/* The logo switch: a checkbox that reads as a sentence, not as a form control. */
+.switch-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--field);
+  cursor: pointer;
+  max-width: 640px;
+}
+.switch-row input {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  margin: 2px 0 0;
+  accent-color: var(--brand);
+}
+.switch-row span { display: grid; gap: 2px; }
+.switch-row strong { font-size: 13px; font-weight: 800; }
+.switch-row small { color: var(--muted); font-size: 11.5px; line-height: 1.55; }
+
 input[type="text"], input[type="url"], input[type="search"] {
   padding: 10px 12px;
   border: 1px solid var(--line);
@@ -305,11 +328,110 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; align-items: center; }
 .link-button { font-size: 12.5px; font-weight: 800; }
 
-.sheet { display: grid; gap: 14px; padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.sheet { display: grid; gap: 14px; min-width: 0; padding: 20px; box-shadow: var(--shadow); border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
 .sheet-head { display: flex; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
 .sheet-head p { margin: 4px 0 0; color: var(--muted); font-size: 12.5px; }
 .sheet-actions { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
-.sheet-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+/* Sticker geometry lives in custom properties, in millimetres, set by qr-admin.js.
+   The screen and the printer read the same numbers, so the preview cannot lie. */
+.sheet-size {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--field);
+}
+.sheet-size-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.sheet-size-label {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.size-presets { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.size-presets button {
+  padding: 6px 11px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+.size-presets button:hover { background: var(--chip); color: var(--ink); }
+.size-presets button[aria-pressed="true"] { background: var(--brand); color: var(--on-brand); }
+.size-fields { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.size-fields label { display: flex; align-items: center; gap: 8px; }
+.size-fields label > span:first-child { color: var(--muted); font-size: 11.5px; font-weight: 800; letter-spacing: 0.04em; }
+.size-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+.size-input input {
+  width: 58px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.size-meta { margin: 0; color: var(--muted); font-size: 11.5px; font-weight: 600; line-height: 1.55; }
+.size-meta.bad { color: var(--bad); }
+
+/* Each page is a sheet of A4, so what is on screen is what comes out of the printer. */
+.sheet-pages { display: grid; gap: 14px; }
+.sheet-page {
+  display: grid;
+  gap: 8px;
+  width: calc(210 * 3.7795px);
+  padding: calc(10 * 3.7795px);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: var(--shadow);
+}
+.sheet-page-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--line);
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+/*
+ * The sheet is drawn at paper size: the page frame is A4 and every sticker is its real
+ * width, at CSS's 96 dpi (1 mm = 3.7795 px). Nothing is scaled by the window, so the
+ * preview on screen is the sheet that comes out of the printer — including the number of
+ * stickers that fit. On a phone the frame scrolls sideways instead of shrinking.
+ */
+/* The frames are a fixed paper width, so this box must be allowed to shrink below that
+   and let the zoom (below) bring them down to the window. */
+.sheet-pages { min-width: 0; padding-bottom: 4px; }
+/* qr-admin.js zooms the frames down when the window is narrower than a sheet of A4. */
+.sheet-page { zoom: var(--sheet-zoom, 1); }
+/* Zoomed-out, the page heading is unreadable anyway; the sheet's own line carries it. */
+.sheet-pages[data-zoomed="on"] .sheet-page-head { display: none; }
+.sheet-cards {
+  display: grid;
+  grid-template-columns: repeat(var(--sheet-cols, 2), calc(var(--sticker-w, 90) * 3.7795px));
+  gap: calc(var(--sticker-gap, 6) * 3.7795px);
+  justify-content: start;
+}
 .sheet-empty { padding: 22px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); text-align: center; font-size: 12.5px; }
 
 /*
@@ -317,23 +439,99 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
  * text in both themes, so what is on screen matches what comes out of the printer.
  */
 .sticker {
-  display: flex;
-  gap: 10px;
-  padding: 10px;
+  /* Both axes are known (the sticker has a fixed printed size), so the type inside can
+     be sized against the tighter of width and height and never overflow the paper. */
+  container-type: size;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--sticker-qr-px, 151px) minmax(0, 1fr);
+  align-items: center;
+  gap: calc(var(--sticker-pad-px, 12px) * 0.55);
+  width: var(--sticker-w-px, 340px);
+  height: var(--sticker-h-px, 227px);
+  padding: var(--sticker-pad-px, 12px);
   border: 1px dashed #b9c9bb;
   border-radius: 10px;
   background: #ffffff;
   color: #10251a;
   break-inside: avoid;
+  overflow: hidden;
 }
-.sticker canvas { width: 90px; height: 90px; flex: none; background: #ffffff; }
-.sticker-body { display: grid; gap: 2px; min-width: 0; align-content: center; }
-.sticker-kind { color: #5d7568; font-size: 9px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
-.sticker-title { font-family: "Outfit", sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: anywhere; }
-.sticker-sub { color: #3c5a4a; font-size: 11px; font-weight: 700; overflow-wrap: anywhere; }
-.sticker-note { color: #5d7568; font-size: 10px; line-height: 1.45; }
-.sticker-link { color: #7d9186; font-family: ui-monospace, Menlo, monospace; font-size: 7.5px; overflow-wrap: anywhere; }
-.sticker-remove { align-self: start; padding: 2px 5px; border: 0; background: transparent; color: #9aada1; font-size: 13px; }
+/* The code is exactly the printed size, at CSS's 96 dpi. */
+.sticker canvas {
+  width: var(--sticker-qr-px, 151px);
+  height: var(--sticker-qr-px, 151px);
+  background: #ffffff;
+}
+.sticker-body { display: grid; gap: 0.6cqh; min-width: 0; min-height: 0; align-content: center; overflow: hidden; }
+/*
+ * Type is sized against the space the words actually have — `--sticker-text-mm`, set by
+ * qr-admin.js — and against the sticker's height, whichever is tighter. That is what
+ * keeps a 40 mm code from pushing the label off a 60 mm sticker.
+ */
+.sticker-kind {
+  color: #5d7568;
+  font-size: min(calc(var(--sticker-text-mm, 38) * 0.063 * 3.7795px), 4.4cqh);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.sticker-title {
+  font-family: "Outfit", sans-serif;
+  font-size: min(calc(var(--sticker-text-mm, 38) * 0.145 * 3.7795px), 9.6cqh);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  overflow-wrap: anywhere;
+}
+.sticker-sub {
+  color: #3c5a4a;
+  font-size: min(calc(var(--sticker-text-mm, 38) * 0.082 * 3.7795px), 5.4cqh);
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.sticker-note {
+  color: #5d7568;
+  font-size: min(calc(var(--sticker-text-mm, 38) * 0.072 * 3.7795px), 4.6cqh);
+  line-height: 1.35;
+}
+.sticker-link {
+  color: #7d9186;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: min(calc(var(--sticker-text-mm, 38) * 0.053 * 3.7795px), 3.4cqh);
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+/*
+ * A short sticker (anything flatter than 4:3) has no room for the sentence about what
+ * scanning does: the title, the route and the link say enough, and an overprinted line
+ * on paper is worse than a shorter sentence.
+ */
+.sheet-pages[data-compact="on"] .sticker-note { display: none; }
+.sheet-pages[data-compact="on"] .sticker-kind { letter-spacing: 0.08em; }
+/*
+ * When the code leaves less than 16 mm for words, the sticker is the bus, its name and
+ * the link — the smallest set that still tells a passenger what they scanned. Nothing is
+ * allowed to spill outside the box it will be printed in.
+ */
+.sheet-pages[data-tight="on"] .sticker-kind { display: none; }
+.sheet-pages[data-tight="on"] .sticker-sub { display: none; }
+/* Out of the text's way: the preview card is the paper, and the button is not printed. */
+.sticker-remove {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .85);
+  color: #9aada1;
+  font-size: 12px;
+  line-height: 1.5;
+}
 .sticker-remove:hover { background: rgba(0, 0, 0, .06); color: var(--bad); }
 
 .print-note { margin: 0; color: var(--muted); font-size: 11.5px; }
@@ -347,7 +545,9 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
   .picker { position: static; }
   .result-body { grid-template-columns: minmax(0, 1fr); }
   .qr-holder canvas { width: 160px; height: 160px; }
-  .sheet-cards { grid-template-columns: minmax(0, 1fr); }
+  /* The page preview keeps its shape; it just gets narrower. */
+  .sheet-cards { gap: 8px; }
+  .size-fields { gap: 8px 12px; }
 }
 
 /* ------------------------------------------------------------------ printing */
@@ -374,24 +574,54 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
     color-scheme: light;
   }
   html, body { background: #ffffff !important; color: #10251a !important; }
-  .top, .setup, .steps, .panel, .sheet-head, .print-note, .foot, .sticker-remove { display: none !important; }
+  .top, .setup, .steps, .panel, .sheet-head, .sheet-size, .print-note, .foot, .sticker-remove { display: none !important; }
   .wrap { padding: 0; max-width: none; }
-  .sheet { padding: 0; border: 0; border-radius: 0; }
-  .sheet-cards { grid-template-columns: repeat(2, 90mm); gap: 6mm; justify-content: start; }
+  .sheet { padding: 0; border: 0; border-radius: 0; background: #ffffff; }
+  /* The page sections are the page breaks, so the wrapper must not be a box. */
+  .sheet-pages { display: block; }
+  .sheet-page {
+    zoom: 1;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: #ffffff;
+    gap: 0;
+    /* One <section> per printed page: the count in the UI is the count on paper. */
+    break-after: page;
+    break-inside: avoid;
+  }
+  .sheet-page:last-child { break-after: auto; }
+  .sheet-page-head { display: none; }
+  .sheet-cards {
+    grid-template-columns: repeat(var(--sheet-cols, 2), calc(var(--sticker-w, 90) * 1mm));
+    gap: calc(var(--sticker-gap, 6) * 1mm);
+    justify-content: start;
+  }
   .sticker {
-    width: 90mm;
-    height: 60mm;
-    padding: 4mm;
-    gap: 4mm;
+    width: calc(var(--sticker-w, 90) * 1mm);
+    height: calc(var(--sticker-h, 60) * 1mm);
+    max-width: none;
+    padding: calc(var(--sticker-pad, 4) * 1mm);
+    gap: calc(var(--sticker-pad, 4) * 1mm);
     border: 1px dashed #c9d6cb;
     border-radius: 3mm;
+    overflow: hidden;
   }
-  .sticker canvas { width: 40mm; height: 40mm; }
-  .sticker-title { font-size: 15pt; }
-  .sticker-sub { font-size: 8.5pt; }
-  .sticker-note { font-size: 7.5pt; }
-  .sticker-link { font-size: 5.5pt; }
-  .sticker-kind { font-size: 6.5pt; }
+  .sticker canvas {
+    width: calc(var(--sticker-qr, 40) * 1mm);
+    height: calc(var(--sticker-qr, 40) * 1mm);
+  }
+  /* Type follows the sticker's width by the same ratios the screen uses (cqw), so a
+     bigger sticker prints bigger words, not just a bigger code. */
+  .sticker-title { font-size: min(calc(var(--sticker-text-mm, 38) * 0.145mm), calc(var(--sticker-h, 60) * 0.096mm)); }
+  .sticker-sub { font-size: min(calc(var(--sticker-text-mm, 38) * 0.082mm), calc(var(--sticker-h, 60) * 0.054mm)); }
+  .sticker-note { font-size: min(calc(var(--sticker-text-mm, 38) * 0.072mm), calc(var(--sticker-h, 60) * 0.046mm)); }
+  .sticker-link { font-size: min(calc(var(--sticker-text-mm, 38) * 0.053mm), calc(var(--sticker-h, 60) * 0.034mm)); }
+  .sticker-kind { font-size: min(calc(var(--sticker-text-mm, 38) * 0.063mm), calc(var(--sticker-h, 60) * 0.044mm)); }
+  .sheet-pages[data-compact="on"] .sticker-note { display: none; }
+  .sheet-pages[data-tight="on"] .sticker-kind { display: none; }
+  .sheet-pages[data-tight="on"] .sticker-sub { display: none; }
+  .sticker { gap: calc(var(--sticker-w, 90) * 0.039mm); padding: calc(var(--sticker-w, 90) * 0.039mm); }
 }
 
 /* A bus registration that is not an Indian plate. */

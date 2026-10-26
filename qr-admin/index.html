@@ -61,6 +61,16 @@
           </div>
           <p class="hint" id="origin-hint"></p>
         </div>
+        <label class="switch-row" for="logo-toggle">
+          <input id="logo-toggle" type="checkbox" checked />
+          <span>
+            <strong>Cholo logo in the middle of every code</strong>
+            <small>
+              The codes are generated with the highest error correction, so the mark can cover
+              part of the pattern and the phone still reads it. Turn this off for a plain code.
+            </small>
+          </span>
+        </label>
       </section>
 
       <div class="steps" role="tablist" aria-label="Sticker type">
@@ -177,11 +187,42 @@
             <button type="button" id="sheet-clear">Clear</button>
           </div>
         </header>
-        <div class="sheet-cards" id="sheet-cards"></div>
-        <p class="print-note">
+        <div class="sheet-size" aria-labelledby="size-title">
+          <div class="sheet-size-top">
+            <span class="sheet-size-label" id="size-title">Sticker size</span>
+            <div class="size-presets" role="group" aria-label="Sticker size presets">
+              <button type="button" data-size-preset="small" aria-pressed="false">Small</button>
+              <button type="button" data-size-preset="standard" aria-pressed="true">Standard</button>
+              <button type="button" data-size-preset="large" aria-pressed="false">Large</button>
+              <button type="button" data-size-preset="wide" aria-pressed="false">Wide</button>
+            </div>
+          </div>
+          <div class="size-fields">
+            <label for="size-width">
+              <span>Width</span>
+              <span class="size-input"><input id="size-width" type="number" min="40" max="190" step="1" inputmode="numeric" value="90" />mm</span>
+            </label>
+            <label for="size-height">
+              <span>Height</span>
+              <span class="size-input"><input id="size-height" type="number" min="30" max="140" step="1" inputmode="numeric" value="60" />mm</span>
+            </label>
+            <label for="size-qr">
+              <span>Code</span>
+              <span class="size-input"><input id="size-qr" type="number" min="20" max="110" step="1" inputmode="numeric" value="40" />mm</span>
+            </label>
+            <label for="size-gap">
+              <span>Gap</span>
+              <span class="size-input"><input id="size-gap" type="number" min="0" max="15" step="1" inputmode="numeric" value="6" />mm</span>
+            </label>
+          </div>
+          <p class="size-meta" id="size-meta"></p>
+        </div>
+
+        <div class="sheet-pages" id="sheet-cards"></div>
+        <p class="print-note" id="print-note">
           Print at 100% (no “fit to page”), on sticker paper or plain paper with tape. Each sticker
-          is 90 × 60 mm; the QR is 40 mm, which is about 0.4 mm per module on the longest links.
-          Stickers always print black on white, whatever theme this screen is in.
+          is 90 × 60 mm with a 40 mm code. Stickers always print black on white, whatever theme
+          this screen is in.
         </p>
       </section>
 
@@ -204,6 +245,7 @@
     </main>
 
     <script src="vendor/qrcode.js"></script>
+    <script src="logo.js"></script>
     <script src="data/catalog.js"></script>
     <script src="qr-admin.js"></script>
   </body>

@@ -1,68 +1,78 @@
-# Cholo — Captions Bank
-### 40 Ready-to-Post Captions (Copy, tweak 1 word, post)
+# Cholo — Captions Bank v2
+### 45 Ready-to-Post Captions (Kolkata-unique) — Copy, tweak 1 word, post + which platform style
+
+**How to use:** For IG add 5-7 hashtags from hashtag-pack.md + CTA “Link in bio”. For FB keep same + share `?from=Esplanade&to=Garia` link. For X keep <240 chars, 1-2 hashtags. Descriptions below are Kolkata-related: mention para spots, food, tram, Howrah Bridge, puchka etc.
 
 ---
 
-### LAUNCH / INTRO (5)
-1. “Kolkata, your bus wait just got shorter. 🚌💚 Cholo finds any bus in 10 seconds — 650+ routes, 193 stands, no login. Link in bio. #CholoKolkata”
-2. “Still asking ‘Ei bus ta kothay jay?’ 😅 Cholo answers before you ask. Esplanade → Garia? Done. Link in bio 👆 #FindYourBus”
-3. “We made Cholo for the 8 AM Esplanade crowd, the 6 PM Garia rush, and everyone in between. 💚🚌 Link in bio — try your route. #KolkataBus”
-4. “650 routes. 2194 stops. 1 search bar. Welcome to Cholo, Kolkata 🚌✨ #CholoBus #CityOfJoy”
-5. “Your phone knows more than the bus stop uncle now 😏 Cholo — Find your bus, know your time, ride offline. Link in bio 👉 #CholoKolkata”
+### LAUNCH / INTRO (5) — IG Carousel / Reel / FB Post
+1. “Kolkata, tomar bus wait choto hoye gelo 🚌💚 Esplanade → Garia 8 sec e — 651 routes, offline map, bus+stop QR. Link in bio. #CholoKolkata” — **Post:** Carousel 1080×1350 — **X:** Shorten to 1 line + link
+2. “Still ‘Ei bus ta kothay jay?’ 😅 Cholo jiggesh er age answer diye dey — Salt Lake Sector V? Garia? Done. Link in bio 👆 #FindYourBus” — **Post:** Reel Day 2 — **Story:** Poll
+3. “We made Cholo for 8AM Esplanade crowd, 6PM Garia rush, College Street adda er majhe — QR + offline map soho 💚🚌 Link in bio #KolkataBus” — **Post:** Carousel How-it-works
+4. “651 routes. 2194 stops. 1731 GPS. 1 search bar + 1 map. Welcome to new Cholo, Kolkata 🚌🗺️ #CholoBus #CityOfJoy” — **Post:** Stats infographic 1080×1080
+5. “Tomar phone ekhon Esplanade er uncle r theke besi jane 😏 Cholo — 10 sec e bus, signal charao map. Link in bio 👉 #CholoKolkata” — **Post:** Meme comparison
 
-### OFFLINE FEATURE (5)
-6. “No signal on EM Bypass? Cholo doesn’t care 📴 Your GPS + our map = next stop distance, even offline. Try ‘Set on Bus’ today 🗺️ #OfflineFirst”
-7. “This is not live bus tracking. It’s smarter. 📴 Cholo follows YOU, not the bus. Wrong bus? It tells you: ‘You are not seated in this bus’ 😳 #CholoBus”
-8. “Bus = worst place for signal. Exactly why we made Cholo work there 💚 Tap ‘Set on Bus’ and ride with confidence. Link in bio #NoSignalNoProblem”
-9. “Precache 2.8 MB once → Use forever, even with data off 📴 Cholo’s offline map is built for Kolkata buses. #PWA #CholoKolkata”
-10. “‘You are not seated in this bus’ — the most honest feature we built 😅 Try it. Board wrong, we’ll tell you. #CholoBus #HonestTech”
+### OFFLINE MAP + RIDE (5) — Reel / Story
+6. “EM Bypass e signal 0? Cholo r map ache 📴 Hooghly, 101 lake, Salt Lake sob — 72KB te. ‘Set on Bus’ chapho 🗺️ #OfflineFirst” — **Post:** Reel #2
+7. “Live tracking noy, aro smart 📴 Cholo BUS ke noy, TOMAKE follow kore. Bhul bus? ‘You are not seated in this bus’ 😳 #CholoBus” — **Post:** Reel #3
+8. “Bus holo signal mara jayga — tai Cholo sekhane chole 💚 Tollygunge theke Howrah, offline distance + time. Link in bio #NoSignalNoProblem” — **Post:** Single bus window photo
+9. “1 bar 2.8MB precache → lifetime offline 📴 1731 stops, Hooghly to New Town — tiles o lage na #PWA #CholoKolkata” — **Post:** PWA install carousel
+10. “‘You are not seated in this bus’ — sobtheke honest line amra likhechi 😅 Bhul bus e utho, amra bole debo #CholoBus #HonestTech” — **Post:** Meme Screenshot
 
-### TIPS / VALUE (5)
-11. “Pro tip: Reach your stop 3 mins early ⏰ Kolkata buses sometimes leave ahead of time. Cholo shows timetable — early is smart 💡 #CommuterTips”
-12. “Midday buses > Morning rush 😌 11 AM - 4 PM = quieter rides. Check Cholo for less crowd. Tag a 9 AM warrior 👇 #KolkataCommute”
-13. “No direct bus from Behala to New Town? Cholo finds 1-change via Esplanade 🔄 Two buses, one search. Link in bio #TravelHack”
-14. “Save this: How to install Cholo 📲 Android: Menu → Add to Home Screen. iPhone: Share → Add to Home Screen. 2.8 MB 💚 #PWA”
-15. “Front seats are for seniors & disabled ♿ Cholo’s detail screen reminds you. Small respect, big Kolkata heart 💚 #KolkataLove”
+### QR STICKERS (5) — NEW v2 — Reel + Photo
+11. “Para stop e QR khujo? Scan korlei ‘Next buses + Whole day’ — Garia, Esplanade, Park Street sob. Signal lagbe na 🔳🚌 #QRCode” — **Post:** Reel #9, photo of printed A4 at shelter
+12. “Bus er vitore QR — scan kore dekho tumi kon bus e, kothay nambe, 2 stop age vibration 📳 link: /on-bus?route=1 #OnBus” — **Post:** Bus interior B-roll + screen
+13. “Onno website er QR ke Cholo follow kore na — dekhiye ‘foreign code’ bole refuse kore 🔐 Safe. #Scan #CholoBus” — **Post:** X thread + FB group tip
+14. “Stop e line nei? QR er ‘Whole day’ te hour khulo — Esplanade te 9,800 passes, 40 ta kore dekhabe hour-wise ⏰ #StopTimetable” — **Post:** Carousel `/stop` screenshots
+15. “Header er scan button sob page e — bus miss korle paste link o cholbe 🔗 #HowToCholo” — **Post:** Story demo tapping header
 
-### MEME / FUN (5)
-16. “Bengali mom: ‘Bus e uthechis?’ Me: *checking Cholo offline distance* 😂 Tag your personal GPS (aka mom) 👇 #BengaliMemes #CholoKolkata”
-17. “POV: You with Cholo vs your friend who still asks at the stop 😏🚌 Tag that friend 😂 #MemeMonday #KolkataMemes”
-18. “When Cholo says ‘You are not seated in this bus’ and you realize you’re on the wrong one 😳 Anyone? 🙋 #Relatable #CholoBus”
-19. “Kolkata starter pack: Howrah Bridge photo ✅ Yellow taxi ✅ Arguing if it’s Route 5 or S5 ✅ Cholo knows 😎 #KolkataStarterPack”
-20. “My phone storage: 99% full. Cholo: ‘I’m 2.8 MB’ 💚 The one app you can actually install 😅 #StorageFull #PWA”
+### TIPS / VALUE (5) — Carousel / Tips
+16. “Pro tip: Stop e 3 min age jao ⏰ Kolkata bus age beriye jay. Cholo timetable + map — early smart 💡 #CommuterTips” — **Post:** Carousel 3 hacks
+17. “Dupur er bus > sokal er rush 😌 11AM-4PM faka. Cholo te check kore jao. Tag 9AM warrior 👇 #KolkataCommute”
+18. “Behala theke New Town direct nei? Cholo 1-change via Esplanade map e dekhiye debe 🔄 link in bio #TravelHack” — **Post:** Infographic + map
+19. “Install: Android Menu→Add to Home Screen, iPhone Share→Add to Home Screen. 2.8MB + APK o ache DM 💚 #PWA” — **Post:** Reel #7
+20. “Front seat senior/disabled der — Cholo detail screen mone koray ♿ Choto somman, boro Kolkata mon 💚 #KolkataLove”
 
-### KOLKATA LOVE (5)
-21. “Yellow taxi gets the Instagram. Buses get Kolkata moving 🚌💛 What’s your daily route? 👇 #Kolkata #CityOfJoy #CholoKolkata”
-22. “From College Street books to Park Street lights — Kolkata moves on buses. Cholo moves with you 💚 #KolkataDiaries #HowrahBridge”
-23. “A City Always in Motion → And now you know exactly which bus 💚 #AestheticKolkata #KolkataLove #CholoBus”
-24. “Esplanade at 8 AM ☀️ Garia at 8 PM 🌙 Cholo is there for both. Where did Kolkata take you today? 👇 #KolkataGram #Esplanade #Garia”
-25. “Trams are heritage. Metros are fast. Buses are Kolkata 🚌💚 Cholo is your pocket timetable. #KolkataLove #CityOfJoy”
+### MEME / FUN (5) — Meme single
+21. “Bengali ma: ‘Bus e uthechis?’ Ami: *Cholo offline e dekhacche Park Street 300m* 😂 Tomar personal GPS (ma) ke tag koro 👇 #BengaliMemes” — **Post:** Reel #5
+22. “POV: Cholo wala vs je ekhono uncle ke jiggesh kore 😏🚌 Tag koro 😂 #MemeMonday” — **Post:** Split screen
+23. “Jokhon Cholo bole ‘You are not seated’ ar bujhle bhul bus 😳 Haat tolo 🙋 #Relatable”
+24. “Kolkata starter pack: Howrah Bridge ✅ Holud taxi ✅ Route 5 vs S5 jhogra ✅ Gariahat puchka ✅ Cholo jane 😎 #KolkataStarterPack”
+25. “Phone storage 99% full. Cholo: ‘Ami 2.8MB + map tiles 0’ 💚 Ekta app install kora gelo 😅 #StorageFull”
 
-### COMMUNITY / UGC (5)
-26. “Your Cholo moment 📸 Tag @cholo.kolkata + #CholoKolkata — we feature our favourites every Friday 💚 Show us your bus view! #UGC”
-27. “You asked, we list: Comment your daily route (e.g., Behala → Esplanade) and we’ll reply with your buses + times 🚌👇 #CommunityLove”
-28. “Shoutout to @user who found 3 buses from Howrah → Sealdah on Cholo in 10 sec! Your turn — link in bio 💚 #Testimonial #KolkataCommuter”
-29. “650 routes and you make them beautiful 💚 Keep tagging #CholoKolkata — we see every single one 🥹 #CommunityFirst #KolkataGram”
-30. “Route of the Week: S5 (Howrah → Garia) 🚌 Full timetable + stops → Link in bio. Which route next? 👇 #RouteOfWeek #KolkataRoutes”
+### KOLKATA LOVE (5) — Aesthetic carousel
+26. “Holud taxi Instagram pay. Bus Kolkata ke chalaye 🚌💛 Tomar daily route ki? Esplanade? Gariahat puchka? 👇 #Kolkata #CityOfJoy”
+27. “College Street boi theke Park Street alo — Kolkata bus e chole. Cholo tomar sathe 💚 #KolkataDiaries #HowrahBridge” — **Post:** 5-moment carousel
+28. “A City Always in Motion → Ebar janbe kon bus e uthbe 💚 Maidan diye bypass — sob map e #AestheticKolkata”
+29. “Esplanade sokal 8 ta ☀️ Garia rat 8 ta 🌙 College Street 2PM adda — Cholo sob jayga y. Aaj Kolkata tomay kothay nilo? 👇 #KolkataGram”
+30. “Tram heritage. Metro fast. Bus holo Kolkata 🚌💚 Pocket timetable → Cholo #KolkataLove #CityOfJoy #Tram”
+
+### COMMUNITY / UGC (5) — NEW v2 expanded
+31. “Tomar #CholoKolkata moment 📸 Bus window + QR scan video tag koro @cholo.kolkata — Friday feature 💚 #UGC” — **Post:** UGC call
+32. “Tumi bolo, amra list kori: Comment e daily route (Behala→Esplanade) — ami bus+time+map link reply korbo 🚌👇 #CommunityLove” — **Post:** FB group value post
+33. “Shoutout @user — Howrah→Sealdah 10 sec e 3 te bus pelo Cholo te! Tomar pala — link in bio 💚 #Testimonial” — **Post:** Quote card
+34. “651 routes, tumi sundor korcho 💚 #CholoKolkata tag koro — protita dekhi 🥹 #CommunityFirst” — **Post:** Story repost
+35. “Route of Week: C11 Howrah→Tollygunge 🚌 Pura stop + map → link in bio. Next konta? 👇 #RouteOfWeek” — **Post:** Carousel route detail + map
 
 ### GIVEAWAY / CTA (5)
-31. “🎁 GIVEAWAY: Win your custom Cholo route map + ₹500 travel recharge! Follow, comment your route, tag 2 friends 👇 Ends Day 30 #Giveaway #KolkataGiveaway”
-32. “Turn on post notifications 🔔 Giveaway winner + new feature drop this week 👀 Don’t miss it 💚 #GiveawaySoon #CholoKolkata”
-33. “30 days of Cholo. Thousands of searches. Hundreds of offline rides. Thank you, Kolkata 💚 What should we build next? 👇 #ThankYouKolkata #30DaysOfCholo”
-34. “New here? Start here: 1) Link in bio 2) Type 2 stops 3) Find your bus 🚌 10 seconds. Go 👆 #NewHere #FindYourBus #CholoBus”
-35. “Save this post 💾 Your Kolkata bus cheat-sheet: 650 routes, no login, works offline. You’ll need it tomorrow 8 AM 🚌 #SaveThis #KolkataBus”
+36. “🎁 GIVEAWAY: Tomar custom Cholo route map + feature! Follow, route comment, 2 bondhu tag 👇 Bonus: para stop e QR lagiye photo pathao #Giveaway #KolkataGiveaway” — **Post:** Giveaway 1080×1080
+37. “Bell on koro 🔔 Winner + Bengali version ‘আসছে’ drop ⏰ miss koro na 💚 #GiveawaySoon”
+38. “30 din e X hajar search, Z offline rides Bypass e — dhonnobad Kolkata 💚 Next ki banabo? 👇 #ThankYouKolkata #30DaysOfCholo” — **Post:** Recap reel
+39. “New here? 1) Bio te link 2) 2 to stop lekho 3) Bus pao 🚌 10 sec. Go 👆 #NewHere #FindYourBus” — **Post:** 3-step carousel
+40. “Save koro 💾 Kal sokal 8 ta y kaj e lagbe: 651 routes, no login, offline map. Garia bus miss koro na 🚌 #SaveThis” — **Post:** Infographic save-bait
 
-### X / TWITTER SHORT (5)
-36. “Kolkata buses run to frequency, not Google Maps. That’s why we built Cholo 🚌 650 routes, honest times, offline map. Try it: [link] #CholoKolkata”
-37. “Pro tip: Add ?from=Esplanade&to=Garia to Cholo’s URL to share your bus search with friends 🔗 No screenshot needed #CholoBus #Tip”
-38. “Hot take: Front seats belong to seniors, not your backpack 😅 Cholo reminds you — tap any bus detail 🎒➡️♿ #KolkataBus #CommuterEtiquette”
-39. “There are 193 official bus stands in Kolkata. You know 5. Cholo knows all 193 😎 Search any 2 stops [link] #Kolkata #DidYouKnow”
-40. “We don’t guess times. If no timetable is published, we say ‘no timetable yet’ — not a fake 8:03 AM ⏰ Honest > Fancy #BuildInPublic #CholoBus”
+### X / TWITTER SHORT (5) — 1-2 hashtags, <240 chars
+41. “Kolkata buses run to frequency, not Google Maps. Cholo: 651 routes, honest times, offline Hooghly map 🗺️ Try: [link] #CholoKolkata” — **Post:** X + link
+42. “Pro tip: Add ?from=Esplanade&to=Garia to Cholo URL to share search — friends open directly 🔗 #CholoBus” — **Post:** X Tip
+43. “Front seats for seniors, not your backpack 😅 Cholo reminds — tap detail ♿ #KolkataBus” — **Post:** X
+44. “193 stands in Kolkata. Tumi 5 ta cheno. Cholo 193 tai chene 😎 Try any 2 stops [link] #Kolkata #DidYouKnow” — **Post:** X
+45. “No fake 8:03 AM. No timetable = ‘no timetable yet’ — honest ⏰ 1731 stops mapped openly (ODbL). #BuildInPublic” — **Post:** X Thread hook
 
 ---
 
-**How to use:**
-- For IG: Add 5-8 hashtags from hashtag-pack.md
-- For X: Use 1-2 hashtags, keep caption under 240 chars (use short versions above)
-- Always end with CTA: “Link in bio” / “Comment your route” / “Tag a friend”
+**Platform style reminder:**
+- IG Reel: 1080×1920, burned captions, hook 1.2s, end card green, 5-7 hashtags, CTA “Link in bio”
+- FB Group: Same caption but remove hashtags → add Bengali story + direct link param
+- X: Cut to 1-2 hashtags, <240 chars
+- WhatsApp Status: Same caption → shorten to 1 line Bengali + link: “Garia bus? 10 sec e pabe — link dao? [link]”
 

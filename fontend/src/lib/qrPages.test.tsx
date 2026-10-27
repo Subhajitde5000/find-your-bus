@@ -52,7 +52,7 @@ Module._load = function patched(request: string, parent: unknown, isMain: boolea
 };
 
 const dom = new JSDOM("<!doctype html><html><body></body></html>", {
-  url: "https://cholo.example/",
+  url: "https://konbus.example/",
   pretendToBeVisual: true,
 });
 const win: any = dom.window;
@@ -365,7 +365,7 @@ describe("the /scan screen, in a DOM", () => {
     }
   });
 
-  it("opens a Cholo bus code in the app", () => {
+  it("opens a KonBus bus code in the app", () => {
     pushes.length = 0;
     const page = mount(ScanPage, "");
     try {
@@ -377,11 +377,11 @@ describe("the /scan screen, in a DOM", () => {
     }
   });
 
-  it("opens a Cholo bus-stop code in the app", () => {
+  it("opens a KonBus bus-stop code in the app", () => {
     pushes.length = 0;
     const page = mount(ScanPage, "");
     try {
-      page.fill('input[type="url"]', "https://cholo.example/stop?stop=Esplanade");
+      page.fill('input[type="url"]', "https://konbus.example/stop?stop=Esplanade");
       page.submit("form");
       assert.deepEqual(pushes, ["/stop?stop=Esplanade"]);
     } finally {

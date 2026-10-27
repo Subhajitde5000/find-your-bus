@@ -6,9 +6,9 @@
  *   on a bus:      /on-bus?route=1               (optionally &bus=WB04A1234, later)
  *   at a stop:     /stop?stop=Esplanade
  *
- * Plain links, not a custom scheme (`cholo://`), because that is the only thing that
+ * Plain links, not a custom scheme (`konbus://`), because that is the only thing that
  * works for everyone:
- *   - on a phone with the Cholo app installed, Android App Links and iOS Universal
+ *   - on a phone with the KonBus app installed, Android App Links and iOS Universal
  *     Links open the link in the app (see `public/.well-known/` and the native
  *     projects' manifests);
  *   - on a phone without the app, it opens this website, which needs no install;
@@ -20,7 +20,7 @@
  * native association files that must repeat it) everywhere at once.
  */
 
-export const SITE_ORIGIN = "https://cholo.example";
+export const SITE_ORIGIN = "https://konbus.example";
 
 export const ON_BUS_PATH = "/on-bus";
 export const STOP_PATH = "/stop";
@@ -129,7 +129,7 @@ export function qrPath(target: QrTarget): string {
   return `${STOP_PATH}?${params.toString()}`;
 }
 
-/** The absolute link encoded in the QR, e.g. https://cholo.example/on-bus?route=1 */
+/** The absolute link encoded in the QR, e.g. https://konbus.example/on-bus?route=1 */
 export function qrLink(target: QrTarget, origin: string = SITE_ORIGIN): string {
   return `${normaliseOrigin(origin)}${qrPath(target)}`;
 }
@@ -210,9 +210,9 @@ export function qrFailureMessage(reason: QrFailure): string {
     case "not-a-link":
       return "That code is not a link.";
     case "other-website":
-      return "That QR code belongs to another website, not to Cholo.";
+      return "That QR code belongs to another website, not to KonBus.";
     case "unknown-page":
-      return "That is a Cholo link, but not a bus or bus-stop code.";
+      return "That is a KonBus link, but not a bus or bus-stop code.";
     case "missing-route":
       return "That bus code has no route number in it.";
     case "missing-stop":

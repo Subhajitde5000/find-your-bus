@@ -20,14 +20,14 @@ import "@fontsource/outfit/latin-800.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cholo — Kolkata Bus Timetables",
+  title: "KonBus — Kolkata Bus Timetables",
   description:
-    "Find scheduled Kolkata buses between your stops. Explore today's departures, routes, and journey stops with Cholo.",
-  applicationName: "Cholo",
+    "Find scheduled Kolkata buses between your stops. Explore today's departures, routes, and journey stops with KonBus.",
+  applicationName: "KonBus",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
-    title: "Cholo",
+    title: "KonBus",
     statusBarStyle: "default",
   },
   icons: {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "Cholo — Kolkata Bus Timetables",
+    title: "KonBus — Kolkata Bus Timetables",
     description: "Find buses between any two Kolkata stops, with one-change journeys and full stop lists.",
     type: "website",
     locale: "en_IN",

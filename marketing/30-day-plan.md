@@ -1,4 +1,4 @@
-# Cholo — 30-Day 0₹ Guerrilla Launch Plan v2
+# KonBus — 30-Day 0₹ Guerrilla Launch Plan v2
 ### Instagram + Facebook + X + YouTube Shorts + WhatsApp + Street | Kolkata
 
 > **Goal:** 15K+ organic reach in Kolkata in 30 days, 2K site saves/installs, 50+ UGC, 10 college ambassadors
@@ -32,11 +32,11 @@ Old plan marketed only “search + Set on Bus”. It ignored Map, QR, Alerts, Na
 | Online only | **Print 10 QR stickers at college library** (₹2/page, free quota) + stick at your para stop with shop permission + film it | ₹0 |
 
 **Golden 0₹ hacks used EVERY day (pick 2):**
-1. **FB Groups (value, not spam):** Kolkata Bus Routes, Kolkata Bus-o-pedia, Bus Lovers Kolkata, WBTC Fans, Kolkata Commuters. Template: “Esplanade → Garia er bus khujcho? Cholo te type koro, 10 sec e sob bus + offline map — try link: cholo?from=Esplanade&to=Garia — feedback dao 🙏” — reply to every comment with direct link.
-2. **WhatsApp forwards:** 30-sec screen-record + 1-line Bengali: “Garia theke Esplanade? Cholo te 10 sec e bus pabe, signal charao cholbe 📴👉 [link]” — send to office group, family group, para group. Ask 1 friend to forward.
+1. **FB Groups (value, not spam):** Kolkata Bus Routes, Kolkata Bus-o-pedia, Bus Lovers Kolkata, WBTC Fans, Kolkata Commuters. Template: “Esplanade → Garia er bus khujcho? KonBus te type koro, 10 sec e sob bus + offline map — try link: konbus?from=Esplanade&to=Garia — feedback dao 🙏” — reply to every comment with direct link.
+2. **WhatsApp forwards:** 30-sec screen-record + 1-line Bengali: “Garia theke Esplanade? KonBus te 10 sec e bus pabe, signal charao cholbe 📴👉 [link]” — send to office group, family group, para group. Ask 1 friend to forward.
 3. **College ambassador:** Jadavpur, Presidency, CU, NRS, Howrah Engineering — 1 student = stick 2 QR A4 at canteen/library, post 1 story, get featured + custom map.
 4. **QR Street Test:** Print 1 A4 (Small 70×45mm x10 fits) at library, stick inside your bus (ask conductor: “Dada ektu QR lagabo? passenger er subidha”), film passenger scanning — that IS the reel.
-5. **Answer marketing:** Quora “How to find bus in Kolkata”, Reddit r/Kolkata, X #Kolkata — answer with Cholo link + screenshot. 1 answer/week drives 200 visits.
+5. **Answer marketing:** Quora “How to find bus in Kolkata”, Reddit r/Kolkata, X #Kolkata — answer with KonBus link + screenshot. 1 answer/week drives 200 visits.
 
 ---
 
@@ -57,22 +57,22 @@ Old plan marketed only “search + Set on Bus”. It ignored Map, QR, Alerts, Na
 ## POST STYLE GUIDE — Which Platform Gets What
 
 ### Instagram — Home base
-- **Reel:** 1080×1920, 15-35s, hook text big in 1st 1.2s, burned Bengali+English captions (CapCut auto-caption, white bold + green #195A45 highlight), trending “Bengali Lofi / Kolkata drill” audio low, end card Cholo logo + “Link in bio 👆”, watermark @cholo.kolkata bottom-right 8%. Cover: freeze hook frame with 3-word text e.g. “NO SIGNAL? WORKS 📴”.
+- **Reel:** 1080×1920, 15-35s, hook text big in 1st 1.2s, burned Bengali+English captions (CapCut auto-caption, white bold + green #195A45 highlight), trending “Bengali Lofi / Kolkata drill” audio low, end card KonBus logo + “Link in bio 👆”, watermark @konbus.kolkata bottom-right 8%. Cover: freeze hook frame with 3-word text e.g. “NO SIGNAL? WORKS 📴”.
 - **Carousel:** 1080×1350, 4-5 slides. Slide1 hook, Slides2-4 value, Slide5 CTA “Try link in bio + comment your route”. Save bait.
 - **Story daily:** Morning 8AM poll (“Park Street jabe? Bus pecho?”), Afternoon repost feed + link sticker, Evening Q&A “Tomar route bolo — ami bus ber kore di”.
-- **Hashtag:** 5-7: 2 core `#CholoKolkata #FindYourBus` + 3 Kolkata `#Esplanade #Garia #CityOfJoy` + 1 viral `#KolkataReels #BengaliMemes`
+- **Hashtag:** 5-7: 2 core `#KonBusKolkata #FindYourBus` + 3 Kolkata `#Esplanade #Garia #CityOfJoy` + 1 viral `#KolkataReels #BengaliMemes`
 
 ### Facebook — Reach parents + office crowd
 - Same image/reel, caption longer (2-3 lines Bengali story + bullet). Share natively (not IG cross-post). Post to **Groups with admin permission** as help, not ad. Add shareable link param: `?from=Esplanade&to=Garia`. FB Story = IG Story copy.
 
 ### X / Twitter — Credibility + builders
-- 1-2 hashtags max. Thread for launch/data honesty. 1 image per tweet. Engage: reply to #Kolkata #WBTC tweets “Garia → Howrah? Cholo e 6 ta bus ache, dekho: [link]”.
+- 1-2 hashtags max. Thread for launch/data honesty. 1 image per tweet. Engage: reply to #Kolkata #WBTC tweets “Garia → Howrah? KonBus e 6 ta bus ache, dekho: [link]”.
 
 ### YouTube Shorts — Same reel, different cover
-- Title Kolkata-keyword: “Kolkata Bus Offline Map | Esplanade to Garia in 10 sec | Cholo”. Description: full + link + timestamps. Add chapters. Pin comment: link.
+- Title Kolkata-keyword: “Kolkata Bus Offline Map | Esplanade to Garia in 10 sec | KonBus”. Description: full + link + timestamps. Add chapters. Pin comment: link.
 
 ### WhatsApp Status — Most underrated
-- 1080×1920 image or 15s video, big Bengali text: “Signal nei? Cholo ache 📴 Garia bus peye jabe — link dao?”. Personal forwards convert 10x more than reels. Update 2x/week (Mon/Fri 9AM).
+- 1080×1920 image or 15s video, big Bengali text: “Signal nei? KonBus ache 📴 Garia bus peye jabe — link dao?”. Personal forwards convert 10x more than reels. Update 2x/week (Mon/Fri 9AM).
 
 ---
 
@@ -83,7 +83,7 @@ Old plan marketed only “search + Set on Bus”. It ignored Map, QR, Alerts, Na
 **Post Style:** IG Carousel 1080×1350 (3 slides dark green) + FB post + X single + WhatsApp teaser
 - S1: “Kolkata, ekta kotha? 🤫” on Howrah Bridge blur
 - S2: “651 routes. 24,777 times. But still ‘Dada, ei bus ta Garia jabe?’” (show crowded Esplanade stop)
-- S3: “Kal theke ar jiggesh korte hobe na. QR asche tomar stop e + Map cholbe offline 📴👀” Cholo logo + QR icon
+- S3: “Kal theke ar jiggesh korte hobe na. QR asche tomar stop e + Map cholbe offline 📴👀” KonBus logo + QR icon
 **Caption IG (Kolkata-attractive):**
 ```
 Kolkata protidin ekta proshno kore: “Ei bus ta kothay jay?” 😅
@@ -92,10 +92,10 @@ Amra gunechi: 651 route, 2194 stop, 1731 tar GPS ache.
 Kal theke tomar stop e QR thakbe. Scan korei timetable.
 Ar map? Signal charao cholbe — Hooghly theke New Town obdi. 🗺️📴
 
-Stay tuned. Cholo asche tomar para te. 🚌💚
-#CholoKolkata #ComingSoon #KolkataBus #Esplanade #Garia #CityOfJoy
+Stay tuned. KonBus asche tomar para te. 🚌💚
+#KonBusKolkata #ComingSoon #KolkataBus #Esplanade #Garia #CityOfJoy
 ```
-**X:** “651 routes. 2194 stops. Still asking ‘ei bus Garia jabe?’ Kal theke QR scan → timetable + offline map 🗺️📴 👀 #CholoKolkata”
+**X:** “651 routes. 2194 stops. Still asking ‘ei bus Garia jabe?’ Kal theke QR scan → timetable + offline map 🗺️📴 👀 #KonBusKolkata”
 **Story:** Poll — “Tumi bus number na jiggesh kore chole jao? Yes / Na, jiggesh kori 😅”
 **0₹ hack:** DM 10 Kolkata friends + drop teaser in 1 FB group as question: “Tomar daily route konta? Kal ami sob bus er list debo”
 
@@ -106,7 +106,7 @@ Stay tuned. Cholo asche tomar para te. 🚌💚
 **Video Script:** → Use **REEL #1 “Esplanade → Garia in 10 Seconds + QR”** from Video Scripts below (copy-paste for editor/AI)
 **Caption IG (Kolkata-unique):**
 ```
-IT’S HERE. 🚌💚 Cholo — Kolkata’r Bus Guide, ebar QR + Offline Map soho
+IT’S HERE. 🚌💚 KonBus — Kolkata’r Bus Guide, ebar QR + Offline Map soho
 
 Type koro 2 to stop:
 📍 Esplanade → Garia (8 sec e 12 ta bus)
@@ -120,19 +120,19 @@ Type koro 2 to stop:
 🔗 Link in bio — ekhuni try koro!
 Tomar para’r bondhu ke tag koro je roj bus e jhulche 👇
 
-#CholoBus #FindYourBus #Kolkata #KolkataBus #WBTC #HowrahBridge #CityOfJoy #KolkataDiaries
+#KonBusBus #FindYourBus #Kolkata #KolkataBus #WBTC #HowrahBridge #CityOfJoy #KolkataDiaries
 ```
 **X Thread:**
-1/ “We launched Cholo v2 🚌 Kolkata’s bus guide now with OFFLINE MAP + QR stickers. Esplanade → Garia? 10 sec…”
+1/ “We launched KonBus v2 🚌 Kolkata’s bus guide now with OFFLINE MAP + QR stickers. Esplanade → Garia? 10 sec…”
 2/ “1731 stops on one map — Hooghly, canals, 101 lakes, station buildings. Works with no tiles. 651 routes, 24,777 runs…”
-3/ “Scan at bus stop → whole day timetable. Scan on bus → countdown to your stop. Works OFFLINE. Link 👇 #CholoBus”
+3/ “Scan at bus stop → whole day timetable. Scan on bus → countdown to your stop. Works OFFLINE. Link 👇 #KonBusBus”
 **0₹ hack:** Blast WhatsApp Status + forward to 3 groups + answer 1 Quora “Kolkata bus timetable”. Reply to EVERY comment in 2 hrs with `?from=Esplanade&to=Garia` link.
 
 ---
 
 ### DAY 3 — Wednesday — HOW IT WORKS (Carousel Tutorial 4 slides)
 **Post Style:** IG Carousel 1080×1350 (4 slides screenshots) + FB + X image
-- S1: “Cholo te 3 tap e bus pabe — dekhbe? 👇” (College Street tram photo)
+- S1: “KonBus te 3 tap e bus pabe — dekhbe? 👇” (College Street tram photo)
 - S2: “1. Stop lekho — Esplanade → Garia (Bengali type korleo hobe: হাওড়া → গড়িয়া)”
 - S3: “2. Time dao — 09:00 ba ‘Now’ chapho”
 - S4: “3. Jekono bus e tap → puro stop list + ‘Set on Bus’ 📴 + QR scan”
@@ -148,7 +148,7 @@ Bonus: Bus/Stop er QR scan korle direct timetable! 🔳
 Save kore rakho, kal sokal 8 ta y kaje lagbe 💾
 Comment e tomar route lekho — ami bus + time reply korbo! 👇
 
-#HowToCholo #KolkataBus #CholoBus #Sealdah #Howrah
+#HowToKonBus #KolkataBus #KonBusBus #Sealdah #Howrah
 ```
 **0₹ hack:** Reply every comment with actual link; repost carousel as **WhatsApp forward image**.
 
@@ -156,15 +156,15 @@ Comment e tomar route lekho — ami bus + time reply korbo! 👇
 
 ### DAY 4 — Thursday — MEME DAY (High shareability)
 **Post Style:** IG Single 1080×1080 meme + X meme + FB meme (same)
-- Image: Esplanade crowd + speech bubbles: “Garia jabe?”, “Na S5 jabe”, “Accha 5 e jabe?” — Bottom: Cholo screen showing Route 1, S5, AC5 with times
+- Image: Esplanade crowd + speech bubbles: “Garia jabe?”, “Na S5 jabe”, “Accha 5 e jabe?” — Bottom: KonBus screen showing Route 1, S5, AC5 with times
 **Caption:**
 ```
-Before Cholo: 3 jon ke jiggesh, 3 rokom answer 😭
-After Cholo: Esplanade → Garia likhlam. Done. 12 ta bus, sathe time. 🚌✨
+Before KonBus: 3 jon ke jiggesh, 3 rokom answer 😭
+After KonBus: Esplanade → Garia likhlam. Done. 12 ta bus, sathe time. 🚌✨
 
 Tag koro oi bondhu ke je sob bus number mukhostho bole bhabey, kintu bhul bole 😂
 
-#KolkataMemes #BengaliMemes #CholoKolkata #Esplanade #Garia #CalcuttaMemes #MemeMonday
+#KolkataMemes #BengaliMemes #KonBusKolkata #Esplanade #Garia #CalcuttaMemes #MemeMonday
 ```
 **Story:** Quiz — “Aaj kotojon ke bus jiggesh korecho? 0 / 1-3 / Gune sesh na 😅”
 **0₹ hack:** DM to 3 Kolkata meme pages (Calcutta Memes, Bengali Memes, Kolkata Bus Lovers) — barter: “Repost korbe? Tomar page er jonno custom bus map baniye debo free te”.
@@ -178,7 +178,7 @@ Tag koro oi bondhu ke je sob bus number mukhostho bole bhabey, kintu bhul bole �
 ```
 Esplanade → Sealdah? Aaj 12 ta bus. 🚌
 
-Guess noy. Cholo.
+Guess noy. KonBus.
 
 Howrah → Salt Lake Sector V ✅
 Garia → Tollygunge ✅
@@ -188,7 +188,7 @@ Pro tip: Link share koro `?from=Esplanade&to=Garia` — bondhu direct khulbe! �
 
 Link in bio. No login 💚
 
-#FindYourBus #KolkataCommute #CholoBus #SaltLake #Howrah
+#FindYourBus #KolkataCommute #KonBusBus #SaltLake #Howrah
 ```
 **0₹ hack:** Put same tip as **FB Group comment** on someone asking “Salt Lake Sector V kivabe jabo?” — pure value, not spam.
 
@@ -201,7 +201,7 @@ Link in bio. No login 💚
 Kolkata is a feeling. Ar bus holo tar heartbeat. 💛🚌
 
 Holud taxi photo pabe. Bus tomake pouchabe.
-College Street theke Park Street light — sob cholbe Cholo te.
+College Street theke Park Street light — sob cholbe KonBus te.
 
 Tomar daily spot konta? 👇
 📍 Howrah Bridge
@@ -212,7 +212,7 @@ Tomar daily spot konta? 👇
 
 Comment e 🚌 + tomar stop er nam lekho — ami map e dekhiye debo!
 
-#KolkataAesthetic #CityOfJoy #KolkataDiaries #HowrahBridge #YellowTaxi #CholoKolkata #KolkataLove #Bengal #ParkStreet #CollegeStreet
+#KolkataAesthetic #CityOfJoy #KolkataDiaries #HowrahBridge #YellowTaxi #KonBusKolkata #KolkataLove #Bengal #ParkStreet #CollegeStreet
 ```
 **Story:** This or That — Tram vs Bus vs Metro
 **X:** “Weekend in Kolkata = Adda at College Street + Gariahat puchka + bus window. Where are you headed today? 👇 #Kolkata”
@@ -222,13 +222,13 @@ Comment e 🚌 + tomar stop er nam lekho — ami map e dekhiye debo!
 
 ### DAY 7 — Sunday — WEEK 1 RECAP + QR STREET PROOF
 **Post Style:** IG Carousel 1080×1080 (stats + QR photo) + X + FB
-- S1: “Week 1 of new Cholo 💚”
+- S1: “Week 1 of new KonBus 💚”
 - S2: Stats card: 651 routes, 24,777 runs, 1731 GPS stops, 491 landmarks, 72KB roads
 - S3: Real photo of printed QR at a para stop (take yourself, phone in hand)
 - S4: “Next week: OFFLINE MAP magic + ‘Wrong bus’ warning”
 **Caption:**
 ```
-1 week of new Cholo 💚 Dhonnobad, Kolkata!
+1 week of new KonBus 💚 Dhonnobad, Kolkata!
 
 🚌 651 routes searched
 📍 1731 stops with GPS — Hooghly theke New Town
@@ -239,9 +239,9 @@ Tumi Salt Lake Sector V chaichile — ebar map e ache!
 Comment e likho kon route next chai 👇
 
 Next week: OFFLINE MAP er jadu dekhbo ✨
-#CholoBus #Week1 #KolkataBus #ThankYouKolkata #CholoKolkata
+#KonBusBus #Week1 #KolkataBus #ThankYouKolkata #KonBusKolkata
 ```
-**Story:** Q&A — “Ask us anything about Cholo — offline kivabe chole?”
+**Story:** Q&A — “Ask us anything about KonBus — offline kivabe chole?”
 **0₹ hack:** Print next 10 QRs at library for Week 2.
 
 ---
@@ -251,7 +251,7 @@ Next week: OFFLINE MAP er jadu dekhbo ✨
 ### DAY 8 — Monday — OFFLINE MAP HERO 📴🗺️ (Biggest new feature)
 **Post Style:** IG Reel 1080×1920 (35s) + FB + YT Shorts + X Video + WhatsApp Status
 **Video Script:** → **REEL #2 “No Signal? No Problem — Offline Map with Hooghly”** (new)
-- Show phone with No Signal on EM Bypass → Cholo map still pans/zooms, Hooghly river blue, roads grey, stops dots, pinch zoom → stop names appear, tap stop → which buses stop there, “Nearest stop to me” button
+- Show phone with No Signal on EM Bypass → KonBus map still pans/zooms, Hooghly river blue, roads grey, stops dots, pinch zoom → stop names appear, tap stop → which buses stop there, “Nearest stop to me” button
 **Caption:**
 ```
 ETA noy, jadu o noy. Eta offline map. 📴✨
@@ -263,12 +263,12 @@ ETA noy, jadu o noy. Eta offline map. 📴✨
 ✅ Pinch-zoom korle stop er nam asbe, tap korle kon bus thame dekhabe
 ✅ “You are not on this bus” — bhul bus e uthle bole debe
 
-Kolkata bus holo signal mara jayga. Cholo sekhanei chole. 🚌💚
+Kolkata bus holo signal mara jayga. KonBus sekhanei chole. 🚌💚
 
 Try: Kono bus kholo → “Set on Bus” chapho → nijeke line e dekhbe 🗺️
 Link in bio 👆
 
-#OfflineFirst #CholoBus #OfflineMap #KolkataBus #TechForKolkata #NoSignalNoProblem #Hooghly #NewTown
+#OfflineFirst #KonBusBus #OfflineMap #KolkataBus #TechForKolkata #NoSignalNoProblem #Hooghly #NewTown
 ```
 **0₹ hack:** This reel is MOST SAveable — ask 2 college pages (Jadavpur commuters, Presidency) to repost as collab.
 
@@ -294,7 +294,7 @@ Tomar daily konta? 👇
 Comment e route lekho — ami bus + time + map link reply korbo! 🚌
 Try Bangla teo: “হাওড়া → গড়িয়া” ✅
 
-#KolkataRoutes #CholoBus #Esplanade #Garia #Howrah #Sealdah #SaltLake
+#KolkataRoutes #KonBusBus #Esplanade #Garia #Howrah #Sealdah #SaltLake
 ```
 **0₹ hack:** Reply each comment with `?from=...&to=...` share-link.
 
@@ -316,7 +316,7 @@ No Play Store. No update jalaton. Offline e chole. 💚
 Plus: Android APK + iOS app o ache — ML Kit diye QR scan, screen jole thake bus e 📴
 
 Storage full bondhu ke tag koro 😂👇
-#PWA #InstallCholo #KolkataTech #CholoBus #LightweightApp #AndroidApp
+#PWA #InstallKonBus #KolkataTech #KonBusBus #LightweightApp #AndroidApp
 ```
 **Story:** Step photos + “DM for APK link”
 **0₹ hack:** Add same tutorial as **FB Group file** + pin.
@@ -325,11 +325,11 @@ Storage full bondhu ke tag koro 😂👇
 
 ### DAY 11 — Thursday — 1-CHANGE JOURNEYS + STOP MAP
 **Post Style:** IG Carousel infographic + X
-- S1: “Direct bus nei? Cholo 1-change khuje debe 🔄” — Behala → New Town via Esplanade
+- S1: “Direct bus nei? KonBus 1-change khuje debe 🔄” — Behala → New Town via Esplanade
 - S2: Stop Map screenshot: Tap Esplanade stop on map → shows all buses stopping there
 **Caption:**
 ```
-Direct bus nei? Chinta nei. Cholo 1-change khuje debe 🔄
+Direct bus nei? Chinta nei. KonBus 1-change khuje debe 🔄
 
 Example: Behala → New Town
 Bus 1: Behala → Esplanade (12 min)
@@ -339,7 +339,7 @@ Bus 2: Esplanade → New Town (22 min)
 Ar map e Esplanade tap korle dekhbe kon bus thame okhane 🗺️
 
 Tomar “impossible” route try koro — link in bio 👆
-#KolkataBus #CholoBus #TravelHack #Behala #NewTown #Esplanade
+#KolkataBus #KonBusBus #TravelHack #Behala #NewTown #Esplanade
 ```
 
 ---
@@ -363,7 +363,7 @@ Kono bhua time noy. ⏰
 651 routes. 24,777 timed runs jekhane ache honest time, baki te pura stop list.
 No fake times. Ever.
 
-#BuildInPublic #CholoBus #Kolkata #DataHonesty #Transparency #MakeInKolkata
+#BuildInPublic #KonBusBus #Kolkata #DataHonesty #Transparency #MakeInKolkata
 ```
 **Story:** Poll — “Fake estimated time vs honest ‘no time’ — konta better?”
 
@@ -377,12 +377,12 @@ No fake times. Ever.
 3 te jinish Kolkata bus passenger der jana dorkar 💡
 
 1. 3 min age stop e jao — bus age beroye jay ⏰
-2. “Get ready: 2 stops left” — Cholo age theke bolbe, vibration o korbe 📳
+2. “Get ready: 2 stops left” — KonBus age theke bolbe, vibration o korbe 📳
 3. Bhul dike jaccho? “You are going wrong way” + switch direction offer ♻️
 
 Kolkata r bus e signal + GPS kharap jayga y test kora — 75m radius e dhore fele 💚
 Save koro. Share koro daily commuter ke 💚
-#CommuterTips #KolkataBus #CholoBus #TravelSmart #Alert
+#CommuterTips #KolkataBus #KonBusBus #TravelSmart #Alert
 ```
 
 ---
@@ -399,30 +399,30 @@ A) Route 1
 B) Route 5
 C) Route S14
 
-Comment e answer — thik hole DM e Cholo link + custom map! 🎁
+Comment e answer — thik hole DM e KonBus link + custom map! 🎁
 
 Kal theke QR hunt — tomar parar stop e QR khujo 👀
-#SundayQuiz #KolkataBus #CholoBus #BusQuiz #KolkataDiaries
+#SundayQuiz #KolkataBus #KonBusBus #BusQuiz #KolkataDiaries
 ```
 **Story:** Countdown to QR collab
 
 ---
 
 ## WEEK 3: COMMUNITY + KOLKATA CULTURE (Days 15-21)
-*Make Cholo part of Kolkata internet culture*
+*Make KonBus part of Kolkata internet culture*
 
 ### DAY 15 — Monday — MEME MONDAY 🔥 (Viral push) + WRONG-BUS meme
 **Post Style:** IG Meme 1080×1080 + X + FB
-- Meme: “Bengali ma: ‘Bus e uthechis?’ Ami: *Cholo offline e dekhacche Park Street 300m* 📍” + “You are not seated in this bus” screenshot
+- Meme: “Bengali ma: ‘Bus e uthechis?’ Ami: *KonBus offline e dekhacche Park Street 300m* 📍” + “You are not seated in this bus” screenshot
 **Caption:**
 ```
 Bengali parent phone korbei, kintu tumi janbe tumi kothay 😂📍
 
-Cholo offline: “You are 300m from Park Street”
+KonBus offline: “You are 300m from Park Street”
 Maa: “Tui kothay?!”
 
 Tomar personal GPS (aka maa) ke tag koro 😅👇
-#MemeMonday #BengaliMemes #KolkataMemes #CholoKolkata #BengaliMom #KolkataReels
+#MemeMonday #BengaliMemes #KolkataMemes #KonBusKolkata #BengaliMom #KolkataReels
 ```
 **0₹ hack:** Most shareable — ask 3 meme pages to repost as collab.
 
@@ -432,19 +432,19 @@ Tomar personal GPS (aka maa) ke tag koro 😅👇
 **Post Style:** IG Post 1080×1080 + Story “Add Yours” + X
 **Caption:**
 ```
-Tomar #CholoKolkata moment dekhau 📸
+Tomar #KonBusKolkata moment dekhau 📸
 
 → Search screenshot
 → Bus window theke photo
 → “Set on Bus” screen bus er vitore
 → QR scan korar video
 
-Tag @cholo.kolkata + #CholoKolkata — sera 5 ta ke Friday feature korbo + custom route map free! 💚🗺️
+Tag @konbus.kolkata + #KonBusKolkata — sera 5 ta ke Friday feature korbo + custom route map free! 💚🗺️
 
-#UGC #KolkataDiaries #CholoBus #Community #StreetPhotography
+#UGC #KolkataDiaries #KonBusBus #Community #StreetPhotography
 ```
 **Story:** Add Yours sticker — “Aajker bus ride 🚌”
-**0₹ hack:** Go to Esplanade with phone, ask 5 strangers “Garia bus konta?” film before/after Cholo — that’s Day 20 reel raw.
+**0₹ hack:** Go to Esplanade with phone, ask 5 strangers “Garia bus konta?” film before/after KonBus — that’s Day 20 reel raw.
 
 ---
 
@@ -459,9 +459,9 @@ Tag @cholo.kolkata + #CholoKolkata — sera 5 ta ke Friday feature korbo + custo
 ❌ “Conductor sob stop er time jane”
 ❌ “Offline e kono app chole na”
 
-Sotti: Cholo te honest timetable + offline map + QR. Kono guess noy. 💚
+Sotti: KonBus te honest timetable + offline map + QR. Kono guess noy. 💚
 Tumi konta biswas korte? 👇
-#MythBusting #KolkataBus #CholoBus #KolkataMyths #Hooghly
+#MythBusting #KolkataBus #KonBusBus #KolkataMyths #Hooghly
 ```
 
 ---
@@ -484,24 +484,24 @@ Tomar daily konta? 👇
 📍 Dakshineswar
 
 Comment e 🚌 + tomar stop!
-#KolkataAesthetic #CityOfJoy #KolkataDiaries #HowrahBridge #YellowTaxi #CholoKolkata #KolkataLove #Bengal #Gariahat #Maidan
+#KolkataAesthetic #CityOfJoy #KolkataDiaries #HowrahBridge #YellowTaxi #KonBusKolkata #KolkataLove #Bengal #Gariahat #Maidan
 ```
 
 ---
 
 ### DAY 19 — Friday — HONEST COMPARISON + COMMUNITY DESK INTRO
 **Post Style:** IG Carousel 1080×1080 (comparison) + X Thread
-- S1: Asking uncle “S5? naki 5?” vs Cholo exact list with run codes
-- S2: “No direct? Cholo shows 1-change + map”
+- S1: Asking uncle “S5? naki 5?” vs KonBus exact list with run codes
+- S2: “No direct? KonBus shows 1-change + map”
 - S3: “Want more? Report bus data / Suggest feature — no login, 1 min” (user_input portal screenshot)
 **Caption:**
 ```
-Bus stop e jiggesh vs Cholo 😏
+Bus stop e jiggesh vs KonBus 😏
 
 👨‍🦳 “Ei bus ta Garia jabe?”
 → “Haan haan… na S5 ta jabe”
 
-Cholo:
+KonBus:
 → Esplanade → Garia: Route 1, S5, AC5 … time soho ⏰
 → Na thakle “no timetable yet” — honest
 → Map e stop tap korle kon bus thame dekhabe 🗺️
@@ -510,7 +510,7 @@ Notun: Kichu bhul dekhle? Report koro 1 min e — no login:
 👉 Suggest feature / Report bus info (link in bio)
 
 Your call. Link in bio 👆💚
-#CholoVs #KolkataBus #FindYourBus #CholoKolkata #CommunityDesk
+#KonBusVs #KolkataBus #FindYourBus #KonBusKolkata #CommunityDesk
 ```
 **0₹ hack:** Pin Community Desk link in bio as “Report bus info”.
 
@@ -521,15 +521,15 @@ Your call. Link in bio 👆💚
 - Collab with @kolkata.foodie / @calcutta_student (10K-50K) — they try QR scan at Gariahat stop
 **Caption (collab):**
 ```
-Amra @kolkata_foodie ke bollam 1 din Cholo niye ghurte 🚌
+Amra @kolkata_foodie ke bollam 1 din KonBus niye ghurte 🚌
 
 Gariahat er mor e QR scan → puro din er timetable hate!
 Dekho keu ke na jiggesh kore bus pelo ki na 😎
 
-Full collab or page e — @cholo.kolkata x @partner
+Full collab or page e — @konbus.kolkata x @partner
 Collab korte chao? DM koro! Amra tomar daily route er custom map baniye debo 💚
 
-#Collab #KolkataInfluencer #CholoKolkata #KolkataGram #Gariahat
+#Collab #KolkataInfluencer #KonBusKolkata #KolkataGram #Gariahat
 ```
 **Outreach note:** DM 10 micro-influencers Week 2, lock 1 for Day 20 — barter custom map, no money.
 
@@ -543,13 +543,13 @@ This or That — Kolkata Commute Edition + Map Flex 👇
 
 🚌 Bus vs 🚇 Metro?
 ☀️ Morning bus vs 🌙 Night map (day/night auto style)?
-📍 Front seat vs 🪟 Window + Cholo alert?
+📍 Front seat vs 🪟 Window + KonBus alert?
 River vs Lake — Hooghly vs Rabindra Sarovar konta map e sundor? 😍
 
 Vote koro story te & comment e tomar pick!
 PS: Map e 101 ta pukur/lake + 28 ta station building o ache — pinch kore dekho!
 
-#ThisOrThat #KolkataCommute #CholoKolkata #SundayPoll #RabindraSarovar #Hooghly
+#ThisOrThat #KolkataCommute #KonBusKolkata #SundayPoll #RabindraSarovar #Hooghly
 ```
 **Story:** 5 polls back-to-back (highest engagement)
 
@@ -559,17 +559,17 @@ PS: Map e 101 ta pukur/lake + 28 ta station building o ache — pinch kore dekho
 
 ### DAY 22 — Monday — TESTIMONIAL (First Reviews)
 **Post Style:** IG 1080×1080 quote cards + FB + X
-- Card1: “Bypass e signal 0, kintu Cholo distance dekhiyeche 420m — magic!” — Rohan, New Town
+- Card1: “Bypass e signal 0, kintu KonBus distance dekhiyeche 420m — magic!” — Rohan, New Town
 - Card2: “Esplanade e QR scan korlam, whole day timetable — darun!” — Priya, Jadavpur
 **Caption:**
 ```
 Real kotha, real commuter theke 💚
 
-“Bypass e signal chilo na, kintu Cholo ‘Next: Park Street 420m’ dekhiyeche.” — Rohan, New Town
+“Bypass e signal chilo na, kintu KonBus ‘Next: Park Street 420m’ dekhiyeche.” — Rohan, New Town
 “Stop e QR scan korei bus pelam, kauke jiggesh korte holo na.” — Priya, Jadavpur
 
 Tumi try kore review dao — sera review feature + custom map 🎁👇
-#Testimonial #CholoKolkata #KolkataCommuter #Review #CholoBus #Bypass
+#Testimonial #KonBusKolkata #KolkataCommuter #Review #KonBusBus #Bypass
 ```
 
 ---
@@ -581,7 +581,7 @@ Tumi try kore review dao — sera review feature + custom map 🎁👇
 ```
 Jante? 🤯
 
-Cholo 2.8MB te ki pack koreche:
+KonBus 2.8MB te ki pack koreche:
 
 🏢 193 stand/ depot
 📍 2194 stop (1731 tar GPS!)
@@ -592,7 +592,7 @@ Cholo 2.8MB te ki pack koreche:
 
 No Play Store. No bloat. Just Kolkata. 💚
 Konta sobtheke obak laglo? 👇
-#DidYouKnow #CholoBus #KolkataData #CholoKolkata #TechForGood #HowrahBridge
+#DidYouKnow #KonBusBus #KolkataData #KonBusKolkata #TechForGood #HowrahBridge
 ```
 
 ---
@@ -612,14 +612,14 @@ Deep dive: “Stop QR → On-Bus” kivabe kaj kore 🗺️📴
 
 No tiles. No API. Tomar GPS + amader road shape. 💚
 Kal ker ride e try koro — link in bio 👆
-#Tutorial #CholoBus #OfflineMap #KolkataBus #HowItWorks #QRCode
+#Tutorial #KonBusBus #OfflineMap #KolkataBus #HowItWorks #QRCode
 ```
 
 ---
 
 ### DAY 25 — Thursday — MEME + GIVEAWAY TEASE
 **Post Style:** IG 1080×1080 meme + Story countdown + X
-- Meme: “Bhul bus e uthe Cholo bollo ‘You are not seated in this bus’ 😳 amar mukh”
+- Meme: “Bhul bus e uthe KonBus bollo ‘You are not seated in this bus’ 😳 amar mukh”
 **Caption:**
 ```
 Aaj meme, kal prize 😏🎁
@@ -627,19 +627,19 @@ Aaj meme, kal prize 😏🎁
 Kal giveaway — guess ki?
 Hint: Jara roj bus e choro tader jonno 🚌💚
 Post notification on koro 🔔
-#GiveawaySoon #CholoKolkata
+#GiveawaySoon #KonBusKolkata
 
 ---
-Meme: “Jakhan tomar bus 20 min late, Cholo bolche ‘20 min delay’ honestly 😳”
+Meme: “Jakhan tomar bus 20 min late, KonBus bolche ‘20 min delay’ honestly 😳”
 ```
 
 ---
 
 ### DAY 26 — Friday — GIVEAWAY 🎁 (Big 0₹ push)
 **Post Style:** IG Post 1080×1080 + Reel + FB + X + Story
-- Graphic: “Win Kolkata Travel Kit” — **Prize (0₹): Custom Cholo route map of YOUR daily route (personalized graphic) + Feature on page + Ambassador badge** (no money needed, highest viral)
+- Graphic: “Win Kolkata Travel Kit” — **Prize (0₹): Custom KonBus route map of YOUR daily route (personalized graphic) + Feature on page + Ambassador badge** (no money needed, highest viral)
 **Rules:**
-1. Follow @cholo.kolkata
+1. Follow @konbus.kolkata
 2. Like
 3. Comment daily route (e.g., “Behala → Esplanade”)
 4. Tag 2 bus-buddy
@@ -648,19 +648,19 @@ Meme: “Jakhan tomar bus 20 min late, Cholo bolche ‘20 min delay’ honestly 
 ```
 🎁 GIVEAWAY: Tomar Personal Route Map Jeto! 🗺️
 
-Tomar daily route er custom Cholo map baniye debo — tomar nam likhe 💚 + page e feature!
+Tomar daily route er custom KonBus map baniye debo — tomar nam likhe 💚 + page e feature!
 
 Kivabe entry:
-1. Follow @cholo.kolkata
+1. Follow @konbus.kolkata
 2. Like ❤️
 3. Comment e daily route lekho (e.g., “Garia → Sealdah”) 🚌
 4. 2 jon bondhu ke tag koro 👇
 
 Bonus: Story te share + tag = double chance!
-Super bonus: Tomar stop e Cholo QR lagiye photo pathale = triple 🏆
+Super bonus: Tomar stop e KonBus QR lagiye photo pathale = triple 🏆
 
 Winner Day 30 🎉 Sob comment kora route priority list e jabe 📍
-#Giveaway #KolkataGiveaway #CholoKolkata #FindYourBus #KolkataContest #CityOfJoy #Garia #Esplanade
+#Giveaway #KolkataGiveaway #KonBusKolkata #FindYourBus #KolkataContest #CityOfJoy #Garia #Esplanade
 ```
 
 ---
@@ -670,7 +670,7 @@ Winner Day 30 🎉 Sob comment kora route priority list e jabe 📍
 - Photos: v2 directory, open datasets, audit docs, qr-admin print sheet, Community Desk screenshot
 **Caption:**
 ```
-Keno Cholo banalam — honest story 📖
+Keno KonBus banalam — honest story 📖
 
 Kolkata bus timetable khujchilam. Ektao chilo na.
 
@@ -683,7 +683,7 @@ Kono bhua time noy. Na thakle boli “no timetable yet”. Ar 1209 noy, 1731 ta 
 Kolkata jebhabe chole setar jonno banano. 💚
 Kichu add korte chao? Report bus info / Suggest feature — no login, 1 min (link in bio) 👇
 
-#BuildInPublic #FounderStory #CholoKolkata #KolkataBus #WhyWeBuilt #KolkataStartups
+#BuildInPublic #FounderStory #KonBusKolkata #KolkataBus #WhyWeBuilt #KolkataStartups
 ```
 
 ---
@@ -693,20 +693,20 @@ Kichu add korte chao? Report bus info / Suggest feature — no login, 1 min (lin
 - Feature 5 best UGC from Day 16 + Route Of Week: Route C11 (now correct Howrah–Tollygunge per v2, not old) deep dive + map screenshot with Hooghly
 **Caption:**
 ```
-Tomrai Cholo ke sundor baniyecho 💚📸
+Tomrai KonBus ke sundor baniyecho 💚📸
 
-Sera 5 ta #CholoKolkata moment:
+Sera 5 ta #KonBusKolkata moment:
 
 1. @user1 — “Esplanade bhore bus” 🌅
 2. @user2 — “Gariahat evening ride + QR”
 ...
 
-Feature hote chao? Tag #CholoKolkata 🚌
+Feature hote chao? Tag #KonBusKolkata 🚌
 
 ROUTE OF WEEK: Route C11 (Howrah → Tollygunge) — v2 te correct
 Pura stop list + time + map → bio te link 👆 C11 er map e Tollygunge lake dekhbe!
 
-#UGC #KolkataDiaries #CholoBus #CommunityLove #RouteOfWeek #Tollygunge #Howrah
+#UGC #KolkataDiaries #KonBusBus #CommunityLove #RouteOfWeek #Tollygunge #Howrah
 ```
 
 ---
@@ -725,8 +725,8 @@ Tumra answer diyecho. 💚
 💬 Hundreds DM
 🔳 Y para stop e QR lagano holo
 
-Kal: Giveaway winner + Cholo te next ki asche — Bengali version? 👀
-#CholoKolkata #30DaysOfCholo #KolkataBus
+Kal: Giveaway winner + KonBus te next ki asche — Bengali version? 👀
+#KonBusKolkata #30DaysOfKonBus #KolkataBus
 ```
 **Story:** Poll — “Next ki banabo? More routes / Bengali (আসছে!) / Crowding hints”
 
@@ -741,18 +741,18 @@ Kal: Giveaway winner + Cholo te next ki asche — Bengali version? 👀
 
 500+ entry — protita route amader priority list e 📍
 
-WHAT’S NEXT FOR CHOLO:
+WHAT’S NEXT FOR KONBUS:
 ✅ Aro route er time (tomra report korcho, amra source khujchi)
 ✅ Bengali language — আসছে! 🇮🇳
 ✅ Crowding hints
 ✅ Aro QR — tomar para te lagate chao? DM koro, print file free debo!
 
-30 din sesh. Kintu Cholo sobe shuru. 🚌💚
+30 din sesh. Kintu KonBus sobe shuru. 🚌💚
 
 🔗 Ekhono try koroni? Link in bio. 10 sec. 0 taka.
 Jara launch miss koreche take tag koro 👇
 
-#CholoKolkata #GiveawayWinner #WhatsNext #KolkataBus #30DaysDone #FindYourBus #CityOfJoy
+#KonBusKolkata #GiveawayWinner #WhatsNext #KolkataBus #30DaysDone #FindYourBus #CityOfJoy
 ```
 **Loop:** Restart Week 2 for new followers, make Highlights: HOW TO / MAP / QR / HACKS / KOLKATA / REVIEWS
 
@@ -768,11 +768,11 @@ Jara launch miss koreche take tag koro 👇
 | Time | Visual (what editor sees) | VO / Text Overlay | Audio / SFX |
 |---|---|---|---|
 | 0-3s | Quick cuts: Esplanade stop crowd, conductor hand wave, Howrah Bridge B-roll | Text: “Still asking ‘Ei bus ta kothay jay?’” | Bengali beat low + bus horn |
-| 3-7s | Screen record 60fps: Open Cholo, hero “Made for moving around Kolkata”, header shows 651 routes chip | VO: “Open Cholo — Kolkata bus guide.” | Tap SFX |
+| 3-7s | Screen record 60fps: Open KonBus, hero “Made for moving around Kolkata”, header shows 651 routes chip | VO: “Open KonBus — Kolkata bus guide.” | Tap SFX |
 | 7-12s | Type FROM: “Esp” → Esplanade autocomplete (Bengali alias “ধর্মতলা” shows), TO: “Gar” → Garia, Time 09:00 auto | VO: “Type where you are, where you want to go — Bangla teo hobe.” | Typing SFX |
 | 12-18s | Tap Search → 12 buses appear: Route 1 08:12, S5 08:30 with AC/Non-AC badges, countLabel “12 buses today” | VO: “Boom. Every bus today with times — 24,777 runs theke.” | Pop + beat drop |
 | 18-23s | Tap bus → Detail modal full stop list → scroll → QR icon → show `/on-bus?route=1` & `/stop?stop=Esplanade` | Text: “Tap bus → full stops + QR scan 📴” | Whoosh |
-| 23-30s | End card: Cholo logo green #195A45 + “Link in bio 👆 2.8MB • Offline Map • QR” + QR mock | VO: “Cholo. Find your bus. Link in bio.” | Music end + ding |
+| 23-30s | End card: KonBus logo green #195A45 + “Link in bio 👆 2.8MB • Offline Map • QR” + QR mock | VO: “KonBus. Find your bus. Link in bio.” | Music end + ding |
 **Caption:** See Day 2. **Cover:** “10 sec e bus + QR 🚌🔳” **Distribution:** Reel + FB Reel + YT Shorts same file
 
 ---
@@ -794,7 +794,7 @@ Jara launch miss koreche take tag koro 👇
 ---
 
 ### REEL #3 — “Alerts: Get Ready 2 Stops Left” (25s) — Day 13
-**Hook:** “Kolkata bus e ghumiye paro? Cholo jagiye debe 📳”
+**Hook:** “Kolkata bus e ghumiye paro? KonBus jagiye debe 📳”
 | Time | Visual | VO |
 |---|---|---|
 | 0-4s | Passenger sleepy on bus, window Maidan | “Ghumiye gele stop miss?” |
@@ -810,10 +810,10 @@ Jara launch miss koreche take tag koro 👇
 **Hook:** “3 te mithya sobai biswas kore ❌”
 | Time | Visual | VO |
 |---|---|---|
-| 0-5s | Lie1: “Google Maps e sob bus time ache” → Cross ❌ + Cholo honest “no timetable yet” | “Lie1: Google has all times. Na.” |
+| 0-5s | Lie1: “Google Maps e sob bus time ache” → Cross ❌ + KonBus honest “no timetable yet” | “Lie1: Google has all times. Na.” |
 | 5-11s | Lie2: “Conductor time jane” → conductor shrug meme | “He knows route, not timetable. Amra 24,777 published time dekhai.” |
-| 11-17s | Lie3: “Offline e map cholena” → Show Cholo map moving on Bypass with Hooghly | “Lie3: Offline impossible. Cholo 72KB road shape diye chalay — no tiles, no API key.” |
-| 17-20s | Truth: Cholo screen + map + QR | “Truth: Honest times. Offline map. QR. 💚” |
+| 11-17s | Lie3: “Offline e map cholena” → Show KonBus map moving on Bypass with Hooghly | “Lie3: Offline impossible. KonBus 72KB road shape diye chalay — no tiles, no API key.” |
+| 17-20s | Truth: KonBus screen + map + QR | “Truth: Honest times. Offline map. QR. 💚” |
 **Cover:** “3 LIES ❌”
 
 ---
@@ -837,7 +837,7 @@ Jara launch miss koreche take tag koro 👇
 | Time | Visual |
 |---|---|
 | 0-2s | Big timer + “Esplanade → Garia” Bangla+English |
-| 2-6s | Open Cholo, tap FROM, type “Esp” → select 1 sec |
+| 2-6s | Open KonBus, tap FROM, type “Esp” → select 1 sec |
 | 6-9s | TO “Gar” → Garia |
 | 9-12s | Time auto-filled (Kolkata local IST), Search |
 | 12-16s | Results pop: 12 buses, Route1 08:12 etc., headway “Every 12 min” |
@@ -866,7 +866,7 @@ Jara launch miss koreche take tag koro 👇
 | 13-20s | Tap stop → bottom sheet “Which buses call here” + draw route line on map, search box “Esplanade” → fly to stop | “Stop tap koro → kon bus thame dekhbe. Search e Esplanade likho.” |
 | 20-27s | Tap “Nearest stop to me” → GPS once (no tracking) highlights 3 nearest, roads toggle off/on, landmark icons for hospital/college/mandir | “Nearest stop — GPS ekbar porei. Roads/landmarks toggle.” |
 | 27-30s | End card: “One doc for all 2194 stops — cached forever. Link /map” | CTA |
-**Caption:** “1731 stops. Hooghly. 101 lakes. 28 station buildings. Ek map e — offline. 📍 Try /map — no signal eo cholbe. #KolkataMap #CholoKolkata #SaltLake #HowrahBridge”
+**Caption:** “1731 stops. Hooghly. 101 lakes. 28 station buildings. Ek map e — offline. 📍 Try /map — no signal eo cholbe. #KolkataMap #KonBusKolkata #SaltLake #HowrahBridge”
 
 ---
 
@@ -878,7 +878,7 @@ Jara launch miss koreche take tag koro 👇
 | 5-10s | Scan bus sticker → `/on-bus?route=1` (confidence badge + run caption + destination question) | “Bus QR → kon bus e acho clock + GPS diye.” |
 | 10-15s | Scan stop sticker → `/stop?stop=Garia` Next buses, paste link fallback, foreign QR refused shown | “Stop QR → next buses. Onno site er QR refuse kore dekhabe — follow noy.” |
 | 15-20s | ML Kit pre-downloaded (offline), fallback jsQR on iPhone Safari, header scan button | “ML Kit offline — camera permission ekbar. Header e sob jayga y scan button.” |
-**Caption:** “Ek scan e sob — bus QR, stop QR, ba link paste. Onno site er QR ke ‘no’ bole dekhay, follow kore na 🔐 #QRCode #CholoBus #OfflineScan”
+**Caption:** “Ek scan e sob — bus QR, stop QR, ba link paste. Onno site er QR ke ‘no’ bole dekhay, follow kore na 🔐 #QRCode #KonBusBus #OfflineScan”
 
 ---
 
@@ -890,15 +890,15 @@ Jara launch miss koreche take tag koro 👇
 | 5-12s | Form: “Suggest a feature” (idea + email) → “Every submission is reviewed” → “Report bus info” (route/stop correction) | “Idea dao ba bhul dhoriye dao — no account.” |
 | 12-18s | Admin review note: “team checks against route info before change” | “Team verify kore update kore.” |
 | 18-20s | End card: “Your input → Better route for next passenger 💚 Link in bio” | CTA |
-**Caption:** “Jadavpur er auto stand e bus thame kintu Cholo te nei? Report koro 1 min e — no login. Tomar gyan e porer passenger er subidha 💚 #CommunityFirst #KolkataBus #ReportData”
+**Caption:** “Jadavpur er auto stand e bus thame kintu KonBus te nei? Report koro 1 min e — no login. Tomar gyan e porer passenger er subidha 💚 #CommunityFirst #KolkataBus #ReportData”
 
 ---
 
 ### Production Checklist for ALL (0₹ tools)
-- **Shoot:** Phone screen-record 60fps, vertical 1080×1920, 30fps export. Use real Cholo on `localhost` or live link with `?from=Esplanade&to=Garia` — not emulator (smooth scroll).
+- **Shoot:** Phone screen-record 60fps, vertical 1080×1920, 30fps export. Use real KonBus on `localhost` or live link with `?from=Esplanade&to=Garia` — not emulator (smooth scroll).
 - **Edit (free):** CapCut desktop (auto-captions Bengali+English, style: white bold 14px with #195A45 highlight) + speed ramps. Alternative VN/InShot.
-- **AI generation where no shoot:** Pika / Runway prompt above + overlay Cholo screenshots; HeyGen for VO if no mic (use Bengali accent voice).
-- **Branding:** End card green #195A45 + white Cholo logo (bus mark) + “Link in bio 👆” 2 sec. Watermark @cholo.kolkata bottom-right 8% opacity.
+- **AI generation where no shoot:** Pika / Runway prompt above + overlay KonBus screenshots; HeyGen for VO if no mic (use Bengali accent voice).
+- **Branding:** End card green #195A45 + white KonBus logo (bus mark) + “Link in bio 👆” 2 sec. Watermark @konbus.kolkata bottom-right 8% opacity.
 - **Audio:** IG library “Bengali Lofi”, “Kolkata Chill”, bus horn SFX at hook, pop at results, buzz at alert.
 - **Posting:** Hook text in first 1.2s (80% watch muted), burned captions, cover frame with 3-word hook, 5-8 hashtags, CTA, repost to Story “Watch Reel” sticker + share natively to FB Reel + YT Shorts + WhatsApp Status (crop to 9:16). Pin best 2.
 
@@ -911,23 +911,23 @@ Pick 1-2/day, always:
 - **1 PM:** Repost feed to story “Tap to see” + link sticker
 - **7 PM:** Q&A “Tomar route bolo — ami bus ber kore di” + countdown/giveaway
 
-Rotate: Poll, Quiz, Question, Slider “Cholo helpful? 🤩”, Countdown, Add Yours “My bus view 🚌”, Mention collab
+Rotate: Poll, Quiz, Question, Slider “KonBus helpful? 🤩”, Countdown, Add Yours “My bus view 🚌”, Mention collab
 
 ---
 
 ## X (TWITTER) CALENDAR — 20 posts (beyond X in days)
 
-9 AM IST daily: Day1 Teaser, Day2 Launch thread 3, Day3 Tip `?from=Esplanade&to=Garia` share hack + Bengali alias, Day4 Meme, Day5 “193 stands but you know 5, Cholo knows 193”, Day7 Week recap, Day8 **Map thread** (Hooghly+491 landmarks), Day10 PWA+APK, Day11 1-change + Map tap, Day13 Alerts, Day14 Quiz, Day15 Meme wrong-bus, Day17 Myth, Day19 Comparison + Community Desk, Day20 Collab, Day22 Testimonial QR, Day23 Stats v2 (24,777 runs), Day25 Giveaway tease, Day26 Giveaway, Day27 Founder + open datasets, Day29 Recap, Day30 Winner + Bengali soon
+9 AM IST daily: Day1 Teaser, Day2 Launch thread 3, Day3 Tip `?from=Esplanade&to=Garia` share hack + Bengali alias, Day4 Meme, Day5 “193 stands but you know 5, KonBus knows 193”, Day7 Week recap, Day8 **Map thread** (Hooghly+491 landmarks), Day10 PWA+APK, Day11 1-change + Map tap, Day13 Alerts, Day14 Quiz, Day15 Meme wrong-bus, Day17 Myth, Day19 Comparison + Community Desk, Day20 Collab, Day22 Testimonial QR, Day23 Stats v2 (24,777 runs), Day25 Giveaway tease, Day26 Giveaway, Day27 Founder + open datasets, Day29 Recap, Day30 Winner + Bengali soon
 
-**Engagement:** 10 min/day reply to #Kolkata #WBTC tweets with helpful bus + Cholo link. Never spam — give route then link.
+**Engagement:** 10 min/day reply to #Kolkata #WBTC tweets with helpful bus + KonBus link. Never spam — give route then link.
 
 ---
 
 ## FACEBOOK & REDDIT & WHATSAPP EXTRAS (0₹)
 
-- FB: Share every IG to FB Page (1-2 hashtags), **Join & post value** in groups (admin permission): “We built Cholo — type any 2 stops, see buses + offline map + QR — try Esplanade→Garia [link] — feedback?” — 1 group/day max
+- FB: Share every IG to FB Page (1-2 hashtags), **Join & post value** in groups (admin permission): “We built KonBus — type any 2 stops, see buses + offline map + QR — try Esplanade→Garia [link] — feedback?” — 1 group/day max
 - Reddit: r/Kolkata — Post “I built an offline Kolkata bus map with 1731 stops + QR at stops — feedback?” with map screenshot + link — reply to every comment
-- WhatsApp Status: Mon/Fri 9AM — 1080×1920 card: “Signal nei? Cholo ache 📴” + link. Forward to 2 personal groups (not broadcast spam)
+- WhatsApp Status: Mon/Fri 9AM — 1080×1920 card: “Signal nei? KonBus ache 📴” + link. Forward to 2 personal groups (not broadcast spam)
 - FB Event for Giveaway Day 26
 
 ---
@@ -942,7 +942,7 @@ Rotate: Poll, Quiz, Question, Slider “Cholo helpful? 🤩”, Countdown, Add Y
 | Reel Views total | Insights | 15K+ |
 | Engagement | Likes+comments/followers | >6% |
 | X Followers | X Analytics | 400+ |
-| UGC #CholoKolkata | manual | 60+ |
+| UGC #KonBusKolkata | manual | 60+ |
 | Giveaway entries | manual | 400+ |
 | QR prints stuck | photo proof | 15+ |
 | Community reports | Community Desk | 30+ |
@@ -955,7 +955,7 @@ Rotate: Poll, Quiz, Question, Slider “Cholo helpful? 🤩”, Countdown, Add Y
 
 **To meme/college pages (10 in Wk1-2):**
 ```
-Hi! Amra Cholo — Kolkata’r free bus timetable (651 routes, offline map 1731 stops + QR) 🚌💚 Tomar page valo lage! Ekta collab korbe? Tomar audience ke Cholo try korate paro — amra tomar jonno tomar daily route er custom map baniye debo, tomar followers ke free te debo. Kono taka noy — Kolkata r jonno 💚 Try: [link]?from=Esplanade&to=Garia
+Hi! Amra KonBus — Kolkata’r free bus timetable (651 routes, offline map 1731 stops + QR) 🚌💚 Tomar page valo lage! Ekta collab korbe? Tomar audience ke KonBus try korate paro — amra tomar jonno tomar daily route er custom map baniye debo, tomar followers ke free te debo. Kono taka noy — Kolkata r jonno 💚 Try: [link]?from=Esplanade&to=Garia
 ```
 
 **To bus conductors/drivers:**
@@ -969,7 +969,7 @@ Dada, ektu QR sticker lagabo bus e? Passenger ra scan kore timetable pabe, apnak
 
 **What:** `qr-admin/index.html` — double-click, no deploy. Search route/stop, preview, choose size, Print at 100% (not “Fit to page”).
 **Sizes:** Small 70×45mm (10/page) best for bus interior near door; Standard 90×60mm (8/page) for stop shelter at 1.5m height, not on glass/in sun.
-**Logo:** Cholo bus mark on white plate, level H, 20.5% square — `verify-qr.mjs` proves it decodes at printed density. Below 0.35mm/module = too dense → print larger.
+**Logo:** KonBus bus mark on white plate, level H, 20.5% square — `verify-qr.mjs` proves it decodes at printed density. Below 0.35mm/module = too dense → print larger.
 **Before batch:** Scan with 2 phones (with app → opens app, without → website). If app opens browser, `/.well-known/assetlinks.json` SHA-256 / apple-app-site-association Team ID not live yet — browser shows “Open in app” hint.
 **Copy for sticker (auto):** “Scan for timetable — works offline after first visit”
 
@@ -984,5 +984,5 @@ Old banners showed 650/1058/1209. **Update to:**
 
 ---
 
-Made with 💚 for Kolkata. Cholo — Find Your Bus. — v2, Oct 2025, 0₹ Guerrilla Edition.
+Made with 💚 for Kolkata. KonBus — Find Your Bus. — v2, Oct 2025, 0₹ Guerrilla Edition.
 

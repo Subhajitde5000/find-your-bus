@@ -1,9 +1,9 @@
-# Cholo — Kolkata Bus Marketing Kit v2
+# KonBus — Kolkata Bus Marketing Kit v2
 ### Find Your Bus + Offline Map + QR Campaign — 0₹ Guerrilla Edition
 
-This folder has everything to launch **Cholo — Kolkata Bus Timetables v2** on Instagram, Facebook, X, YouTube Shorts + WhatsApp + Street.
+This folder has everything to launch **KonBus — Kolkata Bus Timetables v2** on Instagram, Facebook, X, YouTube Shorts + WhatsApp + Street.
 
-**Brand:** Cholo (চলো) — Kolkata Bus Timetables
+**Brand:** KonBus (চলো) — Kolkata Bus Timetables
 **Tagline:** _Find Your Bus in 10s. Ride Offline. Scan QR. No Signal Needed — Hooghly to Salt Lake._
 **Site:** Static PWA 2.8MB + Native Android/iOS apps · No login · No ads
 **Core Offer v2:**

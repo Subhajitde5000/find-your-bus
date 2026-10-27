@@ -1,35 +1,35 @@
-# Cholo — Hashtag Packs v2
+# KonBus — Hashtag Packs v2
 ### Copy-paste sets — Instagram 5-7, FB 1-2, X 1-2, YT Shorts 3-5
-> Core always: #CholoKolkata + #FindYourBus or #CholoBus · Add 2-3 Kolkata-local + 1-2 feature
+> Core always: #KonBusKolkata + #FindYourBus or #KonBusBus · Add 2-3 Kolkata-local + 1-2 feature
 
 ## CORE (always include 1-2)
 ```
-#CholoKolkata #CholoBus #FindYourBus
+#KonBusKolkata #KonBusBus #FindYourBus
 ```
 
 ## LAUNCH v2 (651 routes + QR+Map)
 ```
-#CholoKolkata #CholoBus #FindYourBus #Kolkata #KolkataBus #CityOfJoy #Esplanade #Garia #OfflineMap #QRCode
+#KonBusKolkata #KonBusBus #FindYourBus #Kolkata #KolkataBus #CityOfJoy #Esplanade #Garia #OfflineMap #QRCode
 ```
 
 ## OFFLINE MAP (Hooghly, 1731 stops, 491 landmarks)
 ```
-#CholoKolkata #OfflineFirst #NoSignalNoProblem #KolkataBus #OfflineMap #Hooghly #SaltLake #HowrahBridge #TechForKolkata
+#KonBusKolkata #OfflineFirst #NoSignalNoProblem #KolkataBus #OfflineMap #Hooghly #SaltLake #HowrahBridge #TechForKolkata
 ```
 
 ## QR / ON-BUS / AT-STOP
 ```
-#CholoKolkata #QRCode #OnBus #BusStop #KolkataBus #ScanToRide #OfflineFirst #WBTC
+#KonBusKolkata #QRCode #OnBus #BusStop #KolkataBus #ScanToRide #OfflineFirst #WBTC
 ```
 
 ## TUTORIAL / HOW-TO
 ```
-#HowToCholo #KolkataBus #CholoKolkata #Tutorial #TravelHack #KolkataCommute #QRCode
+#HowToKonBus #KolkataBus #KonBusKolkata #Tutorial #TravelHack #KolkataCommute #QRCode
 ```
 
 ## MEME / FUN / POV
 ```
-#KolkataMemes #BengaliMemes #CalcuttaMemes #CholoKolkata #KolkataReels #Relatable #MemeMonday #POV
+#KolkataMemes #BengaliMemes #CalcuttaMemes #KonBusKolkata #KolkataReels #Relatable #MemeMonday #POV
 ```
 
 ## KOLKATA LOVE / AESTHETIC
@@ -39,32 +39,32 @@
 
 ## ROUTES / SEARCH (share-link)
 ```
-#KolkataBus #CholoBus #Esplanade #Garia #Howrah #Sealdah #SaltLake #Tollygunge #Behala #NewTown #KolkataRoutes #PublicTransport
+#KolkataBus #KonBusBus #Esplanade #Garia #Howrah #Sealdah #SaltLake #Tollygunge #Behala #NewTown #KolkataRoutes #PublicTransport
 ```
 
 ## MAP SPECIFIC
 ```
-#KolkataMap #CholoKolkata #OfflineMap #Hooghly #RabindraSarovar #EcoPark #ScienceCity #SaltLake #HowrahBridge
+#KolkataMap #KonBusKolkata #OfflineMap #Hooghly #RabindraSarovar #EcoPark #ScienceCity #SaltLake #HowrahBridge
 ```
 
 ## GIVEAWAY
 ```
-#Giveaway #KolkataGiveaway #CholoKolkata #ContestAlert #GiveawayIndia #KolkataContest #FindYourBus #CustomMap
+#Giveaway #KolkataGiveaway #KonBusKolkata #ContestAlert #GiveawayIndia #KolkataContest #FindYourBus #CustomMap
 ```
 
 ## BEHIND SCENES / BUILD IN PUBLIC
 ```
-#BuildInPublic #FounderStory #CholoKolkata #KolkataStartups #TechForGood #DataHonesty #MadeInKolkata #ODbL
+#BuildInPublic #FounderStory #KonBusKolkata #KolkataStartups #TechForGood #DataHonesty #MadeInKolkata #ODbL
 ```
 
 ## COMMUTER TIPS / ALERTS
 ```
-#CommuterTips #KolkataCommute #CholoKolkata #TravelSmart #KolkataLife #DailyCommute #BusAlert
+#CommuterTips #KolkataCommute #KonBusKolkata #TravelSmart #KolkataLife #DailyCommute #BusAlert
 ```
 
 ## COMMUNITY / UGC / REPORT DATA
 ```
-#CholoKolkata #KolkataDiaries #CholoBus #CommunityLove #KolkataGram #UGC #CommunityFirst #ReportData #Jadavpur
+#KonBusKolkata #KolkataDiaries #KonBusBus #CommunityLove #KolkataGram #UGC #CommunityFirst #ReportData #Jadavpur
 ```
 
 ## REELS / SHORTS (add to any Reel)
@@ -74,13 +74,13 @@
 
 ## FOR X (pick 1-2 max)
 ```
-#CholoKolkata #KolkataBus
+#KonBusKolkata #KolkataBus
 #Kolkata #WBTC #OfflineMap
 ```
 
 ## WHATSAPP FORWARD (no hashtags — use 1 line)
 ```
-Garia bus? 10 sec e Cholo te pabe — signal charao 📴👉 [link]
+Garia bus? 10 sec e KonBus te pabe — signal charao 📴👉 [link]
 ```
 
 ---

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import StopPage from "./StopScreen";
 
 export const metadata: Metadata = {
-  title: "Bus stop — Cholo",
+  title: "Bus stop — KonBus",
   description:
     "Every bus that passes this Kolkata stop, next buses and the whole day, from the published timetable. Works offline.",
 };

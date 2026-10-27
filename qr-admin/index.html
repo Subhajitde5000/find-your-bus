@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="color-scheme" content="light dark" />
-    <title>Cholo QR sticker maker</title>
+    <title>KonBus QR sticker maker</title>
     <script>
       /* Set the theme before the first paint, so the page never flashes the wrong one.
          Stored choice wins; otherwise the operating system's preference decides. */
       (function () {
         try {
-          var stored = window.localStorage.getItem("cholo:qr:theme");
+          var stored = window.localStorage.getItem("konbus:qr:theme");
           var theme =
             stored === "dark" || stored === "light"
               ? stored
@@ -30,7 +30,7 @@
     <header class="top">
       <div class="brand">
         <span class="brand-mark" aria-hidden="true">▣</span>
-        <span class="brand-words"><strong>cholo<span>.</span></strong><small>QR STICKER MAKER</small></span>
+        <span class="brand-words"><strong>konbus<span>.</span></strong><small>QR STICKER MAKER</small></span>
       </div>
       <span class="private-badge">Private · never deploy this folder</span>
       <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch between light and dark" title="Light / dark">
@@ -64,7 +64,7 @@
         <label class="switch-row" for="logo-toggle">
           <input id="logo-toggle" type="checkbox" checked />
           <span>
-            <strong>Cholo logo in the middle of every code</strong>
+            <strong>KonBus logo in the middle of every code</strong>
             <small>
               The codes are generated with the highest error correction, so the mark can cover
               part of the pattern and the phone still reads it. Turn this off for a plain code.

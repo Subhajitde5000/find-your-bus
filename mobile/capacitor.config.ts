@@ -9,8 +9,8 @@ import type { CapacitorConfig } from "@capacitor/cli";
  * changed after the first release. Choose it before you publish (reverse of a domain you own).
  */
 const config: CapacitorConfig = {
-  appId: "in.cholo.kolkatabus",
-  appName: "Cholo",
+  appId: "in.konbus.kolkatabus",
+  appName: "KonBus",
   webDir: "../fontend/out",
   server: { androidScheme: "https" },
   backgroundColor: "#00000000",

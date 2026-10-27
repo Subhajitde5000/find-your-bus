@@ -55,7 +55,7 @@ export function SiteSidebar({ isOpen, onClose, searchMode, onSetSearchMode, isMo
           onClick={onClose}
         />
       )}
-      <aside id="site-sidebar" className={`site-sidebar ${isOpen ? "is-open" : ""}`} aria-label="Cholo navigation">
+      <aside id="site-sidebar" className={`site-sidebar ${isOpen ? "is-open" : ""}`} aria-label="KonBus navigation">
         <div className="sidebar-heading">
           <span className="sidebar-heading-icon"><BusFront size={19} strokeWidth={2.2} aria-hidden="true" /></span>
           <span className="sidebar-heading-copy">
@@ -92,7 +92,7 @@ export function SiteSidebar({ isOpen, onClose, searchMode, onSetSearchMode, isMo
         </nav>
 
         <p className="sidebar-label sidebar-label-spaced">DISCOVER</p>
-        <nav className="sidebar-nav" aria-label="Explore Cholo">
+        <nav className="sidebar-nav" aria-label="Explore KonBus">
           <Link href="/scan" className="sidebar-nav-link" onClick={onClose}>
             <span className="sidebar-nav-icon"><QrCode size={17} aria-hidden="true" /></span>
             <span>Scan a QR code</span>

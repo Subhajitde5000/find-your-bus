@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Cholo</string>
-    <string name="title_activity_main">Cholo</string>
-    <string name="package_name">in.cholo.kolkatabus</string>
-    <string name="custom_url_scheme">in.cholo.kolkatabus</string>
+    <string name="app_name">KonBus</string>
+    <string name="title_activity_main">KonBus</string>
+    <string name="package_name">in.konbus.kolkatabus</string>
+    <string name="custom_url_scheme">in.konbus.kolkatabus</string>
 </resources>

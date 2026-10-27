@@ -7,7 +7,7 @@
  */
 
 export type MapStyle = "auto" | "day" | "night";
-export const MAP_STYLE_KEY = "cholo-map-style";
+export const MAP_STYLE_KEY = "konbus-map-style";
 
 export function isMapStyle(value: unknown): value is MapStyle {
   return value === "auto" || value === "day" || value === "night";

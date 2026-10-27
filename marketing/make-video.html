@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cholo — Automated Video Creator & Marketing Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #14532d;
+    --brand-light: #16a34a;
+    --accent: #f97316;
+    --dark: #0a0f0d;
+    --card: #141c18;
+    --border: #22332a;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    background: #0f1713;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+  }
+  .logo span { color: var(--accent); }
+  .tag {
+    background: rgba(22, 163, 74, 0.15);
+    color: #4ade80;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid rgba(74, 222, 128, 0.2);
+  }
+  .container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 36px;
+    flex: 1;
+  }
+  @media (max-width: 900px) {
+    .container { grid-template-columns: 1fr; }
+  }
+
+  /* Video Phone Stage (9:16 vertical) */
+  .stage-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .phone-stage {
+    width: 360px;
+    height: 640px;
+    background: #000;
+    border-radius: 36px;
+    border: 8px solid #222b26;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  canvas#videoCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #0d1712;
+  }
+
+  /* Timeline & Controls */
+  .control-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .script-select {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn-chip {
+    background: #1c2722;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-chip.active {
+    background: var(--brand-light);
+    color: #fff;
+    border-color: var(--brand-light);
+  }
+  .btn-action {
+    background: var(--brand-light);
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.1s, background 0.2s;
+  }
+  .btn-action:hover { background: #15803d; }
+  .btn-record {
+    background: #dc2626;
+  }
+  .btn-record:hover { background: #b91c1c; }
+  .btn-download {
+    background: #2563eb;
+    text-decoration: none;
+    display: none;
+  }
+  .timeline-bar {
+    width: 100%;
+    height: 8px;
+    background: #1e2b24;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .timeline-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #10b981, var(--accent));
+    transition: width 0.1s linear;
+  }
+  .scene-card {
+    background: #101814;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .scene-card b { color: #4ade80; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Cholo<span>.</span> Video Studio</div>
+  <div class="tag">🚀 1-Click Marketing Video Generator for Reels & Shorts</div>
+</header>
+
+<div class="container">
+  <!-- Left Column: Video Screen (9:16 Canvas) -->
+  <div class="stage-wrap">
+    <div class="phone-stage">
+      <canvas id="videoCanvas" width="720" height="1280"></canvas>
+    </div>
+    <div style="margin-top: 14px; font-size: 12px; color: var(--text-muted); text-align: center;">
+      Vertical Format: 720 × 1280 (9:16) • Ready for Reels / Shorts / WhatsApp Status
+    </div>
+  </div>
+
+  <!-- Right Column: Control & Customizer -->
+  <div class="control-panel">
+    <h2>🎬 Select Marketing Video Story</h2>
+    <p style="font-size: 13px; color: var(--text-muted);">
+      Choose a script. Click <b>"Play Video"</b> to preview with live voiceover and animations, or click <b>"Record & Download Video"</b> to immediately create an MP4/WebM video file on your computer!
+    </p>
+
+    <div class="script-select">
+      <button class="btn-chip active" onclick="selectScript(0)">Short 1: Search Any Bus (15s)</button>
+      <button class="btn-chip" onclick="selectScript(1)">Short 2: Offline GPS - No Signal (18s)</button>
+      <button class="btn-chip" onclick="selectScript(2)">Short 3: QR Scanner at Bus Stop (16s)</button>
+    </div>
+
+    <!-- Timeline Progress -->
+    <div>
+      <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px;">
+        <span>Progress</span>
+        <span id="timeDisplay">0.0s / 15.0s</span>
+      </div>
+      <div class="timeline-bar">
+        <div class="timeline-fill" id="timelineFill"></div>
+      </div>
+    </div>
+
+    <!-- Current Scene Info -->
+    <div class="scene-card" id="sceneCard">
+      <b>Scene 1: Hook</b><br>
+      "Still asking people 'Ei bus ta kothay jabe?'"
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <button class="btn-action" id="playBtn" onclick="togglePlay()">
+        ▶️ Preview Video
+      </button>
+      <button class="btn-action btn-record" id="recordBtn" onclick="startRecordingVideo()">
+        🎥 Record & Download
+      </button>
+    </div>
+
+    <a href="#" download="cholo-kolkata-bus-promo.webm" class="btn-action btn-download" id="downloadBtn">
+      ⬇️ Download Ready Video File
+    </a>
+
+    <!-- Ready made caption -->
+    <div>
+      <div style="display: flex; justify-content: space-between; align-items:center; margin-bottom: 6px;">
+        <span style="font-size: 13px; font-weight:700;">📋 Ready Caption for Instagram / YouTube:</span>
+        <button onclick="copyCaption()" style="background:transparent; border:1px solid #334; color:#38bdf8; padding:4px 8px; border-radius:6px; cursor:pointer; font-size:11px;">Copy Caption</button>
+      </div>
+      <textarea id="captionBox" readonly style="width:100%; height:90px; background:#0b110e; border:1px solid var(--border); border-radius:10px; color:#cbd5e1; font-size:12px; padding:10px; resize:none; font-family:inherit;"></textarea>
+    </div>
+  </div>
+</div>
+
+<script>
+// Canvas & Context Setup
+const canvas = document.getElementById('videoCanvas');
+const ctx = canvas.getContext('2d');
+const W = canvas.width;  // 720
+const H = canvas.height; // 1280
+
+// Scripts definition
+const scripts = [
+  {
+    title: "Search Any Bus in 10 Seconds",
+    duration: 15,
+    caption: `Find ANY Kolkata bus in 10 seconds! 🚌💨\n\nNo app download needed. Works right in browser at find-your-bus.vercel.app\n\n✅ 650+ Routes\n✅ 2,194 Bus Stops\n✅ 100% Free & No Ads\n\n#CholoKolkata #KolkataBus #KolkataCommute #Esplanade #Howrah #Garia #FindYourBus`,
+    scenes: [
+      {
+        start: 0, end: 3.5,
+        type: "hook",
+        badge: "KOLKATA COMMUTE",
+        headline: "Still asking people\n'Ei bus ta kothay jabe?' 🤦‍♂️",
+        sub: "Stop waiting and guessing at Kolkata bus stands.",
+        voice: "Still asking people which bus goes where at Kolkata bus stops? Stop guessing."
+      },
+      {
+        start: 3.5, end: 7.5,
+        type: "search",
+        badge: "STEP 1: INSTANT SEARCH",
+        from: "Esplanade",
+        to: "Garia Bus Stand",
+        headline: "Type Where You Are → Where You Want To Go",
+        sub: "Works instantly on find-your-bus.vercel.app",
+        voice: "Open Find Your Bus. Type Esplanade to Garia."
+      },
+      {
+        start: 7.5, end: 11.5,
+        type: "results",
+        badge: "STEP 2: FULL TIMETABLE",
+        headline: "Boom! Every Bus Route with Exact Times 🚌",
+        buses: [
+          { route: "Route 1", time: "Every 8 mins", from: "Esplanade", to: "Garia" },
+          { route: "AC 5", time: "09:15 AM", from: "Howrah", to: "Garia" },
+          { route: "S 12", time: "09:22 AM", from: "Esplanade", to: "New Town" }
+        ],
+        voice: "Boom! Route 1, AC 5, S 12 with exact passing times and stop lists."
+      },
+      {
+        start: 11.5, end: 15,
+        type: "cta",
+        badge: "TRY IT NOW FOR FREE",
+        headline: "Find ANY Kolkata Bus.\nRight Now.",
+        url: "find-your-bus.vercel.app",
+        sub: "Install as PWA • No Login • 650+ Routes",
+        voice: "Visit find-your-bus.vercel.app today. Link in bio!"
+      }
+    ]
+  },
+  {
+    title: "Offline GPS - No Signal? No Problem!",
+    duration: 18,
+    caption: `No signal in the bus? Cholo still guides you! 📴📍\n\nUses your phone's built-in GPS along real road maps — zero internet required during the ride!\n\nTry it: find-your-bus.vercel.app\n\n#OfflineTech #KolkataCity #KolkataBus #TechInnovation #PWA`,
+    scenes: [
+      {
+        start: 0, end: 4,
+        type: "hook",
+        badge: "THE BIGGEST PROBLEM",
+        headline: "No Internet Inside The Bus? 📵",
+        sub: "EM Bypass & underground spots always drop your mobile network.",
+        voice: "Inside a crowded bus and your internet completely dies?"
+      },
+      {
+        start: 4, end: 8.5,
+        type: "feature",
+        badge: "FEATURE: 'SET ON BUS'",
+        headline: "Tap 'Set on Bus' 🟢\n100% Offline GPS",
+        sub: "It locks onto your route corridor without any live server.",
+        voice: "Just tap Set on Bus. It tracks you along the real road route completely offline."
+      },
+      {
+        start: 8.5, end: 13.5,
+        type: "map",
+        badge: "OFFLINE RIDE TRACKING",
+        headline: "Next Stop: Park Street (420m away)",
+        sub: "Live stop distance + wrong direction alerts on your screen.",
+        voice: "Shows distance to your next stop, and even warns you if you boarded the wrong bus!"
+      },
+      {
+        start: 13.5, end: 18,
+        type: "cta",
+        badge: "WORKS EVERYWHERE",
+        headline: "Works Where Signal Doesn't.",
+        url: "find-your-bus.vercel.app",
+        sub: "Save to home screen today.",
+        voice: "Try it on your daily commute at find-your-bus.vercel.app"
+      }
+    ]
+  },
+  {
+    title: "Scan QR at Bus Stop & Bus",
+    duration: 16,
+    caption: `Scan the QR code at your nearest Kolkata bus stand or inside the bus! 📲⚡\n\nInstant arrival list without downloading any heavy app.\n\nVisit: find-your-bus.vercel.app\n\n#SmartKolkata #KolkataCommute #BusStand #BengaluruToKolkata #WestBengal`,
+    scenes: [
+      {
+        start: 0, end: 4,
+        type: "hook",
+        badge: "SMART BUS STOPS",
+        headline: "Just Point Camera & Scan 📷",
+        sub: "No app download needed. Works with standard phone camera.",
+        voice: "See a Cholo QR code at the bus stop or inside the bus?"
+      },
+      {
+        start: 4, end: 8.5,
+        type: "qr",
+        badge: "INSTANT PASSENGER INFO",
+        headline: "Scan → See Every Bus Calling at this Stand",
+        sub: "Esplanade, Shyambazar, Garia, Ultadanga - all 2,194 stops mapped.",
+        voice: "Just scan it. Instantly see next arriving buses and the full day timetable."
+      },
+      {
+        start: 8.5, end: 12.5,
+        type: "results",
+        badge: "STOP TIMETABLE",
+        headline: "Next Buses at Your Stop ⏱️",
+        buses: [
+          { route: "Route 230", time: "In 3 mins", from: "Current Stop", to: "Alipore Zoo" },
+          { route: "AC 1", time: "In 7 mins", from: "Current Stop", to: "Jadavpur" },
+          { route: "Route 1", time: "In 12 mins", from: "Current Stop", to: "Garia" }
+        ],
+        voice: "See exactly which bus is coming next and how many minutes to wait."
+      },
+      {
+        start: 12.5, end: 16,
+        type: "cta",
+        badge: "TRY IT TODAY",
+        headline: "Your Daily Bus Guide in Kolkata 🚍",
+        url: "find-your-bus.vercel.app",
+        sub: "Share with your daily commuter friends!",
+        voice: "Try Find Your Bus today at find-your-bus.vercel.app"
+      }
+    ]
+  }
+];
+
+let activeScriptIndex = 0;
+let currentTime = 0;
+let isPlaying = false;
+let isRecording = false;
+let mediaRecorder = null;
+let recordedChunks = [];
+let animFrameId = null;
+let lastTimestamp = 0;
+
+function selectScript(index) {
+  stopPlayback();
+  activeScriptIndex = index;
+  currentTime = 0;
+  document.querySelectorAll('.btn-chip').forEach((btn, i) => {
+    btn.classList.toggle('active', i === index);
+  });
+  document.getElementById('captionBox').value = scripts[activeScriptIndex].caption;
+  renderFrame(0);
+}
+
+function copyCaption() {
+  const box = document.getElementById('captionBox');
+  box.select();
+  navigator.clipboard.writeText(box.value);
+  alert("Caption copied to clipboard! Ready to paste into Instagram/YouTube.");
+}
+
+// Speak voiceover
+function speakText(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 1.05;
+  utter.pitch = 1.0;
+  window.speechSynthesis.speak(utter);
+}
+
+function getCurrentScene(script, time) {
+  for (let scene of script.scenes) {
+    if (time >= scene.start && time < scene.end) {
+      return scene;
+    }
+  }
+  return script.scenes[script.scenes.length - 1];
+}
+
+let lastSpokenScene = null;
+
+// RENDER VIDEO FRAME ON CANVAS (720 x 1280)
+function renderFrame(time) {
+  const script = scripts[activeScriptIndex];
+  const scene = getCurrentScene(script, time);
+
+  // Update scene card UI
+  document.getElementById('sceneCard').innerHTML = `
+    <b>${scene.badge}</b> (${time.toFixed(1)}s / ${script.duration}s)<br>
+    "${scene.headline.replace(/\\n/g, ' ')}"
+  `;
+  document.getElementById('timeDisplay').innerText = `${time.toFixed(1)}s / ${script.duration}.0s`;
+  document.getElementById('timelineFill').style.width = `${(time / script.duration) * 100}%`;
+
+  // Live TTS Trigger
+  if (isPlaying && scene !== lastSpokenScene) {
+    lastSpokenScene = scene;
+    if (scene.voice) speakText(scene.voice);
+  }
+
+  // Clear background
+  ctx.fillStyle = "#09120e";
+  ctx.fillRect(0, 0, W, H);
+
+  // Background subtle gradient glow
+  const glow = ctx.createRadialGradient(W / 2, 350, 50, W / 2, 350, 450);
+  glow.addColorStop(0, "rgba(22, 163, 74, 0.18)");
+  glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, H);
+
+  // Top Phone Bar
+  ctx.fillStyle = "#1e2922";
+  ctx.fillRect(40, 30, W - 80, 50);
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "600 20px 'Plus Jakarta Sans'";
+  ctx.fillText("9:41", 60, 62);
+  ctx.textAlign = "right";
+  ctx.fillText("LTE 🔋 100%", W - 60, 62);
+  ctx.textAlign = "left";
+
+  // Brand Header
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "900 36px 'Outfit'";
+  ctx.fillText("Cholo", 60, 140);
+  ctx.fillStyle = "#f97316";
+  ctx.fillText(".", 160, 140);
+  ctx.fillStyle = "#4ade80";
+  ctx.font = "700 18px 'Plus Jakarta Sans'";
+  ctx.fillText("FIND YOUR BUS • KOLKATA", 185, 137);
+
+  // Category Badge Pill
+  ctx.fillStyle = "rgba(22, 163, 74, 0.25)";
+  ctx.beginPath();
+  ctx.roundRect(60, 180, 320, 42, 21);
+  ctx.fill();
+  ctx.strokeStyle = "#16a34a";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  ctx.fillStyle = "#4ade80";
+  ctx.font = "800 16px 'Plus Jakarta Sans'";
+  ctx.fillText("✦ " + scene.badge, 80, 207);
+
+  // Main Headline Text with word wrapping
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "900 46px 'Outfit'";
+  const lines = scene.headline.split('\n');
+  let currentY = 280;
+  lines.forEach(line => {
+    ctx.fillText(line, 60, currentY);
+    currentY += 56;
+  });
+
+  // Scene Specific Graphics & Mockups
+  if (scene.type === "hook") {
+    ctx.fillStyle = "#14231b";
+    ctx.beginPath();
+    ctx.roundRect(60, 440, W - 120, 500, 28);
+    ctx.fill();
+    ctx.strokeStyle = "#253b2f";
+    ctx.stroke();
+
+    ctx.font = "110px 'Plus Jakarta Sans'";
+    ctx.textAlign = "center";
+    ctx.fillText("🚌💨", W / 2, 600);
+
+    ctx.font = "700 24px 'Plus Jakarta Sans'";
+    ctx.fillStyle = "#f87171";
+    ctx.fillText("Confused at Esplanade / Howrah?", W / 2, 700);
+
+    ctx.font = "500 20px 'Plus Jakarta Sans'";
+    ctx.fillStyle = "#cbd5e1";
+    ctx.fillText("Which bus goes where? What time will it arrive?", W / 2, 745);
+
+    ctx.fillStyle = "#eab308";
+    ctx.font = "800 22px 'Plus Jakarta Sans'";
+    ctx.fillText("❌ Stop relying on guesswork!", W / 2, 820);
+    ctx.textAlign = "left";
+
+  } else if (scene.type === "search") {
+    ctx.fillStyle = "#14231b";
+    ctx.beginPath();
+    ctx.roundRect(60, 430, W - 120, 520, 28);
+    ctx.fill();
+
+    ctx.fillStyle = "#0b1510";
+    ctx.beginPath();
+    ctx.roundRect(90, 470, W - 180, 80, 16);
+    ctx.fill();
+    ctx.fillStyle = "#4ade80";
+    ctx.font = "700 16px 'Plus Jakarta Sans'";
+    ctx.fillText("FROM (Start Stop)", 115, 500);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "800 24px 'Plus Jakarta Sans'";
+    ctx.fillText("📍 " + scene.from, 115, 532);
+
+    ctx.fillStyle = "#f97316";
+    ctx.beginPath();
+    ctx.arc(W / 2, 575, 20, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.font = "700 20px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("⇅", W / 2, 582);
+    ctx.textAlign = "left";
+
+    ctx.fillStyle = "#0b1510";
+    ctx.beginPath();
+    ctx.roundRect(90, 600, W - 180, 80, 16);
+    ctx.fill();
+    ctx.fillStyle = "#f97316";
+    ctx.font = "700 16px 'Plus Jakarta Sans'";
+    ctx.fillText("TO (Destination)", 115, 630);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "800 24px 'Plus Jakarta Sans'";
+    ctx.fillText("🏁 " + scene.to, 115, 662);
+
+    ctx.fillStyle = "#16a34a";
+    ctx.beginPath();
+    ctx.roundRect(90, 720, W - 180, 75, 18);
+    ctx.fill();
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "900 24px 'Outfit'";
+    ctx.textAlign = "center";
+    ctx.fillText("🔍 FIND BUSES NOW", W / 2, 766);
+    ctx.textAlign = "left";
+
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "600 16px 'Plus Jakarta Sans'";
+    ctx.textAlign = "center";
+    ctx.fillText("Instant results across 2,194 Kolkata bus stops", W / 2, 850);
+    ctx.textAlign = "left";
+
+  } else if (scene.type === "results") {
+    let cardY = 440;
+    scene.buses.forEach(b => {
+      ctx.fillStyle = "#14231b";
+      ctx.beginPath();
+      ctx.roundRect(60, cardY, W - 120, 115, 20);
+      ctx.fill();
+      ctx.strokeStyle = "#253b2f";
+      ctx.stroke();
+
+      ctx.fillStyle = "#16a34a";
+      ctx.beginPath();
+      ctx.roundRect(85, cardY + 20, 100, 75, 14);
+      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "900 24px 'Outfit'";
+      ctx.textAlign = "center";
+      ctx.fillText(b.route, 135, cardY + 65);
+      ctx.textAlign = "left";
+
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "800 20px 'Plus Jakarta Sans'";
+      ctx.fillText(b.from + " ➔ " + b.to, 205, cardY + 50);
+
+      ctx.fillStyle = "#4ade80";
+      ctx.font = "700 18px 'Plus Jakarta Sans'";
+      ctx.fillText("⏱️ " + b.time, 205, cardY + 80);
+
+      cardY += 135;
+    });
+
+  } else if (scene.type === "feature" || scene.type === "map") {
+    ctx.fillStyle = "#14231b";
+    ctx.beginPath();
+    ctx.roundRect(60, 440, W - 120, 480, 24);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(74, 222, 128, 0.2)";
+    ctx.beginPath();
+    ctx.roundRect(85, 465, 240, 36, 18);
+    ctx.fill();
+    ctx.fillStyle = "#4ade80";
+    ctx.font = "800 15px 'Plus Jakarta Sans'";
+    ctx.fillText("🛰️ OFFLINE GPS RUNNING", 100, 489);
+
+    ctx.fillStyle = "#0c1712";
+    ctx.beginPath();
+    ctx.roundRect(85, 520, W - 170, 200, 20);
+    ctx.fill();
+
+    ctx.strokeStyle = "#16a34a";
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.moveTo(120, 620);
+    ctx.lineTo(W - 120, 620);
+    ctx.stroke();
+
+    const animX = 200 + Math.sin(time * 2) * 60;
+    ctx.fillStyle = "#f97316";
+    ctx.beginPath();
+    ctx.arc(animX, 620, 16, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    ctx.fillStyle = "#0b1510";
+    ctx.beginPath();
+    ctx.roundRect(85, 740, W - 170, 140, 18);
+    ctx.fill();
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "600 16px 'Plus Jakarta Sans'";
+    ctx.fillText("NEXT PASSENGER STOP:", 110, 775);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "800 24px 'Plus Jakarta Sans'";
+    ctx.fillText("📍 Park Street (420m away)", 110, 815);
+    ctx.fillStyle = "#4ade80";
+    ctx.font = "700 17px 'Plus Jakarta Sans'";
+    ctx.fillText("✅ Approaching in ~2 minutes", 110, 850);
+
+  } else if (scene.type === "qr") {
+    ctx.fillStyle = "#14231b";
+    ctx.beginPath();
+    ctx.roundRect(60, 440, W - 120, 480, 24);
+    ctx.fill();
+
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.roundRect(W / 2 - 110, 480, 220, 220, 20);
+    ctx.fill();
+
+    ctx.fillStyle = "#000000";
+    ctx.font = "90px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("▦", W / 2, 625);
+    ctx.textAlign = "left";
+
+    const laserY = 490 + ((time * 120) % 200);
+    ctx.strokeStyle = "#ef4444";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(W / 2 - 100, laserY);
+    ctx.lineTo(W / 2 + 100, laserY);
+    ctx.stroke();
+
+    ctx.fillStyle = "#4ade80";
+    ctx.font = "800 22px 'Plus Jakarta Sans'";
+    ctx.textAlign = "center";
+    ctx.fillText("Camera Scan Activated", W / 2, 750);
+    ctx.font = "600 17px 'Plus Jakarta Sans'";
+    ctx.fillStyle = "#cbd5e1";
+    ctx.fillText("Instant bus list for this physical stop", W / 2, 790);
+    ctx.textAlign = "left";
+
+  } else if (scene.type === "cta") {
+    ctx.fillStyle = "#14231b";
+    ctx.beginPath();
+    ctx.roundRect(60, 440, W - 120, 480, 28);
+    ctx.fill();
+    ctx.strokeStyle = "#16a34a";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.textAlign = "center";
+    ctx.font = "70px sans-serif";
+    ctx.fillText("📲", W / 2, 550);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "900 32px 'Outfit'";
+    ctx.fillText("OPEN IN BROWSER NOW", W / 2, 630);
+
+    ctx.fillStyle = "#16a34a";
+    ctx.beginPath();
+    ctx.roundRect(90, 670, W - 180, 80, 20);
+    ctx.fill();
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "800 24px 'Plus Jakarta Sans'";
+    ctx.fillText("find-your-bus.vercel.app", W / 2, 720);
+
+    ctx.fillStyle = "#cbd5e1";
+    ctx.font = "600 18px 'Plus Jakarta Sans'";
+    ctx.fillText("✨ 100% Free • No App Install Needed", W / 2, 800);
+    ctx.fillText("Save to Home Screen as PWA", W / 2, 835);
+    ctx.textAlign = "left";
+  }
+
+  // Bottom Subtext
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "600 20px 'Plus Jakarta Sans'";
+  ctx.textAlign = "center";
+  ctx.fillText(scene.sub, W / 2, 1020);
+
+  // Video Watermark / Brand Footer
+  ctx.fillStyle = "#4ade80";
+  ctx.font = "800 18px 'Outfit'";
+  ctx.fillText("FIND YOUR BUS • KOLKATA 🚌", W / 2, 1220);
+  ctx.textAlign = "left";
+}
+
+// ANIMATION LOOP
+function animationLoop(timestamp) {
+  if (!lastTimestamp) lastTimestamp = timestamp;
+  const delta = (timestamp - lastTimestamp) / 1000;
+  lastTimestamp = timestamp;
+
+  if (isPlaying) {
+    currentTime += delta;
+    const script = scripts[activeScriptIndex];
+    if (currentTime >= script.duration) {
+      currentTime = 0;
+      if (isRecording) {
+        stopRecordingVideo();
+        return;
+      }
+    }
+  }
+
+  renderFrame(currentTime);
+  animFrameId = requestAnimationFrame(animationLoop);
+}
+
+function togglePlay() {
+  const btn = document.getElementById('playBtn');
+  if (isPlaying) {
+    isPlaying = false;
+    btn.innerHTML = "▶️ Preview Video";
+    window.speechSynthesis.cancel();
+  } else {
+    isPlaying = true;
+    lastTimestamp = 0;
+    btn.innerHTML = "⏸️ Pause";
+  }
+}
+
+function stopPlayback() {
+  isPlaying = false;
+  document.getElementById('playBtn').innerHTML = "▶️ Preview Video";
+  window.speechSynthesis.cancel();
+}
+
+// VIDEO RECORDING VIA MediaRecorder (CANVAS -> WEBM/MP4 FILE)
+function startRecordingVideo() {
+  const script = scripts[activeScriptIndex];
+  currentTime = 0;
+  isPlaying = true;
+  isRecording = true;
+  lastTimestamp = 0;
+
+  const recordBtn = document.getElementById('recordBtn');
+  recordBtn.innerText = "🔴 Recording Video (Wait 15s)...";
+  recordBtn.disabled = true;
+
+  recordedChunks = [];
+  const stream = canvas.captureStream(30);
+
+  const options = { mimeType: 'video/webm;codecs=vp9' };
+  try {
+    mediaRecorder = new MediaRecorder(stream, options);
+  } catch (e) {
+    mediaRecorder = new MediaRecorder(stream);
+  }
+
+  mediaRecorder.ondataavailable = function(e) {
+    if (e.data.size > 0) {
+      recordedChunks.push(e.data);
+    }
+  };
+
+  mediaRecorder.onstop = function() {
+    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+    const url = URL.createObjectURL(blob);
+    const downloadBtn = document.getElementById('downloadBtn');
+    downloadBtn.href = url;
+    downloadBtn.style.display = "flex";
+    downloadBtn.click();
+
+    recordBtn.innerText = "🎥 Record & Download";
+    recordBtn.disabled = false;
+    isRecording = false;
+    isPlaying = false;
+    alert("🎉 Your video is ready! Check your browser Downloads folder for 'cholo-kolkata-bus-promo.webm'. You can now upload it directly to Instagram Reels or YouTube Shorts!");
+  };
+
+  mediaRecorder.start();
+}
+
+function stopRecordingVideo() {
+  if (mediaRecorder && mediaRecorder.state !== "inactive") {
+    mediaRecorder.stop();
+  }
+}
+
+selectScript(0);
+requestAnimationFrame(animationLoop);
+</script>
+
+</body>
+</html>

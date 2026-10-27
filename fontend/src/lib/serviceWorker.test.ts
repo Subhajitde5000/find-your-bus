@@ -228,13 +228,13 @@ describe(
   it("drops caches from an older build on activate", async () => {
     files.clear();
     files.set("/index.html", "<html>home</html>");
-    const { handlers, caches } = loadWorker(["cholo-shell-oldversion", "cholo-runtime-oldversion"]);
+    const { handlers, caches } = loadWorker(["konbus-shell-oldversion", "konbus-runtime-oldversion"]);
     await fire(handlers.install, {});
     await fire(handlers.activate, {});
     const names = [...caches.keys()];
-    assert.ok(!names.includes("cholo-shell-oldversion"), "the old shell cache is gone");
-    assert.ok(!names.includes("cholo-runtime-oldversion"), "the old runtime cache is gone");
-    assert.ok(names.length > 0 && names.every((name) => name.startsWith("cholo-")), "this build's caches remain");
+    assert.ok(!names.includes("konbus-shell-oldversion"), "the old shell cache is gone");
+    assert.ok(!names.includes("konbus-runtime-oldversion"), "the old runtime cache is gone");
+    assert.ok(names.length > 0 && names.every((name) => name.startsWith("konbus-")), "this build's caches remain");
   });
 
   it("leaves third-party requests alone", () => {
@@ -266,6 +266,6 @@ describe(
     const version = source.match(/const VERSION = "([0-9a-f]+)"/);
     assert.ok(version, "the worker carries a build version");
     assert.equal(version[1].length, 12, "a 12-character content hash");
-    assert.ok(source.includes("cholo-shell-"), "and the cache name is derived from it");
+    assert.ok(source.includes("konbus-shell-"), "and the cache name is derived from it");
   });
 });

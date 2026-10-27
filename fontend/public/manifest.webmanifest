@@ -1,7 +1,7 @@
 {
   "id": "/",
-  "name": "Cholo — Kolkata Bus Guide",
-  "short_name": "Cholo",
+  "name": "KonBus — Kolkata Bus Guide",
+  "short_name": "KonBus",
   "description": "Kolkata bus timetables and an offline ride screen. Find buses between your stops, and follow your route with no signal.",
   "lang": "en-IN",
   "dir": "ltr",

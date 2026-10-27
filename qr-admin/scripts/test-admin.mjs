@@ -50,7 +50,7 @@ function open({ storedTheme = null, prefersDark = false } = {}) {
     removeListener() {},
   });
 
-  if (storedTheme) window.localStorage.setItem("cholo:qr:theme", storedTheme);
+  if (storedTheme) window.localStorage.setItem("konbus:qr:theme", storedTheme);
   // What index.html's inline bootstrap does before the first paint.
   const theme =
     storedTheme === "dark" || storedTheme === "light" ? storedTheme : prefersDark ? "dark" : "light";
@@ -75,13 +75,13 @@ const byId = (window, id) => window.document.getElementById(id);
   check("starts light when nothing is stored and the system is light", root.dataset.theme === "light", root.dataset.theme);
   click(window, byId(window, "theme-toggle"));
   check("the toggle switches to dark", root.dataset.theme === "dark");
-  check("the choice is remembered", window.localStorage.getItem("cholo:qr:theme") === "dark");
+  check("the choice is remembered", window.localStorage.getItem("konbus:qr:theme") === "dark");
   check(
     "the button reports its state to assistive technology",
     byId(window, "theme-toggle").getAttribute("aria-pressed") === "true",
   );
   click(window, byId(window, "theme-toggle"));
-  check("and back to light", root.dataset.theme === "light" && window.localStorage.getItem("cholo:qr:theme") === "light");
+  check("and back to light", root.dataset.theme === "light" && window.localStorage.getItem("konbus:qr:theme") === "light");
 }
 
 {
@@ -99,9 +99,9 @@ const byId = (window, id) => window.document.getElementById(id);
 {
   const window = open();
   const origin = byId(window, "origin");
-  check("the origin field starts at the project default", origin.value === "https://cholo.example", origin.value);
+  check("the origin field starts at the project default", origin.value === "https://konbus.example", origin.value);
 
-  origin.value = "http://cholo.in";
+  origin.value = "http://konbus.in";
   click(window, byId(window, "save-origin"));
   check(
     "an http origin is refused, because a sticker must open a secure page",
@@ -109,9 +109,9 @@ const byId = (window, id) => window.document.getElementById(id);
     byId(window, "origin-hint").textContent,
   );
 
-  origin.value = "https://cholo.in";
+  origin.value = "https://konbus.in";
   click(window, byId(window, "save-origin"));
-  check("a valid origin is accepted", window.localStorage.getItem("cholo:qr:origin") === "https://cholo.in");
+  check("a valid origin is accepted", window.localStorage.getItem("konbus:qr:origin") === "https://konbus.in");
 }
 
 /* ------------------------------------------------------------------ the bus sticker */
@@ -130,7 +130,7 @@ const byId = (window, id) => window.document.getElementById(id);
     const link = byId(window, "bus-link").textContent;
     check(
       "the link is the on-bus link the app parses",
-      /^https:\/\/cholo\.example\/on-bus\?route=/.test(link),
+      /^https:\/\/konbus.example\/on-bus\?route=/.test(link),
       link,
     );
 
@@ -171,7 +171,7 @@ const byId = (window, id) => window.document.getElementById(id);
     const link = byId(window, "stop-link").textContent;
     check(
       "the link is the stop link the app parses",
-      /^https:\/\/cholo\.example\/stop\?stop=Esplanade$/.test(link),
+      /^https:\/\/konbus.example\/stop\?stop=Esplanade$/.test(link),
       link,
     );
     click(window, byId(window, "stop-add"));
@@ -207,7 +207,7 @@ const byId = (window, id) => window.document.getElementById(id);
 
   toggle.checked = false;
   toggle.dispatchEvent(new window.Event("change", { bubbles: true }));
-  check("turning it off is remembered", window.localStorage.getItem("cholo:qr:logo") === "off");
+  check("turning it off is remembered", window.localStorage.getItem("konbus:qr:logo") === "off");
   check("and the page reflects it", window.document.documentElement.dataset.qrLogo === "off");
   check(
     "a plain code is described without the logo",
@@ -235,7 +235,7 @@ const byId = (window, id) => window.document.getElementById(id);
     /70 × 45 mm with a 30 mm code/.test(byId(window, "print-note").textContent),
     byId(window, "print-note").textContent,
   );
-  check("the size is remembered", JSON.parse(window.localStorage.getItem("cholo:qr:size")).width === 70);
+  check("the size is remembered", JSON.parse(window.localStorage.getItem("konbus:qr:size")).width === 70);
 
   // A hand-typed size is clamped, and the code can never outgrow its sticker.
   const width = byId(window, "size-width");

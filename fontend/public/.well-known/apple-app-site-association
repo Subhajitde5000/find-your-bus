@@ -2,7 +2,7 @@
   "applinks": {
     "details": [
       {
-        "appIDs": ["TEAMID.in.cholo.kolkatabus"],
+        "appIDs": ["TEAMID.in.konbus.kolkatabus"],
         "components": [{ "/": "/on-bus*" }, { "/": "/stop*" }, { "/": "/scan*" }],
         "paths": ["/on-bus*", "/stop*", "/scan*"]
       }

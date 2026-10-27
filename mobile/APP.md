@@ -35,7 +35,7 @@ No Android Studio? The **Build Android test app** workflow in GitHub Actions bui
 
 ## Before you publish
 
-1. **Change the app id** in `capacitor.config.ts` (`in.cholo.kolkatabus` is a placeholder; use a domain you own,
+1. **Change the app id** in `capacitor.config.ts` (`in.konbus.kolkatabus` is a placeholder; use a domain you own,
    reversed). It cannot be changed after the first release. Then run `npx cap sync`, and change the
    `namespace` and `applicationId` in `android/app/build.gradle` and the bundle id in Xcode to match.
 2. **Version**: `versionCode` / `versionName` in `android/app/build.gradle`; Version and Build in Xcode.

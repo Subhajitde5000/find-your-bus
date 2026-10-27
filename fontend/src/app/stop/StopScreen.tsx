@@ -43,7 +43,7 @@ import { useKolkataMinute } from "@/lib/useKolkataMinute";
  *   - "What passes here at all today?"   the whole day, hour by hour.
  *
  * The times are published passage times from the bundled directory. Nothing here is
- * live: Cholo does not know where any bus is, and the page says so once, plainly,
+ * live: KonBus does not know where any bus is, and the page says so once, plainly,
  * rather than decorating every row with a warning.
  *
  * It works with no network and no install, which is the point of a sticker at a stop:
@@ -129,7 +129,7 @@ function StopScreen() {
   const title = stop?.inDirectory ? stop.stop : asked;
   useEffect(() => {
     if (!title) return;
-    document.title = `${title} — bus times · Cholo`;
+    document.title = `${title} — bus times · KonBus`;
   }, [title]);
 
   // The hour a passenger is standing in opens by itself, so "all buses today" starts
@@ -221,7 +221,7 @@ function StopScreen() {
             <span className="ride-notice-icon"><MapPinOff size={24} /></span>
             <h1>{asked} is not a stop in this directory</h1>
             <p>
-              The QR sticker names a stop that this copy of Cholo does not know, or the name was
+              The QR sticker names a stop that this copy of KonBus does not know, or the name was
               typed differently. Search for it instead.
             </p>
             <div className="qr-picker">
@@ -467,7 +467,7 @@ function StopScreen() {
           <ul>
             <li>
               <strong>Scheduled, not live.</strong> These are the times the operator publishes for
-              this stop. Cholo does not track buses, so a bus can be early, late, full, or missing.
+              this stop. KonBus does not track buses, so a bus can be early, late, full, or missing.
             </li>
             <li>
               <strong>The whole day, not twenty-four hours.</strong> A bus that leaves before

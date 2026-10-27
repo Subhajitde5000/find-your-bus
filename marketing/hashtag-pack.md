@@ -1,78 +1,91 @@
-# Cholo — Hashtag Packs
-### Copy-paste sets — pick 1 per post type (Instagram: 5-8, Facebook: 2-3, X: 1-2)
-
----
+# KonBus — Hashtag Packs v2
+### Copy-paste sets — Instagram 5-7, FB 1-2, X 1-2, YT Shorts 3-5
+> Core always: #KonBusKolkata + #FindYourBus or #KonBusBus · Add 2-3 Kolkata-local + 1-2 feature
 
 ## CORE (always include 1-2)
 ```
-#CholoKolkata #CholoBus #FindYourBus
+#KonBusKolkata #KonBusBus #FindYourBus
 ```
 
-## LAUNCH
+## LAUNCH v2 (651 routes + QR+Map)
 ```
-#CholoKolkata #CholoBus #FindYourBus #Kolkata #KolkataBus #CityOfJoy #KolkataDiaries #WBTC
+#KonBusKolkata #KonBusBus #FindYourBus #Kolkata #KolkataBus #CityOfJoy #Esplanade #Garia #OfflineMap #QRCode
 ```
 
-## OFFLINE FEATURE
+## OFFLINE MAP (Hooghly, 1731 stops, 491 landmarks)
 ```
-#CholoKolkata #OfflineFirst #NoSignalNoProblem #KolkataBus #TechForKolkata #PWA #KolkataTech
+#KonBusKolkata #OfflineFirst #NoSignalNoProblem #KolkataBus #OfflineMap #Hooghly #SaltLake #HowrahBridge #TechForKolkata
+```
+
+## QR / ON-BUS / AT-STOP
+```
+#KonBusKolkata #QRCode #OnBus #BusStop #KolkataBus #ScanToRide #OfflineFirst #WBTC
 ```
 
 ## TUTORIAL / HOW-TO
 ```
-#HowToCholo #KolkataBus #CholoKolkata #Tutorial #TravelHack #KolkataCommute
+#HowToKonBus #KolkataBus #KonBusKolkata #Tutorial #TravelHack #KolkataCommute #QRCode
 ```
 
-## MEME / FUN
+## MEME / FUN / POV
 ```
-#KolkataMemes #BengaliMemes #CalcuttaMemes #CholoKolkata #KolkataReels #Relatable #MemeMonday
+#KolkataMemes #BengaliMemes #CalcuttaMemes #KonBusKolkata #KolkataReels #Relatable #MemeMonday #POV
 ```
 
 ## KOLKATA LOVE / AESTHETIC
 ```
-#Kolkata #CityOfJoy #KolkataDiaries #HowrahBridge #YellowTaxi #KolkataGram #AestheticKolkata #KolkataLove #Bengal
+#Kolkata #CityOfJoy #KolkataDiaries #HowrahBridge #YellowTaxi #KolkataGram #AestheticKolkata #KolkataLove #Bengal #ParkStreet #CollegeStreet #Maidan #Gariahat
 ```
 
-## ROUTES / SEARCH
+## ROUTES / SEARCH (share-link)
 ```
-#KolkataBus #CholoBus #Esplanade #Garia #Howrah #Sealdah #SaltLake #KolkataRoutes #PublicTransport
+#KolkataBus #KonBusBus #Esplanade #Garia #Howrah #Sealdah #SaltLake #Tollygunge #Behala #NewTown #KolkataRoutes #PublicTransport
+```
+
+## MAP SPECIFIC
+```
+#KolkataMap #KonBusKolkata #OfflineMap #Hooghly #RabindraSarovar #EcoPark #ScienceCity #SaltLake #HowrahBridge
 ```
 
 ## GIVEAWAY
 ```
-#Giveaway #KolkataGiveaway #CholoKolkata #ContestAlert #GiveawayIndia #KolkataContest #FindYourBus
+#Giveaway #KolkataGiveaway #KonBusKolkata #ContestAlert #GiveawayIndia #KolkataContest #FindYourBus #CustomMap
 ```
 
-## BEHIND THE SCENES / BUILD IN PUBLIC
+## BEHIND SCENES / BUILD IN PUBLIC
 ```
-#BuildInPublic #FounderStory #CholoKolkata #KolkataStartups #TechForGood #DataHonesty #MadeInKolkata
-```
-
-## COMMUTER TIPS
-```
-#CommuterTips #KolkataCommute #CholoKolkata #TravelSmart #KolkataLife #DailyCommute
+#BuildInPublic #FounderStory #KonBusKolkata #KolkataStartups #TechForGood #DataHonesty #MadeInKolkata #ODbL
 ```
 
-## UGC / COMMUNITY
+## COMMUTER TIPS / ALERTS
 ```
-#CholoKolkata #KolkataDiaries #CholoBus #CommunityLove #KolkataGram #UGC #YourKolkata
+#CommuterTips #KolkataCommute #KonBusKolkata #TravelSmart #KolkataLife #DailyCommute #BusAlert
 ```
 
-## FOR REELS (add these to any Reel)
+## COMMUNITY / UGC / REPORT DATA
 ```
-#Reels #ReelsIndia #KolkataReels #BengaliReels #ViralReels #TrendingReels
+#KonBusKolkata #KolkataDiaries #KonBusBus #CommunityLove #KolkataGram #UGC #CommunityFirst #ReportData #Jadavpur
+```
+
+## REELS / SHORTS (add to any Reel)
+```
+#Reels #ReelsIndia #KolkataReels #BengaliReels #ViralReels #TrendingReels #Shorts #KolkataShorts
 ```
 
 ## FOR X (pick 1-2 max)
 ```
-#CholoKolkata #KolkataBus
-#Kolkata #WBTC
+#KonBusKolkata #KolkataBus
+#Kolkata #WBTC #OfflineMap
+```
+
+## WHATSAPP FORWARD (no hashtags — use 1 line)
+```
+Garia bus? 10 sec e KonBus te pabe — signal charao 📴👉 [link]
 ```
 
 ---
-
-## Banned / Avoid
-- Don't use #likeforlike #followforfollow (spam)
-- Don't exceed 10 hashtags on IG (looks spammy)
-- Don't use irrelevant trending tags
+**Rules:**
+- IG max 8 (avoid shadow-ban). FB 1-2. X 1-2.
+- Never #likeforlike #followforfollow
+- Always add 1 Kolkata-local tag for discover: #Esplanade / #Garia / #Howrah / #SaltLake / #Tollygunge / #ParkStreet / #CollegeStreet
 

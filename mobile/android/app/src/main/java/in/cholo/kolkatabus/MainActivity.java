@@ -1,4 +1,4 @@
-package in.konbus.kolkatabus;
+package in.cholo.kolkatabus;
 
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -71,7 +71,7 @@ public class MainActivity extends BridgeActivity {
         if (bridge != null && bridge.getWebView() != null) {
             WebView webView = bridge.getWebView();
             webView.setBackgroundColor(Color.TRANSPARENT);
-            webView.addJavascriptInterface(new NativeBarsBridge(), "KonBusNativeBars");
+            webView.addJavascriptInterface(new NativeBarsBridge(), "CholoNativeBars");
 
             bridge.addWebViewListener(new WebViewListener() {
                 @Override

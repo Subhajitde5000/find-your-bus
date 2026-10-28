@@ -85,7 +85,7 @@ describe("the theme choice", () => {
         },
         matchMedia: () => ({ matches: false }),
         dispatchEvent: (event: { type: string }) => void events.push(event.type),
-        KonBusNativeBars: {
+        CholoNativeBars: {
           setDarkTheme: (dark: boolean) => void nativeDarkStates.push(dark),
         },
       },

@@ -7,11 +7,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>NSCameraUsageDescription</key>
-	<string>KonBus uses the camera only to read the QR code inside a bus or at a bus stop. Nothing is recorded or uploaded.</string>
+	<string>Cholo uses the camera only to read the QR code inside a bus or at a bus stop. Nothing is recorded or uploaded.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>KonBus uses your location to show how far the next stop is and to warn you before your stop. It never leaves your phone.</string>
+	<string>Cholo uses your location to show how far the next stop is and to warn you before your stop. It never leaves your phone.</string>
 	<key>CFBundleDisplayName</key>
-        <string>KonBus</string>
+        <string>Cholo</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

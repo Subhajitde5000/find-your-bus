@@ -158,7 +158,7 @@ export default function AdminPage() {
           )}
         </section>
 
-        <p className="admin-footnote"><LockKeyhole size={13} /> Signed in to the KonBus Community Desk · <Link href="/">Open public portal <ArrowUpRight size={13} /></Link></p>
+        <p className="admin-footnote"><LockKeyhole size={13} /> Signed in to the Cholo Community Desk · <Link href="/">Open public portal <ArrowUpRight size={13} /></Link></p>
       </main>
       <SiteFooter />
     </div>

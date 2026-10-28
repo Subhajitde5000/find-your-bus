@@ -179,10 +179,10 @@ describe("the stop map", () => {
     try {
       const style = () => map.container.querySelector(".net-map")!.getAttribute("data-map-style");
       map.clickLabel("Map style");
-      assert.equal(win.localStorage.getItem("konbus-map-style"), "day");
+      assert.equal(win.localStorage.getItem("cholo-map-style"), "day");
       map.clickLabel("Map style");
       assert.equal(style(), "night");
-      assert.equal(win.localStorage.getItem("konbus-map-style"), "night");
+      assert.equal(win.localStorage.getItem("cholo-map-style"), "night");
     } finally { map.unmount(); }
     const again = mount(React.createElement(NetworkMap));
     try {

@@ -162,7 +162,7 @@ layout. The camera stage stays dark in both themes, because a bright screen ruin
 `qr-admin/index.html` directly. It searches the site's own route and stop lists, builds the
 link, draws the QR, downloads PNG/SVG, and lays the stickers out on A4 for printing.
 
-Every code carries the **KonBus logo** in the middle — the website's own bus mark, on a
+Every code carries the **Cholo logo** in the middle — the website's own bus mark, on a
 white plate — with the code raised to error correction level H so the mark can cover part
 of the pattern and still read. The sticker's **size is a choice**: four presets (Small
 70 × 45 mm up to Wide 190 × 55 mm) or a hand-typed width, height, code size and gap, with
@@ -199,7 +199,7 @@ domain, filled in with the account values that only the developer accounts know:
 | File | What it needs |
 |---|---|
 | `fontend/public/.well-known/assetlinks.json` | the app's signing-certificate SHA-256 (Play Console → App integrity, or `keytool -list -v`) |
-| `fontend/public/.well-known/apple-app-site-association` | the Apple Team ID in `TEAMID.in.konbus.kolkatabus` |
+| `fontend/public/.well-known/apple-app-site-association` | the Apple Team ID in `TEAMID.in.cholo.kolkatabus` |
 
 Both are served at the domain root by the static export (they are copied from
 `fontend/public/`). They must come back as `200`, as `application/json`, with **no

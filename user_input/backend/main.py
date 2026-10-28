@@ -37,8 +37,8 @@ def create_app(store: SubmissionStore | None = None, settings: Settings | None =
         submission_store.close()
 
     app = FastAPI(
-        title="KonBus Community Desk API",
-        description="Collects feature ideas and bus data corrections for the KonBus Kolkata bus guide.",
+        title="Cholo Community Desk API",
+        description="Collects feature ideas and bus data corrections for the Cholo Kolkata bus guide.",
         version="1.0.0",
         lifespan=lifespan,
     )

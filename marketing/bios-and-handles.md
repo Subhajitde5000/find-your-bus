@@ -1,145 +1,199 @@
-# KonBus — Bios, Handles & Profile Setup v2
+# Cholo — Bios, Handles & Profile Setup
 
-## Handle (same everywhere)
-**Pick:** `@konbus.kolkata` ← RECOMMENDED (short, searchable, Kolkata-owned)
-Alternatives: `@konbus` / `@konbus.bus` / `@findyourbus_kolkata`
-Display: `KonBus — Kolkata Bus Guide` (IG/FB) / `KonBus | Find Your Bus` (X)
+## 1. Handle Ideas (pick ONE, keep same everywhere)
+
+**Top picks:**
+- `@cholo.kolkata` ← RECOMMENDED (short, memorable, searchable)
+- `@cholobus` 
+- `@cholo.bus`
+- `@findyourbus_kolkata`
+
+**Display Name:**
+- `Cholo — Kolkata Bus Guide` (Instagram / Facebook)
+- `Cholo | Find Your Bus` (X — shorter)
 
 ---
 
-## Instagram Bio (150 chars)
+## 2. Instagram Bio (150 chars max)
 
-**Option A — Launch v2 (REC):**
+**Option A — Launch (Recommended):**
 ```
-চলো Kolkata! 🚌🔳
-651 routes → 10 sec + QR scan
-Offline map 1731 stops 📴🗺️
-👇 Find your bus
+চলো, Kolkata! 🚌
+Find any bus in 10 sec → 650+ routes
+Offline ride screen 📍 No signal? No problem
+👇 Tap to find your bus
 ```
-Link: `konbus.vercel.app` + Linktree
+Link: `cholo.vercel.app` or your domain + Linktree
 
-**Option B — QR + Map:**
+**Option B — Benefit heavy:**
 ```
-Kolkata bus guide 🚌
-Esplanade→Garia 10 sec + QR
-Offline map: Hooghly to Salt Lake 🗺️
-📲 2.8MB no login
+Kolkata's bus timetable, simplified. 🚌
+Esplanade → Garia? We got you.
+No login. No ads. Just buses. ✨
+📲 Install as app — 2.8 MB only
 ```
 
 **Option C — Bengali touch:**
 ```
 কলকাতা চলবে, চিন্তা নেই 🚌
-651 রুট | QR scan | Offline map
-2.8MB pocket timetable 💚
-👇 Stop khujo
+650+ রুট | 2194 স্টপ | Offline map
+Your pocket bus timetable 💚
+👇 Search your stop
 ```
 
-IG extras: Category `Travel & Transportation` / Action button Link / Highlights below
+**Instagram extras:**
+- Category: `Travel & Transportation` or `App`
+- Highlights to create (see below)
+- Action button: Link to site
+- Pronouns: off
 
 ---
 
-## Facebook Page Bio
+## 3. Facebook Page Bio
 
-**Short (255 chars):**
+**Short Description (255 chars):**
 ```
-KonBus — Kolkata’s bus guide with offline map + QR. Type 2 stops (Esplanade→Garia) → see every bus today. Scan QR on bus/at stop. 651 routes, 24,777 runs, 1731 stops mapped incl. Hooghly/canals/lakes. No login, offline. 🚌💚 #KonBusKolkata
+Cholo is Kolkata's simplest bus timetable. Search any two stops — Esplanade to Garia, Howrah to Salt Lake — and see every bus today. 650+ routes, offline ride tracking, no login needed. Made for the way Kolkata moves. 🚌💚 #CholoKolkata
 ```
 
-**Long / About:**
+**Long / About Section:**
 ```
-Tired of “Ei bus ta kothay jabe?” at every stop?
+Tired of asking “Ei bus ta kothay jabe?” at every stop?
 
-KonBus finds your Kolkata bus in 10 sec. Type 2 stops → we show:
-✅ Every direct bus + 1-change with times today
-✅ Full stop list per bus + route explorer by number
-✅ “Set on Bus” — offline GPS follows YOU (not bus tracking), warns “You are not seated” if wrong, counts down to your stop with alerts
-✅ All-stops map — 1731 stops on one offline vector map with Hooghly, canals, 101 lakes, station buildings — day/night, nearest stop, tap for buses
-✅ QR at bus (/on-bus) & at stop (/stop) — scan → timetable offline. Header scan + paste link + ML Kit offline
-✅ Shareable links ?from=Esplanade&to=Garia + Recently Viewed + Bengali aliases (হাওড়া, ধর্মতলা)
+Cholo finds your Kolkata bus in 10 seconds. Just type where you are and where you want to go — we show:
+✅ Every direct bus with full stop list & times
+✅ 1-change journeys if no direct bus
+✅ 650 routes from WBTC + verified timetables
+✅ “Set on Bus” — an offline screen that follows YOU with GPS. No signal? Still works. It even tells you if you’re on the wrong bus.
 
-No login. No ads. No fake times. Kolkata runs to frequency — we show honest published times, else “no timetable yet”.
+No account. No spam. No live-tracking gimmicks. Just honest timetables, built for Kolkata.
 
-Report a missing bus? Suggest feature? → No login, 1 min (Community Desk).
+193 stands. 2194 stops. And counting.
 
-651 routes · 193 stands · 2194 stops · 24,777 runs · 491 landmarks — in 2.8MB PWA + native app.
+Made with 💚 in Kolkata. Install to your home screen — 2.8 MB only.
 
-Made with 💚 in Kolkata. Install to home screen or DM for APK.
-#FindYourBus #KonBusBus
+#FindYourBus #CholoBus
 ```
-Info: Username `@konbus.kolkata` · Category `Transportation Service` + `Mobile App` · CTA `Use App` → link · Cover Banner #4 updated stats
+
+**Facebook Page Info:**
+- Username: `@cholo.kolkata`
+- Category: `Transportation Service` + `Mobile App`
+- Contact: Add WhatsApp button (if available)
+- CTA Button: `Use App` → link to site
+- Cover photo: Banner #1 (Launch hero)
 
 ---
 
-## X Bio (160 chars)
+## 4. X (Twitter) Bio (160 chars)
 
-**Option A (REC):**
+**Option A (Recommended):**
 ```
-🚌 Kolkata bus guide — 10s + QR + offline map
-651 routes | 1731 stops mapped 🗺️📴
-No login. Honest times.
+🚌 Kolkata's bus timetable — simplified.
+Find any bus in 10s | 650+ routes | Offline ride screen
+No login. No tracking. Just buses.
 👇 find your bus
 ```
 
-**Pinned Tweet:**
+**Option B — Punchy:**
 ```
-We built KonBus v2 for Kolkata 🚌💚
-
-🚌 651 routes, 24,777 runs, honest times
-📍 1731 stops GPS — Hooghly/canal/lake map offline
-🔳 Scan QR on bus/at stop → timetable (offline)
-📴 “You are not seated” if wrong bus + alerts
-
-No login. No fake. 2.8MB.
-Try ?from=Esplanade&to=Garia 👉 [link] #KonBusKolkata
+চলো! Kolkata bus guide 🚌
+Esplanade → Garia in 10 sec.
+Offline. Free. Made for commuters.
+#CholoKolkata
 ```
-Header: Banner #9 updated · Location Kolkata · Link site · Follow #Kolkata #WBTC
+
+**Pinned Tweet Idea:**
+```
+We built Cholo because Kolkata buses run to frequency, not Google Maps 😅
+
+🚌 650+ routes
+📍 2194 stops
+📴 Works offline — even tells you if you're on the WRONG bus
+
+No login. No ads. Just buses.
+
+Try it: [link]
+
+#Kolkata #CholoBus
+```
+
+**X Header:** Use Banner #6 (Twitter header 1500x500)
+**Location:** Kolkata, India
+**Link:** site URL
+**Topics to follow:** #Kolkata, #WBTC, #PublicTransport, #Bengal
 
 ---
 
-## YouTube Channel (Shorts)
+## 5. YouTube Channel (for Shorts)
 
-Name `KonBus — Kolkata Bus Guide` · Handle `@konbus.kolkata`
-Description:
+**Channel Name:** `Cholo — Kolkata Bus Guide`
+**Handle:** `@cholo.kolkata`
+**Description:**
 ```
-Find your Kolkata bus in 10s + QR scan + offline map 🚌🗺️📴
+Find your Kolkata bus in 10 seconds 🚌
 
-651 routes · 1731 stops mapped (Hooghly, lakes, stations) · QR at bus/stop
-No login, offline ride alerts, 2.8MB PWA + app.
+Cholo is a free timetable + offline ride screen for Kolkata buses.
+No login, no signal needed. 650+ routes, 193 stands, built for daily commuters.
 
-New Shorts Mon/Wed/Fri — hacks, maps, Kolkata stories.
-Try: [link] · IG: @konbus.kolkata #FindYourBus
+New Shorts every Mon/Wed/Fri — bus hacks, route guides, Kolkata stories.
+
+Try Cholo: [link]
+Instagram: @cholo.kolkata
+#FindYourBus
 ```
-Banner: #1 extended 2560×1440
+
+**Banner:** Use Banner #1 extended (2560x1440 safe area)
 
 ---
 
-## Link in Bio
+## 6. Link in Bio (Linktree / Single Page)
 
-1. 🚌 **Find Your Bus** → `?from=Esplanade&to=Garia` (green #195A45 big)
-2. 🗺️ **Offline Stop Map** → `/map`
-3. 🔳 **Scan QR** → `/scan`
-4. 📲 **Install (15 sec)** → how-to + APK DM
-5. 📝 **Report bus / Suggest feature** → Community Desk
-6. 📸 **Instagram** → @konbus.kolkata
-7. 💬 **Feedback** → Google Form/DM
+Create a simple link page with:
 
----
+1. **🚌 Find Your Bus Now** → main site link (BIG button, green)
+2. **📲 Install Cholo to Home Screen** → instructions (How to: Android Add to Home Screen / iOS)
+3. **📍 Try Offline Ride Demo** → `/ride?route=...` demo link
+4. **📸 Instagram** → Instagram profile
+5. **💬 Share Feedback / Request Route** → Google Form or DM
 
-## Highlights (6 covers green #195A45 circle white icon)
-
-1. **HOW TO** 💡 — Search + QR + Set on Bus
-2. **MAP** 🗺️ — Hooghly, lakes, nearest stop
-3. **QR** 🔳 — On-bus countdown, At-stop whole day
-4. **HACKS** ⚡ — Alerts, 1-change, share link
-5. **KOLKATA** 🏙️ — College Street to Gariahat puchka
-6. **REVIEWS ⭐** — UGC + testimonials + custom maps
+Use Cholo green #195A45 for primary button.
 
 ---
 
-## Voice
+## 7. Instagram Highlights (Cover Icons)
 
-Helpful para friend at bus stop, not corporate. Mix English + 1 Bengali word (KonBus, Dada, Ektu, Ashche). Use local names (Esplanade/Garia/Sealdah/Howrah/Tollygunge/Salt Lake Sector V/New Town/Park Street/Jadavpur/College Street). Honest: “Published times, not live GPS. Offline map = your GPS, not bus tracking.” Celebrate commuters. Never promise live tracking / always on time.
+Create 6 highlights with green circle + white icon:
 
-Emoji: 🚌 📍 ⏰ 📴 💚 ✨ 👉 🔳 🗺️ 📳
-CTA bank: “Link in bio 👆” / “QR scan koro” / “Map e dekho” / “Tag bus buddy” / “Comment route — reply korbo” / “Report bus info — 1 min”
+1. **HOW TO** 💡 — How to search, Set on Bus demo
+2. **ROUTES** 🗺️ — Popular routes (Esplanade-Garia, Howrah-Sealdah)
+3. **OFFLINE** 📴 — Offline feature explained
+4. **HACKS** ⚡ — Commuter tips, peak hours, hacks
+5. **KOLKATA** 🏙️ — City love, user photos
+6. **REVIEWS** ⭐ — Testimonials / UGC reposts
+
+Highlight cover style: Deep green #195A45 circle, icon in white/mint.
+
+---
+
+## 8. Brand Voice Guide (for captions)
+
+**Tone:** Helpful friend at the bus stop. Not corporate. A little Bengali, a little fun.
+**Do:**
+- Use Kolkata local names (Esplanade, Garia, Sealdah, Howrah, Tollygunge)
+- Mix English + 1 Bengali word (Cholo, Dada, Boudi, Ektu)
+- Be honest: “Times are timetables, not live GPS”
+- Celebrate commuters
+
+**Don't:**
+- Promise live bus tracking (we don't do it)
+- Over-promise “always on time”
+- Use jargon
+
+**Emoji pack:** 🚌 📍 ⏰ 📴 💚 ✨ 👉
+
+**CTA bank:**
+- “Find your bus now — link in bio 👆”
+- “Try ‘Set on Bus’ today”
+- “Tag a friend who needs this”
+- “Comment your route — we’ll reply with buses!”
 

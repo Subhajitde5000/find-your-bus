@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SubmissionForm } from "@/components/SubmissionForm";
 
-export const metadata: Metadata = { title: "Report bus information — KonBus Community Desk" };
+export const metadata: Metadata = { title: "Report bus information — Cholo Community Desk" };
 
 export default function ReportDataPage() {
   return (

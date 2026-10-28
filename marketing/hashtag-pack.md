@@ -1,91 +1,78 @@
-# KonBus — Hashtag Packs v2
-### Copy-paste sets — Instagram 5-7, FB 1-2, X 1-2, YT Shorts 3-5
-> Core always: #KonBusKolkata + #FindYourBus or #KonBusBus · Add 2-3 Kolkata-local + 1-2 feature
+# Cholo — Hashtag Packs
+### Copy-paste sets — pick 1 per post type (Instagram: 5-8, Facebook: 2-3, X: 1-2)
+
+---
 
 ## CORE (always include 1-2)
 ```
-#KonBusKolkata #KonBusBus #FindYourBus
+#CholoKolkata #CholoBus #FindYourBus
 ```
 
-## LAUNCH v2 (651 routes + QR+Map)
+## LAUNCH
 ```
-#KonBusKolkata #KonBusBus #FindYourBus #Kolkata #KolkataBus #CityOfJoy #Esplanade #Garia #OfflineMap #QRCode
-```
-
-## OFFLINE MAP (Hooghly, 1731 stops, 491 landmarks)
-```
-#KonBusKolkata #OfflineFirst #NoSignalNoProblem #KolkataBus #OfflineMap #Hooghly #SaltLake #HowrahBridge #TechForKolkata
+#CholoKolkata #CholoBus #FindYourBus #Kolkata #KolkataBus #CityOfJoy #KolkataDiaries #WBTC
 ```
 
-## QR / ON-BUS / AT-STOP
+## OFFLINE FEATURE
 ```
-#KonBusKolkata #QRCode #OnBus #BusStop #KolkataBus #ScanToRide #OfflineFirst #WBTC
+#CholoKolkata #OfflineFirst #NoSignalNoProblem #KolkataBus #TechForKolkata #PWA #KolkataTech
 ```
 
 ## TUTORIAL / HOW-TO
 ```
-#HowToKonBus #KolkataBus #KonBusKolkata #Tutorial #TravelHack #KolkataCommute #QRCode
+#HowToCholo #KolkataBus #CholoKolkata #Tutorial #TravelHack #KolkataCommute
 ```
 
-## MEME / FUN / POV
+## MEME / FUN
 ```
-#KolkataMemes #BengaliMemes #CalcuttaMemes #KonBusKolkata #KolkataReels #Relatable #MemeMonday #POV
+#KolkataMemes #BengaliMemes #CalcuttaMemes #CholoKolkata #KolkataReels #Relatable #MemeMonday
 ```
 
 ## KOLKATA LOVE / AESTHETIC
 ```
-#Kolkata #CityOfJoy #KolkataDiaries #HowrahBridge #YellowTaxi #KolkataGram #AestheticKolkata #KolkataLove #Bengal #ParkStreet #CollegeStreet #Maidan #Gariahat
+#Kolkata #CityOfJoy #KolkataDiaries #HowrahBridge #YellowTaxi #KolkataGram #AestheticKolkata #KolkataLove #Bengal
 ```
 
-## ROUTES / SEARCH (share-link)
+## ROUTES / SEARCH
 ```
-#KolkataBus #KonBusBus #Esplanade #Garia #Howrah #Sealdah #SaltLake #Tollygunge #Behala #NewTown #KolkataRoutes #PublicTransport
-```
-
-## MAP SPECIFIC
-```
-#KolkataMap #KonBusKolkata #OfflineMap #Hooghly #RabindraSarovar #EcoPark #ScienceCity #SaltLake #HowrahBridge
+#KolkataBus #CholoBus #Esplanade #Garia #Howrah #Sealdah #SaltLake #KolkataRoutes #PublicTransport
 ```
 
 ## GIVEAWAY
 ```
-#Giveaway #KolkataGiveaway #KonBusKolkata #ContestAlert #GiveawayIndia #KolkataContest #FindYourBus #CustomMap
+#Giveaway #KolkataGiveaway #CholoKolkata #ContestAlert #GiveawayIndia #KolkataContest #FindYourBus
 ```
 
-## BEHIND SCENES / BUILD IN PUBLIC
+## BEHIND THE SCENES / BUILD IN PUBLIC
 ```
-#BuildInPublic #FounderStory #KonBusKolkata #KolkataStartups #TechForGood #DataHonesty #MadeInKolkata #ODbL
-```
-
-## COMMUTER TIPS / ALERTS
-```
-#CommuterTips #KolkataCommute #KonBusKolkata #TravelSmart #KolkataLife #DailyCommute #BusAlert
+#BuildInPublic #FounderStory #CholoKolkata #KolkataStartups #TechForGood #DataHonesty #MadeInKolkata
 ```
 
-## COMMUNITY / UGC / REPORT DATA
+## COMMUTER TIPS
 ```
-#KonBusKolkata #KolkataDiaries #KonBusBus #CommunityLove #KolkataGram #UGC #CommunityFirst #ReportData #Jadavpur
+#CommuterTips #KolkataCommute #CholoKolkata #TravelSmart #KolkataLife #DailyCommute
 ```
 
-## REELS / SHORTS (add to any Reel)
+## UGC / COMMUNITY
 ```
-#Reels #ReelsIndia #KolkataReels #BengaliReels #ViralReels #TrendingReels #Shorts #KolkataShorts
+#CholoKolkata #KolkataDiaries #CholoBus #CommunityLove #KolkataGram #UGC #YourKolkata
+```
+
+## FOR REELS (add these to any Reel)
+```
+#Reels #ReelsIndia #KolkataReels #BengaliReels #ViralReels #TrendingReels
 ```
 
 ## FOR X (pick 1-2 max)
 ```
-#KonBusKolkata #KolkataBus
-#Kolkata #WBTC #OfflineMap
-```
-
-## WHATSAPP FORWARD (no hashtags — use 1 line)
-```
-Garia bus? 10 sec e KonBus te pabe — signal charao 📴👉 [link]
+#CholoKolkata #KolkataBus
+#Kolkata #WBTC
 ```
 
 ---
-**Rules:**
-- IG max 8 (avoid shadow-ban). FB 1-2. X 1-2.
-- Never #likeforlike #followforfollow
-- Always add 1 Kolkata-local tag for discover: #Esplanade / #Garia / #Howrah / #SaltLake / #Tollygunge / #ParkStreet / #CollegeStreet
+
+## Banned / Avoid
+- Don't use #likeforlike #followforfollow (spam)
+- Don't exceed 10 hashtags on IG (looks spammy)
+- Don't use irrelevant trending tags
 

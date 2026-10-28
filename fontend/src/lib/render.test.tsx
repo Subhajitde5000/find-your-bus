@@ -206,9 +206,9 @@ describe("website vs mobile app navigation and native detection", () => {
     assert.ok(mobileHtml.includes("All bus stops"));
   });
 
-  it("detects Capacitor native platform and KonBusNativeBars in isNativeApp() and NATIVE_BOOTSTRAP", () => {
+  it("detects Capacitor native platform and CholoNativeBars in isNativeApp() and NATIVE_BOOTSTRAP", () => {
     assert.ok(NATIVE_BOOTSTRAP.includes("dataset.native"));
-    assert.ok(NATIVE_BOOTSTRAP.includes("KonBusNativeBars"));
+    assert.ok(NATIVE_BOOTSTRAP.includes("CholoNativeBars"));
     const prevWindow = (globalThis as { window?: unknown }).window;
     try {
       (globalThis as { window?: unknown }).window = {
@@ -216,7 +216,7 @@ describe("website vs mobile app navigation and native detection", () => {
       };
       assert.equal(isNativeApp(), true);
       (globalThis as { window?: unknown }).window = {
-        KonBusNativeBars: { setDarkTheme: () => {} },
+        CholoNativeBars: { setDarkTheme: () => {} },
       };
       assert.equal(isNativeApp(), true);
       (globalThis as { window?: unknown }).window = {};

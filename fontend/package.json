@@ -1,5 +1,5 @@
 {
-  "name": "konbus-kolkata-bus-guide",
+  "name": "cholo-kolkata-bus-guide",
   "private": true,
   "scripts": {
     "dev": "next dev",

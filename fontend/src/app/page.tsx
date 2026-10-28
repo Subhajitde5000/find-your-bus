@@ -154,7 +154,7 @@ function readHistoryEntry(item: unknown): HistoryEntry | null {
   };
 }
 
-const HISTORY_KEY = "konbus-recent-buses";
+const HISTORY_KEY = "cholo-recent-buses";
 const HISTORY_LIMIT = 6;
 
 function timeAgo(timestamp: number): string {
@@ -339,7 +339,7 @@ export default function HomePage() {
 
   async function shareJourney() {
     const url = window.location.href;
-    const title = `${submitted.from} to ${submitted.to} · KonBus`;
+    const title = `${submitted.from} to ${submitted.to} · Cholo`;
     try {
       if (navigator.share) {
         await navigator.share({ title, url });
@@ -415,9 +415,9 @@ export default function HomePage() {
             >
               <Menu size={19} aria-hidden="true" />
             </button>
-            <a href="#top" className="brand" aria-label="KonBus home">
+            <a href="#top" className="brand" aria-label="Cholo home">
               <span className="brand-mark"><BusFront size={23} strokeWidth={2.1} /></span>
-              <span className="brand-words"><strong>konbus<span>.</span></strong><small>KOLKATA BUS GUIDE</small></span>
+              <span className="brand-words"><strong>cholo<span>.</span></strong><small>KOLKATA BUS GUIDE</small></span>
             </a>
           </div>
           <nav className={styles.headerNav} aria-label="Main navigation">
@@ -711,7 +711,7 @@ export default function HomePage() {
         </button>
       )}
 
-      {/* <footer className="site-footer"><div className="footer-inner page-container"><div className="footer-brand"><span className="brand-mark"><BusFront size={20} /></span><span><strong>konbus<span>.</span></strong><small>Made for the way Kolkata moves.</small></span></div><p>Sample timetables only. Not live tracking or official travel advice.</p><a href="#top">Back to top <ArrowUpRight size={16} /></a></div></footer> */}
+      {/* <footer className="site-footer"><div className="footer-inner page-container"><div className="footer-brand"><span className="brand-mark"><BusFront size={20} /></span><span><strong>cholo<span>.</span></strong><small>Made for the way Kolkata moves.</small></span></div><p>Sample timetables only. Not live tracking or official travel advice.</p><a href="#top">Back to top <ArrowUpRight size={16} /></a></div></footer> */}
     </div>
   );
 }

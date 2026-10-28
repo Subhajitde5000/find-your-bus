@@ -1,5 +1,5 @@
 /*
- * The KonBus mark, as data.
+ * The Cholo mark, as data.
  *
  * It is the same drawing as `fontend/public/icons/icon.svg` — the bus in a rounded green
  * square — reduced to the shapes a canvas, an SVG export and the verification script can
@@ -43,5 +43,5 @@
     ],
   };
 
-  root.KONBUS_LOGO = LOGO;
+  root.CHOLO_LOGO = LOGO;
 })(typeof window !== "undefined" ? window : globalThis);

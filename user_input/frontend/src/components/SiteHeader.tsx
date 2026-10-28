@@ -7,10 +7,10 @@ export function SiteHeader({ active = "home" }: { active?: ActivePage }) {
   return (
     <header className="site-header">
       <div className="header-inner">
-        <Link href="/" className="brand" aria-label="KonBus Community Desk home">
+        <Link href="/" className="brand" aria-label="Cholo Community Desk home">
           <span className="brand-mark"><BusFront size={21} strokeWidth={2.2} aria-hidden="true" /></span>
           <span className="brand-copy">
-            <strong>konbus<span>.</span></strong>
+            <strong>cholo<span>.</span></strong>
             <small>COMMUNITY DESK</small>
           </span>
         </Link>

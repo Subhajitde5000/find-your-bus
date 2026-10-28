@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "KonBus Community Desk — Help improve Kolkata bus information",
+  title: "Cholo Community Desk — Help improve Kolkata bus information",
   description: "Share a feature idea, report a missing route or stop, or help correct bus information for Kolkata.",
-  applicationName: "KonBus Community Desk",
+  applicationName: "Cholo Community Desk",
 };
 
 export const viewport: Viewport = {

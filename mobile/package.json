@@ -1,5 +1,5 @@
 {
-  "name": "konbus-mobile",
+  "name": "cholo-mobile",
   "private": true,
   "version": "0.1.0",
   "description": "Android and iOS apps (Capacitor) that ship the fontend site inside the app, fully offline.",

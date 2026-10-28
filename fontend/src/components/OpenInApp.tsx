@@ -19,8 +19,8 @@ import { isNativeApp } from "@/lib/native";
  * nothing is shown there. Inside the app, and once the user dismisses it, it is hidden.
  */
 
-const APP_PACKAGE = "in.konbus.kolkatabus";
-const DISMISS_KEY = "konbus:open-in-app-dismissed";
+const APP_PACKAGE = "in.cholo.kolkatabus";
+const DISMISS_KEY = "cholo:open-in-app-dismissed";
 
 /**
  * The intent URL, or null when the hint does not apply.
@@ -62,7 +62,7 @@ export function OpenInApp() {
   return (
     <aside className="qr-open-in-app" aria-label="Open in the app">
       <Smartphone size={16} aria-hidden="true" />
-      <span>Have the KonBus app? Open this page in it.</span>
+      <span>Have the Cholo app? Open this page in it.</span>
       <a href={href}>Open in app</a>
       <button type="button" onClick={dismiss} aria-label="Dismiss">
         <X size={13} aria-hidden="true" />

@@ -1,4 +1,4 @@
-# KonBus Community Desk frontend
+# Cholo Community Desk frontend
 
 Next.js app for the community feedback portal. It has a landing page, the feature suggestion page (`/suggest-feature`), bus data report page (`/report-data`), admin sign-in (`/admin/login`), and the protected admin inbox (`/admin`).
 

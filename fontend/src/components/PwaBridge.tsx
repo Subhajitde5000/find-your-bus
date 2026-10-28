@@ -18,7 +18,7 @@ import { isNativeApp } from "@/lib/native";
 declare global {
   interface Window {
     /** Set by this component so the UI can tell whether the app is installable. */
-    __konbusPwa?: { installed: boolean; offline: boolean };
+    __choloPwa?: { installed: boolean; offline: boolean };
   }
 }
 
@@ -34,7 +34,7 @@ export function PwaBridge() {
       navigator.serviceWorker
         .register("/sw.js", { scope: "/", updateViaCache: "none" })
         .then((registration) => {
-          window.__konbusPwa = { ...(window.__konbusPwa ?? { installed: false, offline: false }), installed: true };
+          window.__choloPwa = { ...(window.__choloPwa ?? { installed: false, offline: false }), installed: true };
           // A new worker waits until the tabs using the old one are closed. That is
           // right for a page the passenger is mid-ride on, so nothing is forced here.
           registration.addEventListener("updatefound", () => {
@@ -42,7 +42,7 @@ export function PwaBridge() {
             if (!installing) return;
             installing.addEventListener("statechange", () => {
               if (installing.state === "installed" && navigator.serviceWorker.controller) {
-                window.dispatchEvent(new CustomEvent("konbus:update"));
+                window.dispatchEvent(new CustomEvent("cholo:update"));
               }
             });
           });
@@ -60,8 +60,8 @@ export function PwaBridge() {
 
   useEffect(() => {
     const sync = () => {
-      window.__konbusPwa = {
-        installed: window.__konbusPwa?.installed ?? false,
+      window.__choloPwa = {
+        installed: window.__choloPwa?.installed ?? false,
         offline: !window.navigator.onLine,
       };
     };

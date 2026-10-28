@@ -9,7 +9,7 @@ qr-admin/
   index.html              the tool
   qr-admin.css            its styles, including the A4 print layout
   qr-admin.js             link building, QR drawing, the print sheet
-  logo.js                 the KonBus mark as data, shared with verify-qr.mjs
+  logo.js                 the Cholo mark as data, shared with verify-qr.mjs
   data/catalog.js         every route and stop, generated from the site's data
   scripts/build-catalog.mjs   regenerate data/catalog.js after a data update
   scripts/verify-qr.mjs   generate → rasterise → decode every sample link
@@ -38,7 +38,7 @@ vehicle outright.
 
 ## The logo inside the code
 
-Every code carries the KonBus mark — the same bus-in-a-square as the website icon and the
+Every code carries the Cholo mark — the same bus-in-a-square as the website icon and the
 app — drawn in the middle on a white plate. `logo.js` holds the geometry, so the page, the
 PNG/SVG downloads and `verify-qr.mjs` all draw exactly the same thing.
 
@@ -51,7 +51,7 @@ A logo covers real modules, so two things pay for it:
 
 `node qr-admin/scripts/verify-qr.mjs` proves it rather than assuming it: it rasterises
 eight real links **with the logo**, at 300 dpi at the printed sizes the tool offers, and
-decodes each one with the same jsQR the website's scanner uses. Untick **KonBus logo in the
+decodes each one with the same jsQR the website's scanner uses. Untick **Cholo logo in the
 middle of every code** to print plain codes.
 
 ## Sticker size

@@ -13,9 +13,9 @@
 
 export type Theme = "light" | "dark";
 
-export const THEME_KEY = "konbus-theme";
+export const THEME_KEY = "cholo-theme";
 /** Fired on window whenever the theme changes, so buttons elsewhere on the page can follow. */
-export const THEME_EVENT = "konbus:theme";
+export const THEME_EVENT = "cholo:theme";
 
 export function isTheme(value: unknown): value is Theme {
   return value === "light" || value === "dark";
@@ -71,7 +71,7 @@ export function applyTheme(theme: Theme): void {
   if (typeof document === "undefined") return;
   document.documentElement.setAttribute("data-theme", theme);
   if (typeof window !== "undefined") {
-    const nativeBars = (window as unknown as { KonBusNativeBars?: { setDarkTheme?: (dark: boolean) => void } }).KonBusNativeBars;
+    const nativeBars = (window as unknown as { CholoNativeBars?: { setDarkTheme?: (dark: boolean) => void } }).CholoNativeBars;
     nativeBars?.setDarkTheme?.(theme === "dark");
   }
 }

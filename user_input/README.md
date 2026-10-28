@@ -1,6 +1,6 @@
-# KonBus Community Desk
+# Cholo Community Desk
 
-A standalone suggestion portal for the KonBus Kolkata bus guide. It has two public submission pages (feature ideas and bus-network corrections) and a private read-only admin area.
+A standalone suggestion portal for the Cholo Kolkata bus guide. It has two public submission pages (feature ideas and bus-network corrections) and a private read-only admin area.
 
 - `frontend/` — Next.js app. Browser requests use relative `/api` URLs; Next rewrites them to FastAPI.
 - `backend/` — FastAPI API with MongoDB storage (in-memory development fallback when `MONGODB_URI` is unset).

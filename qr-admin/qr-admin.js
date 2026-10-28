@@ -1,5 +1,5 @@
 /*
- * The KonBus QR sticker maker.
+ * The Cholo QR sticker maker.
  *
  * A private tool, not part of the website. It builds the two links the project prints —
  * one for a bus route, one for a bus stop — draws the QR code for each, and lays the
@@ -19,12 +19,12 @@
 (() => {
   "use strict";
 
-  const DEFAULT_ORIGIN = "https://konbus.example";
-  const ORIGIN_KEY = "konbus:qr:origin";
-  const SHEET_KEY = "konbus:qr:sheet";
-  const THEME_KEY = "konbus:qr:theme";
-  const SIZE_KEY = "konbus:qr:size";
-  const LOGO_KEY = "konbus:qr:logo";
+  const DEFAULT_ORIGIN = "https://cholo.example";
+  const ORIGIN_KEY = "cholo:qr:origin";
+  const SHEET_KEY = "cholo:qr:sheet";
+  const THEME_KEY = "cholo:qr:theme";
+  const SIZE_KEY = "cholo:qr:size";
+  const LOGO_KEY = "cholo:qr:logo";
   const MAX_LIST_ROWS = 120;
   /** Quiet zone in modules, as the QR specification requires. */
   const QUIET = 4;
@@ -51,8 +51,8 @@
   /** Below this, a phone camera on paper starts to struggle: the sheet says so. */
   const MIN_MM_PER_MODULE = 0.35;
 
-  const catalog = window.KONBUS_QR_CATALOG || { routes: [], stops: [], counts: {} };
-  const logoSpec = window.KONBUS_LOGO || null;
+  const catalog = window.CHOLO_QR_CATALOG || { routes: [], stops: [], counts: {} };
+  const logoSpec = window.CHOLO_LOGO || null;
   const state = {
     origin: DEFAULT_ORIGIN,
     tab: "bus",
@@ -212,7 +212,7 @@
   }
 
   /**
-   * Draws the white plate and the KonBus mark over the finished code.
+   * Draws the white plate and the Cholo mark over the finished code.
    *
    * The plate is the whole trick: modules underneath it are gone, so it has to be clean
    * white rather than semi-transparent, and the code has to be level H for the decoder
@@ -296,7 +296,7 @@
 
   function originProblem(value) {
     const origin = normaliseOrigin(value);
-    if (!origin) return "Enter the website address, for example https://konbus.in";
+    if (!origin) return "Enter the website address, for example https://cholo.in";
     let url;
     try {
       url = new URL(origin);
@@ -381,7 +381,7 @@
       })
       .join("");
     return (
-      `<g data-konbus-logo="true">` +
+      `<g data-cholo-logo="true">` +
       `<rect x="${origin}" y="${origin}" width="${pad}" height="${pad}" rx="${pad * logoSpec.padRadius}" fill="#ffffff"/>` +
       `<g transform="translate(${(size - box) / 2} ${(size - box) / 2}) scale(${scale})">${shapes}</g>` +
       `</g>`
@@ -429,7 +429,7 @@
       .replace(/[^A-Za-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "")
       .toLowerCase()
-      .slice(0, 48) || "konbus";
+      .slice(0, 48) || "cholo";
   }
 
   /* ------------------------------------------------------------------ origin */
@@ -873,14 +873,14 @@
       if (!link) return;
       const canvas = document.createElement("canvas");
       paint(canvas, qrFor(link), 1024);
-      canvas.toBlob((blob) => blob && download(`konbus-bus-${slug(state.route.number)}.png`, blob), "image/png");
+      canvas.toBlob((blob) => blob && download(`cholo-bus-${slug(state.route.number)}.png`, blob), "image/png");
     });
 
     $("bus-svg").addEventListener("click", () => {
       const link = busLinkNow();
       if (!link) return;
       download(
-        `konbus-bus-${slug(state.route.number)}.svg`,
+        `cholo-bus-${slug(state.route.number)}.svg`,
         new Blob([svgFor(qrFor(link))], { type: "image/svg+xml" }),
       );
     });
@@ -889,13 +889,13 @@
       if (!state.stop) return;
       const canvas = document.createElement("canvas");
       paint(canvas, qrFor(stopLink(state.stop, state.origin)), 1024);
-      canvas.toBlob((blob) => blob && download(`konbus-stop-${slug(state.stop)}.png`, blob), "image/png");
+      canvas.toBlob((blob) => blob && download(`cholo-stop-${slug(state.stop)}.png`, blob), "image/png");
     });
 
     $("stop-svg").addEventListener("click", () => {
       if (!state.stop) return;
       download(
-        `konbus-stop-${slug(state.stop)}.svg`,
+        `cholo-stop-${slug(state.stop)}.svg`,
         new Blob([svgFor(qrFor(stopLink(state.stop, state.origin)))], { type: "image/svg+xml" }),
       );
     });

@@ -25,11 +25,11 @@ class Settings:
         origins = [o.strip() for o in raw_origins.split(",") if o.strip()]
         return cls(
             mongo_uri=os.getenv("MONGODB_URI", "").strip(),
-            mongo_database=os.getenv("MONGODB_DATABASE", "konbus_user_input").strip() or "konbus_user_input",
+            mongo_database=os.getenv("MONGODB_DATABASE", "cholo_user_input").strip() or "cholo_user_input",
             admin_session_secret=os.getenv("ADMIN_SESSION_SECRET", "local-development-secret-change-before-deploy"),
             admin_cookie_secure=secure,
             admin_username=os.getenv("ADMIN_USERNAME", "").strip(),
             admin_password=os.getenv("ADMIN_PASSWORD", "").strip(),
-            admin_cookie_name=os.getenv("ADMIN_COOKIE_NAME", "konbus_admin_session").strip(),
+            admin_cookie_name=os.getenv("ADMIN_COOKIE_NAME", "cholo_admin_session").strip(),
             allowed_origins=origins,
         )

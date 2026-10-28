@@ -12,8 +12,8 @@
  *
  * Usage:
  *
- *   node scripts/set_qr_domain.mjs https://cholo.in
- *   node scripts/set_qr_domain.mjs https://cholo.in --sha256 "AA:BB:...:FF" --team-id ABCDE12345
+ *   node scripts/set_qr_domain.mjs https://pathsathi.in
+ *   node scripts/set_qr_domain.mjs https://pathsathi.in --sha256 "AA:BB:...:FF" --team-id ABCDE12345
  *
  * `--sha256` and `--team-id` fill in the two values only the developer accounts know:
  * the Android signing certificate's SHA-256 fingerprint (Play Console → App integrity,
@@ -68,7 +68,7 @@ let next;
 try {
   next = new URL(args.origin.trim());
 } catch {
-  fail(`"${args.origin}" is not a URL. Use the whole address, e.g. https://cholo.in`);
+  fail(`"${args.origin}" is not a URL. Use the whole address, e.g. https://pathsathi.in`);
 }
 if (next.protocol !== "https:") fail("use https: a QR sticker must open a secure page (the camera and the timetable both need it)");
 if (next.pathname !== "/" && next.pathname !== "") fail("give the site's root address, with no path after it");
@@ -124,7 +124,7 @@ if (args.sha256) {
 
 if (args.teamId) {
   if (!/^[A-Z0-9]{10}$/.test(args.teamId)) fail("the Apple Team ID is ten capital letters and digits");
-  replaceIn(AASA, [["TEAMID.in.cholo.kolkatabus", `${args.teamId}.in.cholo.kolkatabus`]]);
+  replaceIn(AASA, [["TEAMID.in.pathsathi.kolkatabus", `${args.teamId}.in.pathsathi.kolkatabus`]]);
 }
 
 console.log(

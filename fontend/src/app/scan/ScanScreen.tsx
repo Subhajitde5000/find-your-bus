@@ -288,7 +288,7 @@ function ScanScreen() {
           const asked = await plugin.requestPermissions();
           if (asked.camera !== "granted") {
             setStatus("denied");
-            setMessage("The camera is blocked for Cholo. Allow it in the phone's settings, then try again.");
+            setMessage("The camera is blocked for Pathsathi. Allow it in the phone's settings, then try again.");
             return true;
           }
         }
@@ -365,7 +365,7 @@ function ScanScreen() {
                 <strong>{nativeAvailable ? "Use the phone's scanner" : "Point the camera at a code"}</strong>
                 <span>
                   {nativeAvailable
-                    ? "Cholo uses the phone's own barcode scanner first: quicker in a moving bus, and it works with no signal."
+                    ? "Pathsathi uses the phone's own barcode scanner first: quicker in a moving bus, and it works with no signal."
                     : "The code is read on this phone. Nothing is uploaded, and it works with no signal."}
                 </span>
               </div>
@@ -465,8 +465,8 @@ function ScanScreen() {
               type="url"
               inputMode="url"
               value={manual}
-              placeholder="https://cholo.example/on-bus?route=1"
-              aria-label="Paste a Cholo QR link"
+              placeholder="https://pathsathi.example/on-bus?route=1"
+              aria-label="Paste a Pathsathi QR link"
               onChange={(event) => setManual(event.target.value)}
             />
             <button type="submit" disabled={!manual.trim()}>
@@ -507,7 +507,7 @@ function ScanScreen() {
               decoder instead, so the button always does something.
             </li>
             <li>
-              <strong>Only Cholo codes open.</strong> A QR from another website is refused rather
+              <strong>Only Pathsathi codes open.</strong> A QR from another website is refused rather
               than followed, and the screen shows what it said.
             </li>
             <li>

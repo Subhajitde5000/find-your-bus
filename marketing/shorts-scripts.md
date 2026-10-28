@@ -1,221 +1,435 @@
-# Pathsathi — Video Shorts / Reels Scripts
-### 7 Scripts for Instagram Reels + YouTube Shorts + Facebook Reels
-### All 15-45 seconds, vertical 9:16, shot on phone screen-record + quick cuts
+# Pathsathi — Video Scripts (Reels, Shorts, Stories)
+
+**Eight scripts, every word written out.** Each one has the shots to film, the speech an AI voice can
+read as-is, the text to burn on screen, the caption, the hashtags and the end card. Nothing needs to
+be improvised on the day.
+
+**How this file is used:** [`30-day-plan.md`](30-day-plan.md) says which script to post on which day.
+[`hashtag-pack.md`](hashtag-pack.md) holds the hashtag sets named here.
 
 ---
 
-## SHORT #1 — “Find Your Bus in 10 Seconds” — LAUNCH HERO (30s)
-**Use on:** Day 2 Launch — IG Reel, YT Shorts, FB Reel  
-**Goal:** Show core search in real time
+## Before you film anything
 
-**Hook (0-2s):** [Text overlay big] “Kolkata, find ANY bus in 10 seconds? 🚌” + Bus horn SFX
+**Format for all eight:** 1080 × 1920 (9:16), 30 fps, subtitles burned in, 20–40 seconds, hook inside
+the first second, URL + QR on screen at the end.
 
-| Time | Visual | VO / Text | Audio |
-|------|--------|-----------|-------|
-| 0-3s | Quick cuts: Crowded Esplanade bus stop, people asking conductor | Text: “Still asking ‘Ei bus ta kothay jay?’” | Trending Bengali beat low |
-| 3-7s | Screen record: Open Pathsathi site, hero visible | VO: “Open Pathsathi.” | Tap SFX |
-| 7-12s | Type FROM: Esplanade (autocomplete shows), TO: Garia, TIME: 09:00 | VO: “Type where you are, where you want to go.” | Typing SFX |
-| 12-18s | Tap Search → Buses appear: Route 1, S5, AC5 with times | VO: “Boom. Every bus today with times.” | Pop SFX + beat drop |
-| 18-24s | Tap a bus → Detail modal shows full stop list | Text: “Tap any bus → See every stop” | Whoosh |
-| 24-30s | End card: Pathsathi logo + “Link in bio 👆” + Green CTA | VO: “Pathsathi. Find your bus. Link in bio.” | Music end |
+**Five rules that decide whether a video works**
 
-**Caption:**
-```
-Find your Kolkata bus in 10 seconds? Done. 🚌💚
+1. **The first second shows the thing, not a logo.** A bus, a phone screen, or a question in text.
+2. **Subtitles, always.** Most people watch muted. CapCut's auto-captions are free.
+3. **One idea per video.** If you are explaining search *and* offline, you have two videos.
+4. **The speech is calm.** Not a salesman. A person explaining something useful.
+5. **The end card is the point.** Last 4 seconds: `{{SITE}}`, the QR, and three words of promise.
 
-Esplanade → Garia? Sealdah → Howrah?
-Pathsathi shows every bus today.
+**AI voice — the settings that sound human**
 
-Link in bio 👆 No login needed.
+| Where | How | Settings |
+|---|---|---|
+| CapCut (easiest, free) | Text → Text to speech → pick a calm English voice | speed 0.95×, pitch 0, add 0.3 s silence between sentences |
+| Microsoft Edge | Open a text file in Edge → Read aloud → record with your phone/another app | voice "Microsoft Neerja" or "Guy"; speed 0.9× |
+| ElevenLabs (free tier) | paste text, generate | stability ~50, similarity ~75 |
+| `gTTS` (Python, free) | `gtts-cli -l en -o v.mp3 text.txt` | flat but clear; fine for Shorts |
 
-#PathsathiKolkata #FindYourBus #KolkataBus #Reels #KolkataReels
-```
-**Cover text:** “Find ANY bus in 10 sec 🚌”
+**Use one voice for all eight videos.** It becomes the brand's voice. Do not mix voices between
+videos, and do not mix English and Banglish inside one video.
 
----
+**Filming notes (phone only, ₹0)**
 
-## SHORT #2 — “No Signal? No Problem — Offline Ride” (30s)
-**Use on:** Day 8 — Feature hero  
-**Goal:** Explain offline Set on Bus — WOW factor
+- Wipe the lens. Lock exposure by tapping and holding on the bus, then drag the slider down slightly.
+- Brace your elbows on a seat back or a railing; never chase the bus.
+- Backlight kills the screen — turn your body so the sun is behind *you*.
+- Screen recordings: Android's built-in recorder / iOS Control Centre → Screen Recording. Record at
+  normal phone brightness, dark theme off, notifications off for 30 minutes.
+- Film 5 seconds **before** and **after** every action. Trimming is free; a missing action is a reshoot.
 
-**Hook (0-2s):** [Phone shows No Signal icon] “No signal on the bus? Pathsathi still works 📴😎”
+**Edit order in CapCut (same for all eight)**
 
-| Time | Visual | VO / Text |
-|------|--------|-----------|
-| 0-4s | Phone in bus, status bar: No signal / 1 bar | VO: “Bus is where signal dies.” |
-| 4-10s | Open bus detail in Pathsathi → Tap big green “Set on Bus” button | Text: “Tap ‘Set on Bus’” |
-| 10-18s | Ride screen: Map with line, dot moving, “Next: Park Street 420m” | VO: “It uses YOUR phone’s GPS. No internet. No tracking the bus.” |
-| 18-24s | Show distance updating, “How long to every stop ahead” | Text: “Distance + time to every stop ahead” |
-| 24-28s | Show “You are not seated in this bus” warning when off-route | VO: “Wrong bus? It tells you.” |
-| 28-30s | End card: “Pathsathi — Works where signal doesn’t 💚” | CTA: Link in bio |
+1. New project → import the clips → set 9:16.
+2. Trim to the timings in the script. Cut *hard*; no transitions except **Cut**.
+3. Add the voice: audio → text to speech, or import your recording.
+4. Auto-captions → style: white bold, black outline, bottom third, 2–3 words per line.
+5. Add the on-screen text in the script (different from the captions — the captions are the voice).
+6. Add the end card image (below) for the final 4 seconds.
+7. Export 1080p 30 fps. No watermark. No music.
 
-**Caption:**
-```
-This is not live bus tracking. This is YOUR GPS following YOU 📴
+**End card — one image, used by all eight**
 
-No signal on Bypass? Pathsathi still shows how far Park Street is.
+`[IMAGE — generate: 1080×1920 end card. Brand green #195A45 background. The word "Pathsathi" large
+in white, a small bus mark above it. Below: "{{SITE}}" in white bold. A QR code in a white square,
+about 30% of the width. Bottom line in small white caps: "FREE · NO LOGIN · WORKS OFFLINE". Nothing
+else on the card.]`
 
-Try “Set on Bus” on your next ride 🗺️ Link in bio
-
-#OfflineFirst #PathsathiBus #KolkataBus #TechTok #NoSignalNoProblem
-```
-**Cover text:** “WORKS WITH NO SIGNAL 📴”
+Same card every time = people start recognising the last 4 seconds, which is what makes them act.
 
 ---
 
-## SHORT #3 — “3 Lies About Kolkata Buses” (20s)
-**Use on:** Day 17 — Myth busting, high shareability
+## V0 Something is coming
 
-**Hook:** “3 lies about Kolkata buses we all believed 😅” [Red cross emoji]
+**Length** 15 s · **Where** Instagram Reel, WhatsApp status · **Day** pre-launch P5 · **Goal** curiosity, no demo yet
+**What it proves** that there is something to wait for. It does not show the product.
 
-| Time | Visual | VO |
-|------|--------|----|
-| 0-5s | Lie 1: “Google Maps has all bus times” → Cross ❌ | VO: “Lie 1: Google has all bus times. Nope.” |
-| 5-11s | Lie 2: “Conductor knows every stop time” → Cross ❌ + conductor confused meme | VO: “Lie 2: Conductor knows times. He knows route, not timetable.” |
-| 11-17s | Lie 3: “No app can work without signal” → Cross ❌ → Show Pathsathi map moving | VO: “Lie 3: No app works offline. Pathsathi does.” |
-| 17-20s | Truth: Pathsathi honest timetable screen | “Truth: Pathsathi. Honest times. Offline map. 💚” |
+**Film this**
 
-**Caption:**
+| Time | Shot | How |
+|---|---|---|
+| 0–2 s | A bus pulling away, shot from behind | stand still, let it fill the frame |
+| 2–6 s | Three fast cuts of a bus stop: a queue, a conductor's hand, a route board | 2 s each, hand-held |
+| 6–10 s | Your phone, screen **face-down**, in your hand at the stop | close, only a sliver of screen |
+| 10–15 s | End card | the shared end card |
+
+**Speech — word for word**
+> Kolkata has 651 bus routes. Nobody knows all of them. … This week, you will only need to know
+> two things: where you are, and where you are going.
+
+**On-screen text**
+- 0–2 s: `651 routes in this city`
+- 6–10 s: `something is coming on Monday`
+- 10–15 s: `{{SITE}}` + `Mon, 8:30 am`
+
+**Caption**
 ```
-Which lie did you believe? 😅👇
+651 routes. 2,194 stops. And one week where you only need to know two things: where you are,
+and where you want to go.
 
-Truth: Pathsathi shows honest published times — not guesses. And works offline.
+Monday, 8:30 am. 🚌
 
-#MythBusting #KolkataBus #PathsathiKolkata #KolkataMyths
+#Pathsathi #Kolkata #KolkataBus #KolkataCommute #PublicTransport #CityOfJoy
 ```
-**Cover text:** “3 LIES About Kolkata Buses ❌”
+**Hashtags** Set A · **End card** shared card
+**If it flops** the hook is too abstract — re-cut starting with the bus number board filling the frame.
 
 ---
 
-## SHORT #4 — “How Set on Bus Actually Works” Deep Dive (45s Tutorial)
-**Use on:** Day 24 — Tutorial for power users
+## V1 Find any bus in 10 seconds
 
-**Hook:** “How to use ‘Set on Bus’ like a pro 🗺️”
+**Length** 35 s · **Where** IG Reel, YouTube Short, Facebook Reel · **Day** 1 (launch) · **Goal** first site visit
+**What it proves** the core search works and takes seconds.
 
-| Time | Visual | VO |
-|------|--------|----|
-| 0-4s | Open Pathsathi → Search Esplanade → Garia → Tap Route 1 | “Found my bus: Route 1, Esplanade to Garia” |
-| 4-9s | Scroll detail, show stops, tap “Set on Bus” green button | “Tap ‘Set on Bus’ — allow location” |
-| 9-17s | Ride screen loads: Map line, you dot, next stop distance | “See yourself on the route line. Distances measured along real roads.” |
-| 17-24s | Demo: Pinch zoom → stop names appear, tap scale bar, north arrow | “Pinch to zoom. Stop names appear. Tap scale.” |
-| 24-32s | Demo: Tap “Show whole route” then “Follow my bus” toggle | “‘Show whole route’ to see all. ‘Follow my bus’ to stay centred.” |
-| 32-40s | Walk off-route (simulate in DevTools) → “You are not seated in this bus” + nearest stop | “Wrong bus? It tells you straight: ‘Not seated in this bus’ + nearest stop.” |
-| 40-45s | End card: “Try it: Pathsathi → Any bus → Set on Bus 📴” | CTA |
+**Film this**
 
-**Caption:**
+| Time | Shot | How |
+|---|---|---|
+| 0–2 s | Bus arriving at the stop | Day −1 footage, hand-held, steady |
+| 2–6 s | Screen recording: tapping the "From" box, typing `Esplanade` | record at 100% brightness |
+| 6–12 s | Typing `Garia`, results appearing | let the list settle for 1 s before cutting |
+| 12–22 s | Tapping one bus → its timetable with times | slow scroll, 3 rows only |
+| 22–28 s | Back → the one-change option below the direct bus | tap it once, show the two buses |
+| 28–35 s | End card | — |
+
+**Speech — word for word**
+> Every day, you stand at a bus stop in Kolkata and ask the same question. Which bus goes where I
+> need to go, and when does it come? … This answers it in about ten seconds. Type the stop you are
+> standing at. Type where you want to go. … Every bus between them, with its published time. 651
+> routes, and 2,194 stops, all inside. No login. No ads. … And when the signal dies, which it always
+> does on a bus, it still works. … It is called Pathsathi. Link is in the bio, and it takes fifteen
+> seconds to put on your home screen.
+
+**On-screen text**
+- 0–2 s: `Kolkata buses, in 10 seconds`
+- 12–22 s: `every bus · its published time`
+- 28–35 s: `{{SITE}}` · `free · no login · works offline` · QR
+
+**Caption**
 ```
-Full tutorial: “Set on Bus” explained in 45 sec 🗺️
+Kolkata, you don't have to ask "ei bus ta kothay jay?" any more.
 
-From pinch-zoom to “wrong bus” warning — everything you need.
+Type where you are. Type where you're going. Every bus between those two stops, with its
+published time — 651 routes, 2,194 stops. No login. No ads. And it keeps working when the
+signal dies, which is exactly when you need it.
 
-Save this for your next ride 💾 Link in bio
+Link in bio 👆 (15 seconds to put it on your home screen)
 
-#Tutorial #HowToPathsathi #KolkataBus #PathsathiBus #OfflineMap
+#Pathsathi #Kolkata #KolkataBus #KolkataCommute #PublicTransport #CityOfJoy #Esplanade
 ```
-**Cover text:** “Set on Bus — FULL TUTORIAL 🗺️”
+**Hashtags** Set A + `#Esplanade` · **Link** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=launch01`
+**If it flops** the first 2 seconds are scenery. Re-cut so the search result list is on screen by
+second 3, with the question in text over it.
 
 ---
 
-## SHORT #5 — “POV: Kolkata Commuter with Pathsathi” (15s Comedy)
-**Use on:** Day 15 or anytime — Meme Monday
+## V2 No signal
 
-**Hook:** POV text: “POV: You have Pathsathi and your friend doesn’t”
+**Length** 20 s · **Where** IG Reel, Youtube Short, Facebook Reel, WhatsApp · **Day** 4 · **Goal** the surprise that makes people install
+**What it proves** the whole timetable is on the phone, not on a server.
 
-| Time | Visual | Text |
-|------|--------|------|
-| 0-3s | Split screen: Left = Friend asking 3 people “Garia bus?”, Right = You on phone calm | Text left: “Friend 😰” Right: “You 😎” |
-| 3-7s | Friend running to wrong bus, you walking calmly to correct stop | SFX: Running vs chill music |
-| 7-12s | You boarding correct bus, friend waving from wrong bus window 😂 | Text: “Pathsathi vs Chaos” |
-| 12-15s | Both on bus? You showing offline distance, friend confused | End: “Get Pathsathi. Link in bio.” |
+**Film this**
 
-**Caption:**
+| Time | Shot | How |
+|---|---|---|
+| 0–3 s | Airplane mode being switched on | screen recording of the real toggle, do not fake it |
+| 3–10 s | Tapping the app icon → `/map` drawing a route | record the icon on the home screen so people see it installed |
+| 10–16 s | `/stop?stop=Garia` → next buses with times | scroll once |
+| 16–20 s | End card | — |
+
+**Speech — word for word**
+> Airplane mode. No internet at all. … The map still draws. The buses at this stop are still there,
+> with their times. … Because the whole timetable, all 651 routes and 2,194 stops, is already inside
+> the app. Buses are exactly where the signal is not. … Pathsathi. Free, and it stays on your home
+> screen.
+
+**On-screen text**
+- 0–3 s: `airplane mode on`
+- 10–16 s: `2,194 stops · no internet`
+- 16–20 s: `{{SITE}}` + QR
+
+**Caption**
 ```
-POV: You vs your friend who doesn’t have Pathsathi 😂🚌
+Airplane mode on. It still works.
 
-Tag that friend 👇
+The whole timetable — 651 routes, 2,194 stops — is inside the app. Buses are exactly where the
+signal isn't.
 
-#POV #KolkataMemes #PathsathiKolkata #Relatable #KolkataReels #MemeReels
+Link in bio. 15 seconds to install, no store, no data cost.
+
+#Pathsathi #OfflineFirst #NoSignalNoProblem #KolkataBus #KolkataCommute #PWA #EMBypass
 ```
-**Cover text:** “POV: You have Pathsathi 😎”
+**Hashtags** Set B + `#EMBypass` · **Link** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=offline01`
+**If it flops** people do not believe the airplane-mode shot. Re-record showing the whole toggle,
+then the home screen, with no cuts in between.
 
 ---
 
-## SHORT #6 — “Esplanade → Garia in 10 Seconds” Real Demo (20s speedrun)
-**Use on:** Day 5, or as ad
+## V3 Install in 15 seconds
 
-**Hook:** Speedrun timer: “Can we find a bus in 10 seconds? ⏱️”
+**Length** 25 s · **Where** IG Reel (pin it), YouTube Short, Facebook Reel · **Day** 5 · **Goal** turn a visitor into an installed app
+**What it proves** there is nothing to download and nothing to pay.
 
-| Time | Visual |
-|------|--------|
-| 0-2s | Timer starts + “Esplanade → Garia” text big |
-| 2-6s | Open Pathsathi, tap FROM, type “Esp” → Esplanade selected (1 sec) |
-| 6-9s | Tap TO, type “Gar” → Garia selected |
-| 9-12s | Time auto-filled, tap Search |
-| 12-16s | Results pop: 8 buses today, Route 1 at 08:12, S5 at 08:30… |
-| 16-20s | “8.4 seconds. 🚌💚 Your turn — link in bio” |
+**Film this** — screen recording only, no filming
 
-**Caption:**
+| Time | Shot | How |
+|---|---|---|
+| 0–3 s | `{{SITE}}` typed in the browser bar | slow, one letter at a time, no mistakes |
+| 3–10 s | Android: ⋮ menu → "Add to Home screen" → confirm | real recording, wait for the icon to appear |
+| 10–17 s | iPhone: Share → "Add to Home Screen" → Add | a friend's iPhone, or skip and show Android twice |
+| 17–25 s | Airplane mode on → tap the new icon → it opens | the payoff shot |
+| last 4 s | End card | — |
+
+**Speech — word for word**
+> Two steps, and then it behaves like an app. … On Android, open the menu and choose add to home
+> screen. On an iPhone, tap share, then add to home screen. … That is it. It now lives with your
+> other apps, opens full screen, and works with no signal at all. No login, no ads, and nothing to
+> download from a store. … Pathsathi. Link in the bio.
+
+**On-screen text**
+- 3–10 s: `Android: menu → Add to Home screen`
+- 10–17 s: `iPhone: Share → Add to Home Screen`
+- 17–25 s: `works with no signal`
+- last: `{{SITE}}` + QR
+
+**Caption**
 ```
-Speedrun: Esplanade → Garia in 8 seconds ⏱️🚌
+No store. No download. No login. 15 seconds.
 
-Your turn. Link in bio 👆
+Open the link, add it to your home screen, and it opens like any other app — and keeps working
+on the bus when the signal dies.
 
-Comment your route — we’ll time it! 👇
+Android: ⋮ → Add to Home screen
+iPhone: Share → Add to Home Screen
 
-#Speedrun #PathsathiKolkata #FindYourBus #KolkataBus #Esplanade #Garia
+#Pathsathi #AddToHomeScreen #KolkataBus #Kolkata #TechTips #PWA
 ```
-**Cover text:** “8 SEC SPEEDRUN ⏱️”
+**Hashtags** Set C · **Link** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=install01`
+**If it flops** the phone UI is not readable — re-record zoomed in, or slow the clip to 0.8×.
+**Option A (Play Store live):** replace the middle with the Play Store page and the install button, keep
+the airplane-mode proof at the end, and change the link to `{{APP_LINK}}`.
 
 ---
 
-## SHORT #7 — “Install Pathsathi in 15 Seconds” PWA (15s)
-**Use on:** Day 10 — Install tutorial
+## V4 Which bus am I in
 
-| Time | Visual |
-|------|--------|
-| 0-3s | “No Play Store? No problem 📲 2.8 MB only” |
-| 3-8s | Android: Chrome menu → Add to Home Screen → Add → Icon appears on home screen |
-| 8-12s | iPhone: Share → Add to Home Screen → Add → Icon appears |
-| 12-15s | Tap icon → Pathsathi opens like app, works offline → “Done 💚” |
+**Length** 40 s · **Where** IG Reel, YouTube Short, Facebook Reel · **Day** 8 · **Goal** show the one feature nobody else has
+**What it proves** your own GPS plus the published timetable can name the bus you are sitting in.
 
-**Caption:**
+**Film this**
+
+| Time | Shot | How |
+|---|---|---|
+| 0–3 s | Inside a bus: window light, phone in hand, seat textured in frame | brace on the seat back |
+| 3–8 s | `/on-bus?route=1` — the route line and your dot | screen recording later, overlaid on the bus shot |
+| 8–18 s | The card that names the bus and the minutes to the next stop | one slow scroll |
+| 18–28 s | Choosing a destination → countdown → "get ready" alert | record the buzz if you can |
+| 28–40 s | End card | — |
+
+**Speech — word for word**
+> You are already on the bus. Someone asks where you are going, and you are not completely sure
+> which bus this is. … Open the sticker on the bus, or the app, and it matches where you are against
+> the route and the timetable. It tells you which bus you are most likely in, and how many minutes
+> until your stop. … Choose the stop where you get off, and it counts down the journey and buzzes
+> when you are nearly there. … It is not live tracking. No bus sends its location. It is your own GPS
+> against the times the operators publish. That is honest, and it works with no signal. … Pathsathi.
+> Link in the bio.
+
+**On-screen text**
+- 0–3 s: `which bus is this?`
+- 8–18 s: `your GPS + the published timetable`
+- 20–28 s: `not live tracking — and we say so`
+- 28–40 s: `{{SITE}}` + QR
+
+**Caption**
 ```
-Add Pathsathi to your home screen in 15 sec 📲
+You're on the bus, you're not sure which one, and you need to know when to get off.
 
-No download. No storage. 2.8 MB.
-Works like an app. Works offline.
+Open it and it matches where you are against the route and the timetable — which bus you're most
+likely in, how many minutes to your stop, and a buzz when it's nearly time.
 
-Tutorial saved in highlights 💚
+Not live tracking: no bus sends its position. Your GPS, plus the times the operators publish.
 
-#PWA #InstallPathsathi #KolkataTech #PathsathiBus #HowTo #TechTips
+Link in bio.
+
+#Pathsathi #KolkataBus #KolkataCommute #BusRide #HonestTech #Kolkata #ParkStreet
 ```
-**Cover text:** “Install in 15 sec 📲”
+**Hashtags** Set E + `#ParkStreet` · **Link** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=onbus01`
+**If it flops** nobody understands what they are looking at — put the phrase "you are on route 1" as
+large text over the bus shot at second 3.
 
 ---
 
-## Production Notes for ALL Shorts
+## V5 Three answers at a bus stop
 
-**Shooting:**
-- Vertical 1080x1920, 30fps
-- Screen record at 60fps for smooth scroll (use phone, not emulator)
-- Add captions burned-in (80% watch muted) — use CapCut auto-captions, style: bold white with green highlight
-- Use trending audio from Instagram library (search “Bengali Lofi” or “Kolkata”)
+**Length** 35 s · **Where** IG Reel, YouTube Short, Facebook Reel · **Day** 13 · **Goal** relatability; shares to friends
+**What it proves** the product replaces asking three strangers.
 
-**Editing Apps (free):**
-- CapCut (best for auto-captions + speed)
-- VN or InShot
+**Film this** — with permission, and with nobody identifiable
 
-**Branding:**
-- Always end with Pathsathi logo + green end card (use banner #1 crop)
-- Always add “Link in bio” sticker
-- Add subtle watermark: “@pathsathi.kolkata” small bottom-right
+| Time | Shot | How |
+|---|---|---|
+| 0–4 s | Three quick cuts at a stop: someone's hand pointing, a queue, a route board | faces out of frame, or blurred |
+| 4–10 s | Your hand holding the phone, screen recording of the search | bright screen, shade it |
+| 10–22 s | Results → the stop page with the wait for the next bus | slow scroll |
+| 22–35 s | End card | — |
 
-**Posting Checklist (every Reel):**
-- [ ] Hook in first 1.5s (text overlay)
-- [ ] Captions burned in
-- [ ] Cover image with big text (choose frame)
-- [ ] Caption + 5-8 hashtags + CTA
-- [ ] Add to Story with “Watch Reel” sticker
-- [ ] Share to FB Reels + YT Shorts (same video)
-- [ ] Pin best 2 to profile
+**Speech — word for word**
+> Three people at the bus stop. Three different answers. … This one takes ten seconds. Type your
+> stop. Type where you are going. … Every bus that connects them, with times, and the wait for the
+> next one. If there is no direct bus, it shows the ways with one change. … It is free. No login. And
+> it keeps working inside the bus, where the signal does not. … Pathsathi. Link in the bio.
 
+**On-screen text**
+- 0–4 s: `three answers · one app`
+- 10–22 s: `next bus · how long · the whole day`
+- 22–35 s: `{{SITE}}` + QR
+
+**Caption**
+```
+Ask three people at the bus stop, get three answers. That's the whole system we've been using.
+
+Type your stop, type where you're going, and see every bus that connects them — with times, the
+wait for the next one, and one-change options when there's no direct bus.
+
+Free. No login. Works inside the bus, where the signal doesn't.
+
+#Pathsathi #Kolkata #KolkataMemes #BengaliMemes #CommuterLife #KolkataDiaries #Shyambazar
+```
+**Hashtags** Set F + `#Shyambazar` · **Link** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=street01`
+**If it flops** the stranger shots look staged — cut them, and open on the text question instead.
+
+**Consent, always:** ask before filming anyone. If they say no, film the board, the queue's feet, or
+the road. No face, no voice, no bus number plate without a yes.
+
+---
+
+## V6 One stop, the whole day
+
+**Length** 30 s · **Where** IG Reel, YouTube Short, Facebook Reel · **Day** 18 · **Goal** show depth; makes people save the post
+**What it proves** a single stop page holds the entire day, not just the next bus.
+
+**Film this**
+
+| Time | Shot | How |
+|---|---|---|
+| 0–3 s | A stop shelter filling the frame | no people needed |
+| 3–10 s | `/stop?stop=Sealdah` → next buses and the wait badges | screen recording |
+| 10–20 s | "Whole day" tab → hours opening, current hour first | slow, deliberate taps |
+| 20–30 s | End card | — |
+
+**Speech — word for word**
+> One bus stop. The whole day. … Open your stop and you get the next buses and how long until each
+> one. Tap whole day, and you get every bus from that stop, hour by hour, starting with the hour you
+> are standing in. … Filter it by route or by where you are going. Every row opens the ride. … No
+> login, no ads, and it works with no signal. … Pathsathi. Link in the bio.
+
+**On-screen text**
+- 0–3 s: `one stop · the whole day`
+- 10–20 s: `every bus, hour by hour`
+- 20–30 s: `{{SITE}}` + QR
+
+**Caption**
+```
+One stop doesn't have one bus. Esplanade has 261 routes calling at it.
+
+Open your stop: the next buses and the wait for each one. Tap "whole day": every bus from that
+stop, hour by hour, starting with the hour you're standing in.
+
+Save this one for the next time you're at a stand wondering.
+
+#Pathsathi #Kolkata #KolkataBus #BusStop #KolkataDiaries #PublicTransport #Sealdah
+```
+**Hashtags** Set D + `#Sealdah` · **Link** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=stop01`
+**If it flops** the hour list scrolls too fast to read — slow it to 0.75× and hold each hour for 1.5 s.
+
+---
+
+## V7 No direct bus, one change
+
+**Length** 30 s · **Where** IG Reel, YouTube Short, Facebook Reel · **Day** 24 · **Goal** reach people who think their journey has no bus
+**What it proves** one-change journeys are shown, not hidden.
+
+**Film this**
+
+| Time | Shot | How |
+|---|---|---|
+| 0–3 s | Two buses passing each other, from a foot overbridge if you can | steady, wide |
+| 3–10 s | Screen recording: a search where there is no direct bus | pick a real pair from the site |
+| 10–22 s | The "one change" list → tapping each bus → its stops | two taps only |
+| 22–30 s | End card | — |
+
+**Speech — word for word**
+> Some journeys have no direct bus. That is usually where people give up and take a cab. … Type
+> both stops anyway. If there is no direct bus, it shows the ways to get there with one change: which
+> bus first, where to change, which bus after. … Tap any of them and you get that bus's stops, so you
+> know where to get off. … Free, no login, works with no signal. … Pathsathi. Link in the bio.
+
+**On-screen text**
+- 0–3 s: `no direct bus?`
+- 10–22 s: `one change · both buses · every stop`
+- 22–30 s: `{{SITE}}` + QR
+
+**Caption**
+```
+No direct bus doesn't mean no bus.
+
+Type both stops anyway. It shows the ways to get there with one change — which bus first, where
+to change, which bus after — and tapping any of them gives you that bus's stops, so you know
+where to get off.
+
+Free, no login, works with no signal. Link in bio.
+
+#Pathsathi #KolkataBus #KolkataRoutes #WBTC #BusRoute #Kolkata #Behala
+```
+**Hashtags** Set G + `#Behala` · **Link** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=change01`
+**If it flops** it reads as a tutorial — open instead on the person's problem in text:
+`no direct bus? you're taking a cab for nothing`.
+
+---
+
+## Story scripts (no voice, 6–10 seconds each)
+
+Stories are cheaper than Reels: no voice, no editing — a screen recording plus one line of text and a
+link sticker. Twelve are scheduled in [`30-day-plan.md`](30-day-plan.md).
+
+| Story idea | What to show | Text on screen | Interactive element |
+|---|---|---|---|
+| Stop poll | Your phone at a stop | `How do you find your bus?` | Poll: Ask someone / Guess / Wait |
+| Your stop tonight | `/stop?stop=<stop from comments>` | `you asked for <stop>` | Link sticker → `?utm_source=instagram&utm_medium=story&utm_campaign=stopNN` |
+| Install proof | Home screen, airplane mode, app opens | `15 seconds. works offline.` | Link sticker |
+| Behind the scenes | Your screen with the data file open | `2,194 stops, one file` | Question box: "which stop should I check?" |
+| Objection | A screenshot of a comment asking "is it live?" | `no. here's what it actually does` | Link sticker |
+| Ground clip | 5 s of you showing the phone at a stand (consent!) | `day 6 of showing strangers` | Poll: helpful / not |
+| Route spotlight | `/stop?stop=<route's origin>` | `route <number>: yes or no?` | Poll |
+| Week numbers | A plain screenshot of the tracking sheet | `week 1 in numbers` | Question box |
+| Testimonial | A voice note waveform or a quote card | `what a commuter told us` | Link sticker |
+| Recap | The month's four best frames | `30 days. thank you, Kolkata.` | Link sticker |
+
+**Stories rule:** no hashtags — use a **location sticker** with the real stop or area instead. One
+interactive element per story, always, or the story is just a picture nobody taps.

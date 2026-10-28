@@ -1,789 +1,709 @@
-# Pathsathi — 30-Day Attention Plan
-### Instagram + Facebook + X (Twitter) + YouTube Shorts | Kolkata Launch
+# Pathsathi — 30-Day Plan (v2, rewritten for the real product)
 
-> **Goal:** 10K+ reach in 30 days in Kolkata, 1K+ site saves/installs, community buzz
-> **Budget:** ₹0 organic (with optional ₹5K-10K boost plan in Appendix)
-> **Post time (IST):** 8:30 AM (commute), 1 PM (lunch), 7:30 PM (evening scroll) — test and keep best
-> **Hashtag rule:** 5-8 on Instagram, 2-3 on Facebook, 1-2 on X
-
----
-
-## Strategy Overview
-
-| Phase | Days | Theme | Goal |
-|-------|------|-------|------|
-| **Week 1** | 1-7 | **Teaser → Launch** | Create curiosity, launch with bang, explain what Pathsathi is |
-| **Week 2** | 8-14 | **Feature Deep Dive** | Show every killer feature, tutorials |
-| **Week 3** | 15-21 | **Community + Culture** | Memes, UGC, Kolkata love, make it shareable |
-| **Week 4** | 22-30 | **Trust + Growth** | Testimonials, collabs, giveaway, recap, retention |
-
-**Content Mix (30 days):**
-- 12 Feed Posts / Carousels (IG+FB)
-- 10 Reels / Shorts (IG+FB+YT Shorts)
-- 30 Stories (1/day)
-- 20 X Posts (Tweets + threads)
-- 2 Giveaways / Contests
-- Daily engagement (30 min)
+**Status:** replaces the old 30-day plan. The old version was written for a product that no longer
+exists: it promised "real-time info", pushed Google Play / App Store badges, pointed at
+`find-your-bus.vercel.app`, and never mentioned QR stickers, `/on-bus`, `/stop`, `/scan`, the
+offline ride screen, the community desk, or the sticker maker. All of that is out of date. This
+version is built from the code in this repository and from what you can physically do in Kolkata
+with ₹0.
 
 ---
 
-## WEEK 1: TEASER → LAUNCH (Days 1-7)
-*“Kolkata, your bus problem is about to end.”*
+## 1. Read this first
 
-### DAY 1 — Monday — TEASER
-**Platforms:** Instagram Post (carousel 3 slides) + Story + X Tweet
-**Format:** Carousel — Dark green background, big text
-- Slide 1: “Kolkata, ekta kotha? 🤫”
-- Slide 2: “650+ buses. 2194 stops. But still asking ‘Ei bus ta kothay jay?’”
-- Slide 3: “Something is coming tomorrow. 🚌👀” + Pathsathi logo
-**Caption IG:**
-```
-Kolkata asks one question every day: “Ei bus ta kothay jay?” 😅
+### 1.1 What the product actually is today
 
-We counted. 650 routes. 2194 stops.
-Tomorrow, you’ll never have to ask again.
+Say only these things in public. Every number below is from the repo, not from imagination.
 
-Stay tuned. Pathsathi asche. 🚌💚
-#PathsathiKolkata #ComingSoon #KolkataBus
-```
-**X:** Same but shorter: “650 routes. 2194 stops. Still asking ‘ei bus kothay jay?’ Tomorrow we fix that. 👀🚌 #PathsathiKolkata”
-**Story:** Poll — “Do you know your bus number without asking? Yes / No 😅”
-**CTA:** Follow for reveal
-**Banner to use:** Banner #1 (blurred teaser version)
+| Fact | Where it comes from |
+|---|---|
+| **651** bus routes | `fontend/src/data/kolkata-bus-data.json` |
+| **2,194** bus stops | same file |
+| **193** stands / depots / terminals | same file |
+| Pages: `/` (find a bus), `/map` (stop map), `/ride` (follow the route), `/on-bus` (which bus am I in), `/stop` (next buses at a stop), `/scan` (QR scanner) | `fontend/src/app/` |
+| Installs to the home screen (PWA), ~**2.8 MB**, works with **no signal** after the first visit | `README.md`, `fontend/scripts/build_sw.mjs` |
+| QR stickers exist as printable files (route sticker → `/on-bus`, stop sticker → `/stop`) | `qr-admin/`, `README.md` |
+| "One change" journeys are shown when there is no direct bus | `fontend/src/app/page.tsx` |
+| Community desk for missing routes / corrections | `user_input/` |
 
-### DAY 2 — Tuesday — LAUNCH DAY 🚀
-**Platforms:** IG Reel (30s) + FB Post + X Thread (3 tweets) + All Stories
-**Format:** Reel — Founder screen-record demo: typing “Esplanade → Garia” and buses appear
-**Script:** See `shorts-scripts.md` #1 — “Find Your Bus in 10 Seconds”
-**Caption IG:**
-```
-IT’S HERE. 🚌💚 Pathsathi — Kolkata’s Bus Guide
+### 1.2 What it is **not** — never claim these
 
-Find ANY bus in 10 seconds:
-📍 Type 2 stops
-⏰ See every bus + times today
-📴 Tap “Set on Bus” — works OFFLINE with GPS
+- **Not live tracking.** No bus reports its position. The app compares *your* GPS with the
+  published timetable and says so on screen. Never write "real-time", "live bus", "track your bus"
+  or "GPS tracking of buses". The banner in `marketing/banners/` says **"Real-time info"** — that
+  banner must not be posted.
+- **Not on the Play Store or App Store yet.** `mobile/APP.md` lists both as future work (USD 25 +
+  USD 99). Store badges in the old banners are fiction. Do not use them until the listings are live.
+- **No printed stickers in any bus or at any stop yet**, unless you have physically stuck them
+  yourself. Until then, sticker content is "you can print one", not "look for it at Esplanade".
+- **Not official.** Not WBTC, not the state government, not a bus operator.
+- **Registration numbers** are not printed on stickers yet.
 
-No login. No ads. 2.8 MB. Made for Kolkata.
+### 1.3 What "app download" means here (the one decision everything hangs on)
 
-🔗 Link in bio — try now!
-Tag a friend who waits for buses daily 👇
+The plan works either way, but **you must pick A or B before Day 3**:
 
-#PathsathiBus #FindYourBus #Kolkata #KolkataBus #WBTC #PublicTransport #KolkataDiaries #CityOfJoy
-```
-**FB:** Same + “Install to home screen” instructions in comments
-**X Thread:**
-1/ “We launched Pathsathi 🚌 Kolkata’s simplest bus timetable. Find any bus in 10 sec…”
-2/ “650+ routes. Direct + 1-change. Timetable for every stop…”
-3/ “And ‘Set on Bus’ works OFFLINE — GPS follows you, no signal needed. Link 👇 #PathsathiBus”
-**Story:** Countdown sticker + Swipe up link
-**Action:** DM 10 friends in Kolkata to try it. Reply to EVERY comment in first 2 hours.
+- **A — Play Store live:** every CTA is `{{APP_LINK}}` (Play Store). This is the strongest CTA, but
+  it costs USD 25 one-time and a closed test first.
+- **B — nothing published (recommended for 0 cost):** "install" = **Add to Home Screen**, a
+  15-second action with no store and no fee. Every phone can do it; nothing to buy; no download
+  friction; works offline immediately. Every CTA becomes `{{SITE}}` + "Add to Home Screen".
 
-### DAY 3 — Wednesday — HOW IT WORKS (Carousel Tutorial)
-**Platforms:** IG Carousel (4 slides) + FB Post + X Post (image)
-**Format:** 4-step tutorial screenshots from site
-- Slide 1: “How to use Pathsathi in 3 taps 👇”
-- Slide 2: “1. Pick your stops — Esplanade → Garia”
-- Slide 3: “2. Choose time — 09:00 or Now”
-- Slide 4: “3. Tap any bus → See full route + Set on Bus 📴”
-**Caption:**
-```
-No tutorial needed, but here’s one anyway 😊
-
-1️⃣ Pick FROM & TO (we autocomplete!)
-2️⃣ Pick time (or tap “Now”)
-3️⃣ See buses → Tap for full route
-
-Extra: Tap “Set on Bus” to follow your ride offline 🗺️
-
-Save this for your next ride 💾
-Drop your route in comments — we’ll find your bus! 👇
-
-#HowToPathsathi #KolkataBus #PathsathiBus
-```
-**Banner:** Banner #7 (How it works 1-2-3)
-
-### DAY 4 — Thursday — PROBLEM / MEME
-**Platforms:** IG Post (meme) + X Meme
-**Format:** Relatable Kolkata meme — “POV: You at Esplanade asking 3 people which bus goes to Garia”
-- Image: Busy Esplanade photo + 3 speech bubbles
-**Caption:**
-```
-Before Pathsathi: Ask 3 people, get 3 different answers 😭
-
-After Pathsathi: Type Esplanade → Garia. Done. 🚌✨
-
-Tag that friend who always knows the bus number (or thinks they do) 😂
-
-#KolkataMemes #BengaliMemes #PathsathiKolkata #Esplanade #Garia
-```
-**Story:** Quiz — “How many buses did you ask today? 0 / 1-3 / Lost count 😅”
-
-### DAY 5 — Friday — FEATURE #1: Search Between Stops
-**Platforms:** IG Reel (20s demo) + FB Video
-**Format:** Screen record + VO: “Watch: Esplanade to Sealdah — 12 direct buses today”
-**Caption:**
-```
-Esplanade → Sealdah? 12 buses today. 🚌
-
-Not guessing. Not asking. Just Pathsathi.
-
-Try any 2 stops:
-Howrah → Salt Lake ✅
-Garia → Tollygunge ✅
-Sealdah → Park Street ✅
-
-Link in bio. No login needed 💚
-
-#FindYourBus #KolkataCommute #PathsathiBus
-```
-**Banner:** Banner #3 (Search feature)
-
-### DAY 6 — Saturday — WEEKEND KOLKATA LOVE
-**Platforms:** IG Post (photo: Howrah Bridge / yellow taxi / tram) + FB
-**Format:** Beautiful Kolkata bus photo + quote overlay: “A City Always in Motion 💚”
-**Caption:**
-```
-Kolkata doesn’t wait. Neither should you.
-
-From Howrah to Garia, Sealdah to Salt Lake —
-This city moves on buses. And now you move smarter. 🚌💚
-
-📸 Shot on Pathsathi — okay not really, but tag us in your bus ride and we’ll feature you!
-
-#Kolkata #CityOfJoy #HowrahBridge #YellowTaxi #KolkataDiaries #PathsathiKolkata #AestheticKolkata
-```
-**Story:** “This or That” — Tram vs Bus poll
-**X:** “Weekend in Kolkata = Adda + Bus ride + Mishti. Where are you headed? 👇 #Kolkata”
-
-### DAY 7 — Sunday — WEEK 1 RECAP + CTA
-**Platforms:** IG Carousel (stats) + X Thread
-**Format:** “Week 1 by numbers” — 650 routes, X site visits, testimonials if any
-**Caption:**
-```
-1 week of Pathsathi 💚 Thank you, Kolkata!
-
-🚌 650+ routes searched
-📍 2194 stops explored
-📴 Offline rides started
-
-You asked for Salt Lake Sector V — working on it!
-Comment what route you want added next 👇
-
-Next week: we show you the OFFLINE magic ✨
-
-#PathsathiBus #Week1 #KolkataBus #ThankYouKolkata
-```
-**Story:** Q&A sticker — “Ask us anything about Pathsathi”
+The rest of this document writes CTAs as `{{SITE}}` and `{{APP_LINK}}`. Under option B you never
+fill in `{{APP_LINK}}`; you point at `{{SITE}}` and use Video 4 (the 15-second install) instead.
 
 ---
 
-## WEEK 2: FEATURE DEEP DIVE (Days 8-14)
-*Make them say “Wait, it works without internet?!”*
+## 2. Fill-in sheet — do this before Day 1
 
-### DAY 8 — Monday — OFFLINE HERO FEATURE 📴
-**Platforms:** IG Reel (30s) + FB + YT Shorts + X Video
-**Format:** Hero Reel — Phone on bus, no signal icon, but map still moving
-**Script:** See `shorts-scripts.md` #2 — “No Signal? No Problem”
-**Caption:**
-```
-This is not live GPS tracking. This is smarter. 📴✨
+I could not confirm these from the repository (two different domains are hard-coded in marketing
+files, and no store listing exists). Fill them in once, then every post below is copy-paste ready.
 
-“Set on Bus” uses YOUR phone’s GPS to follow you along the route.
+| Placeholder | What it is | Where to get it | Default if you have nothing |
+|---|---|---|---|
+| `{{SITE}}` | The live website URL | your hosting dashboard | The repo mentions `find-your-bus.vercel.app` **and** `pathsathi.vercel.app` — neither is confirmed, so confirm and delete the other from `marketing/bios-and-handles.md` and `marketing/make-video.html` |
+| `{{APP_LINK}}` | Play Store link | Play Console | leave blank (option B) |
+| `{{IG}}` | Instagram username | pick one below | `pathsathi.kolkata` |
+| `{{FB}}` | Facebook page name | pick one below | `Pathsathi — Kolkata bus times` |
+| `{{X}}` | X username | pick one below | `pathsathiapp` |
+| `{{YT}}` | YouTube handle | pick one below | `@pathsathiapp` |
+| `{{WA}}` | WhatsApp Channel link | create it on Day 1 | — |
+| `{{TG}}` | Telegram channel | optional, skip if you don't use it | — |
+| `{{DESK}}` | Community desk URL (report a missing route) | wherever `user_input/` is deployed | skip until deployed |
 
-✅ Works with NO signal (bus = weak network zone!)
-✅ Distance to every stop ahead
-✅ Says “You are not on this bus” if you boarded wrong
+**Also decide (I asked, no answer yet — the plan assumes the first option):**
 
-Bus is where signal dies. Pathsathi works there anyway. 🚌💚
-
-Try: Open any bus → Tap “Set on Bus” → See yourself move 🗺️
-Link in bio 👆
-
-#OfflineFirst #PathsathiBus #KolkataBus #TechForKolkata #PWA #NoSignalNoProblem
-```
-**Banner:** Banner #2 (Offline Ride Screen) — BOOST THIS POST
-
-### DAY 9 — Tuesday — POPULAR ROUTES CAROUSEL
-**Platforms:** IG Carousel (5 slides) + FB
-**Format:** Top 5 searched routes on Pathsathi (or predicted)
-- Slide 1: “Top 5 Kolkata Routes You Search Most 🔥”
-- Slide 2: Esplanade ↔ Garia (Route 1)
-- Slide 3: Howrah ↔ Sealdah
-- Slide 4: Salt Lake ↔ Tollygunge
-- Slide 5: “+ 645 more — Search yours 👉 Link in bio”
-**Caption:**
-```
-Which one is YOUR daily? 👇
-
-1. Esplanade → Garia
-2. Howrah → Sealdah
-3. Salt Lake → Tollygunge
-4. Garia → Howrah
-5. Park Street → Alipore Zoo
-
-Comment your route — we’ll reply with buses & times! 🚌
-
-#KolkataRoutes #PathsathiBus #Esplanade #Garia #Howrah #Sealdah
-```
-**Engagement hack:** Reply to every comment with actual Pathsathi link: `?from=Esplanade&to=Garia`
-
-### DAY 10 — Wednesday — PWA INSTALL TUTORIAL
-**Platforms:** IG Reel (25s) + Story (step-by-step)
-**Format:** Screen record: “Add to Home Screen” on Android + iOS (2.8 MB only!)
-**Caption:**
-```
-2.8 MB = Your bus timetable forever. 📲
-
-Install Pathsathi like an app:
-Android: Menu → Add to Home Screen ✅
-iPhone: Share → Add to Home Screen ✅
-
-No Play Store. No update nag. Works offline. 💚
-
-Tag someone whose phone storage is always full 😂
-
-#PWA #InstallPathsathi #KolkataTech #PathsathiBus #LightweightApp
-```
-**Banner:** Banner #6 (Install PWA)
-
-### DAY 11 — Thursday — 1-CHANGE JOURNEYS
-**Platforms:** IG Post (infographic) + X Post
-**Format:** Infographic: “No direct bus? Pathsathi finds 1-change” — Example: Behala → New Town
-**Caption:**
-```
-No direct bus? No problem. Pathsathi finds 1-change journeys too 🔄
-
-Example: Behala → New Town
-Bus 1: Behala → Esplanade (12 min)
-Change: Esplanade
-Bus 2: Esplanade → New Town (22 min)
-
-We show both legs with times & where to change. 🚌🚌
-
-Try your “impossible” route — link in bio 👆
-
-#KolkataBus #PathsathiBus #TravelHack #Behala #NewTown
-```
-**Banner:** Banner #4 (1-Change feature)
-
-### DAY 12 — Friday — BEHIND THE SCENES / DATA STORY
-**Platforms:** IG Post (photo of workbooks/data) + X Thread
-**Format:** Honest post: “Why Pathsathi has no fake times”
-**Caption:**
-```
-Why some routes say “no timetable yet” — and why that’s honest 💚
-
-Kolkata buses run to frequency, not fixed timetable (mostly).
-We checked:
-❌ No open GTFS feed
-❌ BusJatri 4,728 services — 0 with times
-❌ Websites showing “estimated” times
-
-So we only show what’s published. If we don’t know, we say so.
-No fake times. Ever. ⏰
-
-650 routes. Honest times where we have them. Full stop lists for all.
-
-#BuildInPublic #PathsathiBus #Kolkata #DataHonesty #Transparency
-```
-**Story:** Poll — “Do you prefer honest ‘no time’ or fake estimated time?”
-
-### DAY 13 — Saturday — USER HACKS / TIPS
-**Platforms:** IG Carousel (tips) + FB
-**Format:** “3 Commuter Hacks from Pathsathi 💡”
-- Slide 1: Reach stop 3 min early (buses leave early!)
-- Slide 2: Midday quieter than 9 AM peak
-- Slide 3: Front seats for seniors — tap detail modal
-**Caption:**
-```
-3 things every Kolkata bus passenger should know 💡
-
-1. Reach 3 min early — buses sometimes leave early ⏰
-2. Midday > Morning rush — quieter buses 11 AM - 4 PM 😌
-3. Front seats = seniors/disabled — Pathsathi’s detail screen reminds you ♿
-
-Save this. Share with daily commuters 💚
-
-#CommuterTips #KolkataBus #PathsathiBus #TravelSmart
-```
-
-### DAY 14 — Sunday — SUNDAY QUIZ / ENGAGEMENT
-**Platforms:** IG Story heavy + X Poll + Feed Post (quiz)
-**Format:** Quiz carousel: “Guess the route by stops?”
-**Caption:**
-```
-SUNDAY QUIZ 🧠 Can you guess the route?
-
-Stops: Esplanade → Park Street → Ballygunge → Garia
-
-A) Route 1
-B) Route 5
-C) Route S14
-
-Answer in comments — we’ll DM you the Pathsathi link for that route! 🎁
-
-#SundayQuiz #KolkataBus #PathsathiBus #BusQuiz #KolkataDiaries
-```
-**Story:** Full quiz with countdown
+1. **Voiceover language.** Scripts below are **English**, because free AI voices read English
+   cleanly and the app's own copy is English. If you want Banglish ("Esplanade theke Garia"), say
+   so and I will rewrite all five scripts — don't half-translate by hand.
+2. **Who is on camera.** Assumed: nobody. All videos are screen recordings + hands + the street,
+   narrated by AI. That is faster and needs no confidence on camera.
+3. **When you can film.** Assumed: one weekday morning commute (08:00–09:30) and one Saturday.
+4. **An app on the Play Store, or not** (§1.3).
 
 ---
 
-## WEEK 3: COMMUNITY + CULTURE (Days 15-21)
-*Make Pathsathi part of Kolkata internet culture*
+## 3. The funnel: one video → one website visit → one install
 
-### DAY 15 — Monday — MEME MONDAY 🔥 (VIRAL PUSH)
-**Platforms:** IG Meme Post + X Meme + FB Meme
-**Format:** Meme template: “Bengali mom: ‘Bus e uthechis?’ Me: *checking Pathsathi offline map*”
-**Caption:**
+This is the part the old plan never had. A post that only gets likes is a wasted post. Every video
+here ends with the same three-part close, and the link is measured.
+
+### 3.1 The chain
+
 ```
-Bengali parents will still call, but at least you’ll know where you are 😂📍
-
-Pathsathi’s offline map: “You are 300m from Park Street”
-
-Parents: “Tui kothay?!”
-
-Tag your mom who tracks you more than GPS 😅👇
-
-#MemeMonday #BengaliMemes #KolkataMemes #PathsathiKolkata #BengaliMom
-```
-**Banner:** Meme version of Banner #2
-**Boost tip:** This is most shareable — ask 3 meme pages to repost
-
-### DAY 16 — Tuesday — UGC CALL
-**Platforms:** IG Post + Story + X
-**Format:** Call for photos: “Show us your Pathsathi moment”
-**Caption:**
-```
-Show us your #PathsathiKolkata moment 📸
-
-→ Screenshot your search
-→ Photo from your bus window
-→ Your “Set on Bus” screen on ride
-
-Tag @pathsathi.kolkata + #PathsathiKolkata — we’ll feature 5 best this Friday! 💚
-
-Prize: Featured + Pathsathi sticker pack (if you make them) 🎁
-
-#UGC #KolkataDiaries #PathsathiBus #Community
-```
-**Story:** “Add Yours” sticker — “My bus ride today 🚌”
-
-### DAY 17 — Wednesday — ROAST / MYTH BUSTING
-**Platforms:** IG Reel (15s) + YT Shorts
-**Format:** “3 Lies About Kolkata Buses”
-**Script:** See `shorts-scripts.md` #3
-**Caption:**
-```
-3 lies about Kolkata buses we all believed 😅
-
-❌ “Bus always on time”
-❌ “Conductor knows every stop”
-❌ “Google Maps has all bus times”
-
-Truth: Pathsathi has honest timetables, not guesses. 💚
-
-Which lie did you believe? 👇
-
-#MythBusting #KolkataBus #PathsathiBus #KolkataMyths
+Reel / Short / Post
+   ↓  (last 4 seconds: URL on screen + "link in bio" + QR)
+Profile → link
+   ↓  (one link, with a UTM tag per platform)
+{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=launch01
+   ↓  (site shows the answer in under 10 s, so the visitor stays)
+Home screen install (option B)  or  Play Store (option A)
+   ↓
+"Add to Home Screen" video pinned on the profile + linked from the homepage CTA
 ```
 
-### DAY 18 — Thursday — KOLKATA LOVE / AESTHETIC
-**Platforms:** IG Post (carousel: 5 Kolkata bus moments) + FB
-**Format:** Aesthetic carousel — yellow taxi, Howrah Bridge, College Street, tram, bus interior
-**Caption:**
-```
-Kolkata is a feeling. And buses are its heartbeat. 💛🚌
+### 3.2 The five mechanics that make it convert (all free)
 
-Yellow taxis get the photos. Buses get you there.
+1. **One link in bio, not five.** Instagram and TikTok cannot put links in a caption, so the bio
+   link is the only road. Point it at `{{SITE}}/?utm_source=instagram&utm_medium=bio`.
+2. **Link in the first comment, pinned.** On every Reel and every YouTube Short. People who read
+   comments are the ones who act. Facebook and X get the link inside the post (both are clickable).
+3. **The URL appears on screen** for the final 3–4 seconds, typed in a browser bar (not a floating
+   logo). Do it even with "link in bio": a viewer who memorises your name searches it later.
+4. **A QR strip on the end card** for the in-person plays — the bus-stand demo, the auto-stand, a
+   friend's phone. Not the main online conversion, but it is what makes ground work work.
+5. **An install ask that costs the viewer 15 seconds.** Under option B, "Add to Home Screen" film is
+   pinned at the top of every profile and is the first thing a new visitor sees on `{{SITE}}`.
 
-Which spot is your daily? 👇
-📍 Howrah Bridge
-📍 College Street
-📍 Park Street
-📍 Gariahat
+### 3.3 UTM naming — one rule, every post
 
-Comment with 🚌 + your stop name!
+`?utm_source=<platform>&utm_medium=<format>&utm_campaign=<post-number>`
 
-#KolkataAesthetic #CityOfJoy #KolkataDiaries #HowrahBridge #PathsathiKolkata #KolkataLove #Bengal
-```
+| Example | Reads as |
+|---|---|
+| `?utm_source=instagram&utm_medium=reel&utm_campaign=launch01` | Instagram reel, launch post |
+| `?utm_source=facebook&utm_medium=post&utm_campaign=launch01` | Facebook page post |
+| `?utm_source=whatsapp&utm_medium=channel&utm_campaign=stop01` | WhatsApp channel |
+| `?utm_source=ground&utm_medium=qr&utm_campaign=esplanade` | QR shown in person at Esplanade |
 
-### DAY 19 — Friday — FEATURE COMPARISON (Honest)
-**Platforms:** IG Carousel (comparison) + X Thread
-**Format:** “Pathsathi vs Asking at Bus Stop”
-- Slide 1: Asking = “Maybe 5 no, maybe S5” vs Pathsathi = Exact list
-- Slide 2: Asking = “No idea of time” vs Pathsathi = Times for today
-- Slide 3: “You choose 😉”
-**Caption:**
-```
-Asking at bus stop vs Pathsathi 😏
+Never post an untagged link. An untagged link teaches you nothing.
 
-👨‍🦳 “Ei bus ta Garia jabe?”
-→ “Haan haan… na S5 ta jabe”
+### 3.4 Measurement reality check (free only)
 
-Pathsathi:
-→ Esplanade → Garia: Route 1, S5, AC5 … with times ⏰
+There is **no analytics in the site today** (`grep` finds none in `fontend/src`). Without one you
+cannot tell which post brought a visitor, and this whole plan collapses into guesswork.
 
-Your call. Link in bio 👆💚
-
-#PathsathiVs #KolkataBus #FindYourBus #PathsathiKolkata
-```
-**Banner:** Banner #5 (Comparison)
-
-### DAY 20 — Saturday — COLLAB DAY
-**Platforms:** IG Reel (collab) + FB
-**Format:** Collab with Kolkata micro-influencer / page (Kolkata food, travel, student page — 10K-50K followers)
-**Caption (collab):**
-```
-We asked @kolkata_foodie (or @calcutta_student) to try Pathsathi for a day 🚌
-
-Watch them find buses without asking anyone 😎
-
-Full collab on their page too — check @pathsathi.kolkata x @partner
-
-Want to collab? DM us! 💚
-
-#Collab #KolkataInfluencer #PathsathiKolkata #KolkataGram
-```
-**Note:** Outreach to 10 micro-influencers in Week 2, lock 1 for Day 20.
-
-### DAY 21 — Sunday — POLL / THIS OR THAT
-**Platforms:** IG Story + X Poll + Feed (results)
-**Format:** “This or That: Kolkata Commute Edition”
-**Caption:**
-```
-This or That — Kolkata Commute Edition 👇
-
-🚌 Bus vs 🚇 Metro?
-☀️ Morning bus vs 🌙 Evening bus?
-📍 Front seat vs 🪟 Window seat?
-
-Vote in stories & comment your pick!
-
-#ThisOrThat #KolkataCommute #PathsathiKolkata #SundayPoll
-```
-**Story:** 5 polls back-to-back (high engagement)
+- **Day 1, 30 minutes:** add **GA4** (free) to `fontend/src/app/layout.tsx`, or host on Cloudflare
+  Pages / Vercel and enable their free analytics. GA4 is the one that reads UTM tags.
+- **Same day:** add an `appinstalled` listener so a home-screen install is counted as an event
+  (`fontend/src/components/PwaBridge.tsx` already knows the install state — it needs one event).
+- **If you want, I can write both changes**; say the word and they are a small, tested patch.
 
 ---
 
-## WEEK 4: TRUST + GROWTH (Days 22-30)
-*Social proof + habit + retention*
+## 4. Platforms: handles, names, bios, and what each one is *for*
 
-### DAY 22 — Monday — TESTIMONIAL (First Reviews)
-**Platforms:** IG Post (quote cards) + FB + X
-**Format:** 2-3 testimonial quotes (DM friends to get first 3, or use beta feedback)
-- Card: “Pathsathi saved me 15 min daily” — Student, Jadavpur
-- Card: “Offline works! No signal on Bypass but Pathsathi showed distance” — Office commuter
-**Caption:**
+Seven places, not fifteen. Each has a job. Doing all seven costs about 45–60 minutes a day.
+
+| # | Platform | Job in the funnel | Effort | Handle (check, fall back in order) |
+|---|---|---|---|---|
+| 1 | **Instagram** | Discovery → profile → link | 15 min/day | `@pathsathi.kolkata` → `@pathsathi` → `@pathsathiapp` |
+| 2 | **Facebook Page** | The under-35-plus Kolkata commuter; the only platform where a link is clickable in a post | 10 min/day | Page name `Pathsathi — Kolkata bus times`; username `@pathsathikolkata` |
+| 3 | **Facebook Groups** | The highest-intent audience that exists for this | 15 min × 3/week | no handle — join as your personal profile |
+| 4 | **YouTube (Shorts)** | Search + long life; a Short keeps getting views for months | 10 min/video | `@pathsathiapp` |
+| 5 | **WhatsApp Channel + Status** | Trust and forwarding; in Kolkata this out-converts everything else for installs | 5 min/day | Channel name `Pathsathi — Kolkata bus times` |
+| 6 | **X (Twitter)** | Small in Kolkata, but free, and connects you to bus/metro/transport accounts and local media | 10 min × 3/week | `@pathsathiapp` → `@pathsathi_in` |
+| 7 | **Reddit r/kolkata** | One honest post reaches a few thousand people who like local tools | 1 hour, twice | personal account, disclose you built it |
+| 8 | *(optional)* **Telegram** | Only if you already use it; otherwise skip and put the effort into WhatsApp | 5 min/day | `@pathsathi` |
+
+### 4.1 Bios — paste-ready
+
+**Instagram (limit 150 characters)**
 ```
-Real words from real commuters 💚
-
-“Offline screen is magic. Bypass had no signal but Pathsathi still showed next stop distance.” — Rohan, New Town
-
-Your turn: Try Pathsathi and tell us — what’s your review? 👇
-Best review gets featured + surprise 🎁
-
-#Testimonial #PathsathiKolkata #KolkataCommuter #Review #PathsathiBus
+পথসাথী — Kolkata bus times 🚌
+Esplanade → Garia in 10 seconds. 651 routes, 2,194 stops.
+Works offline. No login.
+👇 Find your bus
 ```
+- Name field (searchable, separate from username): `Pathsathi — Kolkata bus times`
+- Link: `{{SITE}}/?utm_source=instagram&utm_medium=bio`
+- Category: `Transportation service`. Profile photo: the bus mark from
+  `fontend/public/icons/icon.svg` (already brand green).
+- First highlight: **Install** (Video 4), **Find a bus**, **At your stop**, **Offline**.
 
-### DAY 23 — Tuesday — DID YOU KNOW? (Data flex)
-**Platforms:** IG Post (infographic) + X
-**Format:** Infographic: “By the Numbers”
-- 193 Stands & Depots
-- 2194 Stops
-- 650 Routes
-- 1058 Runs with passage times
-- 1209 stops with GPS coordinates
-**Caption:**
+**Facebook Page (limit 255 characters)**
 ```
-Did you know? 🤯
-
-Pathsathi packs ALL this into 2.8 MB:
-
-🏢 193 stands
-📍 2194 stops (1209 with GPS!)
-🚌 650 routes
-⏰ 1058 timed runs
-
-No app store. No bloat. Just Kolkata. 💚
-
-What stat surprises you most? 👇
-
-#DidYouKnow #PathsathiBus #KolkataData #PathsathiKolkata #TechForGood
+পথসাথী (Pathsathi) — Kolkata's bus timetable. Type two stops and see every bus with its published
+times, plus one-change options when there is no direct bus. A ride screen that works with no signal.
+Free, no login, 651 routes and 2,194 stops.
 ```
-**Banner:** Banner #4 (Stats)
+- Username: `@pathsathikolkata`. Category: `App page` or `Transportation service`.
+- Button: **Learn more** → `{{SITE}}/?utm_source=facebook&utm_medium=page`.
+- Action button for option A: **Install app** → `{{APP_LINK}}`.
 
-### DAY 24 — Wednesday — TUTORIAL REEL: Ride Screen Deep Dive
-**Platforms:** IG Reel + YT Shorts + FB Video
-**Format:** 45s tutorial: Full “Set on Bus” flow with map zoom, Follow My Bus, distances
-**Script:** See `shorts-scripts.md` #4 — “How Set on Bus Works”
-**Caption:**
+**X (limit 160 characters)**
 ```
-Deep dive: How “Set on Bus” actually works 🗺️📴
-
-1. Open any bus → Tap “Set on Bus”
-2. Allow location → See yourself on route line
-3. Pinch to zoom, see stop names appear
-4. “Follow my bus” keeps you centred
-5. Distances update along REAL roads
-
-No tiles. No API key. Just your GPS + our road shapes. 💚
-
-Try it on your next ride — link in bio 👆
-
-#Tutorial #PathsathiBus #OfflineMap #KolkataBus #HowItWorks
+Kolkata bus times in 10 seconds.
+Two stops → every bus, its times, one-change options.
+Offline ride screen. 651 routes, 2,194 stops.
+Pathsathi 🚌 {{SITE}}
 ```
 
-### DAY 25 — Thursday — MEME + GIVEAWAY TEASE
-**Platforms:** IG Post + Story + X
-**Format:** Meme + “Giveaway tomorrow! 🎁”
-**Caption:**
+**YouTube (first 100 characters decide whether anyone reads on)**
 ```
-Meme today, prize tomorrow 😏🎁
-
-Tomorrow we’re giving away — wait, you’ll see.
-
-Hint: It’s for people who actually ride buses 🚌💚
-
-Turn on post notifications 🔔
-#GiveawaySoon #PathsathiKolkata
-
----
-Meme: “When you board wrong bus but Pathsathi says ‘You are not seated in this bus’ 😳”
+Pathsathi — Kolkata bus timetable and offline ride screen. 651 routes, 2,194 stops. Free, no login.
+Short demos every week. Type two stops, see every bus with its published times, and follow your ride
+with no signal. Not live tracking — published times, your own GPS.
+{{SITE}}?utm_source=youtube&utm_medium=profile
 ```
-**Story:** Countdown to giveaway
+- Banner: `[IMAGE — generate: 2560×1440, brand green, bus mark, word "Pathsathi", the line "Find your bus in 10 seconds", the URL `{{SITE}}`]** — keep text inside the central 1546×423 safe area.
+- Playlists: `Find a bus`, `At your stop`, `Install & offline`.
 
-### DAY 26 — Friday — GIVEAWAY 🎁 (BIG PUSH)
-**Platforms:** IG Post + Reel + FB + X + Story
-**Format:** Giveaway graphic: “Win Kolkata Travel Kit”
-**Prize ideas (pick 1-2, low budget):**
-- ₹500 Metro/Bus recharge + Pathsathi sticker pack + Feature on page
-- OR: Free chai + snacks at famous spot (partner with local cafe) + shoutout
-- OR Digital: Custom Pathsathi route map of winner’s daily route (personalized graphic) ← VIRAL & FREE
-**Rules:**
-1. Follow @pathsathi.kolkata
-2. Like this post
-3. Comment your daily route (e.g., “Behala → Esplanade”)
-4. Tag 2 friends who need Pathsathi
-5. Share to story = bonus entry
-**Caption:**
-```
-🎁 GIVEAWAY: Win Your Personal Route Map! 🗺️
+**WhatsApp Channel** — Name `Pathsathi — Kolkata bus times`; description:
+`Kolkata bus times. Two stops → every bus. Works offline. {{SITE}}` (2–3 messages a week, never
+more; a channel that spams gets muted).
 
-We’ll design a custom Pathsathi map of YOUR daily route + ₹500 travel recharge 💚
+**Telegram (optional)** — Name `Pathsathi`; about: `Kolkata bus timetables. Works offline. {{SITE}}`.
 
-How to enter:
-1. Follow @pathsathi.kolkata
-2. Like this post ❤️
-3. Comment your daily route (e.g., “Garia → Sealdah”) 🚌
-4. Tag 2 friends who ride buses with you 👇
-
-Bonus: Share to story & tag us = double chance!
-
-Winner announced Day 30 🎉
-#Giveaway #KolkataGiveaway #PathsathiKolkata #FindYourBus #KolkataContest #CityOfJoy
-```
-**Boost:** Put ₹1K-2K behind this post targeting Kolkata 18-35
-
-### DAY 27 — Saturday — BEHIND THE SCENES / FOUNDER STORY
-**Platforms:** IG Carousel (story) + X Thread + FB
-**Format:** “Why we built Pathsathi” — personal story, photos of workbooks, code, audit docs
-**Caption:**
-```
-Why we built Pathsathi — the honest story 📖
-
-We tried to find a Kolkata bus timetable. There wasn’t one.
-
-WBTC lists routes but no times. BusJatri has 4,728 services, 0 times. Sites showing “estimated” times even say “assumed”.
-
-So we went to the source: 75-route v2 directory with passage time at EVERY stop + added 566 catalogue routes.
-
-No fake times. No guesses. Just what’s published. And 1209 stops with GPS so offline works.
-
-Made for the way Kolkata *actually* moves. 💚
-
-Ask us anything — we’ll answer in stories 👇
-
-#BuildInPublic #FounderStory #PathsathiKolkata #KolkataBus #WhyWeBuilt
-```
-
-### DAY 28 — Sunday — ROUTE OF THE WEEK + UGC FEATURE
-**Platforms:** IG Carousel (UGC reposts) + FB
-**Format:** Feature 5 best UGC from Day 16 call + Route of the Week deep dive
-**Caption:**
-```
-YOU made Pathsathi beautiful 💚📸
-
-Featuring 5 of your #PathsathiKolkata moments:
-
-1. @user1 — “Esplanade sunrise bus” 🌅
-2. @user2 — “Gariahat evening ride”
-…
-
-Want to be featured? Tag #PathsathiKolkata 🚌
-
-ROUTE OF THE WEEK: Route S5 (Howrah → Garia)
-Full stops + times → Link in bio for S5 timetable 👆
-
-#UGC #KolkataDiaries #PathsathiBus #CommunityLove #RouteOfWeek
-```
-
-### DAY 29 — Monday — RECAP + BEFORE/AFTER
-**Platforms:** IG Reel (recap) + X Thread (stats)
-**Format:** Reel: Fast montage of 30 days + stats
-**Caption:**
-```
-30 days ago we asked: “Can Kolkata find its bus in 10 seconds?”
-
-You answered. 💚
-
-🚌 X thousand searches
-📍 Y routes explored
-📴 Z offline rides
-💬 Hundreds of DMs
-
-Tomorrow: Giveaway winner + what’s next for Pathsathi 👀
-
-Thank you for making Pathsathi move, Kolkata. #PathsathiKolkata #30DaysOfPathsathi
-```
-**Story:** Poll — “What should we build next? More routes / Live crowding / Bengali version”
-
-### DAY 30 — Tuesday — WINNER + WHAT’S NEXT + CTA LOOP
-**Platforms:** IG Post + Reel (winner) + Story + X + FB
-**Format:** Winner announcement video + Roadmap teaser
-**Caption:**
-```
-🎉 GIVEAWAY WINNER: @winner! Your custom route map is coming 💚
-
-Thank you to 500+ entries — every route you commented is now on our priority list 📍
-
-WHAT’S NEXT FOR PATHSATHI:
-✅ More route times (you asked, we’re sourcing)
-✅ Bengali language support (আসছে!)
-✅ Crowding hints
-
-30 days done. But Pathsathi is just starting. 🚌💚
-
-🔗 Still haven’t tried? Link in bio. 10 seconds.
-Tag someone who missed the launch — their turn 👇
-
-#PathsathiKolkata #GiveawayWinner #WhatsNext #KolkataBus #30DaysDone #FindYourBus
-```
-**Story:** Winner DM + Celebration
-**Loop:** Restart Week 2 content for new followers, evergreen it as Highlights
+**Reddit** — no brand account. Use your own, mention you built it, and read §9.4 before posting.
 
 ---
 
-## DAILY STORIES TEMPLATE (1/day, always)
+## 5. The month, sized for one person with a job
 
-Pick 1-2 per day:
-- **Morning (8 AM):** Poll / Quiz / “Where are you headed today? 🚌”
-- **Afternoon (1 PM):** Repost feed post to story with “Tap to see” sticker
-- **Evening (7 PM):** Q&A / Countdown / “DM us your route”
+### 5.1 Honest shape of 30 days
 
-Story tools to rotate: Poll, Quiz, Question, Slider (“How helpful was Pathsathi? 🤩”), Countdown, Add Yours, Mention
+| Content | Count | Why this many |
+|---|---|---|
+| Short videos (Reels + Shorts + FB) | **5** | One good video a week beats five rushed ones |
+| Feed posts (image / carousel) | **10** | Two a week, cheap to make from screenshots |
+| Stories | **~16** | Polls, screenshots, reposts. 3 minutes each |
+| X posts | **10** | Reposts of the week's best, plus 2 threads |
+| WhatsApp channel messages | **10** | The same posts, reworded one line |
+| Ground sessions (real people, real buses) | **6** | This is where installs actually come from |
+| Weekly reviews | **4** | Sunday, 20 minutes |
 
----
+### 5.2 Time budget for a normal weekday (~50 minutes)
 
-## X (TWITTER) EXTRA — DAILY TWEETS (20 total)
+1. 20 min — make or edit that day's asset (most days: a screenshot with a caption, 5 minutes).
+2. 10 min — post on IG + FB + WhatsApp channel (copy-paste the same caption).
+3. 15 min — replies, DMs, group comments. **This is not optional**; it is where installs come from.
+4. 5 min — log today's numbers in the tracking table (§11).
 
-Beyond the X posts listed above, tweet daily at 9 AM IST:
+### 5.3 Targets — planning numbers, not promises
 
-- **Day 1:** Teaser
-- **Day 2:** Launch thread (3 tweets)
-- **Day 3:** Tip: “Pro tip: Add ?from=Esplanade&to=Garia to Pathsathi URL to share your bus search”
-- **Day 4:** Meme
-- **Day 5:** “Kolkata bus fact: There are 193 official stands but you know 5. Pathsathi knows all 193 😎”
-- **Day 7:** Week recap
-- **Day 8:** Offline feature
-- **Day 11:** 1-change explainer
-- **Day 13:** Tip
-- **Day 14:** Quiz
-- **Day 15:** Meme
-- **Day 17:** Myth bust
-- **Day 19:** Comparison
-- **Day 22:** Testimonial
-- **Day 23:** Stats
-- **Day 25:** Giveaway tease
-- **Day 26:** Giveaway
-- **Day 27:** Founder thread
-- **Day 29:** Recap thread
-- **Day 30:** Winner
+Replace them with your real week-1 numbers on Day 7. Do not quote them publicly.
 
-Use 1-2 hashtags max on X. Engage: Reply to #Kolkata tweets with helpful bus info + Pathsathi link.
+| Metric | Day 30 (0 cost, no audience on Day 1) |
+|---|---|
+| Views across all videos | 3,000–8,000 |
+| Site visits with a UTM tag | 200–500 |
+| Home-screen installs / store installs | 20–60 |
+| Followers (IG + FB + YT combined) | 150–400 |
+| People who saved/bookmarked a post | 30–80 (saves matter more than likes) |
+
+If the numbers come in under the low end, the answer is **not** more posts. It is better ground
+work (§10) and more group/DM conversations.
 
 ---
 
-## FACEBOOK EXTRAS
+## 6. Calendar at a glance
 
-- Share every IG post to FB (same caption, 1-2 hashtags)
-- Join & post (with admin permission) in: Kolkata Bus Routes groups, Calcutta Lovers, Kolkata Commuters — provide value, not spam: “We built a tool that finds buses between any 2 Kolkata stops — try Esplanade → Garia [link] — feedback welcome!”
-- FB Story for every IG Story
-- Create FB Event for Giveaway
+| Day | What | Type |
+|---|---|---|
+| 1 | Accounts, bios, one link, analytics | setup |
+| 2 | Film everything for week 1 in one bus ride | setup |
+| 3 | **LAUNCH** — "Find any bus in 10 seconds" | **Video 1** |
+| 4 | "What Esplanade knows" (data post) | Post 1 |
+| 5 | Story: poll. X: launch thread | Story + X |
+| 6 | "No signal? Still works" | **Video 5** (short) |
+| 7 | Week 1 review + first ground session | review |
+| 8 | "Which bus am I in?" | **Video 2** |
+| 9 | "Ask the app, not three people" (street) | Post 2 |
+| 10 | Ground session at a bus stand + sticker test | ground |
+| 11 | "No direct bus? One change" | Post 3 |
+| 12 | Story quiz + WhatsApp channel | Story |
+| 13 | "We don't track buses. Here's why our times still help." | Post 4 |
+| 14 | Week 2 review | review |
+| 15 | Install in 15 seconds | **Video 4** |
+| 16 | Route spotlight (vote) | Post 5 |
+| 17 | X thread: how the times are built | X |
+| 18 | "261 routes at one stop" | Post 6 |
+| 19 | Ground session, second stand | ground |
+| 20 | College commute | Post 7 |
+| 21 | Week 3 review | review |
+| 22 | "Where our data comes from" | Post 8 |
+| 23 | Story: behind the scenes + X | Story + X |
+| 24 | Community desk: send us the missing route | Post 9 |
+| 25 | Ground session, third stand + ask 10 people to install | ground |
+| 26 | Route spotlight #2 / reply-driven post | Post 10 |
+| 27 | Recap: the month in numbers | Post 11 |
+| 28 | Week 4 review | review |
+| 29 | Ask for reviews/testimonials; DM 5 pages | outreach |
+| 30 | Next-30-days decision post | Post 12 |
+
+Rule: **never two videos in one week in the first fortnight.** If a week slips, drop the feed post,
+keep the ground session.
 
 ---
 
-## MEASUREMENT — What to track (weekly)
+## 7. Week 1 in full (Days 1–7)
 
-| Metric | Tool | Target (30 days) |
-|--------|------|------------------|
-| Website visits | Vercel Analytics / Plausible | 5K+ |
-| Installs (PWA) | `beforeinstallprompt` + analytics | 500+ |
-| IG Followers | IG Insights | 1K+ |
-| Reel views | IG Insights | 10K+ total |
-| Engagement rate | Likes+comments / followers | >5% |
-| X followers | X Analytics | 300+ |
-| UGC posts | #PathsathiKolkata | 50+ |
-| Giveaway entries | Manual | 300+ |
+### Day 1 — Setup (no public posting)
 
-**Weekly review (Sunday 8 PM):** Check which post got most saves/shares — double down on that format next week.
+- [ ] Instagram, Facebook Page, YouTube, X created. Bios pasted from §4.1.
+- [ ] One link in every bio, UTM-tagged. Test it on your own phone.
+- [ ] Analytics added to the site (§3.4) and checked that a UTM shows up as a campaign.
+- [ ] `{{SITE}}` opened on your phone → Add to Home Screen → confirm it opens with airplane mode on.
+  **If it does not open offline, fix that before Day 3** — the whole promise is offline.
+- [ ] WhatsApp Channel created; add 20 contacts you actually know (not strangers).
+- [ ] Profile photo from `fontend/public/icons/icon.svg`.
 
----
+**Deliverable:** screenshots of all five profiles, and one screenshot of the site installed and
+opening offline.
 
-## APPENDIX A: OPTIONAL PAID BOOST (₹5K-10K)
+### Day 2 — The one film session (90 minutes, one bus ride)
 
-If you have small budget:
+Shoot everything for Videos 1, 2, 5 and Posts 1–2 in a single trip. Shot list:
 
-- **₹2K:** Boost Day 2 Launch post (IG) → Kolkata, 18-35, interest: public transport, Kolkata, travel — 3 days
-- **₹2K:** Boost Day 8 Offline Reel → Same audience, 3 days — best performing organic post
-- **₹1K-2K:** Boost Giveaway (Day 26) → Kolkata, 18-40, 4 days
-- **₹1K:** X promote Day 2 thread
+| Shot | Length | How |
+|---|---|---|
+| Bus arriving, from the stop | 6 s | hand-held, chest height, don't chase |
+| Hand holding the phone showing `/stop?stop=Esplanade` while standing at Esplanade | 8 s | screen visible, sun not on it |
+| Inside the bus, phone showing `/on-bus?route=1` | 8 s | sit, brace elbows on the seat back |
+| Screen recording: typing "Esplanade" → "Garia" → buses appear | 20 s | built-in screen recorder |
+| Screen recording: `/stop?stop=Garia`, scroll the next buses | 15 s | — |
+| Screen recording: turning on airplane mode, opening the app, `/map` still loading | 20 s | **the money shot** |
+| Walking shot of you/your hand only, street behind | 6 s | no face needed |
+| A conductor or a passenger in frame, unidentifiable, for texture | 4 s | only with consent (see §12) |
 
-Expected: 2-3x reach vs organic.
+**Do not** film people's faces without asking. A "no" costs you nothing; a complaint can end the
+account.
 
----
+### Day 3 — LAUNCH — Video 1 "Find any bus in 10 seconds"
 
-## APPENDIX B: OUTREACH LIST (DM in Week 1-2)
-
-- 10 Kolkata meme pages (e.g., Calcutta memes, Bengali memes) — ask to repost Day 4/15 meme with credit
-- 5 student pages (Jadavpur, Presidency, Calcutta University commuters)
-- 3 local transport bloggers / YouTubers
-- 2 food/travel influencers who commute (collab Day 20)
-
-DM template:
+- **Platforms:** IG Reel, YouTube Short, Facebook Reel + Page post, WhatsApp channel, X post.
+- **Post time:** Monday **08:30** (people are literally at the bus stop) and again no action needed.
+- **Speech, on-screen text, shot list:** §8, Video 1.
+- **Caption (Instagram):**
 ```
-Hi! We’re Pathsathi — Kolkata’s free bus timetable (650+ routes, works offline) 🚌💚 Love your page! Would you be open to trying Pathsathi and sharing with your audience? Happy to do a collab post or give your followers a custom route map. No cost — just love for Kolkata!
+Kolkata, you don't have to ask "ei bus ta kothay jay?" any more.
+
+Type where you are. Type where you're going. Every bus between those two stops, with its
+published time — 651 routes, 2,194 stops.
+
+No login. No ads. And it keeps working when the signal dies, which is exactly when you need it.
+
+Link in bio 👆 (fit-it-on-your-home-screen in 15 seconds)
+
+#Kolkata #KolkataBus #KolkataCommute #Pathsathi #Esplanade #Garia #PublicTransport
+```
+- **Facebook caption:** same, plus the link inline:
+`Try it: {{SITE}}/?utm_source=facebook&utm_medium=post&utm_campaign=launch01`
+- **X post:**
+```
+Every Kolkata bus between any two stops, with its published time. 651 routes, 2,194 stops.
+No login. Works with no signal.
+
+{{SITE}}?utm_source=x&utm_medium=post&utm_campaign=launch01
+```
+- **WhatsApp channel:** "Kolkata bus times, free, no login. Type two stops, see every bus. Works
+  offline too: `{{SITE}}?utm_source=whatsapp&utm_medium=channel&utm_campaign=launch01`"
+- **End card:** `[IMAGE — generate: end card 1080×1920, brand green background, the word Pathsathi,
+  the URL `{{SITE}}` large, a QR of `{{SITE}}?utm_source=ground&utm_medium=qr&utm_campaign=launch01`,
+  and one line "Works offline · Free · No login"]`
+- **Check that it worked:** GA4 → Reports → Acquisition → Traffic acquisition → filter campaign
+  `launch01`. By 21:00 you should see the first clicks.
+
+### Day 4 — Post 1 "What Esplanade knows"
+
+- **Platforms:** IG carousel (3 slides) + FB + WhatsApp.
+- **Image briefs:**
+  - Slide 1: `[IMAGE — generate: 1080×1350, dark green, large text "261 routes stop at Esplanade.", small line "Do you know which one is yours?"]`
+  - Slide 2: `[IMAGE — generate: 1080×1350, screenshot mock of /stop?stop=Esplanade — next buses list with times and waits, brand colours]`
+  - Slide 3: `[IMAGE — generate: 1080×1350, brand green, "Type your stop. See every bus." + URL `{{SITE}}` + QR]`
+- **Caption:**
+```
+261 routes stop at Esplanade. Around 9,800 timetabled passes a day. You know about five of them.
+
+Open your stop once and you get the next buses, the wait, and the whole day grouped by hour —
+then tap any bus to follow the ride.
+
+Which stop should we do next? Comment it. 👇
+
+#Kolkata #Esplanade #KolkataBus #Pathsathi
+```
+- **Why this post:** it is about *their* stop, not about your app. It is the cheapest post to make
+  (two screenshots) and the easiest to comment on.
+
+### Day 5 — Story + X thread
+
+- **Story 1:** poll — `How do you find your bus today?` / `Ask someone` / `Guess` / `Just wait`.
+- **Story 2:** screen recording of `/stop?stop=<their answer from Day 4 comments>`, 10 s, with the
+  link sticker + UTM `?utm_source=instagram&utm_medium=story&utm_campaign=stop02`.
+- **X thread (3 posts):**
+```
+1/ I built a Kolkata bus timetable that works with no signal. 651 routes, 2,194 stops, free,
+no login. Here's how it works 🧵
+2/ Type two stops. You get every bus between them with its published time, plus one-change
+journeys where there's no direct bus.
+3/ Inside the bus, GPS matches your position to the route and tells you which bus you're in and
+when to get off — offline. {{SITE}}?utm_source=x&utm_medium=thread&utm_campaign=stop01
 ```
 
+### Day 6 — Video 5 "No signal"
+
+- **Platforms:** IG Reel + YT Short + FB + WhatsApp.
+- **Why now:** it is the single most surprising thing about the product and it is a 20-second edit
+  of footage you already shot on Day 2.
+- **Script:** §8, Video 5.
+- **Caption:**
+```
+Airplane mode on. App still works.
+
+The whole timetable — 651 routes, 2,194 stops — is inside the app. Nothing to stream, nothing to
+wait for. Buses are exactly where the signal isn't.
+
+Link in bio. It takes 15 seconds to put on your home screen.
+
+#OfflineFirst #Kolkata #KolkataBus #EMBypass #Pathsathi
+```
+
+### Day 7 — First ground session + review
+
+- **Ground, 45 min:** Esplanade or Garia stand. Open `/stop?stop=<that stand>` on your phone, show
+  it to people waiting, let them scan the QR **from your screen**. Count: how many looked, how many
+  scanned, how many said "this is useful". See §10.
+- **Review, 20 min:** fill the tracking table. Three questions only: which post brought the most
+  clicks, which brought the most saves, what did the ground people say was wrong.
+
 ---
 
-## APPENDIX C: ASSETS CHECKLIST
+## 8. Video scripts (copy-paste into a free AI voice)
 
-- [x] Bios (IG/FB/X) → bios-and-handles.md
-- [x] Hashtag packs → hashtag-pack.md
-- [x] Captions bank → captions-bank.md
-- [x] Shorts scripts → shorts-scripts.md
-- [x] 8 Banners → banners/
-- [x] Preview → preview.html
+Five videos. Format for every one: **1080×1920, 9:16, 30 fps, subtitles burned in**, hook in the
+first second, URL on screen at the end. Speech is written to be read by an AI voice at ~150 words
+per minute — a 30-second video is about 70 words.
 
-All banners ready in `marketing/banners/` — export sizes:
-- Post (1080x1080)
-- Story/Reel cover (1080x1920)
-- Facebook Cover (1640x924)
-- X Header (1500x500)
-- Carousel slides (1080x1350)
+**Direction for the voice (same for all five):** calm, matter-of-fact, slightly warm — a person
+explaining something useful, not an advertisement. No exclamation marks, no "download now".
+Pauses are marked `…` — make the voice stop there.
 
 ---
 
-Made with 💚 for Kolkata. Pathsathi — Find Your Bus.
+### Video 1 — "Find any bus in 10 seconds" (35 s) — LAUNCH
 
+**Shots**
+1. 0–2 s: bus arriving at the stop (Day 2 footage), text over it: **"Kolkata buses, in 10 seconds"**
+2. 2–6 s: screen recording, typing "Esplanade" in the From field.
+3. 6–12 s: typing "Garia", results appear.
+4. 12–22 s: tap a bus → the timetable for that bus, times visible.
+5. 22–28 s: back, tap one change → a journey with two buses.
+6. 28–35 s: end card (below).
+
+**Speech — word for word**
+> Every day, you stand at a bus stop in Kolkata and ask the same question. Which bus goes where I
+> need to go, and when does it come? … This answers it in about ten seconds. Type the stop you are
+> standing at. Type where you want to go. … Every bus between them, with its published time. 651
+> routes, and 2,194 stops, all inside. No login. No ads. … And when the signal dies, which it always
+> does on a bus, it still works. … It is called Pathsathi. Link is in the bio, and it takes fifteen
+> seconds to put on your home screen.
+
+**On-screen text (burned in)**
+- 0–2 s: `Kolkata buses, in 10 seconds`
+- 12–22 s: `every bus · its published time`
+- 28–35 s: `{{SITE}}` + `free · no login · works offline` + QR
+
+---
+
+### Video 2 — "Which bus am I in?" (40 s)
+
+**Shots**
+1. 0–3 s: inside the bus, phone in hand, window light (Day 2).
+2. 3–8 s: screen recording of `/on-bus?route=1` — GPS dot on the route line.
+3. 8–18 s: the card that says which bus, and how many minutes to the next stop.
+4. 18–28 s: choosing a destination → countdown + "get ready" alert.
+5. 28–40 s: end card.
+
+**Speech — word for word**
+> You are already on the bus. Someone asks where you are going, and you are not completely sure
+> which bus this is. … Open the sticker on the bus, or the app, and it matches where you are
+> against the route and the timetable. It tells you which bus you are most likely in, and how many
+> minutes until your stop. … Choose the stop where you get off, and it counts down the journey, and
+> buzzes when you are nearly there. … It is not live tracking. No bus is sending its location. It is
+> your own GPS, against the times the operators publish. Which is honest, and it works with no
+> signal. … Pathsathi. Link in the bio.
+
+**On-screen text**
+- 0–3 s: `which bus is this?`
+- 8–18 s: `your GPS + the published timetable`
+- 20–28 s: `not live tracking — and we say so`
+- 28–40 s: `{{SITE}}` + QR
+
+---
+
+### Video 3 — "Ask the app, not three people" (35 s)
+
+**Shots**
+1. 0–4 s: three quick cuts of people talking at a bus stop (faces away or blurred).
+2. 4–10 s: a hand holding a phone, screen recording of the search.
+3. 10–22 s: results, then the stop page with the wait for the next bus.
+4. 22–35 s: end card.
+
+**Speech — word for word**
+> Three people at the bus stop. Three different answers. … This one takes ten seconds. Type your
+> stop. Type where you are going. … Every bus that connects them, with times, and the wait for the
+> next one. If there is no direct bus, it shows the ways with one change. … It is free. No login. And
+> it keeps working inside the bus, where the signal does not. … Pathsathi. Link in the bio.
+
+**On-screen text**
+- 0–4 s: `three answers. one app.`
+- 10–22 s: `next bus · how long · the whole day`
+- 22–35 s: `{{SITE}}` + QR
+
+---
+
+### Video 4 — "Install it in 15 seconds" (25 s) — pin this one
+
+**Shots:** screen recording only. Android and iPhone side by side, or two consecutive takes.
+1. 0–3 s: `{{SITE}}` typed in the browser bar.
+2. 3–10 s (Android): menu → Add to Home screen → confirm.
+3. 10–17 s (iPhone): Share → Add to Home Screen → Add.
+4. 17–25 s: airplane mode on, tap the new icon, app opens. End card.
+
+**Speech — word for word**
+> Two steps, and then it behaves like an app. … On Android, open the menu and choose add to home
+> screen. On an iPhone, tap share, then add to home screen. … That is it. It now lives with your
+> other apps, opens full screen, and works with no signal at all. No login, no ads, and nothing to
+> download from a store. … Pathsathi. Link in the bio.
+
+**On-screen text**
+- 3–10 s: `Android: menu → Add to Home screen`
+- 10–17 s: `iPhone: Share → Add to Home Screen`
+- 17–25 s: `works with no signal`
+- End: `{{SITE}}` + QR
+
+*(Option A: replace the speech with "search Pathsathi on Google Play", and keep the same end card
+with `{{APP_LINK}}`.)*
+
+---
+
+### Video 5 — "No signal" (20 s)
+
+**Shots**
+1. 0–3 s: airplane mode being switched on (screen recording, real toggle).
+2. 3–10 s: app icon tapped, `/map` loads, a route drawn.
+3. 10–16 s: `/stop?stop=Garia`, buses and times appear.
+4. 16–20 s: end card.
+
+**Speech — word for word**
+> Airplane mode. No internet at all. … The map still draws. The buses at this stop are still there,
+> with their times. … Because the whole timetable, all 651 routes and 2,194 stops, is already inside
+> the app. Buses are exactly where the signal is not. … Pathsathi. Free, and it stays on your home
+> screen.
+
+**On-screen text**
+- 0–3 s: `airplane mode on`
+- 10–16 s: `2,194 stops, no internet`
+- 16–20 s: `{{SITE}}` + QR
+
+---
+
+## 9. The parts that are not posts
+
+### 9.1 Zero-cost production kit
+
+| Need | Free option | Notes |
+|---|---|---|
+| Camera | your phone, rear lens, 1080p 30 fps | wipe the lens; lock exposure by tapping and holding |
+| Sound | AI voice (§8) | if you narrate, record in a quiet room with wired earphones, 20 cm from your mouth |
+| AI voice (free tier) | CapCut text-to-speech, Microsoft Edge "Read aloud" (record its output), ElevenLabs free tier, or `gTTS` (Python) | one voice for all five videos, so it sounds like one brand |
+| Editing | CapCut | 9:16, auto-captions on, trim to the script timings |
+| Screen recording | built-in Android / iOS recorder | no watermarks |
+| QR codes | **the repo's own** `qr-admin/index.html` | free, logo included, prints on A4 |
+| Images | screenshots of the real app + the `[IMAGE — generate]` briefs in this file | I generate those for you on request |
+| Hosting | Cloudflare Pages / GitHub Pages / Vercel free tier | static export, no server |
+| Analytics | GA4 free | needed for UTM |
+| Music | skip it, or the platform's own library only | a claimed video is taken down; silence + one voice works fine |
+
+### 9.2 The ground playbook (where installs really come from)
+
+Six sessions, ~45 minutes each, ₹0:
+
+1. **Stand next to a queue, don't sell to it.** Open `/stop?stop=<the stop you are standing at>` on
+   your phone and hold it where people can see it. Curiosity does the talking.
+2. **Let them scan your screen** (they hold their camera at your phone). That is the whole demo —
+   their phone now has the site, installed in 15 seconds, no store, no data cost.
+3. **Ask one question:** "Is your route missing?" It is the best conversation opener you have, and
+   the answer feeds the community desk.
+4. **Note the objections** word for word. Every one becomes a post or a fix.
+5. **Ask for a 10-second testimonial** (voice note is fine) with permission. Day 29 uses them.
+6. **Never claim official.** Say "I built it", because you did — and people trust that more.
+
+Places worth one session each: **Esplanade, Garia, Howrah Station, Salt Lake Sector V, Jadavpur,
+Dum Dum**. Rotate; don't repeat until you have covered four.
+
+### 9.3 Facebook groups (the highest-intent free channel)
+
+Search these names on Facebook and join the **three biggest active ones**: `Kolkata Bus`,
+`Kolkata Commuters`, `Kolkata Bus Routes`, `Calcutta`, `Kolkata Traffic`. Then:
+
+- Spend the first week only answering other people's questions (no links). Groups remove
+  drive-by advertisers; they tolerate a helpful member.
+- Then post **once**, with the link, and say plainly that you built it:
+```
+People keep asking "which bus from X to Y" here, so I built a free tool for it. Type two stops,
+see every bus with its published time, and a one-change option when there's no direct bus. No
+login, no ads, and it works inside the bus with no signal.
+
+{{SITE}}?utm_source=facebook&utm_medium=group&utm_campaign=group01
+
+If a route is missing, tell me in the comments and I'll look at it. (I'm the one who built it.)
+```
+- If an admin removes it, thank them, and ask what would be allowed. Do not repost.
+
+### 9.4 Reddit r/kolkata (twice, maximum)
+
+Rules that decide whether this works:
+
+- Use your own account, at least a few weeks old with some comment history. A brand-new account
+  posting one link is removed automatically.
+- Title it as a person, not a product: *"I built a free Kolkata bus timetable that works with no
+  signal — looking for people to break it"*.
+- Put the honest limits in the post itself: not live tracking, times are published times, stickers
+  not printed yet. Reddit rewards that and punishes the opposite.
+- Answer every comment, and fix what people report. Then post the second update in week 4 with the
+  fixes.
+
+### 9.5 Reply scripts (the questions you will get)
+
+| Comment | Reply |
+|---|---|
+| "Is this live tracking?" | "No — no bus sends its location. It uses the published timetable + your GPS, and it says on the screen that it isn't live." |
+| "Google Maps shows buses too." | "It does. This one has the operators' published times, the whole day at a stop, and it works with no signal." |
+| "My route isn't there." | "Tell me the route and the stops and I'll check the data. Missing ones are exactly what I want to hear about." |
+| "Is it on the Play Store?" | Option A: link. Option B: "Not yet — for now it installs from the browser in 15 seconds, and works offline. No store, no fee." |
+| "Is it official?" | "No. Independent, free, uses publicly available timetable data." |
+| "Where do the times come from?" | "The operators' published passage times, compiled into one file. Where no times are published, we show no times rather than guessing." |
+
+---
+
+## 10. Tracking table (fill it in daily, 5 minutes)
+
+| Day | Post | Platform | Views | Clicks (UTM) | Installs | Saves | Comments | One line: what happened |
+|---|---|---|---|---|---|---|---|---|
+| 3 | Video 1 | IG | | | | | | |
+| 3 | Video 1 | YT | | | | | | |
+| … | | | | | | | | |
+
+**Sunday review — three questions, 20 minutes**
+1. Which post got the most **clicks**, not likes? Do that format again next week.
+2. Which post got the most **saves**? Saves predict installs.
+3. What did people say at the bus stand that no post addresses? That is next week's post.
+
+**Kill rules** — decide these now, not in the moment:
+- A format with under 300 views twice in a row is dropped.
+- A platform with zero clicks for two weeks gets one post a week, not daily effort.
+- If installs are low but clicks are fine, the problem is on the site (the 15-second install video
+  is the fix), not in the marketing.
+
+---
+
+## 11. What not to do
+
+- Don't say "real-time", "live", or "track". It is untrue and the app's own screens contradict it.
+- Don't use the old banners: they say **Cholo**, say **"Real-time info"**, and show **Google Play /
+  App Store** badges that do not exist.
+- Don't buy followers, likes or views. Kolkata's local pages can tell, and it kills the trust you
+  need for a commuting tool.
+- Don't post more than twice a day on any platform, or more than one message a day on WhatsApp.
+  A muted channel is a dead channel.
+- Don't spam groups with the same text. Reword, and be a member first.
+- Don't repost the same Reel to TikTok-styled watermarks elsewhere; export clean from the editor.
+- Don't promise someone's missing route will be added "today". Say you will check.
+- Don't use a real person's face, voice or bus in a video without asking them first.
+
+---
+
+## 12. What I need from you to generate a post
+
+When you say "generate post 3", I will produce:
+
+1. **The final image(s)** at the right size for the platform, using the brief in this file, with the
+   wordmark, the URL and the QR in the right places.
+2. **A one-line description** of what the image says, in case you want it changed.
+3. **The caption**, already inside the platform's character limit, with the UTM link filled in.
+
+To do that cleanly I need, in order of importance:
+
+1. `{{SITE}}` — the real domain.
+2. **Store link or not** (§1.3) — it decides the last line of every caption.
+3. **Language** — English, or Banglish. Once chosen, all five scripts get rewritten to match, not
+   half-translated.
+4. The handles you actually got, if they differ from the suggestions in §4.
+5. For any photo of a real bus or a real stand: whether you can shoot it, or whether I should
+   generate it. Generated photos are not photos of real Kolkata buses — for a local audience that
+   difference is visible, so use generated images for posters/cards and real footage for "inside the
+   bus" content.
+
+---
+
+## 13. Housekeeping — old files that now contradict this plan
+
+These still carry the old product's claims. Don't publish from them until they are updated:
+
+| File | Problem |
+|---|---|
+| `marketing/banners/*.png` | Say "Cholo", "Real-time info", and show store badges that don't exist |
+| `marketing/captions-bank.md` | "650 routes", "real-time", "offline map" framing from the old product |
+| `marketing/shorts-scripts.md` | Old scripts; superseded by §8 here |
+| `marketing/bios-and-handles.md` | Points at `pathsathi.vercel.app` (unconfirmed domain) |
+| `marketing/make-video.html` | Hard-codes `find-your-bus.vercel.app` in five places |
+| `marketing/hashtag-pack.md`, `captions-bank.md` | Hashtags fine; the claims are not |
+
+Say the word and I'll rewrite each of those to match this plan, plus regenerate the banner artwork
+with the Pathsathi wordmark.
+
+---
+
+*Pathsathi — Kolkata bus times. 651 routes, 2,194 stops. Free, no login, works offline.*

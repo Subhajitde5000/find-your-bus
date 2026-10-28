@@ -1,4 +1,4 @@
-# Cholo Community Desk API
+# Pathsathi Community Desk API
 
 FastAPI service for feature ideas and bus-network corrections. Submitted records are stored in MongoDB when `MONGODB_URI` is configured. If it is omitted, the app uses an in-memory store for local UI previews only; that data disappears when the process restarts.
 
@@ -19,7 +19,7 @@ Interactive API docs: <http://localhost:8000/docs>
 ### Environment
 
 - `MONGODB_URI`: Mongo connection string. Required for persistent submissions.
-- `MONGODB_DATABASE`: database name (defaults to `cholo_user_input`).
+- `MONGODB_DATABASE`: database name (defaults to `pathsathi_user_input`).
 - `ADMIN_SESSION_SECRET`: long random signing key; replace the example value before deployment.
 - `ADMIN_COOKIE_SECURE`: set `true` behind HTTPS.
 

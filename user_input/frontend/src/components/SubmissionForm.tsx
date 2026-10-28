@@ -150,7 +150,7 @@ export function SubmissionForm({ kind }: { kind: SubmissionKind }) {
           </fieldset>
         ) : (
           <div className="field-group">
-            <label htmlFor="feature-area">Which part of Cholo is this about? <span className="optional-mark">Optional</span></label>
+            <label htmlFor="feature-area">Which part of Pathsathi is this about? <span className="optional-mark">Optional</span></label>
             <select id="feature-area" className="form-control" value={featureArea} onChange={(event) => setFeatureArea(event.target.value as FeatureArea)}>
               {(Object.entries(FEATURE_AREA_LABELS) as [FeatureArea, string][]).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
             </select>

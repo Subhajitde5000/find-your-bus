@@ -5,7 +5,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SubmissionForm } from "@/components/SubmissionForm";
 
-export const metadata: Metadata = { title: "Suggest a feature — Cholo Community Desk" };
+export const metadata: Metadata = { title: "Suggest a feature — Pathsathi Community Desk" };
 
 export default function SuggestFeaturePage() {
   return (
@@ -16,7 +16,7 @@ export default function SuggestFeaturePage() {
         <div className="form-page-heading">
           <span className="eyebrow"><span className="eyebrow-dot" /> IDEAS & IMPROVEMENTS</span>
           <h1>What would make<br />your ride <em>easier?</em></h1>
-          <p>Share a feature idea for Cholo. Small details can make a big difference to a daily commute.</p>
+          <p>Share a feature idea for Pathsathi. Small details can make a big difference to a daily commute.</p>
         </div>
         <div className="form-layout">
           <aside className="form-side-note feature-side-note">

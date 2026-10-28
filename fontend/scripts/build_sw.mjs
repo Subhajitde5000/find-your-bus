@@ -80,7 +80,7 @@ function collect() {
   return { urls: chosen.sort(), total, skipped, files: files.length };
 }
 
-const CACHE_NAME_PREFIX = "cholo";
+const CACHE_NAME_PREFIX = "pathsathi";
 
 function serviceWorkerSource(urls, version) {
   const list = urls.map((url) => `  ${JSON.stringify(url)},`).join("\n");
@@ -88,8 +88,8 @@ function serviceWorkerSource(urls, version) {
 /* Rebuild with: npm run build */
 
 const VERSION = ${JSON.stringify(version)};
-const SHELL_CACHE = "cholo-shell-" + VERSION;
-const RUNTIME_CACHE = "cholo-runtime-" + VERSION;
+const SHELL_CACHE = "pathsathi-shell-" + VERSION;
+const RUNTIME_CACHE = "pathsathi-runtime-" + VERSION;
 
 /* The app shell: everything the site needs to load with no signal at all. */
 const PRECACHE_URLS = [
@@ -203,7 +203,7 @@ const OFFLINE_HTML = `<!doctype html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Offline — Cholo</title>
+    <title>Offline — Pathsathi</title>
     <style>
       :root { color-scheme: light dark; }
       body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px;
@@ -219,7 +219,7 @@ const OFFLINE_HTML = `<!doctype html>
   <body>
     <div class="card">
       <h1>You are offline</h1>
-      <p>This page is not in your saved copy of Cholo yet.</p>
+      <p>This page is not in your saved copy of Pathsathi yet.</p>
       <p>Open it once while you have a signal and it will be available offline from then on.</p>
       <a href="/">Go to the timetable</a>
     </div>

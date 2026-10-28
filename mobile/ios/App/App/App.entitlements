@@ -12,8 +12,8 @@
 	-->
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:cholo.example</string>
-		<string>applinks:www.cholo.example</string>
+		<string>applinks:pathsathi.example</string>
+		<string>applinks:www.pathsathi.example</string>
 	</array>
 </dict>
 </plist>

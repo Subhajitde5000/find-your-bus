@@ -16,39 +16,39 @@ import {
   stopLink,
 } from "@/lib/qrLinks";
 
-const ORIGIN = "https://cholo.example";
+const ORIGIN = "https://pathsathi.example";
 
 describe("qr links", () => {
   it("builds an on-bus link from a route", () => {
-    assert.equal(onBusLink("1", null, ORIGIN), "https://cholo.example/on-bus?route=1");
+    assert.equal(onBusLink("1", null, ORIGIN), "https://pathsathi.example/on-bus?route=1");
     assert.equal(qrPath({ kind: "on-bus", route: "AC5", bus: null }), "/on-bus?route=AC5");
   });
 
   it("carries a bus registration when a sticker names one", () => {
-    assert.equal(onBusLink("1", "WB04A1234", ORIGIN), "https://cholo.example/on-bus?route=1&bus=WB+04+A+1234");
-    assert.equal(onBusLink("1", "wb-04-af-5678", ORIGIN), "https://cholo.example/on-bus?route=1&bus=WB+04+AF+5678");
+    assert.equal(onBusLink("1", "WB04A1234", ORIGIN), "https://pathsathi.example/on-bus?route=1&bus=WB+04+A+1234");
+    assert.equal(onBusLink("1", "wb-04-af-5678", ORIGIN), "https://pathsathi.example/on-bus?route=1&bus=WB+04+AF+5678");
   });
 
   it("ignores a bus registration that cannot be one", () => {
     assert.equal(normaliseBusRegistration("hello"), null);
     assert.equal(normaliseBusRegistration("WB04A1234"), "WB 04 A 1234");
-    assert.equal(onBusLink("1", "not-a-bus", ORIGIN), "https://cholo.example/on-bus?route=1");
+    assert.equal(onBusLink("1", "not-a-bus", ORIGIN), "https://pathsathi.example/on-bus?route=1");
   });
 
   it("builds a stop link for a name with brackets and a slash", () => {
     assert.equal(
       stopLink("Ahiritola (Rajabazar)", ORIGIN),
-      "https://cholo.example/stop?stop=Ahiritola+%28Rajabazar%29",
+      "https://pathsathi.example/stop?stop=Ahiritola+%28Rajabazar%29",
     );
     assert.equal(
       stopLink("B.B.D. Bagh", ORIGIN),
-      "https://cholo.example/stop?stop=B.B.D.+Bagh",
+      "https://pathsathi.example/stop?stop=B.B.D.+Bagh",
     );
   });
 
   it("strips a trailing slash from the configured origin", () => {
-    assert.equal(normaliseOrigin("https://cholo.in///"), "https://cholo.in");
-    assert.equal(onBusLink("1", null, "https://cholo.in/"), "https://cholo.in/on-bus?route=1");
+    assert.equal(normaliseOrigin("https://pathsathi.in///"), "https://pathsathi.in");
+    assert.equal(onBusLink("1", null, "https://pathsathi.in/"), "https://pathsathi.in/on-bus?route=1");
   });
 
   it("keeps a long operator route number intact", () => {
@@ -69,14 +69,14 @@ describe("scanning a value", () => {
   });
 
   it("reads the www alias and plain http", () => {
-    assert.equal(parseQrValue("https://www.cholo.example/on-bus?route=1", ORIGIN).ok, true);
-    assert.equal(parseQrValue("http://cholo.example/on-bus?route=1", ORIGIN).ok, true);
+    assert.equal(parseQrValue("https://www.pathsathi.example/on-bus?route=1", ORIGIN).ok, true);
+    assert.equal(parseQrValue("http://pathsathi.example/on-bus?route=1", ORIGIN).ok, true);
   });
 
   it("reads a bare path, a link without a scheme, and stray whitespace", () => {
     assert.equal(parseQrValue("/on-bus?route=1", ORIGIN).ok, true);
-    assert.equal(parseQrValue("cholo.example/on-bus?route=1", ORIGIN).ok, true);
-    const padded = parseQrValue("  \n https://cholo.example/stop?stop=Esplanade \n ", ORIGIN);
+    assert.equal(parseQrValue("pathsathi.example/on-bus?route=1", ORIGIN).ok, true);
+    const padded = parseQrValue("  \n https://pathsathi.example/stop?stop=Esplanade \n ", ORIGIN);
     assert.equal(padded.ok, true);
     assert.equal(padded.ok ? padded.path : "", "/stop?stop=Esplanade");
   });

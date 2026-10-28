@@ -1,187 +1,176 @@
-# Pathsathi — 30-Day Plan (v2, rewritten for the real product)
+# Pathsathi — 30-Day Launch Plan
 
-**Status:** replaces the old 30-day plan. The old version was written for a product that no longer
-exists: it promised "real-time info", pushed Google Play / App Store badges, pointed at
-`find-your-bus.vercel.app`, and never mentioned QR stickers, `/on-bus`, `/stop`, `/scan`, the
-offline ride screen, the community desk, or the sticker maker. All of that is out of date. This
-version is built from the code in this repository and from what you can physically do in Kolkata
-with ₹0.
+**Read me first.** This file is the whole campaign: what to post, on which day, on which platform,
+with the words, the hashtags, the links and the steps to make it. Every day is written out — there is
+no "repeat week 1" shortcut.
 
----
+**Three files work together:**
 
-## 1. Read this first
-
-### 1.1 What the product actually is today
-
-Say only these things in public. Every number below is from the repo, not from imagination.
-
-| Fact | Where it comes from |
+| File | What is in it |
 |---|---|
-| **651** bus routes | `fontend/src/data/kolkata-bus-data.json` |
-| **2,194** bus stops | same file |
-| **193** stands / depots / terminals | same file |
-| Pages: `/` (find a bus), `/map` (stop map), `/ride` (follow the route), `/on-bus` (which bus am I in), `/stop` (next buses at a stop), `/scan` (QR scanner) | `fontend/src/app/` |
-| Installs to the home screen (PWA), ~**2.8 MB**, works with **no signal** after the first visit | `README.md`, `fontend/scripts/build_sw.mjs` |
-| QR stickers exist as printable files (route sticker → `/on-bus`, stop sticker → `/stop`) | `qr-admin/`, `README.md` |
-| "One change" journeys are shown when there is no direct bus | `fontend/src/app/page.tsx` |
-| Community desk for missing routes / corrections | `user_input/` |
+| **this file** | the plan: 5 pre-launch days + 30 launch days, platform set-up, ground work, how-tos, tracking |
+| [`shorts-scripts.md`](shorts-scripts.md) | the **8 videos** — shots, word-for-word speech for an AI voice, on-screen text, captions, end card |
+| [`hashtag-pack.md`](hashtag-pack.md) | the **hashtag sets A–J**, which set goes with which day, and the ones never to use |
 
-### 1.2 What it is **not** — never claim these
-
-- **Not live tracking.** No bus reports its position. The app compares *your* GPS with the
-  published timetable and says so on screen. Never write "real-time", "live bus", "track your bus"
-  or "GPS tracking of buses". The banner in `marketing/banners/` says **"Real-time info"** — that
-  banner must not be posted.
-- **Not on the Play Store or App Store yet.** `mobile/APP.md` lists both as future work (USD 25 +
-  USD 99). Store badges in the old banners are fiction. Do not use them until the listings are live.
-- **No printed stickers in any bus or at any stop yet**, unless you have physically stuck them
-  yourself. Until then, sticker content is "you can print one", not "look for it at Esplanade".
-- **Not official.** Not WBTC, not the state government, not a bus operator.
-- **Registration numbers** are not printed on stickers yet.
-
-### 1.3 What "app download" means here (the one decision everything hangs on)
-
-The plan works either way, but **you must pick A or B before Day 3**:
-
-- **A — Play Store live:** every CTA is `{{APP_LINK}}` (Play Store). This is the strongest CTA, but
-  it costs USD 25 one-time and a closed test first.
-- **B — nothing published (recommended for 0 cost):** "install" = **Add to Home Screen**, a
-  15-second action with no store and no fee. Every phone can do it; nothing to buy; no download
-  friction; works offline immediately. Every CTA becomes `{{SITE}}` + "Add to Home Screen".
-
-The rest of this document writes CTAs as `{{SITE}}` and `{{APP_LINK}}`. Under option B you never
-fill in `{{APP_LINK}}`; you point at `{{SITE}}` and use Video 4 (the 15-second install) instead.
+**Read in this order:** §1–§5 of this file (15 minutes), then [`hashtag-pack.md`](hashtag-pack.md) §1,
+then the five pre-launch days. Come back to the rest as you reach it. Nothing here needs to be
+memorised.
 
 ---
 
-## 2. Fill-in sheet — do this before Day 1
+## 1. What the product is — the only version you may repeat in public
 
-I could not confirm these from the repository (two different domains are hard-coded in marketing
-files, and no store listing exists). Fill them in once, then every post below is copy-paste ready.
+| Fact | Number |
+|---|---|
+| Bus routes | **651** |
+| Bus stops | **2,194** |
+| Stands / depots / terminals | **193** |
+| App size, works with no signal after the first visit | **~2.8 MB** |
+| Cost, login, ads | **free, no login, no ads** |
 
-| Placeholder | What it is | Where to get it | Default if you have nothing |
+What it does, in the words of the screens:
+
+- **Find a bus** (`/`) — type two stops, see every bus between them with its published time, plus
+  one-change journeys when there is no direct bus.
+- **At your stop** (`/stop?stop=Esplanade`) — the next buses and the wait, and behind one tap the
+  whole day, hour by hour.
+- **Inside the bus** (`/on-bus?route=1`) — your own GPS against the route and timetable says which
+  bus you are most likely in, and counts down to your stop.
+- **Follow the ride** (`/ride`) — distance to the next stop, times for every stop ahead, offline.
+- **Scan** (`/scan`) — the QR stickers, which are ordinary links: they open the app if installed, the
+  website if not.
+
+**Never claim these** (each one is false, and someone will check):
+
+1. **"Live tracking" / "real-time bus position".** No bus sends its position. It is published times
+   plus your phone's GPS — and the screen says so.
+2. **"On the Play Store / App Store."** Neither is published (`mobile/APP.md` lists them as future
+   work, and they cost money). "Install" means **Add to Home Screen** until that changes.
+3. **"Look for our sticker at Esplanade."** No sticker is printed or stuck anywhere yet, unless you
+   personally did it.
+4. **"Official" / "WBTC" / "government".** You are independent.
+5. **Bus registration numbers.** Not printed yet.
+
+> ⚠️ The old banners in `marketing/banners/` break rules 1, 2 and 3 at once (they say *"Real-time
+> info"*, show Google Play and App Store badges, and still say *Cholo*). Do not post them. §16 lists
+> every old file that needs replacing.
+
+---
+
+## 2. Words used in this file
+
+| Word | What it means here |
+|---|---|
+| **Reel / Short** | a vertical video, up to 60 s. Same file posted to Instagram (Reel), YouTube (Short), Facebook (Reel) |
+| **Story** | the 24-hour circle at the top of Instagram/Facebook. Cheap: a screenshot, one line of text, a link sticker |
+| **Carousel** | one Instagram post with several images you swipe through |
+| **Hook** | the first 1–2 seconds. Decides whether anyone watches the rest |
+| **Caption** | the text under a post |
+| **Cover** | the still frame shown in your grid |
+| **CTA** | call to action — the sentence that tells the viewer what to do next |
+| **Save** | when someone bookmarks a post. The strongest signal you can get; it predicts installs |
+| **UTM tag** | the `?utm_source=…` bit added to a link so analytics can tell you which post brought the visitor |
+| **GA4** | Google Analytics 4 — free, and the only way to read UTM tags |
+| **Ground session** | 45 minutes in person at a bus stand showing the app to strangers. Where most installs come from |
+| **PWA / Add to Home Screen** | turning the website into an app icon. No store, no fee, works offline |
+
+---
+
+## 3. How a post becomes a website visit and an install
+
+This is the part most plans leave out, and it is the reason a post can get 5,000 views and 3 installs.
+Every post in this plan does all five steps.
+
+```
+1  REEL / POST  ──►  2  profile link  ──►  3  {{SITE}}  ──►  4  answers in 10 s  ──►  5  install
+   last 3 s:              one link,               tagged with a UTM                 Add to Home Screen
+   URL on screen          same on every post                                        (pinned how-to video)
+   + "link in bio"
+```
+
+1. **The URL appears on screen** in the last 3–4 seconds, typed into a browser bar. People do not
+   remember a caption; they remember a word they saw.
+2. **One link in the bio.** Not five. Instagram cannot put a link in a caption, so the bio link is
+   the only road out.
+3. **The link is tagged** with `?utm_source=<platform>&utm_medium=<format>&utm_campaign=<post>`.
+   Untagged links teach you nothing, so never post one.
+4. **The page must answer in under 10 seconds**, or the visitor is gone. Check this yourself: open
+   the link on your phone, cold, and time it.
+5. **The install ask is 15 seconds long** — the pinned "install" video (V3). Every profile needs it
+   at the top before the first post goes out.
+
+**And the free real-world version:** the same QR on your phone screen at a bus stand. Someone points
+their camera at your screen, and the site is on their phone before they walk away. That is
+§11, and it is why ground sessions are in this plan.
+
+---
+
+## 4. Fill this in before you start
+
+I cannot invent these, and every caption depends on them. Write them on paper, then use them.
+
+| Placeholder | What it is | Where you get it |
+|---|---|---|
+| `{{SITE}}` | the live website address | your host. **Two different domains appear in old marketing files** (`find-your-bus.vercel.app`, `pathsathi.vercel.app`) — confirm which is live and fix both files |
+| `{{APP_LINK}}` | Play Store link — **only if** you publish it | Play Console. Leave empty otherwise |
+| `{{IG}}` `{{FB}}` `{{X}}` `{{YT}}` | the handles you actually get | §5 |
+| `{{WA}}` | WhatsApp Channel link | create it on P1 |
+| `{{DESK}}` | the community-desk address (report a missing route) | wherever `user_input/` is deployed |
+| `{{PHONE}}` | a phone number or email strangers can write to | you |
+
+**Two decisions to make on day P1:**
+
+1. **Store or home screen?** If the Play Store is not published (it is not, today), "install" means
+   **Add to Home Screen** — ₹0, 15 seconds, works on every phone. Every caption in this plan assumes
+   that. If you publish later, only the link and one video change.
+2. **English or Banglish voice?** All eight scripts are written in **English**, because free AI voices
+   read it cleanly. If you want Banglish, say so and the scripts get rewritten as a set — never
+   half-translate them by hand, or the videos will sound like two different accounts.
+
+---
+
+## 5. The platforms — set-up, then what goes where
+
+Seven places. Each has one job. Doing all seven takes about 50 minutes on a normal day.
+
+| Platform | Its job | How often | Handle to try (fall back in order) |
 |---|---|---|---|
-| `{{SITE}}` | The live website URL | your hosting dashboard | The repo mentions `find-your-bus.vercel.app` **and** `pathsathi.vercel.app` — neither is confirmed, so confirm and delete the other from `marketing/bios-and-handles.md` and `marketing/make-video.html` |
-| `{{APP_LINK}}` | Play Store link | Play Console | leave blank (option B) |
-| `{{IG}}` | Instagram username | pick one below | `pathsathi.kolkata` |
-| `{{FB}}` | Facebook page name | pick one below | `Pathsathi — Kolkata bus times` |
-| `{{X}}` | X username | pick one below | `pathsathiapp` |
-| `{{YT}}` | YouTube handle | pick one below | `@pathsathiapp` |
-| `{{WA}}` | WhatsApp Channel link | create it on Day 1 | — |
-| `{{TG}}` | Telegram channel | optional, skip if you don't use it | — |
-| `{{DESK}}` | Community desk URL (report a missing route) | wherever `user_input/` is deployed | skip until deployed |
+| **Instagram** | discovery → profile → link | 2 posts + 2 stories a week | `pathsathi.kolkata` → `pathsathi` → `pathsathiapp` |
+| **Facebook Page** | the only place a link in a post is clickable | same posts as Instagram | page name `Pathsathi — Kolkata bus times`, username `pathsathikolkata` |
+| **Facebook groups** | the highest-intent free audience that exists for this | 1 useful post a week, comments daily | — (join as yourself) |
+| **YouTube** | search and long life; a Short keeps earning views | every Reel, plus one long video later | `@pathsathiapp` |
+| **WhatsApp Channel** | trust and forwarding; in Kolkata this out-converts everything | 2–3 messages a week | channel `Pathsathi — Kolkata bus times` |
+| **X** | transport accounts, local media, "build in public" | 2–3 posts a week | `pathsathiapp` → `pathsathi_in` |
+| **Reddit r/kolkata** | one honest post reaches thousands of people who like local tools | twice in the month | your own account, at least a few weeks old |
+| *Telegram* (optional) | only if you already use it — otherwise put the time into WhatsApp | 2–3 a week | `pathsathi` |
 
-**Also decide (I asked, no answer yet — the plan assumes the first option):**
+### 5.1 Set-up steps (30 minutes per platform, do it once)
 
-1. **Voiceover language.** Scripts below are **English**, because free AI voices read English
-   cleanly and the app's own copy is English. If you want Banglish ("Esplanade theke Garia"), say
-   so and I will rewrite all five scripts — don't half-translate by hand.
-2. **Who is on camera.** Assumed: nobody. All videos are screen recordings + hands + the street,
-   narrated by AI. That is faster and needs no confidence on camera.
-3. **When you can film.** Assumed: one weekday morning commute (08:00–09:30) and one Saturday.
-4. **An app on the Play Store, or not** (§1.3).
-
----
-
-## 3. The funnel: one video → one website visit → one install
-
-This is the part the old plan never had. A post that only gets likes is a wasted post. Every video
-here ends with the same three-part close, and the link is measured.
-
-### 3.1 The chain
-
-```
-Reel / Short / Post
-   ↓  (last 4 seconds: URL on screen + "link in bio" + QR)
-Profile → link
-   ↓  (one link, with a UTM tag per platform)
-{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=launch01
-   ↓  (site shows the answer in under 10 s, so the visitor stays)
-Home screen install (option B)  or  Play Store (option A)
-   ↓
-"Add to Home Screen" video pinned on the profile + linked from the homepage CTA
-```
-
-### 3.2 The five mechanics that make it convert (all free)
-
-1. **One link in bio, not five.** Instagram and TikTok cannot put links in a caption, so the bio
-   link is the only road. Point it at `{{SITE}}/?utm_source=instagram&utm_medium=bio`.
-2. **Link in the first comment, pinned.** On every Reel and every YouTube Short. People who read
-   comments are the ones who act. Facebook and X get the link inside the post (both are clickable).
-3. **The URL appears on screen** for the final 3–4 seconds, typed in a browser bar (not a floating
-   logo). Do it even with "link in bio": a viewer who memorises your name searches it later.
-4. **A QR strip on the end card** for the in-person plays — the bus-stand demo, the auto-stand, a
-   friend's phone. Not the main online conversion, but it is what makes ground work work.
-5. **An install ask that costs the viewer 15 seconds.** Under option B, "Add to Home Screen" film is
-   pinned at the top of every profile and is the first thing a new visitor sees on `{{SITE}}`.
-
-### 3.3 UTM naming — one rule, every post
-
-`?utm_source=<platform>&utm_medium=<format>&utm_campaign=<post-number>`
-
-| Example | Reads as |
-|---|---|
-| `?utm_source=instagram&utm_medium=reel&utm_campaign=launch01` | Instagram reel, launch post |
-| `?utm_source=facebook&utm_medium=post&utm_campaign=launch01` | Facebook page post |
-| `?utm_source=whatsapp&utm_medium=channel&utm_campaign=stop01` | WhatsApp channel |
-| `?utm_source=ground&utm_medium=qr&utm_campaign=esplanade` | QR shown in person at Esplanade |
-
-Never post an untagged link. An untagged link teaches you nothing.
-
-### 3.4 Measurement reality check (free only)
-
-There is **no analytics in the site today** (`grep` finds none in `fontend/src`). Without one you
-cannot tell which post brought a visitor, and this whole plan collapses into guesswork.
-
-- **Day 1, 30 minutes:** add **GA4** (free) to `fontend/src/app/layout.tsx`, or host on Cloudflare
-  Pages / Vercel and enable their free analytics. GA4 is the one that reads UTM tags.
-- **Same day:** add an `appinstalled` listener so a home-screen install is counted as an event
-  (`fontend/src/components/PwaBridge.tsx` already knows the install state — it needs one event).
-- **If you want, I can write both changes**; say the word and they are a small, tested patch.
-
----
-
-## 4. Platforms: handles, names, bios, and what each one is *for*
-
-Seven places, not fifteen. Each has a job. Doing all seven costs about 45–60 minutes a day.
-
-| # | Platform | Job in the funnel | Effort | Handle (check, fall back in order) |
-|---|---|---|---|---|
-| 1 | **Instagram** | Discovery → profile → link | 15 min/day | `@pathsathi.kolkata` → `@pathsathi` → `@pathsathiapp` |
-| 2 | **Facebook Page** | The under-35-plus Kolkata commuter; the only platform where a link is clickable in a post | 10 min/day | Page name `Pathsathi — Kolkata bus times`; username `@pathsathikolkata` |
-| 3 | **Facebook Groups** | The highest-intent audience that exists for this | 15 min × 3/week | no handle — join as your personal profile |
-| 4 | **YouTube (Shorts)** | Search + long life; a Short keeps getting views for months | 10 min/video | `@pathsathiapp` |
-| 5 | **WhatsApp Channel + Status** | Trust and forwarding; in Kolkata this out-converts everything else for installs | 5 min/day | Channel name `Pathsathi — Kolkata bus times` |
-| 6 | **X (Twitter)** | Small in Kolkata, but free, and connects you to bus/metro/transport accounts and local media | 10 min × 3/week | `@pathsathiapp` → `@pathsathi_in` |
-| 7 | **Reddit r/kolkata** | One honest post reaches a few thousand people who like local tools | 1 hour, twice | personal account, disclose you built it |
-| 8 | *(optional)* **Telegram** | Only if you already use it; otherwise skip and put the effort into WhatsApp | 5 min/day | `@pathsathi` |
-
-### 4.1 Bios — paste-ready
-
-**Instagram (limit 150 characters)**
+**Instagram**
+1. Create the account → switch to a professional account → category **Transportation service**.
+2. Name field (searchable, separate from the username): `Pathsathi — Kolkata bus times`.
+3. Bio (127 characters, paste as-is):
 ```
 পথসাথী — Kolkata bus times 🚌
 Esplanade → Garia in 10 seconds. 651 routes, 2,194 stops.
 Works offline. No login.
 👇 Find your bus
 ```
-- Name field (searchable, separate from username): `Pathsathi — Kolkata bus times`
-- Link: `{{SITE}}/?utm_source=instagram&utm_medium=bio`
-- Category: `Transportation service`. Profile photo: the bus mark from
-  `fontend/public/icons/icon.svg` (already brand green).
-- First highlight: **Install** (Video 4), **Find a bus**, **At your stop**, **Offline**.
+4. Link: `{{SITE}}/?utm_source=instagram&utm_medium=bio` — test it on your own phone.
+5. Profile photo: `fontend/public/icons/icon.svg` (already the brand green bus mark).
+6. Highlights (create empty ones now, fill them as you post): **Install**, **Find a bus**, **At your stop**, **Offline**.
 
-**Facebook Page (limit 255 characters)**
+**Facebook Page**
+1. Create → category **Transportation service** → username `pathsathikolkata`.
+2. About (244 characters):
 ```
 পথসাথী (Pathsathi) — Kolkata's bus timetable. Type two stops and see every bus with its published
 times, plus one-change options when there is no direct bus. A ride screen that works with no signal.
 Free, no login, 651 routes and 2,194 stops.
 ```
-- Username: `@pathsathikolkata`. Category: `App page` or `Transportation service`.
-- Button: **Learn more** → `{{SITE}}/?utm_source=facebook&utm_medium=page`.
-- Action button for option A: **Install app** → `{{APP_LINK}}`.
+3. Button **Learn more** → `{{SITE}}/?utm_source=facebook&utm_medium=page`.
 
-**X (limit 160 characters)**
+**X** (153 characters)
 ```
 Kolkata bus times in 10 seconds.
 Two stops → every bus, its times, one-change options.
@@ -189,520 +178,943 @@ Offline ride screen. 651 routes, 2,194 stops.
 Pathsathi 🚌 {{SITE}}
 ```
 
-**YouTube (first 100 characters decide whether anyone reads on)**
-```
-Pathsathi — Kolkata bus timetable and offline ride screen. 651 routes, 2,194 stops. Free, no login.
-Short demos every week. Type two stops, see every bus with its published times, and follow your ride
-with no signal. Not live tracking — published times, your own GPS.
-{{SITE}}?utm_source=youtube&utm_medium=profile
-```
-- Banner: `[IMAGE — generate: 2560×1440, brand green, bus mark, word "Pathsathi", the line "Find your bus in 10 seconds", the URL `{{SITE}}`]** — keep text inside the central 1546×423 safe area.
-- Playlists: `Find a bus`, `At your stop`, `Install & offline`.
+**YouTube**
+- Handle `@pathsathiapp`; description: first 100 characters must say what it is —
+  `Pathsathi — Kolkata bus timetable and offline ride screen. 651 routes, 2,194 stops. Free, no login.`
+- Banner: `[IMAGE — generate: 2560×1440, brand green, bus mark, "Pathsathi", the line "Find your bus in
+  10 seconds", and {{SITE}}; keep all text inside the central safety area.]`
 
-**WhatsApp Channel** — Name `Pathsathi — Kolkata bus times`; description:
-`Kolkata bus times. Two stops → every bus. Works offline. {{SITE}}` (2–3 messages a week, never
-more; a channel that spams gets muted).
+**WhatsApp Channel**
+- Name `Pathsathi — Kolkata bus times`; description `Kolkata bus times. Two stops → every bus. Works
+  offline. {{SITE}}`. Hard rule: **never more than 3 messages a week**, or people mute it.
 
-**Telegram (optional)** — Name `Pathsathi`; about: `Kolkata bus timetables. Works offline. {{SITE}}`.
-
-**Reddit** — no brand account. Use your own, mention you built it, and read §9.4 before posting.
+**Reddit** — no brand account. Use your own, and read §15.3 before the first post.
 
 ---
 
-## 5. The month, sized for one person with a job
+## 6. The month at a glance
 
-### 5.1 Honest shape of 30 days
+**35 days of content: 5 pre-launch days (P1–P5) + 30 launch days.** If you must start on a Monday,
+start P1 on the Wednesday before, so launch day 1 lands on a Monday morning commute.
 
-| Content | Count | Why this many |
+| Day | Post | Type |
 |---|---|---|
-| Short videos (Reels + Shorts + FB) | **5** | One good video a week beats five rushed ones |
-| Feed posts (image / carousel) | **10** | Two a week, cheap to make from screenshots |
-| Stories | **~16** | Polls, screenshots, reposts. 3 minutes each |
-| X posts | **10** | Reposts of the week's best, plus 2 threads |
-| WhatsApp channel messages | **10** | The same posts, reworded one line |
-| Ground sessions (real people, real buses) | **6** | This is where installs actually come from |
-| Weekly reviews | **4** | Sunday, 20 minutes |
+| **P1** | nothing public — accounts, link, analytics, install test | setup |
+| **P2** | "What this is" (so the profile is not empty) | static |
+| **P3** | teaser: 651 routes, 2,194 stops | carousel |
+| **P4** | teaser: "three answers at a bus stop" + first ground test | static |
+| **P5** | teaser video, "something is coming Monday" | **V0** |
+| **1** | LAUNCH — "find any bus in 10 seconds" | **V1** |
+| **2** | "261 routes stop at Esplanade" | carousel |
+| **3** | story poll + X thread | story + X |
+| **4** | "no signal" | **V2** |
+| **5** | "install in 15 seconds" (pin this one) | **V3** |
+| **6** | ground session #2 (Esplanade) | ground + story |
+| **7** | week 1 review | review |
+| **8** | "which bus am I in" | **V4** |
+| **9** | "inside the bus, step by step" | carousel |
+| **10** | story quiz + WhatsApp | story |
+| **11** | "we don't track buses — here's why that's good" | static |
+| **12** | reply day + X + WhatsApp | X |
+| **13** | "three answers at a bus stop" | **V5** |
+| **14** | review + ground session #3 | review + ground |
+| **15** | college / office commute | carousel |
+| **16** | behind the scenes + X | story + X |
+| **17** | "where our times come from" | static |
+| **18** | "one stop, the whole day" | **V6** |
+| **19** | ground session #4 + collect testimonials | ground |
+| **20** | route spotlight poll | carousel |
+| **21** | week 3 review | review |
+| **22** | "your own stop" | carousel |
+| **23** | "tell us what's missing" | static |
+| **24** | "no direct bus? one change" | **V7** |
+| **25** | ground session #5, ask 10 people to install | ground |
+| **26** | "what a commuter told us" | static |
+| **27** | Kolkata bus numbers | carousel |
+| **28** | week 4 review | review |
+| **29** | outreach: DM 5 pages + ground #6 | outreach |
+| **30** | the month in numbers + what's next | static |
 
-### 5.2 Time budget for a normal weekday (~50 minutes)
+**Two rules that keep this realistic:** never two videos in the same week in the first fortnight, and
+if a day slips, **drop the post, keep the ground session.** Replies and in-person demos are what move
+installs; an extra static post does not.
 
-1. 20 min — make or edit that day's asset (most days: a screenshot with a caption, 5 minutes).
-2. 10 min — post on IG + FB + WhatsApp channel (copy-paste the same caption).
-3. 15 min — replies, DMs, group comments. **This is not optional**; it is where installs come from.
-4. 5 min — log today's numbers in the tracking table (§11).
+---
 
-### 5.3 Targets — planning numbers, not promises
+## 7. Pre-launch — the 5 days before the first public post
 
-Replace them with your real week-1 numbers on Day 7. Do not quote them publicly.
+The mistake most people make is announcing on day one to an empty profile. These five days fix the
+shop before it opens, and build a small queue of curiosity.
 
-| Metric | Day 30 (0 cost, no audience on Day 1) |
+### P1 — Build the shop (no posting)
+
+**Goal:** everything a visitor could click works before anyone is invited to click it.
+
+- [ ] All seven accounts created; bios, names and photos from §5.1.
+- [ ] `{{SITE}}` in every bio, each UTM-tagged. Open each one on your phone and check it lands on the homepage.
+- [ ] **Analytics installed** (GA4 in `fontend/src/app/layout.tsx`, or your host's free analytics). GA4 is the one that reads UTM tags. *I can write this patch for you — ask.*
+- [ ] **`appinstalled` event** added, so a home-screen install is counted. (`fontend/src/components/PwaBridge.tsx` already knows the install state.)
+- [ ] Open `{{SITE}}` on your phone → Add to Home Screen → **turn on airplane mode → open it → it must work.** If it does not, fix that today; the whole promise depends on it.
+- [ ] WhatsApp Channel created; add only contacts you actually know (20 is plenty).
+- [ ] Print nothing. Buy nothing.
+
+**Time:** 90 minutes. **Check tonight:** one visitor in GA4 (you), one `install` event (you).
+
+### P2 — First post: what this is
+
+**Why:** when the teasers start sending people to your profile, an empty grid looks abandoned. This
+post is the explanation a visitor reads once.
+
+- **Platforms:** Instagram carousel (3 slides) + Facebook Page + WhatsApp channel.
+- **Images:**
+  - `[IMAGE — generate: 1080×1350 slide 1. Brand green #195A45 background, white bus mark, the words
+    "Pathsathi", under it "Kolkata bus times, free, no login", and small "651 routes · 2,194 stops".]`
+  - `[IMAGE — generate: 1080×1350 slide 2. Three mini phone frames side by side showing: a search
+    result list, a stop page with times, a route line with a dot. Labels: "find a bus", "at your
+    stop", "inside the bus".]`
+  - `[IMAGE — generate: 1080×1350 slide 3. Green background, big "Works with no signal", a small
+    airplane-mode icon, {{SITE}} and the QR.]`
+- **Caption:**
+```
+Kolkata buses, without the guessing.
+
+Type two stops → every bus between them, with its published time.
+Standing at a stop → the next buses and how long until each one.
+Already on the bus → which bus you're in, and minutes to your stop.
+No signal → still works. The timetable lives on your phone.
+
+651 routes, 2,194 stops. Free, no login, no ads. Not live tracking — published times, and we say so.
+
+Link in bio.
+```
+- **Hashtags:** [Set A](hashtag-pack.md#set-a-core).
+- **Link:** `{{SITE}}/?utm_source=instagram&utm_medium=carousel&utm_campaign=whatitdoes`
+- **Time:** 20 min. **Check tonight:** 3 clicks.
+
+### P3 — Teaser 1: "651 routes"
+
+**Why:** curiosity about *their own city*, with no product reveal. It gets saves, which is what
+Instagram rewards before you have followers.
+
+- **Platforms:** Instagram carousel (2 slides) + Facebook + WhatsApp status.
+- **Images:**
+  - `[IMAGE — generate: 1080×1350. Off-white background, huge dark-green number "651", under it
+    "bus routes in Kolkata", small "and 2,194 stops". Looks like a poster, not an app.]`
+  - `[IMAGE — generate: 1080×1350. Same style, big "5", under it "is how many of those routes most
+    people can name", small line "we're making the other 646 easier."]`
+- **Caption:**
+```
+651 bus routes in Kolkata. 2,194 stops.
+
+Most of us can name five, and ask a stranger for the rest.
+
+That's changing this Monday, 8:30 am.
+
+#Pathsathi #Kolkata #KolkataBus #KolkataCommute #PublicTransport #CityOfJoy
+```
+- **Hashtags:** [Set D](hashtag-pack.md#set-d-at-your-stop).
+- **Time:** 15 min. **Check tonight:** saves. Saves on a teaser are a very good sign.
+
+### P4 — Teaser 2: "three answers" + first ground test
+
+**Why:** the relatable version of the problem, and the first time a stranger sees it.
+
+- **Platforms:** Instagram single image + Facebook + WhatsApp status.
+- **Image:** `[IMAGE — generate: 1080×1080. A bus stop shelter at dusk, three blurred figures, one
+  speech bubble each reading "5 no", "S5", "AC5?" — dark green overlay, the line "three people. three
+  answers." in white.]`
+- **Caption:**
+```
+Ask three people at a Kolkata bus stop, get three answers.
+
+Monday we're putting a fourth answer in your pocket — the one with the times in it.
+
+#Pathsathi #Kolkata #KolkataMemes #BengaliMemes #CommuterLife #KolkataDiaries #Esplanade
+```
+- **Hashtags:** [Set F](hashtag-pack.md#set-f-street-and-relatable).
+- **Ground test (30 min):** go to your nearest busy stop, open `/stop?stop=<that stop>` and show it to
+  three people. Don't sell it — ask "does this show your bus?" Write down their exact words (§11).
+- **Time:** 45 min total. **Check tonight:** did anyone ask how to get it? That sentence becomes your
+  launch caption.
+
+### P5 — Teaser 3: the video
+
+**Why:** video earns more reach than images, and this one asks for a *return visit* — the cheapest
+thing to ask for.
+
+- **Platforms:** Instagram Reel + YouTube Short + Facebook Reel + WhatsApp channel + WhatsApp status.
+- **Post:** [Script V0](shorts-scripts.md#v0-something-is-coming) — 15 s, no demo.
+- **Hashtags:** [Set A](hashtag-pack.md#set-a-core).
+- **Link:** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=teaser01`
+- **Also today:** tell 10 people you know, individually, that tomorrow morning you'll send them one
+  link, and ask them to try it and reply with what broke. Ten honest testers beat 100 likes.
+- **Time:** 40 min (the video is your Day −1 footage, edited).
+
+---
+
+## 8. The 30 launch days
+
+Every day has: the goal, exactly what to post, the words, the hashtags, the tagged link, the time it
+takes, and the one number to look at tonight. Video days link to the full script.
+
+### Day 1 — LAUNCH · "find any bus in 10 seconds"
+
+**Goal:** the first 50 real visitors. **Post:** [Script V1](shorts-scripts.md#v1-find-any-bus-in-10-seconds) (35 s).
+**Platforms and times:**
+
+| Time | Where | What |
+|---|---|---|
+| 08:30 | Instagram Reel | V1 + caption from the script |
+| 08:40 | YouTube Short | same file, description line + `{{SITE}}` |
+| 09:00 | Facebook Reel, then the same video as a normal post with the link inline | link is clickable here |
+| 09:10 | WhatsApp channel + status | one line + link |
+| 09:20 | X | one post + link |
+| 13:00 | Instagram story | "we're live" + link sticker |
+| 20:00 | replies | every comment, personally |
+
+**Caption:** in [the script](shorts-scripts.md#v1-find-any-bus-in-10-seconds).
+**Hashtags:** [Set A](hashtag-pack.md#set-a-core) + `#Esplanade`.
+**Links:** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=launch01` — and the same post
+with `facebook` / `youtube` / `whatsapp` / `x` in `utm_source`.
+**Time:** 25 min of posting (the video was made on P5).
+**Tonight:** GA4 → Acquisition → Traffic acquisition → filter campaign `launch01`. If it is zero, the
+bio link is wrong. Fix it before Day 2.
+
+---
+
+### Day 2 — "261 routes stop at Esplanade"
+
+**Goal:** make it about *their* stop, not your app. **Post:** 3-slide carousel.
+
+- **Images:**
+  - `[IMAGE — generate: 1080×1350, dark green, huge "261", under it "routes stop at Esplanade", small
+    "roughly 9,800 timetabled passes a day".]`
+  - `[IMAGE — generate: 1080×1350, a clean phone screenshot mock of `/stop?stop=Esplanade`: a list of
+    buses with times and wait badges, brand colours, readable at thumbnail size.]`
+  - `[IMAGE — generate: 1080×1350, green, "Type your stop. See every bus." + {{SITE}} + QR.]`
+- **Caption:**
+```
+261 routes stop at Esplanade. Around 9,800 timetabled passes a day.
+
+You know about five of them.
+
+Open your own stop once: the next buses, the wait for each one, and the whole day hour by hour.
+Then tap any bus to follow the ride.
+
+Which stop should we do next? Comment it and we'll post it. 👇
+
+#Pathsathi #Kolkata #KolkataBus #BusStop #KolkataDiaries #PublicTransport #Esplanade
+```
+- **Platforms:** Instagram carousel (1 post) + Facebook Page (with the link inline) + WhatsApp channel.
+- **Hashtags:** [Set D](hashtag-pack.md#set-d-at-your-stop) + `#Esplanade`.
+- **Link:** `{{SITE}}/?utm_source=instagram&utm_medium=carousel&utm_campaign=stop01`
+- **Tonight:** collect the stop names people comment. They are Day 10's story and Day 22's post.
+
+---
+
+### Day 3 — polls, replies, and the first thread
+
+**Goal:** turn the first wave of attention into conversations. Cheap day, high return.
+
+- **Story 1 (morning):** poll — `How do you find your bus today?` → `Ask someone` / `Guess` / `Wait for the right one`.
+- **Story 2 (evening):** a 10-second screen recording of the stop that got the most comments on Day 2, with the link sticker (`?utm_source=instagram&utm_medium=story&utm_campaign=stop02`).
+- **X thread (3 posts)** — post these one after another:
+```
+1/ I built a Kolkata bus timetable that works with no signal. 651 routes, 2,194 stops, free, no
+login. Here's what it does 🧵
+2/ Type two stops → every bus between them with its published time, and one-change journeys where
+there's no direct bus. At a stop → the next buses and the whole day, hour by hour.
+3/ Inside the bus, your GPS against the route tells you which bus you're in and when to get off —
+offline. Not live tracking, and the screen says so. {{SITE}}
+```
+- **Hashtags:** one only, `#KolkataBus`, on the first and last post of the thread — X punishes tag
+  walls, and [Set A](hashtag-pack.md#set-a-core) is written for Instagram, not here.
+- **Replies:** every comment on Day 1 and Day 2, from your own account, in your own voice. Use §15.1
+  when someone asks "is this live?".
+- **Time:** 20 min. **Tonight:** replies sent / comments received. If nobody asked a question, your
+  captions aren't inviting one — ask a question at the end of every post from now on.
+
+---
+
+### Day 4 — "no signal"
+
+**Goal:** the single most surprising thing about the product. **Post:** [Script V2](shorts-scripts.md#v2-no-signal) (20 s).
+- **Platforms:** Instagram Reel, YouTube Short, Facebook Reel, WhatsApp channel — all in the morning.
+- **Caption + hashtags:** [Set B](hashtag-pack.md#set-b-offline) + `#EMBypass`, in the script.
+- **Link:** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=offline01`
+- **Tonight:** clicks on `offline01` versus `launch01`. One of the two stories is your hook for the
+  rest of the month. Post more of that one.
+
+---
+
+### Day 5 — "install in 15 seconds" (pin it)
+
+**Goal:** every profile visitor now has an obvious next step. **Post:** [Script V3](shorts-scripts.md#v3-install-in-15-seconds) (25 s).
+- **Platforms:** Instagram Reel — **pin it to the top of the profile** · YouTube Short · Facebook Reel.
+- **Caption + hashtags:** [Set C](hashtag-pack.md#set-c-install), in the script.
+- **Also:** add the video to the **Install** highlight. From today, every reply that says "how do I
+  get it?" gets one word: *pinned*.
+- **Tonight:** count replies asking how to install. If that number is zero, your captions are not
+  asking for the install clearly enough — put "link in bio" in the *first* line, not the last.
+
+---
+
+### Day 6 — ground session #2: Esplanade
+
+**Goal:** 10 strangers with the site on their phone. No camera needed.
+
+- **What to do (45 min):** §11, steps 1–6. Stand near the queue, phone showing
+  `/stop?stop=Esplanade`, let people look, let them scan your screen, ask "is your route missing?".
+- **Story (during or after):** a 5-second clip of a hand scanning your screen (ask first) or just the
+  stop, with text `day 2 of showing strangers` + poll `helpful?`.
+- **Post nothing on the grid.** Today is about people, not pixels.
+- **Tonight:** write down, word for word, the three most common things people said. One of them is
+  Day 11's post, one is Day 23's, one is a bug you should look at.
+
+---
+
+### Day 7 — week 1 review
+
+**Goal:** stop guessing. 25 minutes, no posting.
+
+- Fill the tracking table (§13) for days P2–6.
+- Answer three questions: which post brought the most **clicks**; which got the most **saves**; what
+  did the bus-stand people say that no post answers.
+- Decide next week from those answers: repeat the format that won, drop the one that did not
+  (a format under 300 views twice in a row is dropped — decide now, not in the moment).
+- **Story (optional):** `week 1 in numbers` — a plain screenshot of your tracking table. People love
+  honesty about small numbers, and it starts conversations.
+
+---
+
+### Day 8 — "which bus am I in"
+
+**Goal:** the feature nobody else has. **Post:** [Script V4](shorts-scripts.md#v4-which-bus-am-i-in) (40 s).
+- **Platforms:** Instagram Reel · YouTube Short · Facebook Reel · WhatsApp channel.
+- **Caption + hashtags:** [Set E](hashtag-pack.md#set-e-inside-the-bus) + `#ParkStreet`.
+- **Link:** `{{SITE}}/?utm_source=instagram&utm_medium=reel&utm_campaign=onbus01`
+- **Extra:** this is the video to show a friend who takes the bus daily, in person, on your phone.
+- **Tonight:** if comments say "this is just GPS", reply once with the honest sentence from §15.1 and
+  move on. Never argue twice with the same person.
+
+---
+
+### Day 9 — "inside the bus, step by step"
+
+**Goal:** the same idea as Day 8, in a format people can read at their desk.
+
+- **Images (3 slides):**
+  - `[IMAGE — generate: 1080×1350. Phone in a bus seat, screen showing a route line with a dot,
+    text "1 — open the sticker or the app".]`
+  - `[IMAGE — generate: 1080×1350. Same style, the "which bus" card with minutes, text "2 — it names
+    the bus you're most likely in".]`
+  - `[IMAGE — generate: 1080×1350. Same style, a destination picker, text "3 — pick your stop, it
+    counts down and buzzes", plus {{SITE}} + QR.]`
+- **Caption:**
+```
+Inside the bus, in three steps.
+
+1. Open the sticker on the bus, or the app.
+2. It matches where you are against the route and the timetable, and tells you which bus you're
+   most likely in, plus minutes to the next stop.
+3. Pick where you're getting off — it counts down and buzzes before your stop.
+
+Not live tracking: no bus sends its position. Your phone's GPS, plus the times the operators
+publish. Works with no signal.
+
+#Pathsathi #KolkataBus #KolkataCommute #BusRide #HonestTech #Kolkata #Garia
+```
+- **Platforms:** Instagram carousel + Facebook + WhatsApp channel.
+- **Hashtags:** [Set E](hashtag-pack.md#set-e-inside-the-bus) + `#Garia`.
+- **Tonight:** saves. A how-to gets saved more than it gets liked; saves are what you want.
+
+---
+
+### Day 10 — story quiz + WhatsApp
+
+**Goal:** engagement with zero production. 12 minutes.
+
+- **Story:** quiz sticker — `Which stop has 261 routes?` with `Esplanade` / `Howrah` / `Sealdah`, then
+  a second story revealing it with a link sticker to `/stop?stop=Esplanade`
+  (`?utm_source=instagram&utm_medium=story&utm_campaign=quiz01`).
+- **WhatsApp channel:** one line — `Did you know 261 routes stop at Esplanade? Type your own stop:
+  {{SITE}}`. No hashtags.
+- **Tonight:** story taps per sticker. If nobody answers, your stories need a question, not a picture.
+
+---
+
+### Day 11 — "we don't track buses. Here's why that's good."
+
+**Goal:** trust. This is the post that stops the "is this live?" objection forever, and it makes
+every other number believable.
+
+- **Image:** `[IMAGE — generate: 1080×1350. Off-white, a simple diagram: a bus icon with a dashed line
+  and the words "no bus sends us its position" above; below, a phone icon with a solid line "your GPS
+  + the published timetable"; caption strip "we tell you which is which".]`
+- **Caption:** the honesty caption from
+  [hashtag-pack.md §8](hashtag-pack.md#8-three-ready-made-captions-with-tags-attached).
+- **Platforms:** Instagram + Facebook (this one travels further on Facebook) + X (shortened).
+- **Hashtags:** [Set H](hashtag-pack.md#set-h-honesty-and-behind-the-scenes).
+- **Link:** `{{SITE}}/?utm_source=instagram&utm_medium=post&utm_campaign=honest01`
+- **Tonight:** read the comments. If someone says "finally, honesty", screenshot it — Day 26's card.
+
+---
+
+### Day 12 — reply day
+
+**Goal:** the unglamorous day that decides the month. Nothing new is published.
+
+- Reply to **every** comment across all platforms, including old posts.
+- Answer 5 questions in Facebook groups about routes, **without** posting a link (you become a known
+  helpful person first; the link comes in Day 23).
+- **X:** one post — a route fact from the data, with one hashtag.
+- **WhatsApp channel:** one message — the stop with the most routes you found today.
+- **Tonight:** conversations started. This is the number that precedes installs by about a week.
+
+---
+
+### Day 13 — "three answers at a bus stop"
+
+**Goal:** reach beyond people who already care. **Post:** [Script V5](shorts-scripts.md#v5-three-answers-at-a-bus-stop) (35 s).
+- **Platforms:** Instagram Reel · YouTube Short · Facebook Reel · WhatsApp status.
+- **Caption + hashtags:** [Set F](hashtag-pack.md#set-f-street-and-relatable) + `#Shyambazar`.
+- **Consent:** ask before filming anyone. No faces, no plates, no voices without a yes (§11.4).
+- **Tonight:** sends/shares. This video's job is to be forwarded in a WhatsApp group, so watch
+  shares, not likes.
+
+---
+
+### Day 14 — review #2 + ground session #3
+
+- **Review (25 min):** same three questions as Day 7. Look at the two-week click total: is it growing,
+  flat, or falling? Flat means the *hook*, not the volume, is the problem.
+- **Ground (45 min):** a stand you have not visited yet — Howrah Station, Salt Lake Sector V, Jadavpur
+  or Dum Dum. Same six steps. Note the objections.
+- **Story:** the ground clip, text `stand #3`, poll.
+- **Tonight:** write down one sentence someone said that would make a good caption. Use it on Day 22.
+
+---
+
+### Day 15 — "college and office commute"
+
+**Goal:** target a defined group instead of "everyone".
+
+- **Images (3 slides):**
+  - `[IMAGE — generate: 1080×1350. A college gate in the morning, students with bags, overlay
+    "8:50 am. class at 9."]`
+  - `[IMAGE — generate: 1080×1350. Phone screen: search "Jadavpur" → "Esplanade", result list with
+    times, overlay "same journey, three options, every day".]`
+  - `[IMAGE — generate: 1080×1350. Green, "save it before your next 9 am" + {{SITE}} + QR.]`
+- **Caption:**
+```
+8:50 am. Class at 9. You're at Jadavpur, and you need to know if the next bus makes it.
+
+Type the two stops once and you'll know every day: which buses connect them, the times, and how
+long the wait is. Save it before your next 9 am.
+
+Works with no signal, which is the only reason it's useful on a bus.
+
+#Pathsathi #Kolkata #KolkataBus #KolkataCommunity #CityOfJoy #PublicTransport #Jadavpur
+```
+- **Platforms:** Instagram + Facebook + WhatsApp channel.
+- **Hashtags:** [Set I](hashtag-pack.md#set-i-community) + `#Jadavpur`.
+- **Tonight:** saves. If saves are high and clicks low, the CTA line is too quiet — move it to the
+  first line.
+
+---
+
+### Day 16 — behind the scenes
+
+**Goal:** make the person behind it visible. People install from people.
+
+- **Story (3 frames):** your desk/phone, the data file open (`kolkata-bus-data.json`), and one line:
+  `2,194 stops in one file. ask me anything about your route.` + question box.
+- **X:** one post — how the data gets built, in three sentences, one hashtag.
+- **Tonight:** collect the question-box answers. Every one is a future post, and every one is a
+  person who will come back for the answer.
+
+---
+
+### Day 17 — "where our times come from"
+
+**Goal:** answer the quiet suspicion that the times are made up.
+
+- **Image:** `[IMAGE — generate: 1080×1350. Off-white poster: three stacked "source" cards labelled
+  "operators' published times", "2,194 stop positions", "the route's own stop list"; a red-ish stamp
+  reading "no guesses — where there is no time, we show no time".]`
+- **Caption:**
+```
+Where do the times come from?
+
+The operators' published passage times, compiled into one file, plus the route's own stop list.
+Where a route has no published times, we show no times instead of inventing them — the screen says
+so, plainly.
+
+That's why some buses have exact times and some only have "runs to frequency". Both are true,
+and you deserve to know which is which.
+
+Free, no login: {{SITE}}
+
+#Pathsathi #BuildInPublic #DataHonesty #MadeInKolkata #KolkataTech #KolkataBus
+```
+- **Platforms:** Instagram + Facebook + X (shortened) + WhatsApp channel.
+- **Hashtags:** [Set H](hashtag-pack.md#set-h-honesty-and-behind-the-scenes).
+- **Tonight:** comments that question the data. Answer each one with a specific route, checked on the
+  site before you reply.
+
+---
+
+### Day 18 — "one stop, the whole day"
+
+**Goal:** depth — this is what makes people save and come back. **Post:** [Script V6](shorts-scripts.md#v6-one-stop-the-whole-day) (30 s).
+- **Platforms:** Instagram Reel · YouTube Short · Facebook Reel.
+- **Caption + hashtags:** [Set D](hashtag-pack.md#set-d-at-your-stop) + `#Sealdah`.
+- **Tonight:** saves per view. This is your best "save" video; if it is, reuse the format for the next
+  month's videos.
+
+---
+
+### Day 19 — ground session #4, with a purpose: testimonials
+
+- **Ground (45 min):** a stand you have not covered. This time, after the demo, ask two questions:
+  "would you use this?" and "can I quote you?" — a voice note is perfect, a name is optional.
+- **Collect:** 3 quotes minimum. Write them down exactly; do not tidy them.
+- **Tonight:** you now have Day 26's post. If nobody would say yes, ask what would have to be true —
+  that answer is more valuable than the quote.
+
+---
+
+### Day 20 — route spotlight poll
+
+**Goal:** let the audience choose the content. Engagement with almost no work.
+
+- **Images (2 slides):**
+  - `[IMAGE — generate: 1080×1350. Dark green, the words "which one should we break down next?" and
+    three route numbers as large pills: 1 · 230 · S12D.]`
+  - `[IMAGE — generate: 1080×1350. Green, "vote in the poll, we post the winner on Sunday" + {{SITE}} + QR.]`
+- **Caption:**
+```
+Three buses. One post each week. You pick.
+
+1 — Ramnagar ↔ Mukundapur
+230 — the long one through the south
+S12D — the one nobody can pronounce
+
+Vote in the poll on our story. We'll post the full stop list, the times and the odd facts about the
+winner.
+
+#Pathsathi #KolkataBus #KolkataRoutes #WBTC #BusRoute #Kolkata #Howrah
+```
+- **Platforms:** Instagram carousel + story poll + Facebook (poll as a post) + WhatsApp channel.
+- **Hashtags:** [Set G](hashtag-pack.md#set-g-routes) + `#Howrah`.
+- **Check before posting:** open each route on the site and use its real termini. Do not describe a
+  route you have not opened today.
+- **Tonight:** votes. The winner is next week's post; the losing options come back next month.
+
+---
+
+### Day 21 — review #3
+
+- Same three questions. Add one: **which single post would you pay to boost?** That is your best
+  creative — make more like it.
+- Update the tracking table, and re-read §6: is any day slipping? If yes, drop the weakest post next
+  week and keep the ground sessions.
+
+---
+
+### Day 22 — "your own stop"
+
+**Goal:** close the loop with the people who commented on Day 2.
+
+- **Images (4 slides):** four real stops, each a screenshot of that stop's page with its name set in
+  the brand font: pick from the comments. `[IMAGE — generate: one 1080×1350 card per stop, same
+  template: stop name large, "N routes call here", a phone screenshot of the next buses, the line
+  "your stop, your times".]`
+- **Caption:**
+```
+You asked, so here they are: <stop 1>, <stop 2>, <stop 3>, <stop 4>.
+
+Each one with every bus that calls there, the wait for the next, and the whole day.
+
+Comment your stop and we'll do it in the next batch. If a route is missing, tell us that too — that's
+the one thing we actually need from you.
+
+#Pathsathi #Kolkata #KolkataBus #BusStop #KolkataDiaries #PublicTransport #Tollygunge
+```
+- **Platforms:** Instagram carousel + Facebook + WhatsApp channel.
+- **Hashtags:** [Set D](hashtag-pack.md#set-d-at-your-stop) + the area of the biggest stop.
+- **Tonight:** new stop comments. These become Day 27 and next week's ground locations.
+
+---
+
+### Day 23 — "tell us what's missing"
+
+**Goal:** the community desk. The highest-value ask you can make, because it improves the product
+while it markets it.
+
+- **Image:** `[IMAGE — generate: 1080×1350. Green card with a single big question mark made of route
+  lines, the words "what's missing?", and two lines: "a route we don't have · a stop with the wrong
+  name".]`
+- **Caption:**
+```
+Two things we need from you, and neither takes a minute.
+
+1. A route we don't have. Route number and two stops is enough.
+2. A stop whose name or position is wrong. Tell us the stop and what it should say.
+
+Send them here: {{DESK}} — or just comment. We check every one, and we'll tell you what we find.
+
+#Pathsathi #Kolkata #KolkataBus #KolkataCommunity #CityOfJoy #PublicTransport
+```
+- **Platforms:** Instagram + Facebook + X + WhatsApp channel + **one Facebook group post** (the
+  invite in §15.2, reworded for the group).
+- **Hashtags:** [Set I](hashtag-pack.md#set-i-community).
+- **Tonight:** count submissions. Ten real submissions is a better result than 100 likes, and it is
+  content for the rest of the month.
+- **If `{{DESK}}` is not deployed yet:** say "comment or DM" and skip the link. Never link to
+  something that 404s.
+
+---
+
+### Day 24 — "no direct bus? one change"
+
+**Goal:** reach people who believe their journey has no bus. **Post:** [Script V7](shorts-scripts.md#v7-no-direct-bus-one-change) (30 s).
+- **Platforms:** Instagram Reel · YouTube Short · Facebook Reel · WhatsApp status.
+- **Caption + hashtags:** [Set G](hashtag-pack.md#set-g-routes) + `#Behala`.
+- **Tonight:** comments saying "does it work from X to Y?" — answer each by actually checking the pair
+  on the site and saying yes/no. Those answers are your best trust-building, and they are free.
+
+---
+
+### Day 25 — ground session #5: ask for the install
+
+**Goal:** the only day you ask strangers for something.
+
+- **Ground (60 min):** busy stand, morning. Demo, then: "want it on your phone? 15 seconds." Do it for
+  them — open `{{SITE}}`, Add to Home Screen, hand the phone back with the icon on it.
+- **Count:** demos, installs, refusals. Refusals are data: ask why, once.
+- **Story:** `installed 6 phones at Esplanade today`, with a link sticker.
+- **Tonight:** your real install rate per demo. If it is above 1 in 3, this is the channel to double.
+
+---
+
+### Day 26 — "what a commuter told us"
+
+**Goal:** social proof, in someone else's words.
+
+- **Image:** `[IMAGE — generate: 1080×1350. A quote card: quotation marks, the exact sentence from
+  Day 19, attributed only as "commuter, <area>" unless they agreed to their name; brand green border,
+  small bus mark.]`
+- **Caption:**
+```
+What people actually say when you show them, at the stop, on their own route:
+
+"<their words>"
+
+Not a review campaign. Just three people at a bus stand this week. If you've used it, tell us what's
+wrong with it — that's more useful to us than a compliment.
+
+{{SITE}}
+
+#Pathsathi #Kolkata #KolkataBus #KolkataCommunity #CityOfJoy #PublicTransport
+```
+- **Platforms:** Instagram + Facebook + WhatsApp channel.
+- **Hashtags:** [Set I](hashtag-pack.md#set-i-community).
+- **Tonight:** whether anyone tags a friend. Tagging is the strongest sharing signal.
+
+---
+
+### Day 27 — Kolkata bus numbers
+
+**Goal:** a saveable, shareable data post that has nothing to do with your app's features.
+
+- **Images (3 slides):** build the numbers **from the data, today** (open the site, count, and use
+  what you can verify): the stop with the most routes, the longest route's two termini, the number of
+  routes that run through one busy junction.
+  `[IMAGE — generate: three 1080×1350 cards, one number each, same template: giant number, one-line
+  explanation, small "checked on our own data, today".]`
+- **Caption:**
+```
+Three numbers from the data we compile:
+
+· <N> routes call at <stop> — the busiest stop we have
+· <route> is the longest we carry: <origin> to <destination>
+· <N> routes pass through <area>
+
+All of it is in the app, free, and it works with no signal. Which number surprised you?
+
+#Pathsathi #Kolkata #KolkataBus #BusStop #KolkataDiaries #PublicTransport #SaltLake
+```
+- **Platforms:** Instagram carousel + Facebook + WhatsApp channel.
+- **Hashtags:** [Set D](hashtag-pack.md#set-d-at-your-stop) + `#SaltLake`.
+- **Rule:** every number must be checked on the site before you post it. If you cannot check it, cut
+  the line. One invented number costs the trust the whole month buys.
+
+---
+
+### Day 28 — review #4
+
+- Same three questions, plus: what is the **one** thing to keep doing next month, and what is the one
+  thing to stop.
+- Add up the month: views, clicks, installs, saves, followers, submissions.
+- Decide the next month's shape now, while the numbers are in front of you — not later from memory.
+
+---
+
+### Day 29 — outreach day
+
+**Goal:** borrow other people's audiences. Nothing new on your grid.
+
+- **DM 5 pages** (college pages, Kolkata meme pages, local transport accounts): §15.4 template. One
+  message, no follow-up if ignored.
+- **Ground session #6:** the stand where you had the best conversations.
+- **X:** one post tagging nobody, just the honest month summary in two sentences.
+- **WhatsApp channel:** one message — the week's best stop page.
+- **Tonight:** replies. Two yeses out of five is a good day.
+
+---
+
+### Day 30 — the month in numbers
+
+**Goal:** close the loop publicly. This is the post that makes the next month easier.
+
+- **Image:** `[IMAGE — generate: 1080×1350. Brand green, a simple four-number grid: stops covered,
+  routes, people who installed, days. Below: "month one. thank you, Kolkata." and {{SITE}} + QR.]`
+- **Caption:**
+```
+Thirty days.
+
+<X> posts, <Y> people who installed it on their phone, <Z> routes we checked because you told us
+they were wrong, and one lesson: nobody wants an app. They want to know when the bus comes.
+
+Next month: more stops, more routes, and the same rule — if we can't back up a time, we don't show
+it.
+
+If this saved you one wait, send it to one person who takes the bus. That's the whole ask.
+
+#Pathsathi #Kolkata #KolkataBus #CityOfJoy #KolkataDiaries #KolkataCommute
+```
+- **Platforms:** Instagram + Facebook + X + WhatsApp channel.
+- **Hashtags:** [Set J](hashtag-pack.md#set-j-recap).
+- **Tonight:** write down the three things you will do differently in month two. Then stop for the
+  day — burnout at day 30 is the most common way this plan dies.
+
+---
+
+## 9. Weekly reviews (days 7, 14, 21, 28)
+
+Twenty-five minutes, no posting. Fill the table in §13 first — the review is reading it, not
+remembering it.
+
+1. **Which post got the most clicks** (not likes)? Do that format twice next week.
+2. **Which post got the most saves?** Saves predict installs more than any other number.
+3. **What did people say in person** that no post answers? That becomes a post, or a fix.
+4. **Which day slipped?** If two slipped, cut one post a week — permanently. A plan you finish beats
+   a plan you abandon.
+
+**Kill rules** (decide now, not in the moment):
+
+- A format with under 300 views twice in a row is dropped.
+- A platform with zero clicks for two weeks gets one post a week, not daily effort.
+- If clicks are fine but **installs are low**, the problem is on the site, not the marketing: the
+  install video (V3) is the fix, and it belongs in the bio, pinned.
+
+---
+
+## 10. What this plan costs
+
+**₹0.** Nothing here needs an ad, a domain, a microphone or a subscription.
+
+| Need | Free route |
 |---|---|
-| Views across all videos | 3,000–8,000 |
-| Site visits with a UTM tag | 200–500 |
-| Home-screen installs / store installs | 20–60 |
-| Followers (IG + FB + YT combined) | 150–400 |
-| People who saved/bookmarked a post | 30–80 (saves matter more than likes) |
+| Camera | your phone, rear lens, 1080p |
+| Editing | CapCut (free), 9:16, auto-captions |
+| Voice | CapCut text-to-speech / Microsoft Edge Read aloud / gTTS |
+| Screen recording | built-in recorder on Android and iOS |
+| QR codes | **the repo's own** `qr-admin/index.html` |
+| Images | screenshots of the real app + the `[IMAGE — generate: …]` briefs in this file |
+| Analytics | GA4 free |
+| Hosting | whatever static host is already serving `{{SITE}}` |
 
-If the numbers come in under the low end, the answer is **not** more posts. It is better ground
-work (§10) and more group/DM conversations.
-
----
-
-## 6. Calendar at a glance
-
-| Day | What | Type |
-|---|---|---|
-| 1 | Accounts, bios, one link, analytics | setup |
-| 2 | Film everything for week 1 in one bus ride | setup |
-| 3 | **LAUNCH** — "Find any bus in 10 seconds" | **Video 1** |
-| 4 | "What Esplanade knows" (data post) | Post 1 |
-| 5 | Story: poll. X: launch thread | Story + X |
-| 6 | "No signal? Still works" | **Video 5** (short) |
-| 7 | Week 1 review + first ground session | review |
-| 8 | "Which bus am I in?" | **Video 2** |
-| 9 | "Ask the app, not three people" (street) | Post 2 |
-| 10 | Ground session at a bus stand + sticker test | ground |
-| 11 | "No direct bus? One change" | Post 3 |
-| 12 | Story quiz + WhatsApp channel | Story |
-| 13 | "We don't track buses. Here's why our times still help." | Post 4 |
-| 14 | Week 2 review | review |
-| 15 | Install in 15 seconds | **Video 4** |
-| 16 | Route spotlight (vote) | Post 5 |
-| 17 | X thread: how the times are built | X |
-| 18 | "261 routes at one stop" | Post 6 |
-| 19 | Ground session, second stand | ground |
-| 20 | College commute | Post 7 |
-| 21 | Week 3 review | review |
-| 22 | "Where our data comes from" | Post 8 |
-| 23 | Story: behind the scenes + X | Story + X |
-| 24 | Community desk: send us the missing route | Post 9 |
-| 25 | Ground session, third stand + ask 10 people to install | ground |
-| 26 | Route spotlight #2 / reply-driven post | Post 10 |
-| 27 | Recap: the month in numbers | Post 11 |
-| 28 | Week 4 review | review |
-| 29 | Ask for reviews/testimonials; DM 5 pages | outreach |
-| 30 | Next-30-days decision post | Post 12 |
-
-Rule: **never two videos in one week in the first fortnight.** If a week slips, drop the feed post,
-keep the ground session.
+The only optional spend, and only if you want it: ₹100–200 printing A4 posters of one stop's QR at a
+local shop. Everything in this plan works without it.
 
 ---
 
-## 7. Week 1 in full (Days 1–7)
+## 11. Ground sessions — the detailed version
 
-### Day 1 — Setup (no public posting)
+Six sessions: **P4 (test), Day 6, 14, 19, 25, 29.** 45–60 minutes each. This is where installs
+actually come from; a Reel gets views, a stranger with your icon on their home screen is an install.
 
-- [ ] Instagram, Facebook Page, YouTube, X created. Bios pasted from §4.1.
-- [ ] One link in every bio, UTM-tagged. Test it on your own phone.
-- [ ] Analytics added to the site (§3.4) and checked that a UTM shows up as a campaign.
-- [ ] `{{SITE}}` opened on your phone → Add to Home Screen → confirm it opens with airplane mode on.
-  **If it does not open offline, fix that before Day 3** — the whole promise is offline.
-- [ ] WhatsApp Channel created; add 20 contacts you actually know (not strangers).
-- [ ] Profile photo from `fontend/public/icons/icon.svg`.
+1. **Pick the stand and the hour.** Morning peak (08:00–10:00) at Esplanade, Garia, Howrah Station,
+   Salt Lake Sector V, Jadavpur, Dum Dum. Stand *near* the queue, not in it.
+2. **Open the stop page before you talk to anyone:** `/stop?stop=<that stand>`.
+3. **Don't pitch.** Hold the phone where it can be seen, look at it, wait. Curiosity starts the
+   conversation: "is that the bus times?" gets you more than "excuse me, may I show you an app?".
+4. **Let them work it themselves.** Hand the phone over, or let them scan it from your screen.
+5. **Ask the one question that matters:** "is your route in there?" Then "what's wrong with it?"
+6. **Ask for the install only on Day 25** — and do it *for* them: `{{SITE}}` → Add to Home Screen →
+   phone back with the icon on it.
 
-**Deliverable:** screenshots of all five profiles, and one screenshot of the site installed and
-opening offline.
+**Consent, always:** ask before filming. No face, no voice, no number plate without a yes. If
+someone says no, say thank you and film the board, the queue's feet, or the road instead.
 
-### Day 2 — The one film session (90 minutes, one bus ride)
-
-Shoot everything for Videos 1, 2, 5 and Posts 1–2 in a single trip. Shot list:
-
-| Shot | Length | How |
-|---|---|---|
-| Bus arriving, from the stop | 6 s | hand-held, chest height, don't chase |
-| Hand holding the phone showing `/stop?stop=Esplanade` while standing at Esplanade | 8 s | screen visible, sun not on it |
-| Inside the bus, phone showing `/on-bus?route=1` | 8 s | sit, brace elbows on the seat back |
-| Screen recording: typing "Esplanade" → "Garia" → buses appear | 20 s | built-in screen recorder |
-| Screen recording: `/stop?stop=Garia`, scroll the next buses | 15 s | — |
-| Screen recording: turning on airplane mode, opening the app, `/map` still loading | 20 s | **the money shot** |
-| Walking shot of you/your hand only, street behind | 6 s | no face needed |
-| A conductor or a passenger in frame, unidentifiable, for texture | 4 s | only with consent (see §12) |
-
-**Do not** film people's faces without asking. A "no" costs you nothing; a complaint can end the
-account.
-
-### Day 3 — LAUNCH — Video 1 "Find any bus in 10 seconds"
-
-- **Platforms:** IG Reel, YouTube Short, Facebook Reel + Page post, WhatsApp channel, X post.
-- **Post time:** Monday **08:30** (people are literally at the bus stop) and again no action needed.
-- **Speech, on-screen text, shot list:** §8, Video 1.
-- **Caption (Instagram):**
-```
-Kolkata, you don't have to ask "ei bus ta kothay jay?" any more.
-
-Type where you are. Type where you're going. Every bus between those two stops, with its
-published time — 651 routes, 2,194 stops.
-
-No login. No ads. And it keeps working when the signal dies, which is exactly when you need it.
-
-Link in bio 👆 (fit-it-on-your-home-screen in 15 seconds)
-
-#Kolkata #KolkataBus #KolkataCommute #Pathsathi #Esplanade #Garia #PublicTransport
-```
-- **Facebook caption:** same, plus the link inline:
-`Try it: {{SITE}}/?utm_source=facebook&utm_medium=post&utm_campaign=launch01`
-- **X post:**
-```
-Every Kolkata bus between any two stops, with its published time. 651 routes, 2,194 stops.
-No login. Works with no signal.
-
-{{SITE}}?utm_source=x&utm_medium=post&utm_campaign=launch01
-```
-- **WhatsApp channel:** "Kolkata bus times, free, no login. Type two stops, see every bus. Works
-  offline too: `{{SITE}}?utm_source=whatsapp&utm_medium=channel&utm_campaign=launch01`"
-- **End card:** `[IMAGE — generate: end card 1080×1920, brand green background, the word Pathsathi,
-  the URL `{{SITE}}` large, a QR of `{{SITE}}?utm_source=ground&utm_medium=qr&utm_campaign=launch01`,
-  and one line "Works offline · Free · No login"]`
-- **Check that it worked:** GA4 → Reports → Acquisition → Traffic acquisition → filter campaign
-  `launch01`. By 21:00 you should see the first clicks.
-
-### Day 4 — Post 1 "What Esplanade knows"
-
-- **Platforms:** IG carousel (3 slides) + FB + WhatsApp.
-- **Image briefs:**
-  - Slide 1: `[IMAGE — generate: 1080×1350, dark green, large text "261 routes stop at Esplanade.", small line "Do you know which one is yours?"]`
-  - Slide 2: `[IMAGE — generate: 1080×1350, screenshot mock of /stop?stop=Esplanade — next buses list with times and waits, brand colours]`
-  - Slide 3: `[IMAGE — generate: 1080×1350, brand green, "Type your stop. See every bus." + URL `{{SITE}}` + QR]`
-- **Caption:**
-```
-261 routes stop at Esplanade. Around 9,800 timetabled passes a day. You know about five of them.
-
-Open your stop once and you get the next buses, the wait, and the whole day grouped by hour —
-then tap any bus to follow the ride.
-
-Which stop should we do next? Comment it. 👇
-
-#Kolkata #Esplanade #KolkataBus #Pathsathi
-```
-- **Why this post:** it is about *their* stop, not about your app. It is the cheapest post to make
-  (two screenshots) and the easiest to comment on.
-
-### Day 5 — Story + X thread
-
-- **Story 1:** poll — `How do you find your bus today?` / `Ask someone` / `Guess` / `Just wait`.
-- **Story 2:** screen recording of `/stop?stop=<their answer from Day 4 comments>`, 10 s, with the
-  link sticker + UTM `?utm_source=instagram&utm_medium=story&utm_campaign=stop02`.
-- **X thread (3 posts):**
-```
-1/ I built a Kolkata bus timetable that works with no signal. 651 routes, 2,194 stops, free,
-no login. Here's how it works 🧵
-2/ Type two stops. You get every bus between them with its published time, plus one-change
-journeys where there's no direct bus.
-3/ Inside the bus, GPS matches your position to the route and tells you which bus you're in and
-when to get off — offline. {{SITE}}?utm_source=x&utm_medium=thread&utm_campaign=stop01
-```
-
-### Day 6 — Video 5 "No signal"
-
-- **Platforms:** IG Reel + YT Short + FB + WhatsApp.
-- **Why now:** it is the single most surprising thing about the product and it is a 20-second edit
-  of footage you already shot on Day 2.
-- **Script:** §8, Video 5.
-- **Caption:**
-```
-Airplane mode on. App still works.
-
-The whole timetable — 651 routes, 2,194 stops — is inside the app. Nothing to stream, nothing to
-wait for. Buses are exactly where the signal isn't.
-
-Link in bio. It takes 15 seconds to put on your home screen.
-
-#OfflineFirst #Kolkata #KolkataBus #EMBypass #Pathsathi
-```
-
-### Day 7 — First ground session + review
-
-- **Ground, 45 min:** Esplanade or Garia stand. Open `/stop?stop=<that stand>` on your phone, show
-  it to people waiting, let them scan the QR **from your screen**. Count: how many looked, how many
-  scanned, how many said "this is useful". See §10.
-- **Review, 20 min:** fill the tracking table. Three questions only: which post brought the most
-  clicks, which brought the most saves, what did the ground people say was wrong.
+**What to write down after (5 minutes):** the three most common sentences people said, word for word.
+Those words are better captions than anything written at a desk — the Day 22 and Day 26 posts come
+straight from them.
 
 ---
 
-## 8. Video scripts (copy-paste into a free AI voice)
+## 12. How to do the technical bits
 
-Five videos. Format for every one: **1080×1920, 9:16, 30 fps, subtitles burned in**, hook in the
-first second, URL on screen at the end. Speech is written to be read by an AI voice at ~150 words
-per minute — a 30-second video is about 70 words.
+### 12.1 Screen recording
+- **Android:** pull down the quick panel → Screen recorder. Turn off notifications for the recording.
+- **iPhone:** Settings → Control Centre → add Screen Recording → swipe down → tap. (Airplane mode
+  does not stop recording.)
+- Record at 100% brightness with the light theme off, and **wait one second after every tap** — that
+  second is what makes the edit readable later.
 
-**Direction for the voice (same for all five):** calm, matter-of-fact, slightly warm — a person
-explaining something useful, not an advertisement. No exclamation marks, no "download now".
-Pauses are marked `…` — make the voice stop there.
+### 12.2 Making a Reel in CapCut (10 minutes, once)
+1. New project → select the clips and screen recordings for that script.
+2. Set the frame to 9:16; trim each clip to the timings in [`shorts-scripts.md`](shorts-scripts.md).
+3. Audio → **Text to speech** → paste the script's speech → pick one calm voice → speed 0.95×.
+4. Text → **Auto captions** → style white bold with a black outline, bottom third.
+5. Add the on-screen text from the script (it is different from the captions — the captions are the
+   voice, the on-screen text is the poster).
+6. Add the end card image for the final 4 seconds.
+7. Export 1080p, 30 fps. No watermark, no music.
 
----
+### 12.3 Making the QR (2 minutes)
+1. Open `qr-admin/index.html` in a browser (it is not part of the website).
+2. Set the address to `{{SITE}}`, choose a route or a stop, download PNG or SVG.
+3. The code already carries the Pathsathi mark and is raised to error-correction H so it still scans.
+4. Paste it into the end card. Same QR every video.
 
-### Video 1 — "Find any bus in 10 seconds" (35 s) — LAUNCH
+### 12.4 Add to Home Screen (what you are asking people to do)
+- **Android (Chrome):** open the site → ⋮ menu → **Add to Home screen** → Add.
+- **iPhone (Safari):** open the site → Share → **Add to Home Screen** → Add.
+- Then turn on airplane mode and open the icon. If it loads, the install worked. This is also V3.
 
-**Shots**
-1. 0–2 s: bus arriving at the stop (Day 2 footage), text over it: **"Kolkata buses, in 10 seconds"**
-2. 2–6 s: screen recording, typing "Esplanade" in the From field.
-3. 6–12 s: typing "Garia", results appear.
-4. 12–22 s: tap a bus → the timetable for that bus, times visible.
-5. 22–28 s: back, tap one change → a journey with two buses.
-6. 28–35 s: end card (below).
-
-**Speech — word for word**
-> Every day, you stand at a bus stop in Kolkata and ask the same question. Which bus goes where I
-> need to go, and when does it come? … This answers it in about ten seconds. Type the stop you are
-> standing at. Type where you want to go. … Every bus between them, with its published time. 651
-> routes, and 2,194 stops, all inside. No login. No ads. … And when the signal dies, which it always
-> does on a bus, it still works. … It is called Pathsathi. Link is in the bio, and it takes fifteen
-> seconds to put on your home screen.
-
-**On-screen text (burned in)**
-- 0–2 s: `Kolkata buses, in 10 seconds`
-- 12–22 s: `every bus · its published time`
-- 28–35 s: `{{SITE}}` + `free · no login · works offline` + QR
-
----
-
-### Video 2 — "Which bus am I in?" (40 s)
-
-**Shots**
-1. 0–3 s: inside the bus, phone in hand, window light (Day 2).
-2. 3–8 s: screen recording of `/on-bus?route=1` — GPS dot on the route line.
-3. 8–18 s: the card that says which bus, and how many minutes to the next stop.
-4. 18–28 s: choosing a destination → countdown + "get ready" alert.
-5. 28–40 s: end card.
-
-**Speech — word for word**
-> You are already on the bus. Someone asks where you are going, and you are not completely sure
-> which bus this is. … Open the sticker on the bus, or the app, and it matches where you are
-> against the route and the timetable. It tells you which bus you are most likely in, and how many
-> minutes until your stop. … Choose the stop where you get off, and it counts down the journey, and
-> buzzes when you are nearly there. … It is not live tracking. No bus is sending its location. It is
-> your own GPS, against the times the operators publish. Which is honest, and it works with no
-> signal. … Pathsathi. Link in the bio.
-
-**On-screen text**
-- 0–3 s: `which bus is this?`
-- 8–18 s: `your GPS + the published timetable`
-- 20–28 s: `not live tracking — and we say so`
-- 28–40 s: `{{SITE}}` + QR
+### 12.5 Reading GA4 in two minutes
+Reports → **Acquisition** → **Traffic acquisition** → set the dimension to **Session campaign**.
+- Every row is one `utm_campaign` you posted.
+- `Sessions` = visits from that post. `Engagement rate` = did they stay.
+- If a post has views but no sessions, the link was missing, mistyped, or not in the bio.
 
 ---
 
-### Video 3 — "Ask the app, not three people" (35 s)
+## 13. Tracking table
 
-**Shots**
-1. 0–4 s: three quick cuts of people talking at a bus stop (faces away or blurred).
-2. 4–10 s: a hand holding a phone, screen recording of the search.
-3. 10–22 s: results, then the stop page with the wait for the next bus.
-4. 22–35 s: end card.
+Copy this into a notes app and fill it every night — five minutes. If a row is empty, you cannot
+review; if you cannot review, you are guessing.
 
-**Speech — word for word**
-> Three people at the bus stop. Three different answers. … This one takes ten seconds. Type your
-> stop. Type where you are going. … Every bus that connects them, with times, and the wait for the
-> next one. If there is no direct bus, it shows the ways with one change. … It is free. No login. And
-> it keeps working inside the bus, where the signal does not. … Pathsathi. Link in the bio.
+| Day | Post | Platform | Views | Sessions (UTM) | Installs | Saves | Comments | One line: what happened |
+|---|---|---|---|---|---|---|---|---|
+| P2 | what it is | IG | | | | | | |
+| P3 | 651 routes | IG | | | | | | |
+| 1 | V1 launch | IG | | | | | | |
+| 1 | V1 launch | YT | | | | | | |
+| … | | | | | | | | |
+| **30** | **totals** | **all** | | | | | | |
 
-**On-screen text**
-- 0–4 s: `three answers. one app.`
-- 10–22 s: `next bus · how long · the whole day`
-- 22–35 s: `{{SITE}}` + QR
-
----
-
-### Video 4 — "Install it in 15 seconds" (25 s) — pin this one
-
-**Shots:** screen recording only. Android and iPhone side by side, or two consecutive takes.
-1. 0–3 s: `{{SITE}}` typed in the browser bar.
-2. 3–10 s (Android): menu → Add to Home screen → confirm.
-3. 10–17 s (iPhone): Share → Add to Home Screen → Add.
-4. 17–25 s: airplane mode on, tap the new icon, app opens. End card.
-
-**Speech — word for word**
-> Two steps, and then it behaves like an app. … On Android, open the menu and choose add to home
-> screen. On an iPhone, tap share, then add to home screen. … That is it. It now lives with your
-> other apps, opens full screen, and works with no signal at all. No login, no ads, and nothing to
-> download from a store. … Pathsathi. Link in the bio.
-
-**On-screen text**
-- 3–10 s: `Android: menu → Add to Home screen`
-- 10–17 s: `iPhone: Share → Add to Home Screen`
-- 17–25 s: `works with no signal`
-- End: `{{SITE}}` + QR
-
-*(Option A: replace the speech with "search Pathsathi on Google Play", and keep the same end card
-with `{{APP_LINK}}`.)*
+**Planning numbers to replace on Day 7, not promises:** 3,000–8,000 views across the month, 200–500
+tagged site visits, 20–60 installs, 150–400 followers. If they come in below, the answer is more
+ground work and more replies — not more posts.
 
 ---
 
-### Video 5 — "No signal" (20 s)
+## 14. What to send me to generate a post
 
-**Shots**
-1. 0–3 s: airplane mode being switched on (screen recording, real toggle).
-2. 3–10 s: app icon tapped, `/map` loads, a route drawn.
-3. 10–16 s: `/stop?stop=Garia`, buses and times appear.
-4. 16–20 s: end card.
+Say **"generate post <day number>"** (for example *"generate post 2"*) and you get:
 
-**Speech — word for word**
-> Airplane mode. No internet at all. … The map still draws. The buses at this stop are still there,
-> with their times. … Because the whole timetable, all 651 routes and 2,194 stops, is already inside
-> the app. Buses are exactly where the signal is not. … Pathsathi. Free, and it stays on your home
-> screen.
+1. the **image(s)** at the right size, built from the brief in that day, with the wordmark, the URL
+   and the QR placed properly;
+2. a **one-line description** of what the image says, so you can approve or change it;
+3. the **caption**, inside the platform's limit, with the UTM link filled in.
 
-**On-screen text**
-- 0–3 s: `airplane mode on`
-- 10–16 s: `2,194 stops, no internet`
-- 16–20 s: `{{SITE}}` + QR
+Three things make that instant instead of a conversation:
+
+1. **`{{SITE}}`** — the real address.
+2. **Store or home screen** (§4) — it changes the last line of every caption.
+3. **English or Banglish** (§4) — it changes every script.
+
+If a post needs a photo of a real bus or a real stand, say whether you will shoot it or I should
+generate it: generated images are fine for posters and cards, but a Kolkata audience can tell a
+generated bus from a real one, so keep generated images for the graphics.
 
 ---
 
-## 9. The parts that are not posts
+## 15. Talking to people
 
-### 9.1 Zero-cost production kit
+### 15.1 Replies to the questions you will get
 
-| Need | Free option | Notes |
-|---|---|---|
-| Camera | your phone, rear lens, 1080p 30 fps | wipe the lens; lock exposure by tapping and holding |
-| Sound | AI voice (§8) | if you narrate, record in a quiet room with wired earphones, 20 cm from your mouth |
-| AI voice (free tier) | CapCut text-to-speech, Microsoft Edge "Read aloud" (record its output), ElevenLabs free tier, or `gTTS` (Python) | one voice for all five videos, so it sounds like one brand |
-| Editing | CapCut | 9:16, auto-captions on, trim to the script timings |
-| Screen recording | built-in Android / iOS recorder | no watermarks |
-| QR codes | **the repo's own** `qr-admin/index.html` | free, logo included, prints on A4 |
-| Images | screenshots of the real app + the `[IMAGE — generate]` briefs in this file | I generate those for you on request |
-| Hosting | Cloudflare Pages / GitHub Pages / Vercel free tier | static export, no server |
-| Analytics | GA4 free | needed for UTM |
-| Music | skip it, or the platform's own library only | a claimed video is taken down; silence + one voice works fine |
+| They say | You reply |
+|---|---|
+| "Is this live tracking?" | "No — no bus sends its location. It uses the published timetable and your GPS, and the screen says so." |
+| "Google Maps does this." | "It does. This has the operators' published times, the whole day at a stop, and it works with no signal." |
+| "My route isn't there." | "Tell me the route and two stops, I'll check the data. Missing ones are exactly what I want to hear." |
+| "Is it on the Play Store?" | "Not yet. For now it installs from the browser in 15 seconds and works offline — no store, no fee." |
+| "Is it official?" | "No. Independent and free, built from publicly available timetable data." |
+| "How do I use it?" | "Link in bio → Add to Home Screen → open it. Fifteen seconds, and then it works with no signal." |
+| "This is fake / the times are wrong." | "Tell me the route and the time you saw. If our data is wrong I'll fix it and tell you what changed." |
 
-### 9.2 The ground playbook (where installs really come from)
+Two rules: never argue twice with the same person, and never answer a data complaint without opening
+that route on the site first.
 
-Six sessions, ~45 minutes each, ₹0:
+### 15.2 Facebook group invite (one post, after a week of being helpful)
 
-1. **Stand next to a queue, don't sell to it.** Open `/stop?stop=<the stop you are standing at>` on
-   your phone and hold it where people can see it. Curiosity does the talking.
-2. **Let them scan your screen** (they hold their camera at your phone). That is the whole demo —
-   their phone now has the site, installed in 15 seconds, no store, no data cost.
-3. **Ask one question:** "Is your route missing?" It is the best conversation opener you have, and
-   the answer feeds the community desk.
-4. **Note the objections** word for word. Every one becomes a post or a fix.
-5. **Ask for a 10-second testimonial** (voice note is fine) with permission. Day 29 uses them.
-6. **Never claim official.** Say "I built it", because you did — and people trust that more.
-
-Places worth one session each: **Esplanade, Garia, Howrah Station, Salt Lake Sector V, Jadavpur,
-Dum Dum**. Rotate; don't repeat until you have covered four.
-
-### 9.3 Facebook groups (the highest-intent free channel)
-
-Search these names on Facebook and join the **three biggest active ones**: `Kolkata Bus`,
-`Kolkata Commuters`, `Kolkata Bus Routes`, `Calcutta`, `Kolkata Traffic`. Then:
-
-- Spend the first week only answering other people's questions (no links). Groups remove
-  drive-by advertisers; they tolerate a helpful member.
-- Then post **once**, with the link, and say plainly that you built it:
 ```
-People keep asking "which bus from X to Y" here, so I built a free tool for it. Type two stops,
-see every bus with its published time, and a one-change option when there's no direct bus. No
-login, no ads, and it works inside the bus with no signal.
+People keep asking "which bus from X to Y" here, so I built a free tool for it: type two stops, see
+every bus with its published time, and a one-change option when there is no direct bus. No login, no
+ads, and it works inside the bus with no signal.
 
 {{SITE}}?utm_source=facebook&utm_medium=group&utm_campaign=group01
 
-If a route is missing, tell me in the comments and I'll look at it. (I'm the one who built it.)
+If a route is missing, tell me in the comments and I'll check it. (I'm the one who built it.)
 ```
-- If an admin removes it, thank them, and ask what would be allowed. Do not repost.
+If an admin removes it: thank them, ask what would be allowed, do not repost.
 
-### 9.4 Reddit r/kolkata (twice, maximum)
+### 15.3 Reddit r/kolkata — twice, maximum
 
-Rules that decide whether this works:
-
-- Use your own account, at least a few weeks old with some comment history. A brand-new account
-  posting one link is removed automatically.
-- Title it as a person, not a product: *"I built a free Kolkata bus timetable that works with no
-  signal — looking for people to break it"*.
-- Put the honest limits in the post itself: not live tracking, times are published times, stickers
-  not printed yet. Reddit rewards that and punishes the opposite.
-- Answer every comment, and fix what people report. Then post the second update in week 4 with the
+- Use an account that is a few weeks old with some history; a new account posting one link is removed
+  automatically.
+- Title it as a person: *"I built a free Kolkata bus timetable that works with no signal — looking for
+  people to break it."*
+- Put the limits in the post: not live tracking, published times only, stickers not printed yet.
+- Answer every comment and fix what people report, then post the second update in week 4 with the
   fixes.
 
-### 9.5 Reply scripts (the questions you will get)
+### 15.4 DM template (5 pages, Day 29)
 
-| Comment | Reply |
-|---|---|
-| "Is this live tracking?" | "No — no bus sends its location. It uses the published timetable + your GPS, and it says on the screen that it isn't live." |
-| "Google Maps shows buses too." | "It does. This one has the operators' published times, the whole day at a stop, and it works with no signal." |
-| "My route isn't there." | "Tell me the route and the stops and I'll check the data. Missing ones are exactly what I want to hear about." |
-| "Is it on the Play Store?" | Option A: link. Option B: "Not yet — for now it installs from the browser in 15 seconds, and works offline. No store, no fee." |
-| "Is it official?" | "No. Independent, free, uses publicly available timetable data." |
-| "Where do the times come from?" | "The operators' published passage times, compiled into one file. Where no times are published, we show no times rather than guessing." |
+```
+Hi — I built Pathsathi, a free Kolkata bus timetable (651 routes, 2,194 stops, works offline, no
+login). Not asking for money or a shoutout: would you try it once on a route you actually take, and
+tell me what's wrong with it? If it's useful, you're welcome to share it — here's the link:
+{{SITE}}
+```
 
 ---
 
-## 10. Tracking table (fill it in daily, 5 minutes)
+## 16. Rules, and what to stop using
 
-| Day | Post | Platform | Views | Clicks (UTM) | Installs | Saves | Comments | One line: what happened |
-|---|---|---|---|---|---|---|---|---|
-| 3 | Video 1 | IG | | | | | | |
-| 3 | Video 1 | YT | | | | | | |
-| … | | | | | | | | |
+**Never:** say "real-time" or "live"; claim a store listing; claim a sticker is in a bus; claim to be
+official; invent a number; buy followers, likes or views; post more than twice a day on one platform;
+send more than one WhatsApp channel message a day; use someone's face, voice or number plate without
+asking; repost watermarked edits; promise a missing route "today".
 
-**Sunday review — three questions, 20 minutes**
-1. Which post got the most **clicks**, not likes? Do that format again next week.
-2. Which post got the most **saves**? Saves predict installs.
-3. What did people say at the bus stand that no post addresses? That is next week's post.
-
-**Kill rules** — decide these now, not in the moment:
-- A format with under 300 views twice in a row is dropped.
-- A platform with zero clicks for two weeks gets one post a week, not daily effort.
-- If installs are low but clicks are fine, the problem is on the site (the 15-second install video
-  is the fix), not in the marketing.
-
----
-
-## 11. What not to do
-
-- Don't say "real-time", "live", or "track". It is untrue and the app's own screens contradict it.
-- Don't use the old banners: they say **Cholo**, say **"Real-time info"**, and show **Google Play /
-  App Store** badges that do not exist.
-- Don't buy followers, likes or views. Kolkata's local pages can tell, and it kills the trust you
-  need for a commuting tool.
-- Don't post more than twice a day on any platform, or more than one message a day on WhatsApp.
-  A muted channel is a dead channel.
-- Don't spam groups with the same text. Reword, and be a member first.
-- Don't repost the same Reel to TikTok-styled watermarks elsewhere; export clean from the editor.
-- Don't promise someone's missing route will be added "today". Say you will check.
-- Don't use a real person's face, voice or bus in a video without asking them first.
-
----
-
-## 12. What I need from you to generate a post
-
-When you say "generate post 3", I will produce:
-
-1. **The final image(s)** at the right size for the platform, using the brief in this file, with the
-   wordmark, the URL and the QR in the right places.
-2. **A one-line description** of what the image says, in case you want it changed.
-3. **The caption**, already inside the platform's character limit, with the UTM link filled in.
-
-To do that cleanly I need, in order of importance:
-
-1. `{{SITE}}` — the real domain.
-2. **Store link or not** (§1.3) — it decides the last line of every caption.
-3. **Language** — English, or Banglish. Once chosen, all five scripts get rewritten to match, not
-   half-translated.
-4. The handles you actually got, if they differ from the suggestions in §4.
-5. For any photo of a real bus or a real stand: whether you can shoot it, or whether I should
-   generate it. Generated photos are not photos of real Kolkata buses — for a local audience that
-   difference is visible, so use generated images for posters/cards and real footage for "inside the
-   bus" content.
-
----
-
-## 13. Housekeeping — old files that now contradict this plan
-
-These still carry the old product's claims. Don't publish from them until they are updated:
+**Old marketing files that contradict this plan — do not publish from them:**
 
 | File | Problem |
 |---|---|
-| `marketing/banners/*.png` | Say "Cholo", "Real-time info", and show store badges that don't exist |
-| `marketing/captions-bank.md` | "650 routes", "real-time", "offline map" framing from the old product |
-| `marketing/shorts-scripts.md` | Old scripts; superseded by §8 here |
-| `marketing/bios-and-handles.md` | Points at `pathsathi.vercel.app` (unconfirmed domain) |
-| `marketing/make-video.html` | Hard-codes `find-your-bus.vercel.app` in five places |
-| `marketing/hashtag-pack.md`, `captions-bank.md` | Hashtags fine; the claims are not |
+| `marketing/banners/*.png` | say *Cholo*, say "Real-time info", show Google Play / App Store badges that do not exist |
+| `marketing/captions-bank.md` | old product claims, "650+" instead of 651, "real-time" lines |
+| `marketing/bios-and-handles.md` | points at an unconfirmed domain (`pathsathi.vercel.app`) |
+| `marketing/make-video.html` | hard-codes `find-your-bus.vercel.app` in five places |
+| `marketing/hashtag-pack.md` | **updated — safe to use, this plan links to it** |
+| `marketing/shorts-scripts.md` | **updated — the eight scripts this plan uses** |
+| `marketing/AI-BANNERS-GALLERY.html`, `preview.html`, `shoto-videos.html`, `real-app-demo.html`, `slow-motion-reel.html` | old assets and old claims; treat as reference only |
 
-Say the word and I'll rewrite each of those to match this plan, plus regenerate the banner artwork
-with the Pathsathi wordmark.
+Ask me and I will rewrite or regenerate any of them to match this plan.
 
 ---
 

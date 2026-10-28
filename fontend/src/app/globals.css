@@ -58,7 +58,7 @@ html[data-theme="dark"] .site-header { background: rgba(22, 36, 29, .9); }
 .brand { display: inline-flex; align-items: center; gap: 10px; flex: none; }
 .brand-mark { width: 42px; height: 42px; border-radius: 12px; background: #195a45; color: #fff; display: grid; place-items: center; flex: none; box-shadow: 0 4px 12px rgba(25, 90, 69, .13); }
 .brand-words { display: flex; flex-direction: column; gap: 0; line-height: 1; }
-.brand-words strong, .footer-brand strong { font-family: "Outfit", "Segoe UI", sans-serif; font-size: 27px; font-weight: 700; letter-spacing: -.07em; line-height: .95; }
+.brand-words strong, .footer-brand strong { font-family: "Outfit", "Segoe UI", sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -.02em; line-height: .95; }
 .brand-words strong span, .footer-brand strong span { color: var(--accent); }
 .brand-words small { margin-top: 6px; color: var(--muted); font-size: 11px; letter-spacing: .18em; font-weight: 800; white-space: nowrap; }
 .header-actions { display: flex; align-items: center; gap: 12px; }
@@ -416,7 +416,7 @@ html[data-theme="dark"] .how-number { color: #3c5241; }
   .site-header { height: 68px; }
   .page-container { padding-inline: 18px; }
   .brand-mark { width: 38px; height: 38px; }
-  .brand-words strong { font-size: 25px; }
+  .brand-words strong { font-size: 21px; }
   .brand-words small { font-size: 11px; }
   .city-chip { display: none; }
   .hero { display: flex; flex-direction: column; align-items: stretch; gap: 28px; padding-top: 39px; padding-bottom: 24px; }

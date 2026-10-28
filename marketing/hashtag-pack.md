@@ -1,31 +1,31 @@
-# Cholo — Hashtag Packs
+# Pathsathi — Hashtag Packs
 ### Copy-paste sets — pick 1 per post type (Instagram: 5-8, Facebook: 2-3, X: 1-2)
 
 ---
 
 ## CORE (always include 1-2)
 ```
-#CholoKolkata #CholoBus #FindYourBus
+#PathsathiKolkata #PathsathiBus #FindYourBus
 ```
 
 ## LAUNCH
 ```
-#CholoKolkata #CholoBus #FindYourBus #Kolkata #KolkataBus #CityOfJoy #KolkataDiaries #WBTC
+#PathsathiKolkata #PathsathiBus #FindYourBus #Kolkata #KolkataBus #CityOfJoy #KolkataDiaries #WBTC
 ```
 
 ## OFFLINE FEATURE
 ```
-#CholoKolkata #OfflineFirst #NoSignalNoProblem #KolkataBus #TechForKolkata #PWA #KolkataTech
+#PathsathiKolkata #OfflineFirst #NoSignalNoProblem #KolkataBus #TechForKolkata #PWA #KolkataTech
 ```
 
 ## TUTORIAL / HOW-TO
 ```
-#HowToCholo #KolkataBus #CholoKolkata #Tutorial #TravelHack #KolkataCommute
+#HowToPathsathi #KolkataBus #PathsathiKolkata #Tutorial #TravelHack #KolkataCommute
 ```
 
 ## MEME / FUN
 ```
-#KolkataMemes #BengaliMemes #CalcuttaMemes #CholoKolkata #KolkataReels #Relatable #MemeMonday
+#KolkataMemes #BengaliMemes #CalcuttaMemes #PathsathiKolkata #KolkataReels #Relatable #MemeMonday
 ```
 
 ## KOLKATA LOVE / AESTHETIC
@@ -35,27 +35,27 @@
 
 ## ROUTES / SEARCH
 ```
-#KolkataBus #CholoBus #Esplanade #Garia #Howrah #Sealdah #SaltLake #KolkataRoutes #PublicTransport
+#KolkataBus #PathsathiBus #Esplanade #Garia #Howrah #Sealdah #SaltLake #KolkataRoutes #PublicTransport
 ```
 
 ## GIVEAWAY
 ```
-#Giveaway #KolkataGiveaway #CholoKolkata #ContestAlert #GiveawayIndia #KolkataContest #FindYourBus
+#Giveaway #KolkataGiveaway #PathsathiKolkata #ContestAlert #GiveawayIndia #KolkataContest #FindYourBus
 ```
 
 ## BEHIND THE SCENES / BUILD IN PUBLIC
 ```
-#BuildInPublic #FounderStory #CholoKolkata #KolkataStartups #TechForGood #DataHonesty #MadeInKolkata
+#BuildInPublic #FounderStory #PathsathiKolkata #KolkataStartups #TechForGood #DataHonesty #MadeInKolkata
 ```
 
 ## COMMUTER TIPS
 ```
-#CommuterTips #KolkataCommute #CholoKolkata #TravelSmart #KolkataLife #DailyCommute
+#CommuterTips #KolkataCommute #PathsathiKolkata #TravelSmart #KolkataLife #DailyCommute
 ```
 
 ## UGC / COMMUNITY
 ```
-#CholoKolkata #KolkataDiaries #CholoBus #CommunityLove #KolkataGram #UGC #YourKolkata
+#PathsathiKolkata #KolkataDiaries #PathsathiBus #CommunityLove #KolkataGram #UGC #YourKolkata
 ```
 
 ## FOR REELS (add these to any Reel)
@@ -65,7 +65,7 @@
 
 ## FOR X (pick 1-2 max)
 ```
-#CholoKolkata #KolkataBus
+#PathsathiKolkata #KolkataBus
 #Kolkata #WBTC
 ```
 

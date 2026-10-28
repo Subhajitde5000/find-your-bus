@@ -1,11 +1,11 @@
-# Cholo — Kolkata Bus Marketing Kit
+# Pathsathi — Kolkata Bus Marketing Kit
 ### Find Your Bus Campaign
 
-This folder contains everything you need to launch **Cholo — Kolkata Bus Timetables** on Instagram, Facebook, X (Twitter) & YouTube Shorts.
+This folder contains everything you need to launch **Pathsathi — Kolkata Bus Timetables** on Instagram, Facebook, X (Twitter) & YouTube Shorts.
 
-**Brand:** Cholo (চলো) — Kolkata Bus Timetables  
+**Brand:** Pathsathi (পথসাথী) — Kolkata Bus Timetables  
 **Tagline:** _Find Your Bus in 10 Seconds. Ride Offline. No Signal Needed._  
-**Website:** Static PWA — `cholo-bus` (Kolkata bus timetable + offline ride screen)  
+**Website:** Static PWA — `pathsathi-bus` (Kolkata bus timetable + offline ride screen)  
 **Core Offer:** 
 - 650+ routes, 193 stands, 2194 stops
 - Search any 2 stops → See every direct bus + 1-change options
@@ -33,5 +33,5 @@ This folder contains everything you need to launch **Cholo — Kolkata Bus Timet
 Open `marketing/preview.html` in your browser for a live banner gallery.
 Open `marketing/banners/` for JPG exports ready to upload.
 
-All banners use Cholo brand: Deep Green #195A45, Accent Orange #E9865C, Mint #EAF3EA, Off-white #F8FAF7
+All banners use Pathsathi brand: Deep Green #195A45, Accent Orange #E9865C, Mint #EAF3EA, Off-white #F8FAF7
 

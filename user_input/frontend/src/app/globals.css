@@ -37,7 +37,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .brand { display: inline-flex; align-items: center; gap: 10px; flex: none; }
 .brand-mark { width: 41px; height: 41px; display: grid; place-items: center; border-radius: 13px; background: var(--brand); color: #fff; box-shadow: 0 7px 16px rgba(29, 99, 77, .16); }
 .brand-copy { display: flex; flex-direction: column; line-height: 1; }
-.brand-copy strong { color: var(--heading); font-family: "Outfit", "Segoe UI", sans-serif; font-size: 25px; font-weight: 800; letter-spacing: -.075em; }
+.brand-copy strong { color: var(--heading); font-family: "Outfit", "Segoe UI", sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
 .brand-copy strong span { color: var(--accent); }
 .brand-copy small { margin-top: 5px; color: var(--muted); font-size: 9px; font-weight: 800; letter-spacing: .17em; white-space: nowrap; }
 .main-nav { height: 76px; display: flex; align-items: center; gap: 8px; margin-left: auto; }

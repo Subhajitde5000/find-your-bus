@@ -64,7 +64,7 @@ export default function AdminLoginPage() {
               <button className="button-primary login-submit" type="submit" disabled={loading}>
                 {loading ? "Signing in…" : "Sign in to review"} {!loading && <ArrowRight size={16} aria-hidden="true" />}
               </button>
-              <p className="auth-security-note"><LockKeyhole size={13} aria-hidden="true" /> This area is for the Cholo admin only.</p>
+              <p className="auth-security-note"><LockKeyhole size={13} aria-hidden="true" /> This area is for the Pathsathi admin only.</p>
             </form>
           )}
         </section>

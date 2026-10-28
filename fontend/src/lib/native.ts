@@ -11,16 +11,16 @@
 export const IS_MOBILE_APP_BUILD =
   process.env.NEXT_PUBLIC_MOBILE_APP === "1" || process.env.NEXT_PUBLIC_MOBILE_APP === "true";
 
-export const NATIVE_BOOTSTRAP = `(function(){try{var c=window.Capacitor;var b=window.CholoNativeBars;if(${IS_MOBILE_APP_BUILD ? "true" : "false"}||b||(c&&typeof c.isNativePlatform==="function"&&c.isNativePlatform()===true)){document.documentElement.dataset.native="true";if(b&&typeof b.setDarkTheme==="function"){b.setDarkTheme(document.documentElement.getAttribute("data-theme")==="dark");}}}catch(e){}})();`;
+export const NATIVE_BOOTSTRAP = `(function(){try{var c=window.Capacitor;var b=window.PathsathiNativeBars;if(${IS_MOBILE_APP_BUILD ? "true" : "false"}||b||(c&&typeof c.isNativePlatform==="function"&&c.isNativePlatform()===true)){document.documentElement.dataset.native="true";if(b&&typeof b.setDarkTheme==="function"){b.setDarkTheme(document.documentElement.getAttribute("data-theme")==="dark");}}}catch(e){}})();`;
 
 export function isNativeApp(): boolean {
   if (IS_MOBILE_APP_BUILD) return true;
   if (typeof window === "undefined") return false;
   const win = window as unknown as {
     Capacitor?: { isNativePlatform?: () => boolean };
-    CholoNativeBars?: unknown;
+    PathsathiNativeBars?: unknown;
   };
-  if (win.CholoNativeBars) return true;
+  if (win.PathsathiNativeBars) return true;
   return typeof win.Capacitor?.isNativePlatform === "function" && win.Capacitor.isNativePlatform() === true;
 }
 

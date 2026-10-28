@@ -1,16 +1,16 @@
-# Cholo — Bios, Handles & Profile Setup
+# Pathsathi — Bios, Handles & Profile Setup
 
 ## 1. Handle Ideas (pick ONE, keep same everywhere)
 
 **Top picks:**
-- `@cholo.kolkata` ← RECOMMENDED (short, memorable, searchable)
-- `@cholobus` 
-- `@cholo.bus`
+- `@pathsathi.kolkata` ← RECOMMENDED (short, memorable, searchable)
+- `@pathsathibus` 
+- `@pathsathi.bus`
 - `@findyourbus_kolkata`
 
 **Display Name:**
-- `Cholo — Kolkata Bus Guide` (Instagram / Facebook)
-- `Cholo | Find Your Bus` (X — shorter)
+- `Pathsathi — Kolkata Bus Guide` (Instagram / Facebook)
+- `Pathsathi | Find Your Bus` (X — shorter)
 
 ---
 
@@ -18,12 +18,12 @@
 
 **Option A — Launch (Recommended):**
 ```
-চলো, Kolkata! 🚌
+পথসাথী, Kolkata! 🚌
 Find any bus in 10 sec → 650+ routes
 Offline ride screen 📍 No signal? No problem
 👇 Tap to find your bus
 ```
-Link: `cholo.vercel.app` or your domain + Linktree
+Link: `pathsathi.vercel.app` or your domain + Linktree
 
 **Option B — Benefit heavy:**
 ```
@@ -53,14 +53,14 @@ Your pocket bus timetable 💚
 
 **Short Description (255 chars):**
 ```
-Cholo is Kolkata's simplest bus timetable. Search any two stops — Esplanade to Garia, Howrah to Salt Lake — and see every bus today. 650+ routes, offline ride tracking, no login needed. Made for the way Kolkata moves. 🚌💚 #CholoKolkata
+Pathsathi is Kolkata's simplest bus timetable. Search any two stops — Esplanade to Garia, Howrah to Salt Lake — and see every bus today. 650+ routes, offline ride tracking, no login needed. Made for the way Kolkata moves. 🚌💚 #PathsathiKolkata
 ```
 
 **Long / About Section:**
 ```
 Tired of asking “Ei bus ta kothay jabe?” at every stop?
 
-Cholo finds your Kolkata bus in 10 seconds. Just type where you are and where you want to go — we show:
+Pathsathi finds your Kolkata bus in 10 seconds. Just type where you are and where you want to go — we show:
 ✅ Every direct bus with full stop list & times
 ✅ 1-change journeys if no direct bus
 ✅ 650 routes from WBTC + verified timetables
@@ -72,11 +72,11 @@ No account. No spam. No live-tracking gimmicks. Just honest timetables, built fo
 
 Made with 💚 in Kolkata. Install to your home screen — 2.8 MB only.
 
-#FindYourBus #CholoBus
+#FindYourBus #PathsathiBus
 ```
 
 **Facebook Page Info:**
-- Username: `@cholo.kolkata`
+- Username: `@pathsathi.kolkata`
 - Category: `Transportation Service` + `Mobile App`
 - Contact: Add WhatsApp button (if available)
 - CTA Button: `Use App` → link to site
@@ -96,15 +96,15 @@ No login. No tracking. Just buses.
 
 **Option B — Punchy:**
 ```
-চলো! Kolkata bus guide 🚌
+পথসাথী! Kolkata bus guide 🚌
 Esplanade → Garia in 10 sec.
 Offline. Free. Made for commuters.
-#CholoKolkata
+#PathsathiKolkata
 ```
 
 **Pinned Tweet Idea:**
 ```
-We built Cholo because Kolkata buses run to frequency, not Google Maps 😅
+We built Pathsathi because Kolkata buses run to frequency, not Google Maps 😅
 
 🚌 650+ routes
 📍 2194 stops
@@ -114,7 +114,7 @@ No login. No ads. Just buses.
 
 Try it: [link]
 
-#Kolkata #CholoBus
+#Kolkata #PathsathiBus
 ```
 
 **X Header:** Use Banner #6 (Twitter header 1500x500)
@@ -126,19 +126,19 @@ Try it: [link]
 
 ## 5. YouTube Channel (for Shorts)
 
-**Channel Name:** `Cholo — Kolkata Bus Guide`
-**Handle:** `@cholo.kolkata`
+**Channel Name:** `Pathsathi — Kolkata Bus Guide`
+**Handle:** `@pathsathi.kolkata`
 **Description:**
 ```
 Find your Kolkata bus in 10 seconds 🚌
 
-Cholo is a free timetable + offline ride screen for Kolkata buses.
+Pathsathi is a free timetable + offline ride screen for Kolkata buses.
 No login, no signal needed. 650+ routes, 193 stands, built for daily commuters.
 
 New Shorts every Mon/Wed/Fri — bus hacks, route guides, Kolkata stories.
 
-Try Cholo: [link]
-Instagram: @cholo.kolkata
+Try Pathsathi: [link]
+Instagram: @pathsathi.kolkata
 #FindYourBus
 ```
 
@@ -151,12 +151,12 @@ Instagram: @cholo.kolkata
 Create a simple link page with:
 
 1. **🚌 Find Your Bus Now** → main site link (BIG button, green)
-2. **📲 Install Cholo to Home Screen** → instructions (How to: Android Add to Home Screen / iOS)
+2. **📲 Install Pathsathi to Home Screen** → instructions (How to: Android Add to Home Screen / iOS)
 3. **📍 Try Offline Ride Demo** → `/ride?route=...` demo link
 4. **📸 Instagram** → Instagram profile
 5. **💬 Share Feedback / Request Route** → Google Form or DM
 
-Use Cholo green #195A45 for primary button.
+Use Pathsathi green #195A45 for primary button.
 
 ---
 
@@ -180,7 +180,7 @@ Highlight cover style: Deep green #195A45 circle, icon in white/mint.
 **Tone:** Helpful friend at the bus stop. Not corporate. A little Bengali, a little fun.
 **Do:**
 - Use Kolkata local names (Esplanade, Garia, Sealdah, Howrah, Tollygunge)
-- Mix English + 1 Bengali word (Cholo, Dada, Boudi, Ektu)
+- Mix English + 1 Bengali word (Pathsathi, Dada, Boudi, Ektu)
 - Be honest: “Times are timetables, not live GPS”
 - Celebrate commuters
 

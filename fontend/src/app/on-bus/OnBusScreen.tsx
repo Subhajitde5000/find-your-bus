@@ -430,11 +430,11 @@ function OnBusScreen() {
             <h1>Route {routeNumber} is not in this directory</h1>
             <p>
               The sticker names route {routeNumber}, but the timetable bundled with this copy of
-              Cholo does not have it. The sticker may belong to a route added after this copy was
+              Pathsathi does not have it. The sticker may belong to a route added after this copy was
               released.
             </p>
             <p className="ride-notice-detail">
-              Update the app from the store, or open Cholo in a browser once with a signal to
+              Update the app from the store, or open Pathsathi in a browser once with a signal to
               refresh the site. Nothing has been guessed in the meantime.
             </p>
             <div className="qr-notice-actions">
@@ -458,7 +458,7 @@ function OnBusScreen() {
             <p>
               {geometry && !geometry.ok
                 ? geometry.failure.message
-                : "The stops of this route have no positions that this copy of Cholo can use."}
+                : "The stops of this route have no positions that this copy of Pathsathi can use."}
             </p>
             <p className="ride-notice-detail">
               Without positions the app cannot say where on the route you are, so it will not
@@ -519,8 +519,8 @@ function OnBusScreen() {
           title: "Position lost",
           body:
             ageMinutes < 1
-              ? "The last reading was moments ago. Cholo keeps using it; a fresh one tells the buses apart better."
-              : `The last reading was ${ageMinutes} minute${ageMinutes === 1 ? "" : "s"} ago. Cholo keeps using it, but a fresh reading is what tells the buses apart.`,
+              ? "The last reading was moments ago. Pathsathi keeps using it; a fresh one tells the buses apart better."
+              : `The last reading was ${ageMinutes} minute${ageMinutes === 1 ? "" : "s"} ago. Pathsathi keeps using it, but a fresh reading is what tells the buses apart.`,
         };
       return {
         title: "No position yet",
@@ -530,7 +530,7 @@ function OnBusScreen() {
     if (permission === "idle" || permission === "stopped")
       return {
         title: "Find yourself on this bus",
-        body: "Cholo matches your position with this route's timetable to say which bus you are in.",
+        body: "Pathsathi matches your position with this route's timetable to say which bus you are in.",
       };
     if (tracker.status === "waiting")
       return { title: "Finding you on this route…", body: tracker.notice ?? "Waiting for a clear GPS signal." };
@@ -794,7 +794,7 @@ function OnBusScreen() {
             <header>
               <div>
                 <h2>Where are you getting off?</h2>
-                <p>Optional. Choose a stop and Cholo counts down the journey to it.</p>
+                <p>Optional. Choose a stop and Pathsathi counts down the journey to it.</p>
               </div>
               <span className="ob-optional">optional</span>
             </header>
@@ -1027,7 +1027,7 @@ function OnBusScreen() {
 
         <details className="ob-footnote">
           <summary>
-            <Info size={15} aria-hidden="true" /> How Cholo knows which bus this is, and when it does not
+            <Info size={15} aria-hidden="true" /> How Pathsathi knows which bus this is, and when it does not
           </summary>
           <ul>
             <li>
@@ -1036,7 +1036,7 @@ function OnBusScreen() {
               position and this route&apos;s published times narrow it down.
             </li>
             <li>
-              <strong>Not live tracking.</strong> No bus sends its position to Cholo. The screen
+              <strong>Not live tracking.</strong> No bus sends its position to Pathsathi. The screen
               compares your GPS with the timetable; it never claims to see the vehicle.
             </li>
             <li>

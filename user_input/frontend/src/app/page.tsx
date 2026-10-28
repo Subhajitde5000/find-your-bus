@@ -24,7 +24,7 @@ export default function HomePage() {
             <span className="eyebrow"><span className="eyebrow-dot" /> A BETTER BUS GUIDE, TOGETHER</span>
             <h1>Help Kolkata<br />move <em>better.</em></h1>
             <p className="hero-description">
-              Your local knowledge makes Cholo more useful for everyone. Share an idea, flag a gap in the bus network, or help us correct something that is off.
+              Your local knowledge makes Pathsathi more useful for everyone. Share an idea, flag a gap in the bus network, or help us correct something that is off.
             </p>
             <div className="hero-assurance">
               <span><Check size={15} aria-hidden="true" /> Every submission is reviewed</span>

@@ -17,7 +17,7 @@ class StorageUnavailable(Exception):
 class SubmissionStore:
     """MongoDB-backed submission storage, with a temporary memory mode for local UI preview."""
 
-    def __init__(self, mongo_uri: str = "", database_name: str = "cholo_user_input") -> None:
+    def __init__(self, mongo_uri: str = "", database_name: str = "pathsathi_user_input") -> None:
         self._client: MongoClient[Any] | None = None
         self._collection: Collection[dict[str, Any]] | None = None
         self._memory: list[dict[str, Any]] = []

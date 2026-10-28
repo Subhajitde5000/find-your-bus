@@ -28,7 +28,7 @@ const qrcode = createRequire(import.meta.url)(join(ROOT, "qr-admin/vendor/qrcode
 
 // logo.js is a plain browser script; loaded here it puts its spec on globalThis.
 require(join(ROOT, "qr-admin/logo.js"));
-const LOGO = globalThis.CHOLO_LOGO;
+const LOGO = globalThis.PATHSATHI_LOGO;
 
 const QUIET = 4;
 const DPI = 300;
@@ -118,7 +118,7 @@ function rasterise(text, { scale = 6, logo = false, level = logo ? LOGO.level : 
   return { rgba, size, modules, mmPerModule: null };
 }
 
-const origin = "https://cholo.example";
+const origin = "https://pathsathi.example";
 const samples = [
   `${origin}/on-bus?route=1`,
   `${origin}/on-bus?route=S12D`,
@@ -127,7 +127,7 @@ const samples = [
   `${origin}/stop?stop=Esplanade`,
   `${origin}/stop?stop=Ahiritola+%28Rajabazar%29`,
   `${origin}/stop?stop=Calcutta+Leather+Complex+%28Covers+All+3+Gates%29`,
-  "https://cholo.in/on-bus?route=1",
+  "https://pathsathi.in/on-bus?route=1",
 ];
 
 let failures = 0;

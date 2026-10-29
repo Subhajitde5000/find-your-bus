@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { placeLabels, type Rect } from "@/lib/mapView";
 import { isWater, KIND_LABEL, oneLabelPerName, type LandmarkKind } from "@/lib/landmarks";
 
@@ -35,6 +36,31 @@ interface Props {
 }
 
 const WATER = new Set<LandmarkKind>(["river", "canal", "water"]);
+
+const LandmarkShapesList = memo(function LandmarkShapesList({
+  shapes,
+  selectedId,
+  onSelect,
+}: {
+  shapes: DrawnShape[];
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <>
+      {shapes.map((shape) => (
+        <path
+          key={shape.id}
+          className={`landmark-shape ${WATER.has(shape.kind) ? "water" : shape.closed ? "building" : "span"} ${shape.kind}${shape.id === selectedId ? " selected" : ""}`}
+          d={shape.d}
+          onClick={() => onSelect(shape.id)}
+        >
+          <title>{`${shape.name} (${KIND_LABEL[shape.kind]})`}</title>
+        </path>
+      ))}
+    </>
+  );
+});
 
 /**
  * Rivers, canals, lakes, station buildings and places, drawn under the stops. Water is
@@ -85,16 +111,7 @@ export function LandmarkLayer({ points, shapes, k, rect, showLabels, selectedId,
   const size = 4.2 * k;
   return (
     <g className="landmark-layer">
-      {shapes.map((shape) => (
-        <path
-          key={shape.id}
-          className={`landmark-shape ${WATER.has(shape.kind) ? "water" : shape.closed ? "building" : "span"} ${shape.kind}${shape.id === selectedId ? " selected" : ""}`}
-          d={shape.d}
-          onClick={() => onSelect(shape.id)}
-        >
-          <title>{`${shape.name} (${KIND_LABEL[shape.kind]})`}</title>
-        </path>
-      ))}
+      <LandmarkShapesList shapes={shapes} selectedId={selectedId} onSelect={onSelect} />
       {visible.map((p) => (
         <path
           key={p.id}

@@ -1499,8 +1499,8 @@ html[data-theme="dark"] .ride-header { background: rgba(22, 36, 29, .94); }
 .net-map-buttons button:disabled, .net-map-zoom button:disabled { opacity: .45; cursor: default; }
 .net-map-locate { background: var(--brand) !important; color: var(--on-brand) !important; border-color: var(--brand) !important; }
 .net-map-frame { position: relative; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--nm-ground); }
-.net-map-svg { display: block; width: 100%; height: min(72vh, 680px); user-select: none; -webkit-user-select: none; cursor: grab; }
-.net-map-svg:active { cursor: grabbing; }
+.net-map-svg { display: block; width: 100%; height: min(72vh, 680px); user-select: none; -webkit-user-select: none; cursor: grab; touch-action: none; will-change: viewBox; transform: translateZ(0); }
+.net-map-svg:active, .net-map-svg.is-dragging { cursor: grabbing; }
 .net-map-zoom { position: absolute; right: 8px; bottom: 8px; display: grid; gap: 6px; }
 .net-map-ground { fill: var(--nm-ground); }
 .net-map-roads { fill: none; stroke: var(--nm-road); stroke-width: calc(2.4px * var(--k, 1)); stroke-linecap: round; stroke-linejoin: round; }

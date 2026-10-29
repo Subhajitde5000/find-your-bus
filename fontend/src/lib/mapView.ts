@@ -39,7 +39,7 @@ export const MIN_ZOOM = 1;
  * phone, which is what the stop map is for. Both maps share the limit so the zoom buttons
  * behave the same way.
  */
-export const MAX_ZOOM = 20;
+export const MAX_ZOOM = 80;
 /** Zoom the "follow my bus" button switches to when the map is still showing the whole route. */
 export const FOLLOW_ZOOM = 4;
 

@@ -256,6 +256,8 @@ describe("the /ride page, in a DOM", () => {
         page.sendFix(...(([p]) => [p.lat, p.lng, second] as [number, number, number])([pointAlong("1", 0.05 + second * 0.01)]));
       }
       assert.ok(page.text().includes("On bus 1"));
+      assert.equal(page.container.querySelectorAll(".ride-stop.current").length, 0, "no here marker on passed stops while moving between stops");
+      assert.ok(!page.text().includes("You are here"), "does not say You are here when bus has left the stop");
       const card = page.container.querySelectorAll(".ride-card")[1];
       assert.ok(card, "the next-stop card exists");
       assert.match(card.textContent ?? "", /ahead/, `next-stop card read: ${card.textContent}`);

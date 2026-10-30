@@ -309,7 +309,7 @@ function RideScreen() {
     );
   }
 
-  const currentStop = onBus && match ? ride.stops[match.stopIndex] : null;
+  const currentStop = onBus && match?.atStop ? ride.stops[match.stopIndex] : null;
   const nextStopIndex = onBus && match?.nextStopIndex !== null && match?.nextStopIndex !== undefined ? match.nextStopIndex : null;
   const nextStop = nextStopIndex === null ? null : ride.stops[nextStopIndex];
   // Stops already behind the bus. The map dims them and the list strikes them through,

@@ -492,7 +492,7 @@ function OnBusScreen() {
   const nextStopIndex =
     aboard && match?.nextStopIndex !== null && match?.nextStopIndex !== undefined ? match.nextStopIndex : null;
   const nextStop = nextStopIndex === null ? null : ride?.stops[nextStopIndex] ?? null;
-  const currentStop = aboard && match ? ride?.stops[match.stopIndex] ?? null : null;
+  const currentStop = aboard && match?.atStop ? ride?.stops[match.stopIndex] ?? null : null;
   const passedStops = new Set(aboard ? legs.filter((leg) => leg.passed).map((leg) => leg.index) : []);
   const arrival = summary?.eta !== null && summary?.eta !== undefined ? formatClock(summary.eta) : null;
   const nowClock = formatClock(nowMinutes);
